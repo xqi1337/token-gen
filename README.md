@@ -1,13 +1,13 @@
 <p align="center">
   <a href="https://github.com/cf-vatos/token-gen">
-    <img src="nexuspng.ico" width="120" height="120" alt="Logo">
+    <img src="github_assets/nexuspng.ico" width="120" height="120" alt="Logo">
   </a>
 </p>
 
-  <h3 align="center">Nexus Token Gen <a href="https://discord.gg/hM5VE7XDKr"></a></h3>
+  <h3 align="center">??? Token Gen <a href="https://discord.gg/hM5VE7XDKr"></a></h3>
 
   <p align="center">
-    For Developers Only - Not Ready to use
+    For Developers Only - Ready To Use
     <br/>
     <br/>
     <a href="https://discord.gg/hM5VE7XDKr">Discord Server</a>
@@ -18,22 +18,14 @@
 
 
 ## Screenshot
-![picture](/token-gen-screenshot.png)
+![picture](github_assets/token-gen-screenshot.png)
 
 
 ## Features 
-- **`Generating Discord Accounts`** - Browser Based Token Generation
-- **`Verifying Discord Accounts`** - Verifies Discord Accounts (Need to implement mail server)
+- **`Broswer Based Hcaptcha Solving`** - Browser Based Hcaptcha Solving on own html file
+- **`Verifying Discord Accounts`** - Verifies Discord Accounts By Mail API
 - **`Humanizing Discord Accounts`** - Humanizes Discord Tokens
-- **`Captcha Solving`** - Text Based Captcha Solving
-
-## Developers Only
-
-This project is not fully production-ready.
-You will need to integrate your own mail system before it can run properly.
-
-That said, the codebase is a solid blueprint for building your own generator or expanding the existing features.
-Feel free to fork, modify, and experiment however you like. 😊
+- **`Token Generation`** - Unlocked, High Quality Discord token
 
 ## Tech Stack
 - Python
@@ -42,5 +34,5 @@ Feel free to fork, modify, and experiment however you like. 😊
 ## Contributers
 
 - **`VatosV2`** - Head Developer
-- **`zkamo`** - Helped Developing (https://github.com/zkamo)
+- **`zkamo`** - Hes js here
 

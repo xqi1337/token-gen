@@ -1,0 +1,6 @@
+camoufox
+curl_cffi
+Flask
+Pillow
+Requests
+websocket_client
