@@ -1,6 +1,8824 @@
-/* { "version": "1", "hash": "MEYCIQC+MXBLE0ZnbP01YIUoYHwhor/SZ0T47/GQfO3ZzemW5QIhAJClus2S/eWMDnz5Pwru8DacaEL7BRvtxytztCShGNj1" } */
+/* { "version": "1", "hash": "MEYCIQDEkmPdIrORWlaskS9tWiIvM5MH3ioBLGh3HCTGFC5xUgIhAMVkAAo0Z4qFvc0mjMP6Qp7wzwtql/JsqtdYTT1Ml0a+" } */
 /* https://hcaptcha.com/license */
-!function () {
-    "use strict"; function e(e) { var t = this.constructor; return this.then((function (n) { return t.resolve(e()).then((function () { return n })) }), (function (n) { return t.resolve(e()).then((function () { return t.reject(n) })) })) } function t(e) { return new this((function (t, n) { if (!e || "undefined" == typeof e.length) return n(new TypeError(typeof e + " " + e + " is not iterable(cannot read property Symbol(Symbol.iterator))")); var r = Array.prototype.slice.call(e); if (0 === r.length) return t([]); var i = r.length; function o(e, n) { if (n && ("object" == typeof n || "function" == typeof n)) { var a = n.then; if ("function" == typeof a) return void a.call(n, (function (t) { o(e, t) }), (function (n) { r[e] = { status: "rejected", reason: n }, 0 == --i && t(r) })) } r[e] = { status: "fulfilled", value: n }, 0 == --i && t(r) } for (var a = 0; a < r.length; a++)o(a, r[a]) })) } var n = setTimeout, r = "undefined" != typeof setImmediate ? setImmediate : null; function i(e) { return Boolean(e && "undefined" != typeof e.length) } function o() { } function a(e) { if (!(this instanceof a)) throw new TypeError("Promises must be constructed via new"); if ("function" != typeof e) throw new TypeError("not a function"); this._state = 0, this._handled = !1, this._value = undefined, this._deferreds = [], p(e, this) } function s(e, t) { for (; 3 === e._state;)e = e._value; 0 !== e._state ? (e._handled = !0, a._immediateFn((function () { var n = 1 === e._state ? t.onFulfilled : t.onRejected; if (null !== n) { var r; try { r = n(e._value) } catch (i) { return void l(t.promise, i) } c(t.promise, r) } else (1 === e._state ? c : l)(t.promise, e._value) }))) : e._deferreds.push(t) } function c(e, t) { try { if (t === e) throw new TypeError("A promise cannot be resolved with itself."); if (t && ("object" == typeof t || "function" == typeof t)) { var n = t.then; if (t instanceof a) return e._state = 3, e._value = t, void u(e); if ("function" == typeof n) return void p((r = n, i = t, function () { r.apply(i, arguments) }), e) } e._state = 1, e._value = t, u(e) } catch (o) { l(e, o) } var r, i } function l(e, t) { e._state = 2, e._value = t, u(e) } function u(e) { 2 === e._state && 0 === e._deferreds.length && a._immediateFn((function () { e._handled || a._unhandledRejectionFn(e._value) })); for (var t = 0, n = e._deferreds.length; t < n; t++)s(e, e._deferreds[t]); e._deferreds = null } function h(e, t, n) { this.onFulfilled = "function" == typeof e ? e : null, this.onRejected = "function" == typeof t ? t : null, this.promise = n } function p(e, t) { var n = !1; try { e((function (e) { n || (n = !0, c(t, e)) }), (function (e) { n || (n = !0, l(t, e)) })) } catch (r) { if (n) return; n = !0, l(t, r) } } a.prototype["catch"] = function (e) { return this.then(null, e) }, a.prototype.then = function (e, t) { var n = new this.constructor(o); return s(this, new h(e, t, n)), n }, a.prototype["finally"] = e, a.all = function (e) { return new a((function (t, n) { if (!i(e)) return n(new TypeError("Promise.all accepts an array")); var r = Array.prototype.slice.call(e); if (0 === r.length) return t([]); var o = r.length; function a(e, i) { try { if (i && ("object" == typeof i || "function" == typeof i)) { var s = i.then; if ("function" == typeof s) return void s.call(i, (function (t) { a(e, t) }), n) } r[e] = i, 0 == --o && t(r) } catch (c) { n(c) } } for (var s = 0; s < r.length; s++)a(s, r[s]) })) }, a.allSettled = t, a.resolve = function (e) { return e && "object" == typeof e && e.constructor === a ? e : new a((function (t) { t(e) })) }, a.reject = function (e) { return new a((function (t, n) { n(e) })) }, a.race = function (e) { return new a((function (t, n) { if (!i(e)) return n(new TypeError("Promise.race accepts an array")); for (var r = 0, o = e.length; r < o; r++)a.resolve(e[r]).then(t, n) })) }, a._immediateFn = "function" == typeof r && function (e) { r(e) } || function (e) { n(e, 0) }, a._unhandledRejectionFn = function (e) { "undefined" != typeof console && console && console.warn("Possible Unhandled Promise Rejection:", e) }; var d = function () { if ("undefined" != typeof self) return self; if ("undefined" != typeof window) return window; if ("undefined" != typeof global) return global; throw new Error("unable to locate global object") }(); function f(e, t, n) { return t <= e && e <= n } function m(e) { if (e === undefined) return {}; if (e === Object(e)) return e; throw TypeError("Could not convert argument to dictionary") } "function" != typeof d.Promise ? d.Promise = a : (d.Promise.prototype["finally"] || (d.Promise.prototype["finally"] = e), d.Promise.allSettled || (d.Promise.allSettled = t)); var g = function (e) { return e >= 0 && e <= 127 }, y = -1; function v(e) { this.tokens = [].slice.call(e), this.tokens.reverse() } v.prototype = { endOfStream: function () { return !this.tokens.length }, read: function () { return this.tokens.length ? this.tokens.pop() : y }, prepend: function (e) { if (Array.isArray(e)) for (var t = e; t.length;)this.tokens.push(t.pop()); else this.tokens.push(e) }, push: function (e) { if (Array.isArray(e)) for (var t = e; t.length;)this.tokens.unshift(t.shift()); else this.tokens.unshift(e) } }; var w = -1; function b(e, t) { if (e) throw TypeError("Decoder error"); return t || 65533 } function V(e) { return e = String(e).trim().toLowerCase(), Object.prototype.hasOwnProperty.call(E, e) ? E[e] : null } var E = {};[{ encodings: [{ labels: ["unicode-1-1-utf-8", "utf-8", "utf8"], name: "UTF-8" }], heading: "The Encoding" }].forEach((function (e) { e.encodings.forEach((function (e) { e.labels.forEach((function (t) { E[t] = e })) })) })); var _, k = { "UTF-8": function (e) { return new W(e) } }, T = { "UTF-8": function (e) { return new S(e) } }, R = "utf-8"; function U(e, t) { if (!(this instanceof U)) throw TypeError("Called as a function. Did you forget 'new'?"); e = e !== undefined ? String(e) : R, t = m(t), this._encoding = null, this._decoder = null, this._ignoreBOM = !1, this._BOMseen = !1, this._error_mode = "replacement", this._do_not_flush = !1; var n = V(e); if (null === n || "replacement" === n.name) throw RangeError("Unknown encoding: " + e); if (!T[n.name]) throw Error("Decoder not present. Did you forget to include encoding-indexes.js first?"); var r = this; return r._encoding = n, t.fatal && (r._error_mode = "fatal"), t.ignoreBOM && (r._ignoreBOM = !0), Object.defineProperty || (this.encoding = r._encoding.name.toLowerCase(), this.fatal = "fatal" === r._error_mode, this.ignoreBOM = r._ignoreBOM), r } function x(e, t) { if (!(this instanceof x)) throw TypeError("Called as a function. Did you forget 'new'?"); t = m(t), this._encoding = null, this._encoder = null, this._do_not_flush = !1, this._fatal = t.fatal ? "fatal" : "replacement"; var n = this; if (t.NONSTANDARD_allowLegacyEncoding) { var r = V(e = e !== undefined ? String(e) : R); if (null === r || "replacement" === r.name) throw RangeError("Unknown encoding: " + e); if (!k[r.name]) throw Error("Encoder not present. Did you forget to include encoding-indexes.js first?"); n._encoding = r } else n._encoding = V("utf-8"); return Object.defineProperty || (this.encoding = n._encoding.name.toLowerCase()), n } function S(e) { var t = e.fatal, n = 0, r = 0, i = 0, o = 128, a = 191; this.handler = function (e, s) { if (s === y && 0 !== i) return i = 0, b(t); if (s === y) return w; if (0 === i) { if (f(s, 0, 127)) return s; if (f(s, 194, 223)) i = 1, n = 31 & s; else if (f(s, 224, 239)) 224 === s && (o = 160), 237 === s && (a = 159), i = 2, n = 15 & s; else { if (!f(s, 240, 244)) return b(t); 240 === s && (o = 144), 244 === s && (a = 143), i = 3, n = 7 & s } return null } if (!f(s, o, a)) return n = i = r = 0, o = 128, a = 191, e.prepend(s), b(t); if (o = 128, a = 191, n = n << 6 | 63 & s, (r += 1) !== i) return null; var c = n; return n = i = r = 0, c } } function W(e) { e.fatal; this.handler = function (e, t) { if (t === y) return w; if (g(t)) return t; var n, r; f(t, 128, 2047) ? (n = 1, r = 192) : f(t, 2048, 65535) ? (n = 2, r = 224) : f(t, 65536, 1114111) && (n = 3, r = 240); for (var i = [(t >> 6 * n) + r]; n > 0;) { var o = t >> 6 * (n - 1); i.push(128 | 63 & o), n -= 1 } return i } } Object.defineProperty && (Object.defineProperty(U.prototype, "encoding", { get: function () { return this._encoding.name.toLowerCase() } }), Object.defineProperty(U.prototype, "fatal", { get: function () { return "fatal" === this._error_mode } }), Object.defineProperty(U.prototype, "ignoreBOM", { get: function () { return this._ignoreBOM } })), U.prototype.decode = function (e, t) { var n; n = "object" == typeof e && e instanceof ArrayBuffer ? new Uint8Array(e) : "object" == typeof e && "buffer" in e && e.buffer instanceof ArrayBuffer ? new Uint8Array(e.buffer, e.byteOffset, e.byteLength) : new Uint8Array(0), t = m(t), this._do_not_flush || (this._decoder = T[this._encoding.name]({ fatal: "fatal" === this._error_mode }), this._BOMseen = !1), this._do_not_flush = Boolean(t.stream); for (var r, i = new v(n), o = []; ;) { var a = i.read(); if (a === y) break; if ((r = this._decoder.handler(i, a)) === w) break; null !== r && (Array.isArray(r) ? o.push.apply(o, r) : o.push(r)) } if (!this._do_not_flush) { do { if ((r = this._decoder.handler(i, i.read())) === w) break; null !== r && (Array.isArray(r) ? o.push.apply(o, r) : o.push(r)) } while (!i.endOfStream()); this._decoder = null } return function (e) { var t, n; return t = ["UTF-8", "UTF-16LE", "UTF-16BE"], n = this._encoding.name, -1 === t.indexOf(n) || this._ignoreBOM || this._BOMseen || (e.length > 0 && 65279 === e[0] ? (this._BOMseen = !0, e.shift()) : e.length > 0 && (this._BOMseen = !0)), function (e) { for (var t = "", n = 0; n < e.length; ++n) { var r = e[n]; r <= 65535 ? t += String.fromCharCode(r) : (r -= 65536, t += String.fromCharCode(55296 + (r >> 10), 56320 + (1023 & r))) } return t }(e) }.call(this, o) }, Object.defineProperty && Object.defineProperty(x.prototype, "encoding", { get: function () { return this._encoding.name.toLowerCase() } }), x.prototype.encode = function (e, t) { e = e === undefined ? "" : String(e), t = m(t), this._do_not_flush || (this._encoder = k[this._encoding.name]({ fatal: "fatal" === this._fatal })), this._do_not_flush = Boolean(t.stream); for (var n, r = new v(function (e) { for (var t = String(e), n = t.length, r = 0, i = []; r < n;) { var o = t.charCodeAt(r); if (o < 55296 || o > 57343) i.push(o); else if (o >= 56320 && o <= 57343) i.push(65533); else if (o >= 55296 && o <= 56319) if (r === n - 1) i.push(65533); else { var a = t.charCodeAt(r + 1); if (a >= 56320 && a <= 57343) { var s = 1023 & o, c = 1023 & a; i.push(65536 + (s << 10) + c), r += 1 } else i.push(65533) } r += 1 } return i }(e)), i = []; ;) { var o = r.read(); if (o === y) break; if ((n = this._encoder.handler(r, o)) === w) break; Array.isArray(n) ? i.push.apply(i, n) : i.push(n) } if (!this._do_not_flush) { for (; (n = this._encoder.handler(r, r.read())) !== w;)Array.isArray(n) ? i.push.apply(i, n) : i.push(n); this._encoder = null } return new Uint8Array(i) }, window.TextDecoder || (window.TextDecoder = U), window.TextEncoder || (window.TextEncoder = x), function (e) { if ("function" != typeof Promise) throw "Promise support required"; var t = e.crypto || e.msCrypto; if (t) { var n = t.subtle || t.webkitSubtle; if (n) { var r = e.Crypto || t.constructor || Object, i = e.SubtleCrypto || n.constructor || Object, o = (e.CryptoKey || e.Key, e.navigator.userAgent.indexOf("Edge/") > -1), a = !!e.msCrypto && !o, s = !t.subtle && !!t.webkitSubtle; if (a || s) { var c = { KoZIhvcNAQEB: "1.2.840.113549.1.1.1" }, l = { "1.2.840.113549.1.1.1": "KoZIhvcNAQEB" }; if (["generateKey", "importKey", "unwrapKey"].forEach((function (e) { var r = n[e]; n[e] = function (i, o, c) { var l, u, h, f, b = [].slice.call(arguments); switch (e) { case "generateKey": l = m(i), u = o, h = c; break; case "importKey": l = m(c), u = b[3], h = b[4], "jwk" === i && ((o = y(o)).alg || (o.alg = g(l)), o.key_ops || (o.key_ops = "oct" !== o.kty ? "d" in o ? h.filter(T) : h.filter(k) : h.slice()), b[1] = v(o)); break; case "unwrapKey": l = b[4], u = b[5], h = b[6], b[2] = c._key }if ("generateKey" === e && "HMAC" === l.name && l.hash) return l.length = l.length || { "SHA-1": 512, "SHA-256": 512, "SHA-384": 1024, "SHA-512": 1024 }[l.hash.name], n.importKey("raw", t.getRandomValues(new Uint8Array(l.length + 7 >> 3)), l, u, h); if (s && "generateKey" === e && "RSASSA-PKCS1-v1_5" === l.name && (!l.modulusLength || l.modulusLength >= 2048)) return (i = m(i)).name = "RSAES-PKCS1-v1_5", delete i.hash, n.generateKey(i, !0, ["encrypt", "decrypt"]).then((function (e) { return Promise.all([n.exportKey("jwk", e.publicKey), n.exportKey("jwk", e.privateKey)]) })).then((function (e) { return e[0].alg = e[1].alg = g(l), e[0].key_ops = h.filter(k), e[1].key_ops = h.filter(T), Promise.all([n.importKey("jwk", e[0], l, !0, e[0].key_ops), n.importKey("jwk", e[1], l, u, e[1].key_ops)]) })).then((function (e) { return { publicKey: e[0], privateKey: e[1] } })); if ((s || a && "SHA-1" === (l.hash || {}).name) && "importKey" === e && "jwk" === i && "HMAC" === l.name && "oct" === o.kty) return n.importKey("raw", d(p(o.k)), c, b[3], b[4]); if (s && "importKey" === e && ("spki" === i || "pkcs8" === i)) return n.importKey("jwk", w(o), c, b[3], b[4]); if (a && "unwrapKey" === e) return n.decrypt(b[3], c, o).then((function (e) { return n.importKey(i, e, b[4], b[5], b[6]) })); try { f = r.apply(n, b) } catch (V) { return Promise.reject(V) } return a && (f = new Promise((function (e, t) { f.onabort = f.onerror = function (e) { t(e) }, f.oncomplete = function (t) { e(t.target.result) } }))), f = f.then((function (e) { return "HMAC" === l.name && (l.length || (l.length = 8 * e.algorithm.length)), 0 == l.name.search("RSA") && (l.modulusLength || (l.modulusLength = (e.publicKey || e).algorithm.modulusLength), l.publicExponent || (l.publicExponent = (e.publicKey || e).algorithm.publicExponent)), e = e.publicKey && e.privateKey ? { publicKey: new _(e.publicKey, l, u, h.filter(k)), privateKey: new _(e.privateKey, l, u, h.filter(T)) } : new _(e, l, u, h) })) } })), ["exportKey", "wrapKey"].forEach((function (e) { var t = n[e]; n[e] = function (r, i, o) { var c, l = [].slice.call(arguments); switch (e) { case "exportKey": l[1] = i._key; break; case "wrapKey": l[1] = i._key, l[2] = o._key }if ((s || a && "SHA-1" === (i.algorithm.hash || {}).name) && "exportKey" === e && "jwk" === r && "HMAC" === i.algorithm.name && (l[0] = "raw"), !s || "exportKey" !== e || "spki" !== r && "pkcs8" !== r || (l[0] = "jwk"), a && "wrapKey" === e) return n.exportKey(r, i).then((function (e) { return "jwk" === r && (e = d(unescape(encodeURIComponent(JSON.stringify(y(e)))))), n.encrypt(l[3], o, e) })); try { c = t.apply(n, l) } catch (u) { return Promise.reject(u) } return a && (c = new Promise((function (e, t) { c.onabort = c.onerror = function (e) { t(e) }, c.oncomplete = function (t) { e(t.target.result) } }))), "exportKey" === e && "jwk" === r && (c = c.then((function (e) { return (s || a && "SHA-1" === (i.algorithm.hash || {}).name) && "HMAC" === i.algorithm.name ? { kty: "oct", alg: g(i.algorithm), key_ops: i.usages.slice(), ext: !0, k: h(f(e)) } : ((e = y(e)).alg || (e.alg = g(i.algorithm)), e.key_ops || (e.key_ops = "public" === i.type ? i.usages.filter(k) : "private" === i.type ? i.usages.filter(T) : i.usages.slice()), e) }))), !s || "exportKey" !== e || "spki" !== r && "pkcs8" !== r || (c = c.then((function (e) { return e = b(y(e)) }))), c } })), ["encrypt", "decrypt", "sign", "verify"].forEach((function (e) { var t = n[e]; n[e] = function (r, i, o, s) { if (a && (!o.byteLength || s && !s.byteLength)) throw new Error("Empty input is not allowed"); var c, l = [].slice.call(arguments), u = m(r); if (!a || "sign" !== e && "verify" !== e || "RSASSA-PKCS1-v1_5" !== r && "HMAC" !== r || (l[0] = { name: r }), a && i.algorithm.hash && (l[0].hash = l[0].hash || i.algorithm.hash), a && "decrypt" === e && "AES-GCM" === u.name) { var h = r.tagLength >> 3; l[2] = (o.buffer || o).slice(0, o.byteLength - h), r.tag = (o.buffer || o).slice(o.byteLength - h) } a && "AES-GCM" === u.name && l[0].tagLength === undefined && (l[0].tagLength = 128), l[1] = i._key; try { c = t.apply(n, l) } catch (p) { return Promise.reject(p) } return a && (c = new Promise((function (t, n) { c.onabort = c.onerror = function (e) { n(e) }, c.oncomplete = function (n) { n = n.target.result; if ("encrypt" === e && n instanceof AesGcmEncryptResult) { var r = n.ciphertext, i = n.tag; (n = new Uint8Array(r.byteLength + i.byteLength)).set(new Uint8Array(r), 0), n.set(new Uint8Array(i), r.byteLength), n = n.buffer } t(n) } }))), c } })), a) { var u = n.digest; n.digest = function (e, t) { if (!t.byteLength) throw new Error("Empty input is not allowed"); var r; try { r = u.call(n, e, t) } catch (i) { return Promise.reject(i) } return r = new Promise((function (e, t) { r.onabort = r.onerror = function (e) { t(e) }, r.oncomplete = function (t) { e(t.target.result) } })), r }, e.crypto = Object.create(t, { getRandomValues: { value: function (e) { return t.getRandomValues(e) } }, subtle: { value: n } }), e.CryptoKey = _ } s && (t.subtle = n, e.Crypto = r, e.SubtleCrypto = i, e.CryptoKey = _) } } } function h(e) { return btoa(e).replace(/\=+$/, "").replace(/\+/g, "-").replace(/\//g, "_") } function p(e) { return e = (e += "===").slice(0, -e.length % 4), atob(e.replace(/-/g, "+").replace(/_/g, "/")) } function d(e) { for (var t = new Uint8Array(e.length), n = 0; n < e.length; n++)t[n] = e.charCodeAt(n); return t } function f(e) { return e instanceof ArrayBuffer && (e = new Uint8Array(e)), String.fromCharCode.apply(String, e) } function m(e) { var t = { name: (e.name || e || "").toUpperCase().replace("V", "v") }; switch (t.name) { case "SHA-1": case "SHA-256": case "SHA-384": case "SHA-512": break; case "AES-CBC": case "AES-GCM": case "AES-KW": e.length && (t.length = e.length); break; case "HMAC": e.hash && (t.hash = m(e.hash)), e.length && (t.length = e.length); break; case "RSAES-PKCS1-v1_5": e.publicExponent && (t.publicExponent = new Uint8Array(e.publicExponent)), e.modulusLength && (t.modulusLength = e.modulusLength); break; case "RSASSA-PKCS1-v1_5": case "RSA-OAEP": e.hash && (t.hash = m(e.hash)), e.publicExponent && (t.publicExponent = new Uint8Array(e.publicExponent)), e.modulusLength && (t.modulusLength = e.modulusLength); break; default: throw new SyntaxError("Bad algorithm name") }return t } function g(e) { return { HMAC: { "SHA-1": "HS1", "SHA-256": "HS256", "SHA-384": "HS384", "SHA-512": "HS512" }, "RSASSA-PKCS1-v1_5": { "SHA-1": "RS1", "SHA-256": "RS256", "SHA-384": "RS384", "SHA-512": "RS512" }, "RSAES-PKCS1-v1_5": { "": "RSA1_5" }, "RSA-OAEP": { "SHA-1": "RSA-OAEP", "SHA-256": "RSA-OAEP-256" }, "AES-KW": { 128: "A128KW", 192: "A192KW", 256: "A256KW" }, "AES-GCM": { 128: "A128GCM", 192: "A192GCM", 256: "A256GCM" }, "AES-CBC": { 128: "A128CBC", 192: "A192CBC", 256: "A256CBC" } }[e.name][(e.hash || {}).name || e.length || ""] } function y(e) { (e instanceof ArrayBuffer || e instanceof Uint8Array) && (e = JSON.parse(decodeURIComponent(escape(f(e))))); var t = { kty: e.kty, alg: e.alg, ext: e.ext || e.extractable }; switch (t.kty) { case "oct": t.k = e.k; case "RSA": ["n", "e", "d", "p", "q", "dp", "dq", "qi", "oth"].forEach((function (n) { n in e && (t[n] = e[n]) })); break; default: throw new TypeError("Unsupported key type") }return t } function v(e) { var t = y(e); return a && (t.extractable = t.ext, delete t.ext), d(unescape(encodeURIComponent(JSON.stringify(t)))).buffer } function w(e) { var t = V(e), n = !1; t.length > 2 && (n = !0, t.shift()); var r = { ext: !0 }; if ("1.2.840.113549.1.1.1" !== t[0][0]) throw new TypeError("Unsupported key type"); var i = ["n", "e", "d", "p", "q", "dp", "dq", "qi"], o = V(t[1]); n && o.shift(); for (var a = 0; a < o.length; a++)o[a][0] || (o[a] = o[a].subarray(1)), r[i[a]] = h(f(o[a])); return r.kty = "RSA", r } function b(e) { var t, n = [["", null]], r = !1; if ("RSA" !== e.kty) throw new TypeError("Unsupported key type"); for (var i = ["n", "e", "d", "p", "q", "dp", "dq", "qi"], o = [], a = 0; a < i.length && i[a] in e; a++) { var s = o[a] = d(p(e[i[a]])); 128 & s[0] && (o[a] = new Uint8Array(s.length + 1), o[a].set(s, 1)) } return o.length > 2 && (r = !0, o.unshift(new Uint8Array([0]))), n[0][0] = "1.2.840.113549.1.1.1", t = o, n.push(new Uint8Array(E(t)).buffer), r ? n.unshift(new Uint8Array([0])) : n[1] = { tag: 3, value: n[1] }, new Uint8Array(E(n)).buffer } function V(e, t) { if (e instanceof ArrayBuffer && (e = new Uint8Array(e)), t || (t = { pos: 0, end: e.length }), t.end - t.pos < 2 || t.end > e.length) throw new RangeError("Malformed DER"); var n, r = e[t.pos++], i = e[t.pos++]; if (i >= 128) { if (i &= 127, t.end - t.pos < i) throw new RangeError("Malformed DER"); for (var o = 0; i--;)o <<= 8, o |= e[t.pos++]; i = o } if (t.end - t.pos < i) throw new RangeError("Malformed DER"); switch (r) { case 2: n = e.subarray(t.pos, t.pos += i); break; case 3: if (e[t.pos++]) throw new Error("Unsupported bit string"); i--; case 4: n = new Uint8Array(e.subarray(t.pos, t.pos += i)).buffer; break; case 5: n = null; break; case 6: var a = btoa(f(e.subarray(t.pos, t.pos += i))); if (!(a in c)) throw new Error("Unsupported OBJECT ID " + a); n = c[a]; break; case 48: n = []; for (var s = t.pos + i; t.pos < s;)n.push(V(e, t)); break; default: throw new Error("Unsupported DER tag 0x" + r.toString(16)) }return n } function E(e, t) { t || (t = []); var n = 0, r = 0, i = t.length + 2; if (t.push(0, 0), e instanceof Uint8Array) { n = 2, r = e.length; for (var o = 0; o < r; o++)t.push(e[o]) } else if (e instanceof ArrayBuffer) { n = 4, r = e.byteLength, e = new Uint8Array(e); for (o = 0; o < r; o++)t.push(e[o]) } else if (null === e) n = 5, r = 0; else if ("string" == typeof e && e in l) { var a = d(atob(l[e])); n = 6, r = a.length; for (o = 0; o < r; o++)t.push(a[o]) } else if (e instanceof Array) { for (o = 0; o < e.length; o++)E(e[o], t); n = 48, r = t.length - i } else { if (!("object" == typeof e && 3 === e.tag && e.value instanceof ArrayBuffer)) throw new Error("Unsupported DER value " + e); n = 3, r = (e = new Uint8Array(e.value)).byteLength, t.push(0); for (o = 0; o < r; o++)t.push(e[o]); r++ } if (r >= 128) { var s = r; r = 4; for (t.splice(i, 0, s >> 24 & 255, s >> 16 & 255, s >> 8 & 255, 255 & s); r > 1 && !(s >> 24);)s <<= 8, r--; r < 4 && t.splice(i, 4 - r), r |= 128 } return t.splice(i - 2, 2, n, r), t } function _(e, t, n, r) { Object.defineProperties(this, { _key: { value: e }, type: { value: e.type, enumerable: !0 }, extractable: { value: n === undefined ? e.extractable : n, enumerable: !0 }, algorithm: { value: t === undefined ? e.algorithm : t, enumerable: !0 }, usages: { value: r === undefined ? e.usages : r, enumerable: !0 } }) } function k(e) { return "verify" === e || "encrypt" === e || "wrapKey" === e } function T(e) { return "sign" === e || "decrypt" === e || "unwrapKey" === e } }(window), Array.prototype.indexOf || (Array.prototype.indexOf = function (e) { return function (t, n) { if (null === this || this === undefined) throw TypeError("Array.prototype.indexOf called on null or undefined"); var r = e(this), i = r.length >>> 0, o = Math.min(0 | n, i); if (o < 0) o = Math.max(0, i + o); else if (o >= i) return -1; if (void 0 === t) { for (; o !== i; ++o)if (void 0 === r[o] && o in r) return o } else if (t != t) { for (; o !== i; ++o)if (r[o] != r[o]) return o } else for (; o !== i; ++o)if (r[o] === t) return o; return -1 } }(Object)), Array.isArray || (Array.isArray = function (e) { return "[object Array]" === Object.prototype.toString.call(e) }), document.getElementsByClassName || (window.Element.prototype.getElementsByClassName = document.constructor.prototype.getElementsByClassName = function (e) { if (document.querySelectorAll) return document.querySelectorAll("." + e); for (var t = document.getElementsByTagName("*"), n = new RegExp("(^|\\s)" + e + "(\\s|$)"), r = [], i = 0; i < t.length; i++)n.test(t[i].className) && r.push(t[i]); return r }), String.prototype.startsWith || (String.prototype.startsWith = function (e, t) { return this.substr(!t || t < 0 ? 0 : +t, e.length) === e }), String.prototype.endsWith || (String.prototype.endsWith = function (e, t) { return (t === undefined || t > this.length) && (t = this.length), this.substring(t - e.length, t) === e }); try { if (Object.defineProperty && Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(Element.prototype, "textContent") && !Object.getOwnPropertyDescriptor(Element.prototype, "textContent").get) { var M = Object.getOwnPropertyDescriptor(Element.prototype, "innerText"); Object.defineProperty(Element.prototype, "textContent", { get: function () { return M.get.call(this) }, set: function (e) { M.set.call(this, e) } }) } } catch (hr) { } Function.prototype.bind || (Function.prototype.bind = function (e) { if ("function" != typeof this) throw new TypeError("Function.prototype.bind: Item Can Not Be Bound."); var t = Array.prototype.slice.call(arguments, 1), n = this, r = function () { }, i = function () { return n.apply(this instanceof r ? this : e, t.concat(Array.prototype.slice.call(arguments))) }; return this.prototype && (r.prototype = this.prototype), i.prototype = new r, i }), "function" != typeof Object.create && (Object.create = function (e, t) { function n() { } if (n.prototype = e, "object" == typeof t) for (var r in t) t.hasOwnProperty(r) && (n[r] = t[r]); return new n }), Date.now || (Date.now = function () { return (new Date).getTime() }), window.console || (window.console = {}); for (var N, F, O, C, B = ["error", "info", "log", "show", "table", "trace", "warn"], P = function (e) { }, Z = B.length; --Z > -1;)_ = B[Z], window.console[_] || (window.console[_] = P); if (window.atob) try { window.atob(" ") } catch (pr) { window.atob = function (e) { var t = function (t) { return e(String(t).replace(/[\t\n\f\r ]+/g, "")) }; return t.original = e, t }(window.atob) } else { var j = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", G = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3}=?)?$/; window.atob = function (e) { if (e = String(e).replace(/[\t\n\f\r ]+/g, ""), !G.test(e)) throw new TypeError("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded."); var t, n, r; e += "==".slice(2 - (3 & e.length)); for (var i = "", o = 0; o < e.length;)t = j.indexOf(e.charAt(o++)) << 18 | j.indexOf(e.charAt(o++)) << 12 | (n = j.indexOf(e.charAt(o++))) << 6 | (r = j.indexOf(e.charAt(o++))), i += 64 === n ? String.fromCharCode(t >> 16 & 255) : 64 === r ? String.fromCharCode(t >> 16 & 255, t >> 8 & 255) : String.fromCharCode(t >> 16 & 255, t >> 8 & 255, 255 & t); return i } } if (Event.prototype.preventDefault || (Event.prototype.preventDefault = function () { this.returnValue = !1 }), Event.prototype.stopPropagation || (Event.prototype.stopPropagation = function () { this.cancelBubble = !0 }), window.Prototype && Array.prototype.toJSON) { console.error("[hCaptcha] Custom JSON polyfill detected, please remove to ensure hCaptcha works properly"); var z = Array.prototype.toJSON, A = JSON.stringify; JSON.stringify = function (e) { try { return delete Array.prototype.toJSON, A(e) } finally { Array.prototype.toJSON = z } } } if (Object.keys || (Object.keys = (N = Object.prototype.hasOwnProperty, F = !Object.prototype.propertyIsEnumerable.call({ toString: null }, "toString"), C = (O = ["toString", "toLocaleString", "valueOf", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "constructor"]).length, function (e) { if ("function" != typeof e && ("object" != typeof e || null === e)) throw new TypeError("Object.keys called on non-object"); var t, n, r = []; for (t in e) N.call(e, t) && r.push(t); if (F) for (n = 0; n < C; n++)N.call(e, O[n]) && r.push(O[n]); return r })), !Uint8Array.prototype.slice) try { Object.defineProperty(Uint8Array.prototype, "slice", { value: function (e, t) { return new Uint8Array(Array.prototype.slice.call(this, e, t)) }, writable: !0 }) } catch (pr) { if ("function" != typeof Uint8Array.prototype.slice) try { Uint8Array.prototype.slice = function (e, t) { return new Uint8Array(Array.prototype.slice.call(this, e, t)) } } catch (dr) { } }
-/*! Raven.js 3.27.2 (6d91db933) | github.com/getsentry/raven-js */!function (e) { if ("object" == typeof exports && "undefined" != typeof module) module.exports = e(); else if ("function" == typeof define && define.amd) define("raven-js", e); else { ("undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this).Raven = e() } }((function () { return function e(t, n, r) { function i(a, s) { if (!n[a]) { if (!t[a]) { var c = "function" == typeof require && require; if (!s && c) return c(a, !0); if (o) return o(a, !0); var l = new Error("Cannot find module '" + a + "'"); throw l.code = "MODULE_NOT_FOUND", l } var u = n[a] = { exports: {} }; t[a][0].call(u.exports, (function (e) { var n = t[a][1][e]; return i(n || e) }), u, u.exports, e, t, n, r) } return n[a].exports } for (var o = "function" == typeof require && require, a = 0; a < r.length; a++)i(r[a]); return i }({ 1: [function (e, t, n) { function r(e) { this.name = "RavenConfigError", this.message = e } r.prototype = new Error, r.prototype.constructor = r, t.exports = r }, {}], 2: [function (e, t, n) { var r = e(5); t.exports = { wrapMethod: function (e, t, n) { var i = e[t], o = e; if (t in e) { var a = "warn" === t ? "warning" : t; e[t] = function () { var e = [].slice.call(arguments), s = r.safeJoin(e, " "), c = { level: a, logger: "console", extra: { arguments: e } }; "assert" === t ? !1 === e[0] && (s = "Assertion failed: " + (r.safeJoin(e.slice(1), " ") || "console.assert"), c.extra.arguments = e.slice(1), n && n(s, c)) : n && n(s, c), i && Function.prototype.apply.call(i, o, e) } } } } }, { 5: 5 }], 3: [function (e, t, n) { (function (n) { function r() { return +new Date } function i(e, t) { return v(t) ? function (n) { return t(n, e) } : t } function o() { for (var e in this.a = !("object" != typeof JSON || !JSON.stringify), this.b = !y(K), this.c = !y(L), this.d = null, this.e = null, this.f = null, this.g = null, this.h = null, this.i = null, this.j = {}, this.k = { release: J.SENTRY_RELEASE && J.SENTRY_RELEASE.id, logger: "javascript", ignoreErrors: [], ignoreUrls: [], whitelistUrls: [], includePaths: [], headers: null, collectWindowErrors: !0, captureUnhandledRejections: !0, maxMessageLength: 0, maxUrlLength: 250, stackTraceLimit: 50, autoBreadcrumbs: !0, instrument: !0, sampleRate: 1, sanitizeKeys: [] }, this.l = { method: "POST", referrerPolicy: B() ? "origin" : "" }, this.m = 0, this.n = !1, this.o = Error.stackTraceLimit, this.p = J.console || {}, this.q = {}, this.r = [], this.s = r(), this.t = [], this.u = [], this.v = null, this.w = J.location, this.x = this.w && this.w.href, this.y(), this.p) this.q[e] = this.p[e] } var a = e(6), s = e(7), c = e(8), l = e(1), u = e(5), h = u.isErrorEvent, p = u.isDOMError, d = u.isDOMException, f = u.isError, m = u.isObject, g = u.isPlainObject, y = u.isUndefined, v = u.isFunction, w = u.isString, b = u.isArray, V = u.isEmptyObject, E = u.each, _ = u.objectMerge, k = u.truncate, T = u.objectFrozen, R = u.hasKey, U = u.joinRegExp, x = u.urlencode, S = u.uuid4, W = u.htmlTreeAsString, M = u.isSameException, N = u.isSameStacktrace, F = u.parseUrl, O = u.fill, C = u.supportsFetch, B = u.supportsReferrerPolicy, P = u.serializeKeysForMessage, Z = u.serializeException, j = u.sanitize, G = e(2).wrapMethod, z = "source protocol user pass host port path".split(" "), A = /^(?:(\w+):)?\/\/(?:(\w+)(:\w+)?@)?([\w\.-]+)(?::(\d+))?(\/.*)/, J = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}, K = J.document, L = J.navigator; o.prototype = { VERSION: "3.27.2", debug: !1, TraceKit: a, config: function (e, t) { var n = this; if (n.g) return this.z("error", "Error: Raven has already been configured"), n; if (!e) return n; var r = n.k; t && E(t, (function (e, t) { "tags" === e || "extra" === e || "user" === e ? n.j[e] = t : r[e] = t })), n.setDSN(e), r.ignoreErrors.push(/^Script error\.?$/), r.ignoreErrors.push(/^Javascript error: Script error\.? on line 0$/), r.ignoreErrors = U(r.ignoreErrors), r.ignoreUrls = !!r.ignoreUrls.length && U(r.ignoreUrls), r.whitelistUrls = !!r.whitelistUrls.length && U(r.whitelistUrls), r.includePaths = U(r.includePaths), r.maxBreadcrumbs = Math.max(0, Math.min(r.maxBreadcrumbs || 100, 100)); var i = { xhr: !0, console: !0, dom: !0, location: !0, sentry: !0 }, o = r.autoBreadcrumbs; "[object Object]" === {}.toString.call(o) ? o = _(i, o) : !1 !== o && (o = i), r.autoBreadcrumbs = o; var s = { tryCatch: !0 }, c = r.instrument; return "[object Object]" === {}.toString.call(c) ? c = _(s, c) : !1 !== c && (c = s), r.instrument = c, a.collectWindowErrors = !!r.collectWindowErrors, n }, install: function () { var e = this; return e.isSetup() && !e.n && (a.report.subscribe((function () { e.A.apply(e, arguments) })), e.k.captureUnhandledRejections && e.B(), e.C(), e.k.instrument && e.k.instrument.tryCatch && e.D(), e.k.autoBreadcrumbs && e.E(), e.F(), e.n = !0), Error.stackTraceLimit = e.k.stackTraceLimit, this }, setDSN: function (e) { var t = this, n = t.G(e), r = n.path.lastIndexOf("/"), i = n.path.substr(1, r); t.H = e, t.h = n.user, t.I = n.pass && n.pass.substr(1), t.i = n.path.substr(r + 1), t.g = t.J(n), t.K = t.g + "/" + i + "api/" + t.i + "/store/", this.y() }, context: function (e, t, n) { return v(e) && (n = t || [], t = e, e = {}), this.wrap(e, t).apply(this, n) }, wrap: function (e, t, n) { function r() { var r = [], o = arguments.length, a = !e || e && !1 !== e.deep; for (n && v(n) && n.apply(this, arguments); o--;)r[o] = a ? i.wrap(e, arguments[o]) : arguments[o]; try { return t.apply(this, r) } catch (s) { throw i.L(), i.captureException(s, e), s } } var i = this; if (y(t) && !v(e)) return e; if (v(e) && (t = e, e = void 0), !v(t)) return t; try { if (t.M) return t; if (t.N) return t.N } catch (o) { return t } for (var a in t) R(t, a) && (r[a] = t[a]); return r.prototype = t.prototype, t.N = r, r.M = !0, r.O = t, r }, uninstall: function () { return a.report.uninstall(), this.P(), this.Q(), this.R(), this.S(), Error.stackTraceLimit = this.o, this.n = !1, this }, T: function (e) { this.z("debug", "Raven caught unhandled promise rejection:", e), this.captureException(e.reason, { mechanism: { type: "onunhandledrejection", handled: !1 } }) }, B: function () { return this.T = this.T.bind(this), J.addEventListener && J.addEventListener("unhandledrejection", this.T), this }, P: function () { return J.removeEventListener && J.removeEventListener("unhandledrejection", this.T), this }, captureException: function (e, t) { if (t = _({ trimHeadFrames: 0 }, t || {}), h(e) && e.error) e = e.error; else { if (p(e) || d(e)) { var n = e.name || (p(e) ? "DOMError" : "DOMException"), r = e.message ? n + ": " + e.message : n; return this.captureMessage(r, _(t, { stacktrace: !0, trimHeadFrames: t.trimHeadFrames + 1 })) } if (f(e)) e = e; else { if (!g(e)) return this.captureMessage(e, _(t, { stacktrace: !0, trimHeadFrames: t.trimHeadFrames + 1 })); t = this.U(t, e), e = new Error(t.message) } } this.d = e; try { var i = a.computeStackTrace(e); this.V(i, t) } catch (o) { if (e !== o) throw o } return this }, U: function (e, t) { var n = Object.keys(t).sort(), r = _(e, { message: "Non-Error exception captured with keys: " + P(n), fingerprint: [c(n)], extra: e.extra || {} }); return r.extra.W = Z(t), r }, captureMessage: function (e, t) { if (!this.k.ignoreErrors.test || !this.k.ignoreErrors.test(e)) { var n, r = _({ message: e += "" }, t = t || {}); try { throw new Error(e) } catch (i) { n = i } n.name = null; var o = a.computeStackTrace(n), s = b(o.stack) && o.stack[1]; s && "Raven.captureException" === s.func && (s = o.stack[2]); var c = s && s.url || ""; if ((!this.k.ignoreUrls.test || !this.k.ignoreUrls.test(c)) && (!this.k.whitelistUrls.test || this.k.whitelistUrls.test(c))) { if (this.k.stacktrace || t.stacktrace || "" === r.message) { r.fingerprint = null == r.fingerprint ? e : r.fingerprint, (t = _({ trimHeadFrames: 0 }, t)).trimHeadFrames += 1; var l = this.X(o, t); r.stacktrace = { frames: l.reverse() } } return r.fingerprint && (r.fingerprint = b(r.fingerprint) ? r.fingerprint : [r.fingerprint]), this.Y(r), this } } }, captureBreadcrumb: function (e) { var t = _({ timestamp: r() / 1e3 }, e); if (v(this.k.breadcrumbCallback)) { var n = this.k.breadcrumbCallback(t); if (m(n) && !V(n)) t = n; else if (!1 === n) return this } return this.u.push(t), this.u.length > this.k.maxBreadcrumbs && this.u.shift(), this }, addPlugin: function (e) { var t = [].slice.call(arguments, 1); return this.r.push([e, t]), this.n && this.F(), this }, setUserContext: function (e) { return this.j.user = e, this }, setExtraContext: function (e) { return this.Z("extra", e), this }, setTagsContext: function (e) { return this.Z("tags", e), this }, clearContext: function () { return this.j = {}, this }, getContext: function () { return JSON.parse(s(this.j)) }, setEnvironment: function (e) { return this.k.environment = e, this }, setRelease: function (e) { return this.k.release = e, this }, setDataCallback: function (e) { var t = this.k.dataCallback; return this.k.dataCallback = i(t, e), this }, setBreadcrumbCallback: function (e) { var t = this.k.breadcrumbCallback; return this.k.breadcrumbCallback = i(t, e), this }, setShouldSendCallback: function (e) { var t = this.k.shouldSendCallback; return this.k.shouldSendCallback = i(t, e), this }, setTransport: function (e) { return this.k.transport = e, this }, lastException: function () { return this.d }, lastEventId: function () { return this.f }, isSetup: function () { return !(!this.a || !this.g && (this.ravenNotConfiguredError || (this.ravenNotConfiguredError = !0, this.z("error", "Error: Raven has not been configured.")), 1)) }, afterLoad: function () { var e = J.RavenConfig; e && this.config(e.dsn, e.config).install() }, showReportDialog: function (e) { if (K) { if (!(e = _({ eventId: this.lastEventId(), dsn: this.H, user: this.j.user || {} }, e)).eventId) throw new l("Missing eventId"); if (!e.dsn) throw new l("Missing DSN"); var t = encodeURIComponent, n = []; for (var r in e) if ("user" === r) { var i = e.user; i.name && n.push("name=" + t(i.name)), i.email && n.push("email=" + t(i.email)) } else n.push(t(r) + "=" + t(e[r])); var o = this.J(this.G(e.dsn)), a = K.createElement("script"); a.async = !0, a.src = o + "/api/embed/error-page/?" + n.join("&"), (K.head || K.body).appendChild(a) } }, L: function () { var e = this; this.m += 1, setTimeout((function () { e.m -= 1 })) }, $: function (e, t) { var n, r; if (this.b) { for (r in t = t || {}, e = "raven" + e.substr(0, 1).toUpperCase() + e.substr(1), K.createEvent ? (n = K.createEvent("HTMLEvents")).initEvent(e, !0, !0) : (n = K.createEventObject()).eventType = e, t) R(t, r) && (n[r] = t[r]); if (K.createEvent) K.dispatchEvent(n); else try { K.fireEvent("on" + n.eventType.toLowerCase(), n) } catch (i) { } } }, _: function (e) { var t = this; return function (n) { if (t.aa = null, t.v !== n) { var r; t.v = n; try { r = W(n.target) } catch (i) { r = "<unknown>" } t.captureBreadcrumb({ category: "ui." + e, message: r }) } } }, ba: function () { var e = this; return function (t) { var n; try { n = t.target } catch (i) { return } var r = n && n.tagName; if (r && ("INPUT" === r || "TEXTAREA" === r || n.isContentEditable)) { var o = e.aa; o || e._("input")(t), clearTimeout(o), e.aa = setTimeout((function () { e.aa = null }), 1e3) } } }, ca: function (e, t) { var n = F(this.w.href), r = F(t), i = F(e); this.x = t, n.protocol === r.protocol && n.host === r.host && (t = r.relative), n.protocol === i.protocol && n.host === i.host && (e = i.relative), this.captureBreadcrumb({ category: "navigation", data: { to: t, from: e } }) }, C: function () { var e = this; e.da = Function.prototype.toString, Function.prototype.toString = function () { return "function" == typeof this && this.M ? e.da.apply(this.O, arguments) : e.da.apply(this, arguments) } }, Q: function () { this.da && (Function.prototype.toString = this.da) }, D: function () { function e(e) { return function (t, r) { for (var i = new Array(arguments.length), o = 0; o < i.length; ++o)i[o] = arguments[o]; var a = i[0]; return v(a) && (i[0] = n.wrap({ mechanism: { type: "instrument", data: { "function": e.name || "<anonymous>" } } }, a)), e.apply ? e.apply(this, i) : e(i[0], i[1]) } } function t(e) { var t = J[e] && J[e].prototype; t && t.hasOwnProperty && t.hasOwnProperty("addEventListener") && (O(t, "addEventListener", (function (t) { return function (r, o, a, s) { try { o && o.handleEvent && (o.handleEvent = n.wrap({ mechanism: { type: "instrument", data: { target: e, "function": "handleEvent", handler: o && o.name || "<anonymous>" } } }, o.handleEvent)) } catch (c) { } var l, u, h; return i && i.dom && ("EventTarget" === e || "Node" === e) && (u = n._("click"), h = n.ba(), l = function (e) { if (e) { var t; try { t = e.type } catch (n) { return } return "click" === t ? u(e) : "keypress" === t ? h(e) : void 0 } }), t.call(this, r, n.wrap({ mechanism: { type: "instrument", data: { target: e, "function": "addEventListener", handler: o && o.name || "<anonymous>" } } }, o, l), a, s) } }), r), O(t, "removeEventListener", (function (e) { return function (t, n, r, i) { try { n = n && (n.N ? n.N : n) } catch (o) { } return e.call(this, t, n, r, i) } }), r)) } var n = this, r = n.t, i = this.k.autoBreadcrumbs; O(J, "setTimeout", e, r), O(J, "setInterval", e, r), J.requestAnimationFrame && O(J, "requestAnimationFrame", (function (e) { return function (t) { return e(n.wrap({ mechanism: { type: "instrument", data: { "function": "requestAnimationFrame", handler: e && e.name || "<anonymous>" } } }, t)) } }), r); for (var o = ["EventTarget", "Window", "Node", "ApplicationCache", "AudioTrackList", "ChannelMergerNode", "CryptoOperation", "EventSource", "FileReader", "HTMLUnknownElement", "IDBDatabase", "IDBRequest", "IDBTransaction", "KeyOperation", "MediaController", "MessagePort", "ModalWindow", "Notification", "SVGElementInstance", "Screen", "TextTrack", "TextTrackCue", "TextTrackList", "WebSocket", "WebSocketWorker", "Worker", "XMLHttpRequest", "XMLHttpRequestEventTarget", "XMLHttpRequestUpload"], a = 0; a < o.length; a++)t(o[a]) }, E: function () { function e(e, n) { e in n && v(n[e]) && O(n, e, (function (n) { return t.wrap({ mechanism: { type: "instrument", data: { "function": e, handler: n && n.name || "<anonymous>" } } }, n) })) } var t = this, n = this.k.autoBreadcrumbs, r = t.t; if (n.xhr && "XMLHttpRequest" in J) { var i = J.XMLHttpRequest && J.XMLHttpRequest.prototype; O(i, "open", (function (e) { return function (n, r) { return w(r) && -1 === r.indexOf(t.h) && (this.ea = { method: n, url: r, status_code: null }), e.apply(this, arguments) } }), r), O(i, "send", (function (n) { return function () { function r() { if (i.ea && 4 === i.readyState) { try { i.ea.status_code = i.status } catch (e) { } t.captureBreadcrumb({ type: "http", category: "xhr", data: i.ea }) } } for (var i = this, o = ["onload", "onerror", "onprogress"], a = 0; a < o.length; a++)e(o[a], i); return "onreadystatechange" in i && v(i.onreadystatechange) ? O(i, "onreadystatechange", (function (e) { return t.wrap({ mechanism: { type: "instrument", data: { "function": "onreadystatechange", handler: e && e.name || "<anonymous>" } } }, e, r) })) : i.onreadystatechange = r, n.apply(this, arguments) } }), r) } n.xhr && C() && O(J, "fetch", (function (e) { return function () { for (var n = new Array(arguments.length), r = 0; r < n.length; ++r)n[r] = arguments[r]; var i, o = n[0], a = "GET"; if ("string" == typeof o ? i = o : "Request" in J && o instanceof J.Request ? (i = o.url, o.method && (a = o.method)) : i = "" + o, -1 !== i.indexOf(t.h)) return e.apply(this, n); n[1] && n[1].method && (a = n[1].method); var s = { method: a, url: i, status_code: null }; return e.apply(this, n).then((function (e) { return s.status_code = e.status, t.captureBreadcrumb({ type: "http", category: "fetch", data: s }), e }))["catch"]((function (e) { throw t.captureBreadcrumb({ type: "http", category: "fetch", data: s, level: "error" }), e })) } }), r), n.dom && this.b && (K.addEventListener ? (K.addEventListener("click", t._("click"), !1), K.addEventListener("keypress", t.ba(), !1)) : K.attachEvent && (K.attachEvent("onclick", t._("click")), K.attachEvent("onkeypress", t.ba()))); var o = J.chrome, a = !(o && o.app && o.app.runtime) && J.history && J.history.pushState && J.history.replaceState; if (n.location && a) { var s = J.onpopstate; J.onpopstate = function () { var e = t.w.href; if (t.ca(t.x, e), s) return s.apply(this, arguments) }; var c = function (e) { return function () { var n = arguments.length > 2 ? arguments[2] : void 0; return n && t.ca(t.x, n + ""), e.apply(this, arguments) } }; O(J.history, "pushState", c, r), O(J.history, "replaceState", c, r) } if (n.console && "console" in J && console.log) { var l = function (e, n) { t.captureBreadcrumb({ message: e, level: n.level, category: "console" }) }; E(["debug", "info", "warn", "error", "log"], (function (e, t) { G(console, t, l) })) } }, R: function () { for (var e; this.t.length;) { var t = (e = this.t.shift())[0], n = e[1], r = e[2]; t[n] = r } }, S: function () { for (var e in this.q) this.p[e] = this.q[e] }, F: function () { var e = this; E(this.r, (function (t, n) { var r = n[0], i = n[1]; r.apply(e, [e].concat(i)) })) }, G: function (e) { var t = A.exec(e), n = {}, r = 7; try { for (; r--;)n[z[r]] = t[r] || "" } catch (i) { throw new l("Invalid DSN: " + e) } if (n.pass && !this.k.allowSecretKey) throw new l("Do not specify your secret key in the DSN. See: http://bit.ly/raven-secret-key"); return n }, J: function (e) { var t = "//" + e.host + (e.port ? ":" + e.port : ""); return e.protocol && (t = e.protocol + ":" + t), t }, A: function (e, t) { (t = t || {}).mechanism = t.mechanism || { type: "onerror", handled: !1 }, this.m || this.V(e, t) }, V: function (e, t) { var n = this.X(e, t); this.$("handle", { stackInfo: e, options: t }), this.fa(e.name, e.message, e.url, e.lineno, n, t) }, X: function (e, t) { var n = this, r = []; if (e.stack && e.stack.length && (E(e.stack, (function (t, i) { var o = n.ga(i, e.url); o && r.push(o) })), t && t.trimHeadFrames)) for (var i = 0; i < t.trimHeadFrames && i < r.length; i++)r[i].in_app = !1; return r = r.slice(0, this.k.stackTraceLimit) }, ga: function (e, t) { var n = { filename: e.url, lineno: e.line, colno: e.column, "function": e.func || "?" }; return e.url || (n.filename = t), n.in_app = !(this.k.includePaths.test && !this.k.includePaths.test(n.filename) || /(Raven|TraceKit)\./.test(n["function"]) || /raven\.(min\.)?js$/.test(n.filename)), n }, fa: function (e, t, n, r, i, o) { var a, s = (e ? e + ": " : "") + (t || ""); if ((!this.k.ignoreErrors.test || !this.k.ignoreErrors.test(t) && !this.k.ignoreErrors.test(s)) && (i && i.length ? (n = i[0].filename || n, i.reverse(), a = { frames: i }) : n && (a = { frames: [{ filename: n, lineno: r, in_app: !0 }] }), (!this.k.ignoreUrls.test || !this.k.ignoreUrls.test(n)) && (!this.k.whitelistUrls.test || this.k.whitelistUrls.test(n)))) { var c = _({ exception: { values: [{ type: e, value: t, stacktrace: a }] }, transaction: n }, o), l = c.exception.values[0]; null == l.type && "" === l.value && (l.value = "Unrecoverable error caught"), !c.exception.mechanism && c.mechanism && (c.exception.mechanism = c.mechanism, delete c.mechanism), c.exception.mechanism = _({ type: "generic", handled: !0 }, c.exception.mechanism || {}), this.Y(c) } }, ha: function (e) { var t = this.k.maxMessageLength; if (e.message && (e.message = k(e.message, t)), e.exception) { var n = e.exception.values[0]; n.value = k(n.value, t) } var r = e.request; return r && (r.url && (r.url = k(r.url, this.k.maxUrlLength)), r.Referer && (r.Referer = k(r.Referer, this.k.maxUrlLength))), e.breadcrumbs && e.breadcrumbs.values && this.ia(e.breadcrumbs), e }, ia: function (e) { for (var t, n, r, i = ["to", "from", "url"], o = 0; o < e.values.length; ++o)if ((n = e.values[o]).hasOwnProperty("data") && m(n.data) && !T(n.data)) { r = _({}, n.data); for (var a = 0; a < i.length; ++a)t = i[a], r.hasOwnProperty(t) && r[t] && (r[t] = k(r[t], this.k.maxUrlLength)); e.values[o].data = r } }, ja: function () { if (this.c || this.b) { var e = {}; return this.c && L.userAgent && (e.headers = { "User-Agent": L.userAgent }), J.location && J.location.href && (e.url = J.location.href), this.b && K.referrer && (e.headers || (e.headers = {}), e.headers.Referer = K.referrer), e } }, y: function () { this.ka = 0, this.la = null }, ma: function () { return this.ka && r() - this.la < this.ka }, na: function (e) { var t = this.e; return !(!t || e.message !== t.message || e.transaction !== t.transaction) && (e.stacktrace || t.stacktrace ? N(e.stacktrace, t.stacktrace) : e.exception || t.exception ? M(e.exception, t.exception) : !e.fingerprint && !t.fingerprint || Boolean(e.fingerprint && t.fingerprint) && JSON.stringify(e.fingerprint) === JSON.stringify(t.fingerprint)) }, oa: function (e) { if (!this.ma()) { var t = e.status; if (400 === t || 401 === t || 429 === t) { var n; try { n = C() ? e.headers.get("Retry-After") : e.getResponseHeader("Retry-After"), n = 1e3 * parseInt(n, 10) } catch (i) { } this.ka = n || (2 * this.ka || 1e3), this.la = r() } } }, Y: function (e) { var t = this.k, n = { project: this.i, logger: t.logger, platform: "javascript" }, i = this.ja(); if (i && (n.request = i), e.trimHeadFrames && delete e.trimHeadFrames, (e = _(n, e)).tags = _(_({}, this.j.tags), e.tags), e.extra = _(_({}, this.j.extra), e.extra), e.extra["session:duration"] = r() - this.s, this.u && this.u.length > 0 && (e.breadcrumbs = { values: [].slice.call(this.u, 0) }), this.j.user && (e.user = this.j.user), t.environment && (e.environment = t.environment), t.release && (e.release = t.release), t.serverName && (e.server_name = t.serverName), e = this.pa(e), Object.keys(e).forEach((function (t) { (null == e[t] || "" === e[t] || V(e[t])) && delete e[t] })), v(t.dataCallback) && (e = t.dataCallback(e) || e), e && !V(e) && (!v(t.shouldSendCallback) || t.shouldSendCallback(e))) return this.ma() ? void this.z("warn", "Raven dropped error due to backoff: ", e) : void ("number" == typeof t.sampleRate ? Math.random() < t.sampleRate && this.qa(e) : this.qa(e)) }, pa: function (e) { return j(e, this.k.sanitizeKeys) }, ra: function () { return S() }, qa: function (e, t) { var n = this, r = this.k; if (this.isSetup()) { if (e = this.ha(e), !this.k.allowDuplicates && this.na(e)) return void this.z("warn", "Raven dropped repeat event: ", e); this.f = e.event_id || (e.event_id = this.ra()), this.e = e, this.z("debug", "Raven about to send:", e); var i = { sentry_version: "7", sentry_client: "raven-js/" + this.VERSION, sentry_key: this.h }; this.I && (i.sentry_secret = this.I); var o = e.exception && e.exception.values[0]; this.k.autoBreadcrumbs && this.k.autoBreadcrumbs.sentry && this.captureBreadcrumb({ category: "sentry", message: o ? (o.type ? o.type + ": " : "") + o.value : e.message, event_id: e.event_id, level: e.level || "error" }); var a = this.K; (r.transport || this._makeRequest).call(this, { url: a, auth: i, data: e, options: r, onSuccess: function () { n.y(), n.$("success", { data: e, src: a }), t && t() }, onError: function (r) { n.z("error", "Raven transport failed to send: ", r), r.request && n.oa(r.request), n.$("failure", { data: e, src: a }), r = r || new Error("Raven send failed (no additional details provided)"), t && t(r) } }) } }, _makeRequest: function (e) { var t = e.url + "?" + x(e.auth), n = null, r = {}; if (e.options.headers && (n = this.sa(e.options.headers)), e.options.fetchParameters && (r = this.sa(e.options.fetchParameters)), C()) { r.body = s(e.data); var i = _({}, this.l), o = _(i, r); return n && (o.headers = n), J.fetch(t, o).then((function (t) { if (t.ok) e.onSuccess && e.onSuccess(); else { var n = new Error("Sentry error code: " + t.status); n.request = t, e.onError && e.onError(n) } }))["catch"]((function () { e.onError && e.onError(new Error("Sentry error code: network unavailable")) })) } var a = J.XMLHttpRequest && new J.XMLHttpRequest; a && (("withCredentials" in a || "undefined" != typeof XDomainRequest) && ("withCredentials" in a ? a.onreadystatechange = function () { if (4 === a.readyState) if (200 === a.status) e.onSuccess && e.onSuccess(); else if (e.onError) { var t = new Error("Sentry error code: " + a.status); t.request = a, e.onError(t) } } : (a = new XDomainRequest, t = t.replace(/^https?:/, ""), e.onSuccess && (a.onload = e.onSuccess), e.onError && (a.onerror = function () { var t = new Error("Sentry error code: XDomainRequest"); t.request = a, e.onError(t) })), a.open("POST", t), n && E(n, (function (e, t) { a.setRequestHeader(e, t) })), a.send(s(e.data)))) }, sa: function (e) { var t = {}; for (var n in e) if (e.hasOwnProperty(n)) { var r = e[n]; t[n] = "function" == typeof r ? r() : r } return t }, z: function (e) { this.q[e] && (this.debug || this.k.debug) && Function.prototype.apply.call(this.q[e], this.p, [].slice.call(arguments, 1)) }, Z: function (e, t) { y(t) ? delete this.j[e] : this.j[e] = _(this.j[e] || {}, t) } }, o.prototype.setUser = o.prototype.setUserContext, o.prototype.setReleaseContext = o.prototype.setRelease, t.exports = o }).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {}) }, { 1: 1, 2: 2, 5: 5, 6: 6, 7: 7, 8: 8 }], 4: [function (e, t, n) { (function (n) { var r = e(3), i = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}, o = i.Raven, a = new r; a.noConflict = function () { return i.Raven = o, a }, a.afterLoad(), t.exports = a, t.exports.Client = r }).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {}) }, { 3: 3 }], 5: [function (e, t, n) { (function (n) { function r(e) { switch (Object.prototype.toString.call(e)) { case "[object Error]": case "[object Exception]": case "[object DOMException]": return !0; default: return e instanceof Error } } function i(e) { return "[object DOMError]" === Object.prototype.toString.call(e) } function o(e) { return void 0 === e } function a(e) { return "[object Object]" === Object.prototype.toString.call(e) } function s(e) { return "[object String]" === Object.prototype.toString.call(e) } function c(e) { return "[object Array]" === Object.prototype.toString.call(e) } function l() { if (!("fetch" in V)) return !1; try { return new Headers, new Request(""), new Response, !0 } catch (e) { return !1 } } function u(e, t) { var n, r; if (o(e.length)) for (n in e) p(e, n) && t.call(null, n, e[n]); else if (r = e.length) for (n = 0; n < r; n++)t.call(null, n, e[n]) } function h(e, t) { if ("number" != typeof t) throw new Error("2nd argument to `truncate` function should be a number"); return "string" != typeof e || 0 === t || e.length <= t ? e : e.substr(0, t) + "��" } function p(e, t) { return Object.prototype.hasOwnProperty.call(e, t) } function d(e) { for (var t, n = [], r = 0, i = e.length; r < i; r++)s(t = e[r]) ? n.push(t.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")) : t && t.source && n.push(t.source); return new RegExp(n.join("|"), "i") } function f(e) { var t, n, r, i, o, a = []; if (!e || !e.tagName) return ""; if (a.push(e.tagName.toLowerCase()), e.id && a.push("#" + e.id), (t = e.className) && s(t)) for (n = t.split(/\s+/), o = 0; o < n.length; o++)a.push("." + n[o]); var c = ["type", "name", "title", "alt"]; for (o = 0; o < c.length; o++)r = c[o], (i = e.getAttribute(r)) && a.push("[" + r + '="' + i + '"]'); return a.join("") } function m(e, t) { return !!(!!e ^ !!t) } function g(e, t) { if (m(e, t)) return !1; var n = e.frames, r = t.frames; if (void 0 === n || void 0 === r) return !1; if (n.length !== r.length) return !1; for (var i, o, a = 0; a < n.length; a++)if (i = n[a], o = r[a], i.filename !== o.filename || i.lineno !== o.lineno || i.colno !== o.colno || i["function"] !== o["function"]) return !1; return !0 } function y(e) { return function (e) { return ~-encodeURI(e).split(/%..|./).length }(JSON.stringify(e)) } function v(e) { if ("string" == typeof e) { return h(e, 40) } if ("number" == typeof e || "boolean" == typeof e || void 0 === e) return e; var t = Object.prototype.toString.call(e); return "[object Object]" === t ? "[Object]" : "[object Array]" === t ? "[Array]" : "[object Function]" === t ? e.name ? "[Function: " + e.name + "]" : "[Function]" : e } function w(e, t) { return 0 === t ? v(e) : a(e) ? Object.keys(e).reduce((function (n, r) { return n[r] = w(e[r], t - 1), n }), {}) : Array.isArray(e) ? e.map((function (e) { return w(e, t - 1) })) : v(e) } var b = e(7), V = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}, E = 3, _ = 51200, k = 40; t.exports = { isObject: function (e) { return "object" == typeof e && null !== e }, isError: r, isErrorEvent: function (e) { return "[object ErrorEvent]" === Object.prototype.toString.call(e) }, isDOMError: i, isDOMException: function (e) { return "[object DOMException]" === Object.prototype.toString.call(e) }, isUndefined: o, isFunction: function (e) { return "function" == typeof e }, isPlainObject: a, isString: s, isArray: c, isEmptyObject: function (e) { if (!a(e)) return !1; for (var t in e) if (e.hasOwnProperty(t)) return !1; return !0 }, supportsErrorEvent: function () { try { return new ErrorEvent(""), !0 } catch (e) { return !1 } }, supportsDOMError: function () { try { return new DOMError(""), !0 } catch (e) { return !1 } }, supportsDOMException: function () { try { return new DOMException(""), !0 } catch (e) { return !1 } }, supportsFetch: l, supportsReferrerPolicy: function () { if (!l()) return !1; try { return new Request("pickleRick", { referrerPolicy: "origin" }), !0 } catch (e) { return !1 } }, supportsPromiseRejectionEvent: function () { return "function" == typeof PromiseRejectionEvent }, wrappedCallback: function (e) { return function (t, n) { var r = e(t) || t; return n && n(r) || r } }, each: u, objectMerge: function (e, t) { return t ? (u(t, (function (t, n) { e[t] = n })), e) : e }, truncate: h, objectFrozen: function (e) { return !!Object.isFrozen && Object.isFrozen(e) }, hasKey: p, joinRegExp: d, urlencode: function (e) { var t = []; return u(e, (function (e, n) { t.push(encodeURIComponent(e) + "=" + encodeURIComponent(n)) })), t.join("&") }, uuid4: function () { var e = V.crypto || V.msCrypto; if (!o(e) && e.getRandomValues) { var t = new Uint16Array(8); e.getRandomValues(t), t[3] = 4095 & t[3] | 16384, t[4] = 16383 & t[4] | 32768; var n = function (e) { for (var t = e.toString(16); t.length < 4;)t = "0" + t; return t }; return n(t[0]) + n(t[1]) + n(t[2]) + n(t[3]) + n(t[4]) + n(t[5]) + n(t[6]) + n(t[7]) } return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, (function (e) { var t = 16 * Math.random() | 0; return ("x" === e ? t : 3 & t | 8).toString(16) })) }, htmlTreeAsString: function (e) { for (var t, n = [], r = 0, i = 0, o = " > ".length; e && r++ < 5 && !("html" === (t = f(e)) || r > 1 && i + n.length * o + t.length >= 80);)n.push(t), i += t.length, e = e.parentNode; return n.reverse().join(" > ") }, htmlElementAsString: f, isSameException: function (e, t) { return !m(e, t) && (e = e.values[0], t = t.values[0], e.type === t.type && e.value === t.value && !function (e, t) { return o(e) && o(t) }(e.stacktrace, t.stacktrace) && g(e.stacktrace, t.stacktrace)) }, isSameStacktrace: g, parseUrl: function (e) { if ("string" != typeof e) return {}; var t = e.match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/), n = t[6] || "", r = t[8] || ""; return { protocol: t[2], host: t[4], path: t[5], relative: t[5] + n + r } }, fill: function (e, t, n, r) { if (null != e) { var i = e[t]; e[t] = n(i), e[t].M = !0, e[t].O = i, r && r.push([e, t, i]) } }, safeJoin: function (e, t) { if (!c(e)) return ""; for (var n = [], i = 0; i < e.length; i++)try { n.push(String(e[i])) } catch (r) { n.push("[value cannot be serialized]") } return n.join(t) }, serializeException: function T(e, t, n) { if (!a(e)) return e; n = "number" != typeof (t = "number" != typeof t ? E : t) ? _ : n; var r = w(e, t); return y(b(r)) > n ? T(e, t - 1) : r }, serializeKeysForMessage: function (e, t) { if ("number" == typeof e || "string" == typeof e) return e.toString(); if (!Array.isArray(e)) return ""; if (0 === (e = e.filter((function (e) { return "string" == typeof e }))).length) return "[object has no keys]"; if (t = "number" != typeof t ? k : t, e[0].length >= t) return e[0]; for (var n = e.length; n > 0; n--) { var r = e.slice(0, n).join(", "); if (!(r.length > t)) return n === e.length ? r : r + "��" } return "" }, sanitize: function (e, t) { if (!c(t) || c(t) && 0 === t.length) return e; var n, r = d(t), o = "********"; try { n = JSON.parse(b(e)) } catch (i) { return e } return function s(e) { return c(e) ? e.map((function (e) { return s(e) })) : a(e) ? Object.keys(e).reduce((function (t, n) { return t[n] = r.test(n) ? o : s(e[n]), t }), {}) : e }(n) } } }).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {}) }, { 7: 7 }], 6: [function (e, t, n) { (function (n) { function r() { return "undefined" == typeof document || null == document.location ? "" : document.location.href } var i = e(5), o = { collectWindowErrors: !0, debug: !1 }, a = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}, s = [].slice, c = "?", l = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/; o.report = function () { function e(t, n) { var r = null; if (!n || o.collectWindowErrors) { for (var i in d) if (d.hasOwnProperty(i)) try { d[i].apply(null, [t].concat(s.call(arguments, 2))) } catch (e) { r = e } if (r) throw r } } function t(t, a, s, u, p) { var d = i.isErrorEvent(p) ? p.error : p, f = i.isErrorEvent(t) ? t.message : t; if (g) o.computeStackTrace.augmentStackTraceWithInitialElement(g, a, s, f), n(); else if (d && i.isError(d)) e(o.computeStackTrace(d), !0); else { var m, y = { url: a, line: s, column: u }, v = void 0; if ("[object String]" === {}.toString.call(f)) (m = f.match(l)) && (v = m[1], f = m[2]); y.func = c, e({ name: v, message: f, url: r(), stack: [y] }, !0) } return !!h && h.apply(this, arguments) } function n() { var t = g, n = f; f = null, g = null, m = null, e.apply(null, [t, !1].concat(n)) } function u(e, t) { var r = s.call(arguments, 1); if (g) { if (m === e) return; n() } var i = o.computeStackTrace(e); if (g = i, m = e, f = r, setTimeout((function () { m === e && n() }), i.incomplete ? 2e3 : 0), !1 !== t) throw e } var h, p, d = [], f = null, m = null, g = null; return u.subscribe = function (e) { p || (h = a.onerror, a.onerror = t, p = !0), d.push(e) }, u.unsubscribe = function (e) { for (var t = d.length - 1; t >= 0; --t)d[t] === e && d.splice(t, 1) }, u.uninstall = function () { p && (a.onerror = h, p = !1, h = void 0), d = [] }, u }(), o.computeStackTrace = function () { function e(e) { if ("undefined" != typeof e.stack && e.stack) { for (var t, n, i, o = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, a = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx(?:-web)|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, s = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|moz-extension).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js))(?::(\d+))?(?::(\d+))?\s*$/i, l = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, u = /\((\S*)(?::(\d+))(?::(\d+))\)/, h = e.stack.split("\n"), p = [], d = (/^(.*) is undefined$/.exec(e.message), 0), f = h.length; d < f; ++d) { if (n = o.exec(h[d])) { var m = n[2] && 0 === n[2].indexOf("native"); n[2] && 0 === n[2].indexOf("eval") && (t = u.exec(n[2])) && (n[2] = t[1], n[3] = t[2], n[4] = t[3]), i = { url: m ? null : n[2], func: n[1] || c, args: m ? [n[2]] : [], line: n[3] ? +n[3] : null, column: n[4] ? +n[4] : null } } else if (n = a.exec(h[d])) i = { url: n[2], func: n[1] || c, args: [], line: +n[3], column: n[4] ? +n[4] : null }; else { if (!(n = s.exec(h[d]))) continue; n[3] && n[3].indexOf(" > eval") > -1 && (t = l.exec(n[3])) ? (n[3] = t[1], n[4] = t[2], n[5] = null) : 0 !== d || n[5] || "undefined" == typeof e.columnNumber || (p[0].column = e.columnNumber + 1), i = { url: n[3], func: n[1] || c, args: n[2] ? n[2].split(",") : [], line: n[4] ? +n[4] : null, column: n[5] ? +n[5] : null } } if (!i.func && i.line && (i.func = c), i.url && "blob:" === i.url.substr(0, 5)) { var g = new XMLHttpRequest; if (g.open("GET", i.url, !1), g.send(null), 200 === g.status) { var y = g.responseText || "", v = (y = y.slice(-300)).match(/\/\/# sourceMappingURL=(.*)$/); if (v) { var w = v[1]; "~" === w.charAt(0) && (w = ("undefined" == typeof document || null == document.location ? "" : document.location.origin ? document.location.origin : document.location.protocol + "//" + document.location.hostname + (document.location.port ? ":" + document.location.port : "")) + w.slice(1)), i.url = w.slice(0, -4) } } } p.push(i) } return p.length ? { name: e.name, message: e.message, url: r(), stack: p } : null } } function t(e, t, n, r) { var i = { url: t, line: n }; if (i.url && i.line) { if (e.incomplete = !1, i.func || (i.func = c), e.stack.length > 0 && e.stack[0].url === i.url) { if (e.stack[0].line === i.line) return !1; if (!e.stack[0].line && e.stack[0].func === i.func) return e.stack[0].line = i.line, !1 } return e.stack.unshift(i), e.partial = !0, !0 } return e.incomplete = !0, !1 } function n(e, a) { for (var s, l, u = /function\s+([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?\s*\(/i, h = [], p = {}, d = !1, f = n.caller; f && !d; f = f.caller)if (f !== i && f !== o.report) { if (l = { url: null, func: c, line: null, column: null }, f.name ? l.func = f.name : (s = u.exec(f.toString())) && (l.func = s[1]), "undefined" == typeof l.func) try { l.func = s.input.substring(0, s.input.indexOf("{")) } catch (g) { } p["" + f] ? d = !0 : p["" + f] = !0, h.push(l) } a && h.splice(0, a); var m = { name: e.name, message: e.message, url: r(), stack: h }; return t(m, e.sourceURL || e.fileName, e.line || e.lineNumber, e.message || e.description), m } function i(t, i) { var s = null; i = null == i ? 0 : +i; try { if (s = e(t)) return s } catch (a) { if (o.debug) throw a } try { if (s = n(t, i + 1)) return s } catch (a) { if (o.debug) throw a } return { name: t.name, message: t.message, url: r() } } return i.augmentStackTraceWithInitialElement = t, i.computeStackTraceFromStackProp = e, i }(), t.exports = o }).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {}) }, { 5: 5 }], 7: [function (e, t, n) { function r(e, t) { for (var n = 0; n < e.length; ++n)if (e[n] === t) return n; return -1 } function i(e, t) { var n = [], i = []; return null == t && (t = function (e, t) { return n[0] === t ? "[Circular ~]" : "[Circular ~." + i.slice(0, r(n, t)).join(".") + "]" }), function (o, a) { if (n.length > 0) { var s = r(n, this); ~s ? n.splice(s + 1) : n.push(this), ~s ? i.splice(s, 1 / 0, o) : i.push(o), ~r(n, a) && (a = t.call(this, o, a)) } else n.push(a); return null == e ? a instanceof Error ? function (e) { var t = { stack: e.stack, message: e.message, name: e.name }; for (var n in e) Object.prototype.hasOwnProperty.call(e, n) && (t[n] = e[n]); return t }(a) : a : e.call(this, o, a) } } n = t.exports = function (e, t, n, r) { return JSON.stringify(e, i(t, r), n) }, n.getSerialize = i }, {}], 8: [function (e, t, n) { function r(e, t) { var n = (65535 & e) + (65535 & t); return (e >> 16) + (t >> 16) + (n >> 16) << 16 | 65535 & n } function i(e, t, n, i, o, a) { return r(function (e, t) { return e << t | e >>> 32 - t }(r(r(t, e), r(i, a)), o), n) } function o(e, t, n, r, o, a, s) { return i(t & n | ~t & r, e, t, o, a, s) } function a(e, t, n, r, o, a, s) { return i(t & r | n & ~r, e, t, o, a, s) } function s(e, t, n, r, o, a, s) { return i(t ^ n ^ r, e, t, o, a, s) } function c(e, t, n, r, o, a, s) { return i(n ^ (t | ~r), e, t, o, a, s) } function l(e, t) { e[t >> 5] |= 128 << t % 32, e[14 + (t + 64 >>> 9 << 4)] = t; var n, i, l, u, h, p = 1732584193, d = -271733879, f = -1732584194, m = 271733878; for (n = 0; n < e.length; n += 16)i = p, l = d, u = f, h = m, p = o(p, d, f, m, e[n], 7, -680876936), m = o(m, p, d, f, e[n + 1], 12, -389564586), f = o(f, m, p, d, e[n + 2], 17, 606105819), d = o(d, f, m, p, e[n + 3], 22, -1044525330), p = o(p, d, f, m, e[n + 4], 7, -176418897), m = o(m, p, d, f, e[n + 5], 12, 1200080426), f = o(f, m, p, d, e[n + 6], 17, -1473231341), d = o(d, f, m, p, e[n + 7], 22, -45705983), p = o(p, d, f, m, e[n + 8], 7, 1770035416), m = o(m, p, d, f, e[n + 9], 12, -1958414417), f = o(f, m, p, d, e[n + 10], 17, -42063), d = o(d, f, m, p, e[n + 11], 22, -1990404162), p = o(p, d, f, m, e[n + 12], 7, 1804603682), m = o(m, p, d, f, e[n + 13], 12, -40341101), f = o(f, m, p, d, e[n + 14], 17, -1502002290), p = a(p, d = o(d, f, m, p, e[n + 15], 22, 1236535329), f, m, e[n + 1], 5, -165796510), m = a(m, p, d, f, e[n + 6], 9, -1069501632), f = a(f, m, p, d, e[n + 11], 14, 643717713), d = a(d, f, m, p, e[n], 20, -373897302), p = a(p, d, f, m, e[n + 5], 5, -701558691), m = a(m, p, d, f, e[n + 10], 9, 38016083), f = a(f, m, p, d, e[n + 15], 14, -660478335), d = a(d, f, m, p, e[n + 4], 20, -405537848), p = a(p, d, f, m, e[n + 9], 5, 568446438), m = a(m, p, d, f, e[n + 14], 9, -1019803690), f = a(f, m, p, d, e[n + 3], 14, -187363961), d = a(d, f, m, p, e[n + 8], 20, 1163531501), p = a(p, d, f, m, e[n + 13], 5, -1444681467), m = a(m, p, d, f, e[n + 2], 9, -51403784), f = a(f, m, p, d, e[n + 7], 14, 1735328473), p = s(p, d = a(d, f, m, p, e[n + 12], 20, -1926607734), f, m, e[n + 5], 4, -378558), m = s(m, p, d, f, e[n + 8], 11, -2022574463), f = s(f, m, p, d, e[n + 11], 16, 1839030562), d = s(d, f, m, p, e[n + 14], 23, -35309556), p = s(p, d, f, m, e[n + 1], 4, -1530992060), m = s(m, p, d, f, e[n + 4], 11, 1272893353), f = s(f, m, p, d, e[n + 7], 16, -155497632), d = s(d, f, m, p, e[n + 10], 23, -1094730640), p = s(p, d, f, m, e[n + 13], 4, 681279174), m = s(m, p, d, f, e[n], 11, -358537222), f = s(f, m, p, d, e[n + 3], 16, -722521979), d = s(d, f, m, p, e[n + 6], 23, 76029189), p = s(p, d, f, m, e[n + 9], 4, -640364487), m = s(m, p, d, f, e[n + 12], 11, -421815835), f = s(f, m, p, d, e[n + 15], 16, 530742520), p = c(p, d = s(d, f, m, p, e[n + 2], 23, -995338651), f, m, e[n], 6, -198630844), m = c(m, p, d, f, e[n + 7], 10, 1126891415), f = c(f, m, p, d, e[n + 14], 15, -1416354905), d = c(d, f, m, p, e[n + 5], 21, -57434055), p = c(p, d, f, m, e[n + 12], 6, 1700485571), m = c(m, p, d, f, e[n + 3], 10, -1894986606), f = c(f, m, p, d, e[n + 10], 15, -1051523), d = c(d, f, m, p, e[n + 1], 21, -2054922799), p = c(p, d, f, m, e[n + 8], 6, 1873313359), m = c(m, p, d, f, e[n + 15], 10, -30611744), f = c(f, m, p, d, e[n + 6], 15, -1560198380), d = c(d, f, m, p, e[n + 13], 21, 1309151649), p = c(p, d, f, m, e[n + 4], 6, -145523070), m = c(m, p, d, f, e[n + 11], 10, -1120210379), f = c(f, m, p, d, e[n + 2], 15, 718787259), d = c(d, f, m, p, e[n + 9], 21, -343485551), p = r(p, i), d = r(d, l), f = r(f, u), m = r(m, h); return [p, d, f, m] } function u(e) { var t, n = "", r = 32 * e.length; for (t = 0; t < r; t += 8)n += String.fromCharCode(e[t >> 5] >>> t % 32 & 255); return n } function h(e) { var t, n = []; for (n[(e.length >> 2) - 1] = void 0, t = 0; t < n.length; t += 1)n[t] = 0; var r = 8 * e.length; for (t = 0; t < r; t += 8)n[t >> 5] |= (255 & e.charCodeAt(t / 8)) << t % 32; return n } function p(e) { var t, n, r = "0123456789abcdef", i = ""; for (n = 0; n < e.length; n += 1)t = e.charCodeAt(n), i += r.charAt(t >>> 4 & 15) + r.charAt(15 & t); return i } function d(e) { return unescape(encodeURIComponent(e)) } function f(e) { return function (e) { return u(l(h(e), 8 * e.length)) }(d(e)) } function m(e, t) { return function (e, t) { var n, r, i = h(e), o = [], a = []; for (o[15] = a[15] = void 0, i.length > 16 && (i = l(i, 8 * e.length)), n = 0; n < 16; n += 1)o[n] = 909522486 ^ i[n], a[n] = 1549556828 ^ i[n]; return r = l(o.concat(h(t)), 512 + 8 * t.length), u(l(a.concat(r), 640)) }(d(e), d(t)) } t.exports = function (e, t, n) { return t ? n ? m(t, e) : function (e, t) { return p(m(e, t)) }(t, e) : n ? f(e) : function (e) { return p(f(e)) }(e) } }, {}] }, {}, [4])(4) })); var J = [{ family: "UC Browser", patterns: ["(UC? ?Browser|UCWEB|U3)[ /]?(\\d+)\\.(\\d+)\\.(\\d+)"] }, { family: "Opera", name_replace: "Opera Mobile", patterns: ["(Opera)/.+Opera Mobi.+Version/(\\d+)\\.(\\d+)", "(Opera)/(\\d+)\\.(\\d+).+Opera Mobi", "Opera Mobi.+(Opera)(?:/|\\s+)(\\d+)\\.(\\d+)", "Opera Mobi", "(?:Mobile Safari).*(OPR)/(\\d+)\\.(\\d+)\\.(\\d+)"] }, { family: "Opera", name_replace: "Opera Mini", patterns: ["(Opera Mini)(?:/att|)/?(\\d+|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)", "(OPiOS)/(\\d+).(\\d+).(\\d+)"] }, { family: "Opera", name_replace: "Opera Neon", patterns: ["Chrome/.+( MMS)/(\\d+).(\\d+).(\\d+)"] }, { name_replace: "Opera", patterns: ["(Opera)/9.80.*Version/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(?:Chrome).*(OPR)/(\\d+)\\.(\\d+)\\.(\\d+)"] }, { family: "Firefox", name_replace: "Firefox Mobile", patterns: ["(Fennec)/(\\d+)\\.(\\d+)\\.?([ab]?\\d+[a-z]*)", "(Fennec)/(\\d+)\\.(\\d+)(pre)", "(Fennec)/(\\d+)\\.(\\d+)", "(?:Mobile|Tablet);.*(Firefox)/(\\d+)\\.(\\d+)", "(FxiOS)/(\\d+)\\.(\\d+)(\\.(\\d+)|)(\\.(\\d+)|)"] }, { name_replace: "Coc Coc", patterns: ["(coc_coc_browser)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"] }, { family: "QQ", name_replace: "QQ Mini", patterns: ["(MQQBrowser/Mini)(?:(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"] }, { family: "QQ", name_replace: "QQ Mobile", patterns: ["(MQQBrowser)(?:/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"] }, { name_replace: "QQ", patterns: ["(QQBrowser)(?:/(\\d+)(?:\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)|)"] }, { family: "Edge", name: "Edge Mobile", patterns: ["Windows Phone .*(Edge)/(\\d+)\\.(\\d+)", "(EdgiOS|EdgA)/(\\d+)\\.(\\d+).(\\d+).(\\d+)"] }, { name_replace: "Edge", patterns: ["(Edge|Edg)/(\\d+)(?:\\.(\\d+)|)"] }, { patterns: ["(Puffin)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"] }, { family: "Chrome", name_replace: "Chrome Mobile", patterns: ["Version/.+(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "; wv\\).+(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(CriOS)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(CrMo)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+) Mobile(?:[ /]|$)", " Mobile .*(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)"] }, { family: "Yandex", name_replace: "Yandex Mobile", patterns: ["(YaBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+).*Mobile"] }, { name_replace: "Yandex", patterns: ["(YaBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)"] }, { patterns: ["(Vivaldi)/(\\d+)\\.(\\d+)", "(Vivaldi)/(\\d+)\\.(\\d+)\\.(\\d+)"] }, { name_replace: "Brave", patterns: ["(brave)/(\\d+)\\.(\\d+)\\.(\\d+) Chrome"] }, { family: "Chrome", patterns: ["(Chromium|Chrome)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"] }, { name_replace: "Internet Explorer Mobile", patterns: ["(IEMobile)[ /](\\d+)\\.(\\d+)"] }, { family: "Safari", name_replace: "Safari Mobile", patterns: ["(iPod|iPhone|iPad).+Version/(d+).(d+)(?:.(d+)|).*[ +]Safari", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).* AppleNews\\/\\d+\\.\\d+\\.\\d+?", "(iPod|iPhone|iPad).+Version/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).*Mobile.*[ +]Safari", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).*Mobile", "(iPod|iPod touch|iPhone|iPad).* Safari", "(iPod|iPod touch|iPhone|iPad)"] }, { name_replace: "Safari", patterns: ["(Version)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|).*Safari/"] }, { name_replace: "Internet Explorer", patterns: ["(Trident)/(7|8).(0)"], major_replace: "11" }, { name_replace: "Internet Explorer", patterns: ["(Trident)/(6)\\.(0)"], major_replace: "10" }, { name_replace: "Internet Explorer", patterns: ["(Trident)/(5)\\.(0)"], major_replace: "9" }, { name_replace: "Internet Explorer", patterns: ["(Trident)/(4)\\.(0)"], major_replace: "8" }, { family: "Firefox", patterns: ["(Firefox)/(\\d+)\\.(\\d+)\\.(\\d+)", "(Firefox)/(\\d+)\\.(\\d+)(pre|[ab]\\d+[a-z]*|)"] }], K = [{ family: "Windows", name_replace: "Windows Phone", patterns: ["(Windows Phone) (?:OS[ /])?(\\d+)\\.(\\d+)", "^UCWEB.*; (wds) (\\d+)\\.(d+)(?:\\.(\\d+)|);", "^UCWEB.*; (wds) (\\d+)\\.(\\d+)(?:\\.(\\d+)|);"] }, { family: "Windows", name_replace: "Windows Mobile", patterns: ["(Windows ?Mobile)"] }, { name_replace: "Android", patterns: ["(Android)[ \\-/](\\d+)(?:\\.(\\d+)|)(?:[.\\-]([a-z0-9]+)|)", "(Android) (d+);", "^UCWEB.*; (Adr) (\\d+)\\.(\\d+)(?:[.\\-]([a-z0-9]+)|);", "^(JUC).*; ?U; ?(?:Android|)(\\d+)\\.(\\d+)(?:[\\.\\-]([a-z0-9]+)|)", "(android)\\s(?:mobile\\/)(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)", "(Silk-Accelerated=[a-z]{4,5})", "Puffin/[\\d\\.]+AT", "Puffin/[\\d\\.]+AP"] }, { name_replace: "Chrome OS", patterns: ["(x86_64|aarch64)\\ (\\d+)\\.(\\d+)\\.(\\d+).*Chrome.*(?:CitrixChromeApp)$", "(CrOS) [a-z0-9_]+ (\\d+)\\.(\\d+)(?:\\.(\\d+)|)"] }, { name_replace: "Windows", patterns: ["(Windows 10)", "(Windows NT 6\\.4)", "(Windows NT 10\\.0)"], major_replace: "10" }, { name_replace: "Windows", patterns: ["(Windows NT 6\\.3; ARM;)", "(Windows NT 6.3)"], major_replace: "8", minor_replace: "1" }, { name_replace: "Windows", patterns: ["(Windows NT 6\\.2)"], major_replace: "8" }, { name_replace: "Windows", patterns: ["(Windows NT 6\\.1)"], major_replace: "7" }, { name_replace: "Windows", patterns: ["(Windows NT 6\\.0)"], major_replace: "Vista" }, { name_replace: "Windows", patterns: ["(Windows (?:NT 5\\.2|NT 5\\.1))"], major_replace: "XP" }, { name_replace: "Mac OS X", patterns: ["((?:Mac[ +]?|; )OS[ +]X)[\\s+/](?:(\\d+)[_.](\\d+)(?:[_.](\\d+)|)|Mach-O)", "\\w+\\s+Mac OS X\\s+\\w+\\s+(\\d+).(\\d+).(\\d+).*", "(?:PPC|Intel) (Mac OS X)"] }, { name_replace: "Mac OS X", patterns: [" (Dar)(win)/(10).(d+).*((?:i386|x86_64))"], major_replace: "10", minor_replace: "6" }, { name_replace: "Mac OS X", patterns: [" (Dar)(win)/(11).(\\d+).*\\((?:i386|x86_64)\\)"], major_replace: "10", minor_replace: "7" }, { name_replace: "Mac OS X", patterns: [" (Dar)(win)/(12).(\\d+).*\\((?:i386|x86_64)\\)"], major_replace: "10", minor_replace: "8" }, { name_replace: "Mac OS X", patterns: [" (Dar)(win)/(13).(\\d+).*\\((?:i386|x86_64)\\)"], major_replace: "10", minor_replace: "9" }, { name_replace: "iOS", patterns: ["^UCWEB.*; (iPad|iPh|iPd) OS (\\d+)_(\\d+)(?:_(\\d+)|);", "(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS)[ +]+(\\d+)[_\\.](\\d+)(?:[_\\.](\\d+)|)", "(iPhone|iPad|iPod); Opera", "(iPhone|iPad|iPod).*Mac OS X.*Version/(\\d+)\\.(\\d+)", "\\b(iOS[ /]|iOS; |iPhone(?:/| v|[ _]OS[/,]|; | OS : |\\d,\\d/|\\d,\\d; )|iPad/)(\\d{1,2})[_\\.](\\d{1,2})(?:[_\\.](\\d+)|)", "\\((iOS);", "(iPod|iPhone|iPad)", "Puffin/[\\d\\.]+IT", "Puffin/[\\d\\.]+IP"] }, { family: "Chrome", name_replace: "Chromecast", patterns: ["(CrKey -)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "(CrKey[ +]armv7l)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)"] }, { name_replace: "Debian", patterns: ["([Dd]ebian)"] }, { family: "Linux", name_replace: "Linux", patterns: ["(Linux Mint)(?:/(\\d+)|)"] }, { family: "Linux", patterns: ["(Ubuntu|Kubuntu|Arch Linux|CentOS|Slackware|Gentoo|openSUSE|SUSE|Red Hat|Fedora|PCLinuxOS|Mageia|(?:Free|Open|Net|\\b)BSD)", "(Mandriva)(?: Linux|)/(?:[\\d.-]+m[a-z]{2}(\\d+).(\\d)|)", "(Linux)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "\\(linux-gnu\\)"] }, { family: "BlackBerry", name_replace: "BlackBerry OS", patterns: ["(BB10);.+Version/(\\d+)\\.(\\d+)\\.(\\d+)", "(Black[Bb]erry)[0-9a-z]+/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(Black[Bb]erry).+Version/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(Black[Bb]erry)"] }, { patterns: ["(Fedora|Red Hat|PCLinuxOS|Puppy|Ubuntu|Kindle|Bada|Sailfish|Lubuntu|BackTrack|Slackware|(?:Free|Open|Net|\\b)BSD)[/ ](\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"] }], L = navigator.userAgent, I = function () { return L }, q = function (e) { return X(e || L, J) }, D = function (e) { return X(e || L, K) }; function H(e, t) { try { var n = new RegExp(t).exec(e); return n ? { name: n[1] || "Other", major: n[2] || "0", minor: n[3] || "0", patch: n[4] || "0" } : null } catch (pr) { return null } } function X(e, t) { for (var n = null, r = null, i = -1, o = !1; ++i < t.length && !o;) { n = t[i]; for (var a = -1; ++a < n.patterns.length && !o;)o = null !== (r = H(e, n.patterns[a])) } return o ? (r.family = n.family || n.name_replace || r.name, n.name_replace && (r.name = n.name_replace), n.major_replace && (r.major = n.major_replace), n.minor_replace && (r.minor = n.minor_replace), n.patch_replace && (r.minor = n.patch_replace), r) : { family: "Other", name: "Other", major: "0", minor: "0", patch: "0" } } function Y() { var e = this, t = q(), n = I(); this.agent = n.toLowerCase(), this.language = window.navigator.userLanguage || window.navigator.language, this.isCSS1 = "CSS1Compat" === (document.compatMode || ""), this.width = function () { return window.innerWidth && window.document.documentElement.clientWidth ? Math.min(window.innerWidth, document.documentElement.clientWidth) : window.innerWidth || window.document.documentElement.clientWidth || document.body.clientWidth }, this.height = function () { return window.innerHeight || window.document.documentElement.clientHeight || document.body.clientHeight }, this.scrollX = function () { return window.pageXOffset !== undefined ? window.pageXOffset : e.isCSS1 ? document.documentElement.scrollLeft : document.body.scrollLeft }, this.scrollY = function () { return window.pageYOffset !== undefined ? window.pageYOffset : e.isCSS1 ? document.documentElement.scrollTop : document.body.scrollTop }, this.type = "Edge" === t.family ? "edge" : "Internet Explorer" === t.family ? "ie" : "Chrome" === t.family ? "chrome" : "Safari" === t.family ? "safari" : "Firefox" === t.family ? "firefox" : t.family.toLowerCase(), this.version = 1 * (t.major + "." + t.minor) || 0, this.hasPostMessage = !!window.postMessage } Y.prototype.hasEvent = function (e, t) { return "on" + e in (t || document.createElement("div")) }, Y.prototype.getScreenDimensions = function () { var e = {}; for (var t in window.screen) e[t] = window.screen[t]; return delete e.orientation, e }, Y.prototype.getOrientation = function () { return "function" == typeof matchMedia ? matchMedia("(orientation: landscape)").matches ? "landscape" : "portrait" : window.screen.orientation ? screen.orientation.type.startsWith("landscape") ? "landscape" : "portrait" : this.width() > this.height() ? "landscape" : "portrait" }, Y.prototype.getWindowDimensions = function () { return [this.width(), this.height()] }, Y.prototype.interrogateNavigator = function () { var e = {}; for (var t in window.navigator) if ("webkitPersistentStorage" !== t) try { e[t] = window.navigator[t] } catch (hr) { } if (delete e.plugins, delete e.mimeTypes, e.plugins = [], window.navigator.plugins) for (var n = 0; n < window.navigator.plugins.length; n++)e.plugins[n] = window.navigator.plugins[n].filename; return e }, Y.prototype.supportsPST = function () { return !(document.hasPrivateToken === undefined || !document.featurePolicy || !document.featurePolicy.allowsFeature) && document.featurePolicy.allowsFeature("private-state-token-redemption") }, Y.prototype.supportsCanvas = function () { var e = document.createElement("canvas"); return !(!e.getContext || !e.getContext("2d")) }, Y.prototype.supportsWebAssembly = function () { try { if ("object" == typeof WebAssembly && "function" == typeof WebAssembly.instantiate) { var e = new WebAssembly.Module(Uint8Array.of(0, 97, 115, 109, 1, 0, 0, 0)); if (e instanceof WebAssembly.Module) return new WebAssembly.Instance(e) instanceof WebAssembly.Instance } } catch (pr) { return !1 } }; var $ = new Y, Q = new function () { var e, t, n = D(), r = I(); this.mobile = (e = !!("ontouchstart" in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0), t = !1, n && (t = ["iOS", "Windows Phone", "Windows Mobile", "Android", "BlackBerry OS"].indexOf(n.name) >= 0), e && t), this.dpr = function () { return window.devicePixelRatio || 1 }, this.mobile && n && "Windows" === n.family && r.indexOf("touch") < 0 && (this.mobile = !1), this.os = "iOS" === n.family ? "ios" : "Android" === n.family ? "android" : "Mac OS X" === n.family ? "mac" : "Windows" === n.family ? "windows" : "Linux" === n.family ? "linux" : n.family.toLowerCase(), this.version = function () { if (!n) return "unknown"; var e = n.major; return n.minor && (e += "." + n.minor), n.patch && (e += "." + n.patch), e }() }, ee = { Browser: $, System: Q, supportsPAT: function () { return ("mac" === Q.os || "ios" === Q.os) && "safari" === $.type && $.version >= 16.2 } }, te = "challenge-passed", ne = "challenge-escaped", re = "challenge-closed", ie = "challenge-expired", oe = "invalid-data", ae = "bundle-error", se = "rate-limited", ce = "network-error", le = "challenge-error", ue = "incomplete-answer", he = "missing-captcha", pe = "missing-sitekey", de = "invalid-captcha-id", fe = "https://api.hcaptcha.com", me = "https://api2.hcaptcha.com", ge = "auto", ye = { host: null, file: null, sitekey: null, a11y_tfe: null, pingdom: "safari" === ee.Browser.type && "windows" !== ee.System.os && "mac" !== ee.System.os && "ios" !== ee.System.os && "android" !== ee.System.os, assetDomain: "https://newassets.hcaptcha.com", assetUrl: "https://newassets.hcaptcha.com/captcha/v1/ce98e9030cd29b4ed4e107baf3f9e4ffbdc58266/static", width: null, height: null, mobile: null, orientation: "portrait", challenge_type: null, mfaData: {}, prevSmsinEkey: null }, ve = { se: null, custom: !1, tplinks: "on", language: null, reportapi: "https://accounts.hcaptcha.com", endpoint: fe, pstIssuer: "https://pst-issuer.hcaptcha.com", isSecure: !1, size: "normal", theme: "light", mode: undefined, assethost: null, imghost: null, recaptchacompat: "true", pat: "on", andint: "off", confirmNav: !1 }, we = "https://30910f52569b4c17b1081ead2dae43b4@sentry.hcaptcha.com/6", be = "ce98e9030cd29b4ed4e107baf3f9e4ffbdc58266", Ve = "prod"; function Ee(e, t) { try { e.style.width = "302px", e.style.height = "76px", e.style.backgroundColor = "#f9e5e5", e.style.position = "relative", e.innerHTML = ""; var n = document.createElement("div"); n.style.width = "284px", n.style.position = "absolute", n.style.top = "12px", n.style.left = "10px", n.style.color = "#7c0a06", n.style.fontSize = "14px", n.style.fontWeight = "normal", n.style.lineHeight = "18px", n.innerHTML = t || "Please <a style='color:inherit;text-decoration:underline; font: inherit' target='_blank' href='https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto'>upgrade your browser</a> to complete this captcha.", e.appendChild(n) } catch (r) { console.error("[hCaptcha] Error while rendering in the provided container.", { container: e }, r) } } function _e(e) { for (var t = document.getElementsByClassName("h-captcha"), n = [], r = 0; r < t.length; r++)n.push(t[r]); var i = []; if ("off" !== ve.recaptchacompat) for (var o = document.getElementsByClassName("g-recaptcha"), a = 0; a < o.length; a++)i.push(o[a]); for (var s = [].concat(n, i), c = 0; c < s.length; c++)e(s[c]) } var ke = "The captcha failed to load.", Te = [], Re = /(https?|wasm):\/\//, Ue = /^at\s/, xe = /:\d+:\d+/g, Se = ["Rate limited or network error. Please retry.", "Unreachable code should not be executed", "Out of bounds memory access"]; function We(e) { return Re.test(e) ? null : e.trim().replace(Ue, "").replace(xe, "") } function Me(e) { for (var t = [], n = 0, r = e.length; n < r; n++) { var i = We(e[n]); null !== i && t.push(i) } return t.join("\n").trim() } function Ne(e) { if (e && "string" == typeof e && -1 === Te.indexOf(e) && !(Te.length >= 10)) { var t = Me(e.trim().split("\n").slice(0, 2)); Te.push(t) } } function Fe(e) { try { e && "object" == typeof e || (e = { name: "error", message: "", stack: "" }); var t = { message: e.name + ": " + e.message }; e.stack && (t.stack_trace = { trace: e.stack }), Ge("report error", "internal", "debug", t), Ze(e.message || "internal error", "error", ye.file, e) } catch (n) { } } function Oe(e) { return function () { try { return e.apply(this, arguments) } catch (hr) { throw Fe(hr), _e((function (e) { Ee(e, ke) })), hr } } } function Ce(e) { return -1 !== e.indexOf("hsw.js") || -1 !== e.indexOf("/1/api.js") || -1 !== e.indexOf("newassets.hcaptcha.com") || -1 !== e.indexOf("hcaptcha.html") } function Be(e) { return "string" == typeof e && (-1 !== e.indexOf("chrome-extension://") || -1 !== e.indexOf("safari-extension://") || -1 !== e.indexOf("moz-extension://") || -1 !== e.indexOf("chrome://internal-") || -1 !== e.indexOf("/hammerhead.js") || -1 !== e.indexOf("eval at buildCode") || -1 !== e.indexOf("u.c.b.r.o.w.s.e.r/ucbrowser_script.js")) } function Pe(e, t) { if (void 0 === t && (t = !0), ve.sentry) try { if (window.Raven && Raven.config(we, { release: be, environment: Ve, autoBreadcrumbs: { xhr: !0, dom: !0, sentry: !0 }, tags: { "site-host": ye.host, "site-key": ye.sitekey, "endpoint-url": ve.endpoint, "asset-url": ye.assetUrl }, sampleRate: .01, ignoreErrors: ["Cannot set properties of undefined (setting 'data')", "canvas.contentDocument", "Can't find variable: ZiteReader", "Cannot redefine property: hcaptcha", "Cannot redefine property: BetterJsPop", "grecaptcha is not defined", "jQuery is not defined", "$ is not defined", "Script is not a function"] }), window.Raven && Raven.setUserContext({ "Browser-Agent": ee.Browser.agent, "Browser-Type": ee.Browser.type, "Browser-Version": ee.Browser.version, "System-OS": ee.System.os, "System-Version": ee.System.version, "Is-Mobile": ee.System.mobile }), Ge(ye.file + "_internal", "setup", "info"), e) { var n = function (e, n, r, i, o, a) { o && "object" == typeof o || (o = {}); var s = o.name || "Error", c = o.stack || ""; (Ce(c) || t) && (Oe(Ne)(c), Be(c) || Be(n) || (Ge(e, "global", "debug", { crossOrigin: a, name: s, url: n, line: r, column: i, stack: c }), je("global", o, { message: e }))) }, r = function (e) { var t = e.reason; null == t && e.detail && e.detail.reason && (t = (e = e.detail).reason); var n = ""; if (e.reason && "undefined" != typeof e.reason.stack && (n = e.reason.stack), Ce(n) && e.reason instanceof Error) { Oe(Ne)(n); var r = t.url || ""; Be(n) || Be(r) || (Ge(t.message, "global-rejection", "debug", { promise: e.promise, name: t.name, url: r, line: t.lineno, column: t.columnno, stack: n }), je("global-rejection", t, { promise: e.promise, message: t.message })) } }; "function" == typeof window.addEventListener ? (window.addEventListener("error", (function (e) { n(e.message, e.filename, e.lineno, e.colno, e.error, function (e) { try { return !("Script error." !== e.message || "" !== e.filename && null != e.filename || 0 !== e.lineno && null != e.lineno || 0 !== e.colno && null != e.colno || null != e.error) } catch (pr) { return !1 } }(e)) }), !0), window.addEventListener("unhandledrejection", r, !0)) : t && (window.onerror = n, window.onunhandledrejection = r) } } catch (i) { } } function Ze(e, t, n, r) { try { if (t = t || "error", "string" == typeof e) { for (var i = Se.length; i--;)if (e.indexOf(Se[i]) >= 0) { e = Se[i]; break } /^self\.\w* is not a function$/.test(e) ? e = "self.X is not a function" : /^\w\._.*\[t\] is not a function/.test(e) && (e = "x._y[t] is not a function") } if (ve.sentry) { var o = "warn" === t ? "warning" : t; window.Raven && Raven.captureMessage(e, { level: o, logger: n, extra: r }) } } catch (a) { } } function je(e, t, n) { try { return (n = n || {}).error = t, Ze(e + ":" + (("string" == typeof t ? t : t && t.message) || n.message || "missing-error"), "error", e, n) } catch (r) { } } function Ge(e, t, n, r) { try { ve.sentry && window.Raven && Raven.captureBreadcrumb({ message: e, category: t, level: n, data: r }) } catch (i) { } } var ze = { __proto__: null, _stackTraceSet: Te, refineLine: We, toRefinedString: Me, reportError: Fe, errorWrapper: Oe, initSentry: Pe, sentryMessage: Ze, sentryError: je, sentryBreadcrumb: Ge }; function Ae() { var e = [], t = null, n = !1, r = [], i = function (t) { try { if (e.length >= 10) return; var n = t.stack; if ("string" != typeof n) return; var r = n.trim().split("\n"); "Error" === r[0] && (r = r.slice(1)); for (var i = /extension/, o = r.length - 1, a = [], s = 0; o >= 0 && a.length < 6;) { var c = r[o], l = We(c); if (null !== l) { if (i.test(c)) { a = [l]; break } if (a.unshift(l), s = Math.max(s, l.length), a.length >= 2 && s >= 30) break; o-- } else o-- } var u = a.join("\n").trim(); u && -1 === e.indexOf(u) && e.push(u) } catch (t) { return } }, o = function () { if (n) try { for (var e = 0, o = r.length; e < o; e++)r[e](); null !== t && clearTimeout(t) } catch (a) { i(a) } finally { r = [], t = null, n = !1 } }, a = function (t, a) { var s = Object.getOwnPropertyDescriptor(t, a); if (!(s && !1 === s.writable)) { var c, l = Object.prototype.hasOwnProperty.call(t, a), u = t[a]; c = "undefined" != typeof Proxy && "undefined" != typeof Reflect ? new Proxy(u, { apply: function (t, r, a) { return n && (e.length >= 10 && o(), i(new Error)), Reflect.apply(t, r, a) } }) : function () { return n && (e.length >= 10 && o(), i(new Error)), u.apply(this, arguments) }, Object.defineProperty(t, a, { configurable: !0, enumerable: !s || s.enumerable, writable: !0, value: c }), r.push((function () { l ? Object.defineProperty(t, a, { configurable: !0, enumerable: !s || s.enumerable, writable: !0, value: u }) : delete t[a] })) } }; return { run: function (e) { var r = (e = e || {}).timeout, s = !0 === e.topLevel && e.topLevel; if (!n) { n = !0, "number" == typeof r && isFinite(r) && (t = setTimeout((function () { o() }), r)); try { a(Document.prototype, "getElementsByClassName"), a(Document.prototype, "getElementById"), a(Document.prototype, "getElementsByTagName"), a(Document.prototype, "querySelector"), a(Document.prototype, "querySelectorAll"), a(Element.prototype, "getElementsByClassName"), a(Element.prototype, "getElementsByTagName"), a(Element.prototype, "querySelector"), a(Element.prototype, "querySelectorAll"), a(HTMLElement.prototype, "click"), a(HTMLElement.prototype, "getElementsByClassName"), a(HTMLElement.prototype, "getElementsByTagName"), a(HTMLElement.prototype, "querySelector"), a(HTMLElement.prototype, "querySelectorAll"), s || a(console, "log") } catch (c) { o(), i(c) } } }, collect: function () { return e.concat(Te) } } } var Je = { getCookie: function (e) { var t = document.cookie.replace(/ /g, "").split(";"); try { for (var n = "", r = t.length; r-- && !n;)t[r].indexOf(e) >= 0 && (n = t[r]); return n } catch (pr) { return "" } }, hasCookie: function (e) { return !!Je.getCookie(e) }, supportsAPI: function () { try { return "hasStorageAccess" in document && "requestStorageAccess" in document } catch (pr) { return !1 } }, hasAccess: function () { return new Promise((function (e) { document.hasStorageAccess().then((function () { e(!0) }))["catch"]((function () { e(!1) })) })) }, requestAccess: function () { try { return document.requestStorageAccess() } catch (pr) { return Promise.resolve() } } }, Ke = { array: function (e) { if (0 === e.length) return e; for (var t, n, r = e.length; --r > -1;)n = Math.floor(Math.random() * (r + 1)), t = e[r], e[r] = e[n], e[n] = t; return e } }; function Le(e) { this.r = 255, this.g = 255, this.b = 255, this.a = 1, this.h = 1, this.s = 1, this.l = 1, this.parseString(e) } function Ie(e, t, n) { return n < 0 && (n += 1), n > 1 && (n -= 1), n < 1 / 6 ? e + 6 * (t - e) * n : n < .5 ? t : n < 2 / 3 ? e + (t - e) * (2 / 3 - n) * 6 : e } Le.hasAlpha = function (e) { return "string" == typeof e && (-1 !== e.indexOf("rgba") || 9 === e.length && "#" === e[0]) }, Le.prototype.parseString = function (e) { e && (0 === e.indexOf("#") ? this.fromHex(e) : 0 === e.indexOf("rgb") && this.fromRGBA(e)) }, Le.prototype.fromHex = function (e) { var t = 1; 9 === e.length && (t = parseInt(e.substr(7, 2), 16) / 255); var n = (e = e.substr(1, 6)).replace(/^([a-f\d])([a-f\d])([a-f\d])?$/i, (function (e, t, n, r) { return t + t + n + n + r + r })), r = parseInt(n, 16), i = r >> 16, o = r >> 8 & 255, a = 255 & r; this.setRGBA(i, o, a, t) }, Le.prototype.fromRGBA = function (e) { var t = e.indexOf("rgba"), n = e.substr(t).replace(/rgba?\(/, "").replace(/\)/, "").replace(/[\s+]/g, "").split(","), r = Math.floor(parseInt(n[0])), i = Math.floor(parseInt(n[1])), o = Math.floor(parseInt(n[2])), a = parseFloat(n[3]); this.setRGBA(r, i, o, a) }, Le.prototype.setRGB = function (e, t, n) { this.setRGBA(e, t, n, 1) }, Le.prototype.setRGBA = function (e, t, n, r) { this.r = e, this.g = t, this.b = n, this.a = isNaN(r) ? this.a : r, this.updateHSL() }, Le.prototype.hsl2rgb = function (e, t, n) { if (0 === t) { var r = Math.round(255 * n); return this.setRGB(r, r, r), this } var i = n <= .5 ? n * (1 + t) : n + t - n * t, o = 2 * n - i; return this.r = Math.round(255 * Ie(o, i, e + 1 / 3)), this.g = Math.round(255 * Ie(o, i, e)), this.b = Math.round(255 * Ie(o, i, e - 1 / 3)), this.h = e, this.s = t, this.l = n, this }, Le.prototype.updateHSL = function () { var e, t = this.r / 255, n = this.g / 255, r = this.b / 255, i = Math.max(t, n, r), o = Math.min(t, n, r), a = null, s = (i + o) / 2; if (i === o) a = e = 0; else { var c = i - o; switch (e = s > .5 ? c / (2 - i - o) : c / (i + o), i) { case t: a = (n - r) / c + (n < r ? 6 : 0); break; case n: a = (r - t) / c + 2; break; case r: a = (t - n) / c + 4 }a /= 6 } return this.h = a, this.s = e, this.l = s, this }, Le.prototype.getHex = function () { return "#" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1) }, Le.prototype.getRGBA = function () { return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")" }, Le.prototype.clone = function () { var e = new Le; return e.setRGBA(this.r, this.g, this.b, this.a), e }, Le.prototype.mix = function (e, t) { e instanceof Le || (e = new Le(e)); var n = new Le, r = Math.round(this.r + t * (e.r - this.r)), i = Math.round(this.g + t * (e.g - this.g)), o = Math.round(this.b + t * (e.b - this.b)); return n.setRGB(r, i, o), n }, Le.prototype.blend = function (e, t) { var n; e instanceof Le || (e = new Le(e)); for (var r = [], i = 0; i < t; i++)n = this.mix.call(this, e, i / t), r.push(n); return r }, Le.prototype.lightness = function (e) { return e > 1 && (e /= 100), this.hsl2rgb(this.h, this.s, e), this }, Le.prototype.saturation = function (e) { return e > 1 && (e /= 100), this.hsl2rgb(this.h, e, this.l), this }, Le.prototype.hue = function (e) { return this.hsl2rgb(e / 360, this.s, this.l), this }; var qe = { decode: function (e) { try { var t = e.split("."); return { header: JSON.parse(atob(t[0])), payload: JSON.parse(atob(t[1])), signature: atob(t[2].replace(/_/g, "/").replace(/-/g, "+")), raw: { header: t[0], payload: t[1], signature: t[2] } } } catch (pr) { throw new Error("Token is invalid.") } }, checkExpiration: function (e) { if (new Date(1e3 * e) <= new Date(Date.now())) throw new Error("Token is expired."); return !0 } }, De = { _setup: !1, _af: null, _fps: 60, _singleFrame: 1 / 60, _lagThreshold: 500, _adjustedLag: 1 / 60 * 2, _startTime: 0, _lastTime: 0, _nextTime: 1 / 60, _elapsed: 0, _difference: 0, _renders: [], _paused: !1, _running: !1, _tick: !1, frame: 0, time: 0, requestFrame: null, cancelFrame: null, _init: function () { for (var e, t = window.requestAnimationFrame, n = window.cancelAnimationFrame, r = ["ms", "moz", "webkit", "o"], i = r.length; --i > -1 && !t;)t = window[r[i] + "RequestAnimationFrame"], n = window[r[i] + "CancelAnimationFrame"] || window[r[i] + "CancelRequestAnimationFrame"]; t ? (De.requestFrame = t.bind(window), De.cancelFrame = n.bind(window)) : (De.requestFrame = (e = Date.now(), function (t) { window.setTimeout((function () { t(Date.now() - e) }), 1e3 * De._singleFrame) }), De.cancelFrame = function (e) { return clearTimeout(e), null }), De._setup = !0, De._startTime = De._lastTime = Date.now() }, add: function (e, t) { De._renders.push({ callback: e, paused: !1 == !t || !1 }), !1 == !t && De.start() }, remove: function (e) { for (var t = De._renders.length; --t > -1;)De._renders[t].callback === e && (De._renders[t].paused = !0, De._renders.splice(t, 1)) }, start: function (e) { if (!1 === De._setup && De._init(), e) for (var t = De._renders.length; --t > -1;)De._renders[t].callback === e && (De._renders[t].paused = !1); !0 !== De._running && (De._paused = !1, De._running = !0, De._af = De.requestFrame(De._update)) }, stop: function (e) { if (e) for (var t = De._renders.length; --t > -1;)De._renders[t].callback === e && (De._renders[t].paused = !0); else !1 !== De._running && (De._af = De.cancelFrame(De._af), De._paused = !0, De._running = !1) }, elapsed: function () { return Date.now() - De._startTime }, fps: function (e) { return arguments.length ? (De._fps = e, De._singleFrame = 1 / (De._fps || 60), De._adjustedLag = 2 * De._singleFrame, De._nextTime = De.time + De._singleFrame, De._fps) : De._fps }, isRunning: function () { return De._running }, _update: function () { if (!De._paused && (De._elapsed = Date.now() - De._lastTime, De._tick = !1, De._elapsed > De._lagThreshold && (De._startTime += De._elapsed - De._adjustedLag), De._lastTime += De._elapsed, De.time = (De._lastTime - De._startTime) / 1e3, De._difference = De.time - De._nextTime, De._difference > 0 && (De.frame++, De._nextTime += De._difference + (De._difference >= De._singleFrame ? De._singleFrame / 4 : De._singleFrame - De._difference), De._tick = !0), De._af = De.requestFrame(De._update), !0 === De._tick && De._renders.length > 0)) for (var e = De._renders.length; --e > -1;)De._renders[e] && !1 === De._renders[e].paused && De._renders[e].callback(De.time) } }; var He = function (e) { for (var t, n, r, i = {}, o = e ? e.indexOf("&") >= 0 ? e.split("&") : [e] : [], a = 0; a < o.length; a++)if (o[a].indexOf("=") >= 0) { if (t = o[a].split("="), n = decodeURIComponent(t[0]), "false" !== (r = decodeURIComponent(t[1])) && "true" !== r || (r = "true" === r), "theme" === n || "themeConfig" === n) try { r = JSON.parse(r) } catch (pr) { } i[n] = r } return i }, Xe = function (e) { var t = []; for (var n in e) { var r = e[n]; r = "object" == typeof r ? JSON.stringify(r) : r, t.push([encodeURIComponent(n), encodeURIComponent(r)].join("=")) } return t.join("&") }, Ye = { __proto__: null, Decode: He, Encode: Xe }; function $e(e, t, n) { return Math.min(Math.max(e, t), n) } var Qe = { __proto__: null, clamp: $e, range: function (e, t, n, r, i, o) { var a = (e - t) * (i - r) / (n - t) + r; return !1 === o ? a : $e(a, Math.min(r, i), Math.max(r, i)) }, toRadians: function (e) { return e * (Math.PI / 180) }, toDegrees: function (e) { return 180 * e / Math.PI }, lerp: function (e, t, n) { return e + (t - e) * n } }; function et(e, t, n, r) { this._period = e, this._interval = t, this._date = [], this._data = [], this._prevTimestamp = 0, this._meanPeriod = 0, this._medianPeriod = 0, this._medianMaxHeapSize = 32, this._medianMinHeap = [], this._medianMaxHeap = [], this._meanCounter = 0, this._baseTime = n || 0, this._maxEventsPerWindow = r || 128 } function tt(e) { return new Promise((function (t, n) { e(t, n, (function r() { e(t, n, r) })) })) } function nt(e, t) { var n = "attempts" in (t = t || {}) ? t.attempts : 1, r = t.delay || 0, i = t.onFail; return tt((function (t, o, a) { e().then(t, (function (e) { var t = n-- > 0; if (i) { var s = i(e, n); s && (t = !1 !== s.retry && t, r = s.delay) } t ? setTimeout(a, r || 0) : o(e) })) })) } function rt(e, t) { var n = "attempts" in (t = t || {}) ? t.attempts : 1, r = t.delay || 0, i = t.onFail, o = null, a = !1, s = tt((function (t, s, c) { a ? s(new Error("Request cancelled")) : e().then(t, (function (e) { if (a) s(new Error("Request cancelled")); else { var t = n-- > 0; if (i) { var l = i(e, n); l && (t = !1 !== l.retry && t, r = l.delay) } t ? o = setTimeout(c, r || 0) : s(e) } })) })); return s.cancel = function () { a = !0, o && (clearTimeout(o), o = null) }, s } function it(e, t) { return new Promise((function (n, r) { var i = setTimeout((function () { r(new Error("timeout")) }), t); e.then((function (e) { clearTimeout(i), n(e) }))["catch"]((function (e) { clearTimeout(i), r(e) })) })) } function ot(e) { return e && e.split(/[?#]/)[0].split(".").pop() || "" } function at(e, t) { var n = (new TextEncoder).encode(e); return crypto.subtle.digest(t, n) } function st(e, t) { return at(e, t).then((function (e) { for (var t = new Uint8Array(e), n = "", r = 0; r < t.length; r++) { var i = t[r].toString(16); 1 === i.length && (i = "0" + i), n += i } return n })) } function ct(e, t) { for (var n = 0, r = 0; r < e.length; r++)n = (16 * n + parseInt(e.charAt(r), 16)) % t; return n } function lt(e) { var t = [].slice.call(arguments, 1); "string" == typeof e ? window[e] ? "function" == typeof window[e] ? window[e].apply(null, t) : console.log("[hCaptcha] Callback '" + e + "' is not a function.") : console.log("[hCaptcha] Callback '" + e + "' is not defined.") : "function" == typeof e ? e.apply(null, t) : console.log("[hcaptcha] Invalid callback '" + e + "'.") } function ut() { try { lt.apply(null, arguments) } catch (hr) { console.error("[hCaptcha] There was an error in your callback."), console.error(hr) } } function ht(e, t) { for (var n = ["hl", "custom", "andint", "tplinks", "sitekey", "theme", "type", "size", "tabindex", "callback", "expired-callback", "chalexpired-callback", "error-callback", "open-callback", "close-callback", "endpoint", "challenge-container", "confirm-nav", "orientation", "mode"], r = {}, i = 0; i < n.length; i++) { var o = n[i], a = t && t[o]; a || (a = e.getAttribute("data-" + o)), a && (r[o] = a) } return r } et.prototype.getMeanPeriod = function () { return this._meanPeriod }, et.prototype.getMedianPeriod = function () { return this._medianPeriod }, et.prototype.getData = function () { return this._cleanStaleData(), this._data }, et.prototype.push = function (e, t) { this._cleanStaleData(); var n = 0 === this._date.length; if (e - (this._date[this._date.length - 1] || 0) >= this._period && (this._date.push(e), this._data.push(t), this._data.length > this._maxEventsPerWindow && (this._date.shift(), this._data.shift())), !n) { var r = e - this._prevTimestamp; this._meanPeriod = (this._meanPeriod * this._meanCounter + r) / (this._meanCounter + 1), this._meanCounter++, this._medianPeriod = this._calculateMedianPeriod(r) } this._prevTimestamp = e }, et.prototype._calculateMedianPeriod = function (e) { this._medianMaxHeap || (this._medianMaxHeap = []), this._medianMinHeap || (this._medianMinHeap = []); var t = this._fetchMedianPeriod(); return 0 === this._medianMaxHeap.length && 0 === this._medianMinHeap.length ? this._medianMaxHeap.push(e) : e <= t ? (this._medianMaxHeap.push(e), this._medianMaxHeap.sort((function (e, t) { return t - e }))) : (this._medianMinHeap.push(e), this._medianMinHeap.sort((function (e, t) { return e - t }))), this._rebalanceHeaps(), this._fetchMedianPeriod() }, et.prototype._rebalanceHeaps = function () { var e = null; this._medianMaxHeap.length > this._medianMinHeap.length + 1 ? (e = this._medianMaxHeap.shift(), this._medianMinHeap.push(e), this._medianMinHeap.sort((function (e, t) { return e - t }))) : this._medianMinHeap.length > this._medianMaxHeap.length + 1 && (e = this._medianMinHeap.shift(), this._medianMaxHeap.push(e), this._medianMaxHeap.sort((function (e, t) { return t - e }))), this._medianMinHeap.length == this._medianMaxHeap.length && this._medianMaxHeap.length > this._medianMaxHeapSize && (this._medianMinHeap.pop(), this._medianMaxHeap.pop()) }, et.prototype._fetchMedianPeriod = function () { return this._medianMaxHeap.length > this._medianMinHeap.length ? this._medianMaxHeap[0] : this._medianMinHeap.length > this._medianMaxHeap.length ? this._medianMinHeap[0] : 0 !== this._medianMaxHeap.length && 0 !== this._medianMinHeap.length ? (this._medianMaxHeap[0] + this._medianMinHeap[0]) / 2 : -1 }, et.prototype._cleanStaleData = function () { for (var e = Date.now() - this._baseTime, t = this._date.length - 1; t >= 0; t--) { if (e - this._date[t] >= this._interval) { this._date.splice(0, t + 1), this._data.splice(0, t + 1); break } } }; var pt, dt = { UUID: function (e) { return /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i.test(e) || !1 }, UUIDv4: function (e) { return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(e) || !1 }, URL: function (e) { var t = new RegExp("^(http|https)://"), n = new RegExp("^((?!(data|javascript):).)*$"); return t.test(e) && n.test(e) && -1 === e.indexOf("#") }, IMAGE: function (e) { return (0 === e.indexOf("https://") || 0 === e.indexOf("/")) && e.endsWith(".png") } }; function ft(e) { var t, n, r = "string" == typeof e ? e : JSON.stringify(e), i = -1; for (pt = pt || function () { var e, t, n, r = []; for (t = 0; t < 256; t++) { for (e = t, n = 0; n < 8; n++)e = 1 & e ? 3988292384 ^ e >>> 1 : e >>> 1; r[t] = e } return r }(), t = 0, n = r.length; t < n; t += 1)i = i >>> 8 ^ pt[255 & (i ^ r.charCodeAt(t))]; return (-1 ^ i) >>> 0 } var mt = { __proto__: null, createErrorsAggregator: Ae, uuid: function () { return Math.random().toString(36).substr(2) }, Render: De, JWT: qe, Color: Le, Shuffle: Ke, MathUtil: Qe, Storage: Je, Query: Ye, TimeBuffer: et, PromiseUtil: { __proto__: null, promiseRecursive: tt, promiseRetry: nt, promiseRetryWithCancel: rt, withTimeout: it }, ErrorUtil: ze, UrlUtil: { __proto__: null, getFileExtension: ot }, HashUtil: { __proto__: null, generate: at, generateHex: st, hexModulo: ct }, _stackTraceSet: Te, refineLine: We, toRefinedString: Me, reportError: Fe, errorWrapper: Oe, initSentry: Pe, sentryMessage: Ze, sentryError: je, sentryBreadcrumb: Ge, renderFallback: Ee, forEachCaptchaNode: _e, callUserFunction: ut, composeParams: ht, is: dt, promiseRecursive: tt, promiseRetry: nt, promiseRetryWithCancel: rt, withTimeout: it, crc32: ft, TaskContext: { container: {}, set: function (e, t) { this.container[e] = t }, clear: function () { this.container = {} } }, getFileExtension: ot, generate: at, generateHex: st, hexModulo: ct }; function gt(e) { try { if (!e) throw new Error("Event object is required"); if (e.touches || e.changedTouches) { var t = e.touches && e.touches.length >= 1 ? e.touches : e.changedTouches; if (t && t[0]) return t[0].x = t[0].clientX, t[0].y = t[0].clientY, t[0] } var n = "number" == typeof e.pageX && "number" == typeof e.pageY, r = "number" == typeof e.clientX && "number" == typeof e.clientY; return n ? { x: e.pageX, y: e.pageY } : r ? { x: e.clientX, y: e.clientY } : null } catch (hr) { return Ze("DomEvent Coords Error", "error", "core", { error: hr, event: e }), null } } function yt(e, t) { var n = e; "down" === e || "up" === e || "move" === e || "over" === e || "out" === e ? n = !(ee.System.mobile && "desktop" !== t || "mobile" === t) || "down" !== e && "up" !== e && "move" !== e ? "mouse" + e : "down" === e ? "touchstart" : "up" === e ? "touchend" : "touchmove" : "enter" === e && (n = "keydown"); return n } function vt(e, t, n, r) { var i = yt(t), o = t, a = 0, s = 0, c = t.indexOf("swipe") >= 0, l = 0; function u(e) { var t = gt(e); t && (a = t.pageX, s = t.pageY, l = Date.now()) } function h(t) { var r = gt(t); if (r) { var o, c, u = r.pageX - a, h = r.pageY - s, p = Date.now() - l; if (!(p > 300) && (u <= -25 ? o = "swipeleft" : u >= 25 && (o = "swiperight"), h <= -25 ? c = "swipeup" : h >= 25 && (c = "swipedown"), i === o || i === c)) { var d = o === i ? o : c; t.action = d, t.targetElement = e, t.swipeSpeed = Math.sqrt(u * u + h * h) / p, t.deltaX = u, t.deltaY = h, n(t) } } } function p(r) { try { var i = function (e) { var t = e ? e.type : ""; return "touchstart" === t || "mousedown" === t ? t = "down" : "touchmove" === t || "mousemove" === t ? t = "move" : "touchend" === t || "mouseup" === t ? t = "up" : "mouseover" === t ? t = "over" : "mouseout" === t && (t = "out"), t }(r); if ((r = r || window.event) && "object" == typeof r || Ge("DomEvent Missing.", "core", "info", r = {}), "down" === i || "move" === i || "up" === i || "over" === i || "out" === i || "click" === i) { var o = gt(r); if (!o) return; var a = e.getBoundingClientRect(); r.windowX = o.x, r.windowY = o.y, r.elementX = r.windowX - (a.x || a.left), r.elementY = r.windowY - (a.y || a.top) } if (r.keyNum = r.which || r.keyCode || 0, "enter" === t && 13 !== r.keyNum && 32 !== r.keyNum) return; r.action = i, r.targetElement = e, n(r) } catch (hr) { Ze("DomEvent Error", "error", "core", { error: hr, event: r }) } } return r || (r = {}), c ? function () { if (!("addEventListener" in e)) return; e.addEventListener("mousedown", u, r), e.addEventListener("mouseup", h, r), e.addEventListener("touchstart", u, r), e.addEventListener("touchend", h, r) }() : function () { if (!("addEventListener" in e)) return void e.attachEvent("on" + i, p); e.addEventListener(i, p, r) }(), { event: i, rawEvent: o, callback: n, remove: function () { c ? (e.removeEventListener("mousedown", u, r), e.removeEventListener("mouseup", h, r), e.removeEventListener("touchstart", u, r), e.removeEventListener("touchend", h, r)) : "removeEventListener" in e ? e.removeEventListener(i, p, r) : e.detachEvent("on" + i, p) } } } var wt = ["Webkit", "Moz", "ms"], bt = document.createElement("div").style, Vt = {}; function Et(e) { var t = Vt[e]; return t || (e in bt ? e : Vt[e] = function (e) { for (var t = e[0].toUpperCase() + e.slice(1), n = wt.length; n--;)if ((e = wt[n] + t) in bt) return e }(e) || e) } function _t(e, t, n) { if (this.dom = null, this._clss = [], this._nodes = [], this._listeners = [], this._frag = null, e && "object" == typeof e) { this.dom = e; var r = [], i = []; "string" == typeof e.className && (i = e.className.split(" ")); for (var o = 0; o < i.length; o++)"" !== i[o] && " " !== i[o] && r.push(i[o]); this._clss = r } else n !== undefined && null !== n || (n = !0), (!e || "string" == typeof e && (e.indexOf("#") >= 0 || e.indexOf(".") >= 0)) && (e && (t = e), e = "div"), this.dom = document.createElement(e), t && (t.indexOf("#") >= 0 ? this.dom.id = t.split("#")[1] : (t.indexOf(".") >= 0 && (t = t.split(".")[1]), this.addClass.call(this, t))); !0 === n && (this._frag = document.createDocumentFragment(), this._frag.appendChild(this.dom)) } _t.prototype.cloneNode = function (e) { try { return this.dom.cloneNode(e) } catch (pr) { return je("element", pr), null } }, _t.prototype.createElement = function (e, t) { try { var n = new _t(e, t, !1); return this.appendElement.call(this, n), this._nodes.push(n), n } catch (pr) { return je("element", pr), null } }, _t.prototype.appendElement = function (e) { if (e === undefined) return Fe({ name: "DomElement Add Child", message: "Child Element is undefined" }); var t; t = e._frag !== undefined && null !== e._frag ? e._frag : e.dom !== undefined ? e.dom : e; try { e instanceof _t && (e._parent = this), this.dom.appendChild(t) } catch (pr) { Fe({ name: "DomElement Add Child", message: "Failed to append child." }) } return this }, _t.prototype.removeElement = function (e) { try { var t; if (e._nodes) for (t = e._nodes.length; t--;)e.removeElement(e._nodes[t]); for (t = this._nodes.length; --t > -1;)this._nodes[t] === e && this._nodes.splice(t, 1); var n = e instanceof _t ? e.dom : e, r = n.parentNode === this.dom ? this.dom : n.parentNode; if (r.removeChild && r.removeChild(n), !r) throw new Error("Child component does not have correct setup"); e.__destroy && e.__destroy() } catch (pr) { Fe({ name: "DomElement Remove Child", message: pr.message || "Failed to remove child." }) } }, _t.prototype.addClass = function (e) { return !1 === this.hasClass.call(this, e) && (this._clss.push(e), this.dom.className = this._clss.join(" ")), this }, _t.prototype.hasClass = function (e) { for (var t = -1 !== this.dom.className.split(" ").indexOf(e), n = this._clss.length; n-- && !t;)t = this._clss[n] === e; return t }, _t.prototype.removeClass = function (e) { for (var t = this._clss.length; --t > -1;)this._clss[t] === e && this._clss.splice(t, 1); return this.dom.className = this._clss.join(" "), this }, _t.prototype.text = function (e) { if (this && this.dom) { if (!e) return this.dom.textContent; for (var t, n, r, i, o = /&(.*?);/g, a = /<[a-z][\s\S]*>/i; null !== (t = o.exec(e));) { !1 === a.test(t[0]) ? (r = t[0], i = void 0, (i = document.createElement("div")).innerHTML = r, n = i.textContent, e = e.replace(new RegExp(t[0], "g"), n)) : e = e.replace(t[0], "") } return this.dom.textContent = e, this } }, _t.prototype.content = _t.prototype.text, _t.prototype.css = function (e) { var t, n = "ie" === ee.Browser.type && 8 === ee.Browser.version, r = "safari" === ee.Browser.type && 12 === Math.floor(ee.Browser.version); for (var i in e) { t = e[i]; try { if ("transition" === i && r) continue; "opacity" !== i && "zIndex" !== i && "fontWeight" !== i && isFinite(t) && parseFloat(t) === t && (t += "px"); var o = Et(i); n && "opacity" === i ? this.dom.style.filter = "alpha(opacity=" + 100 * t + ")" : n && Le.hasAlpha(t) ? this.dom.style[o] = new Le(t).getHex() : this.dom.style[o] = t } catch (hr) { } } return this }, _t.prototype.backgroundImage = function (e, t, n, r) { var i = t !== undefined && n !== undefined, o = { "-ms-high-contrast-adjust": "none" }; if ("object" == typeof t && (r = t), r === undefined && (r = {}), i) { var a = e.width / e.height, s = t, c = s / a; r.cover && c < n && (s = (c = n) * a), r.contain && c > n && (s = (c = n) * a), o.width = s, o.height = c, r.center && (o.marginLeft = -s / 2, o.marginTop = -c / 2, o.position = "absolute", o.left = "50%", o.top = "50%"), (r.left || r.right) && (o.left = r.left || 0, o.top = r.top || 0) } "ie" === ee.Browser.type && 8 === ee.Browser.version ? o.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + e.src + "',sizingMethod='scale')" : (o.background = "url(" + e.src + ")", o.backgroundPosition = "50% 50%", o.backgroundRepeat = "no-repeat", o.backgroundSize = i ? s + "px " + c + "px" : r.cover ? "cover" : r.contain ? "contain" : "100%"), this.css.call(this, o) }, _t.prototype.setAttribute = function (e, t) { var n; if ("object" == typeof e) for (var r in e) n = e[r], this.dom.setAttribute(r, n); else this.dom.setAttribute(e, t) }, _t.prototype.removeAttribute = function (e, t) { var n; if ("object" == typeof e) for (var r in e) n = e[r], this.dom.removeAttribute(r, n); else this.dom.removeAttribute(e, t) }, _t.prototype.addEventListener = function (e, t, n) { var r = new vt(this.dom, e, t, n); if (this._listeners.push(r), e !== r.event && (r.event.indexOf("mouse") >= 0 || r.event.indexOf("touch") >= 0)) { var i = yt(e, r.event.indexOf("touch") >= 0 ? "desktop" : "mobile"); if (i === r.event) return; this.addEventListener.call(this, i, t, n) } }, _t.prototype.removeEventListener = function (e, t, n) { for (var r, i = this._listeners.length, o = yt(e); --i > -1;)(r = this._listeners[i]).event === o && r.callback === t && (this._listeners.splice(i, 1), r.remove()) }, _t.prototype.focus = function () { this.dom.focus() }, _t.prototype.blur = function () { this.dom.blur() }, _t.prototype.html = function (e) { return e && (this.dom.innerHTML = e), this.dom.innerHTML }, _t.prototype.__destroy = function () { for (var e, t = this._listeners.length; --t > -1;)e = this._listeners[t], this._listeners.splice(t, 1), this.dom.removeEventListener ? this.dom.removeEventListener(e.event, e.handler) : this.dom.detachEvent("on" + e.event, e.handler); return this.dom = null, this._clss = [], this._nodes = [], this._listeners = [], this._frag = null, e = null, null }, _t.prototype.isConnected = function () { return !!this.dom && ("isConnected" in this.dom ? this.dom.isConnected : !(this.dom.ownerDocument && this.dom.ownerDocument.compareDocumentPosition(this.dom) & this.dom.DOCUMENT_POSITION_DISCONNECTED)) }; var kt = { eventName: function (e, t) { var n = e; "down" === e || "up" === e || "move" === e || "over" === e || "out" === e ? n = !(ee.System.mobile && "desktop" !== t || "mobile" === t) || "down" !== e && "up" !== e && "move" !== e ? "mouse" + e : "down" === e ? "touchstart" : "up" === e ? "touchend" : "touchmove" : "enter" === e && (n = "keydown"); return n }, actionName: function (e) { var t = e; return "touchstart" === t || "mousedown" === t ? t = "down" : "touchmove" === t || "mousemove" === t ? t = "move" : "touchend" === t || "mouseup" === t ? t = "up" : "mouseover" === t ? t = "over" : "mouseout" === t && (t = "out"), t }, eventCallback: function (e, t, n) { var r = kt.actionName(e); return function (i) { try { if (i = i || window.event, "down" === r || "move" === r || "up" === r || "over" === r || "out" === r || "click" === r) { var o = kt.eventCoords(i); if (!o) return; var a = n.getBoundingClientRect(); i.windowX = o.x, i.windowY = o.y, i.elementX = i.windowX - (a.x || a.left), i.elementY = i.windowY - (a.y || a.top) } if (i.keyNum = i.which || i.keyCode || 0, "enter" === e && 13 !== i.keyNum && 32 !== i.keyNum) return; i.action = r, i.targetElement = n, t(i) } catch (hr) { Ze("Normalize Error", "error", "core", { error: hr }) } } }, eventCoords: function (e) { try { if (!e) throw new Error("Event object is required"); var t = e; if (e.touches || e.changedTouches) { var n = e.touches && e.touches.length >= 1 ? e.touches : e.changedTouches; n && n[0] && (t = n[0]) } return "number" == typeof t.pageX && "number" == typeof t.pageY ? { x: t.pageX, y: t.pageY } : "number" == typeof t.clientX && "number" == typeof t.clientY ? { x: t.clientX, y: t.clientY } : null } catch (hr) { return Ze("Normalize Coords Error", "error", "core", { error: hr, event: e }), null } } }; function Tt(e) { if (null === e) return ""; var t = []; return Rt(e, t), t.join("&") } function Rt(e, t) { var n, r; if ("object" == typeof e) for (r in e) !0 === Ut(n = e[r]) ? Rt(n, t) : t[t.length] = xt(r, n); else if (!0 === Array.isArray(e)) for (var i = 0; i < e.length; i++)!0 === Ut(n = e[i]) ? Rt(e, t) : t[t.length] = xt(r, n); else t[t.length] = xt(e) } function Ut(e) { return !0 === Array.isArray(e) || "object" == typeof e } function xt(e, t) { return encodeURIComponent(e) + "=" + encodeURIComponent(null === t ? "" : t) } var St = { af: "Afrikaans", sq: "Albanian", am: "Amharic", ar: "Arabic", hy: "Armenian", az: "Azerbaijani", eu: "Basque", be: "Belarusian", bn: "Bengali", bg: "Bulgarian", bs: "Bosnian", my: "Burmese", ca: "Catalan", ceb: "Cebuano", zh: "Chinese", "zh-CN": "Chinese Simplified", "zh-TW": "Chinese Traditional", co: "Corsican", hr: "Croatian", cs: "Czech", da: "Danish", nl: "Dutch", en: "English", eo: "Esperanto", et: "Estonian", fi: "Finnish", fr: "French", fy: "Frisian", gd: "Gaelic", gl: "Galacian", ka: "Georgian", de: "German", el: "Greek", gu: "Gujurati", ht: "Haitian", ha: "Hausa", haw: "Hawaiian", he: "Hebrew", hi: "Hindi", hmn: "Hmong", hu: "Hungarian", is: "Icelandic", ig: "Igbo", id: "Indonesian", ga: "Irish", it: "Italian", ja: "Japanese", jw: "Javanese", kn: "Kannada", kk: "Kazakh", km: "Khmer", rw: "Kinyarwanda", ky: "Kirghiz", ko: "Korean", ku: "Kurdish", lo: "Lao", la: "Latin", lv: "Latvian", lt: "Lithuanian", lb: "Luxembourgish", mk: "Macedonian", mg: "Malagasy", ms: "Malay", ml: "Malayalam", mt: "Maltese", mi: "Maori", mr: "Marathi", mn: "Mongolian", ne: "Nepali", no: "Norwegian", ny: "Nyanja", or: "Oriya", fa: "Persian", pl: "Polish", "pt-BR": "Portuguese (Brazil)", pt: "Portuguese (Portugal)", ps: "Pashto", pa: "Punjabi", ro: "Romanian", ru: "Russian", sm: "Samoan", sn: "Shona", sd: "Sindhi", si: "Sinhalese", sr: "Serbian", sk: "Slovak", sl: "Slovenian", so: "Somali", st: "Southern Sotho", es: "Spanish", su: "Sundanese", sw: "Swahili", sv: "Swedish", tl: "Tagalog", tg: "Tajik", ta: "Tamil", tt: "Tatar", te: "Teluga", th: "Thai", tr: "Turkish", tk: "Turkmen", ug: "Uyghur", uk: "Ukrainian", ur: "Urdu", uz: "Uzbek", vi: "Vietnamese", cy: "Welsh", xh: "Xhosa", yi: "Yiddish", yo: "Yoruba", zu: "Zulu" }, Wt = { zh: { "I am human": "�묉삸�잌츩溫욕�" }, ar: { "I am human": "粒�碼 碼�瑪�卍碼�" }, af: { "I am human": "Ek is menslike" }, am: { "I am human": "�α뒗 �결땷 �먤뒡" }, hy: { "I am human": "鍍濫 爛蘿�邏 樂爛" }, az: { "I am human": "M�n insanam" }, eu: { "I am human": "Gizakia naiz" }, bn: { "I am human": "逝녱┏逝� 逝�┥逝ⓣ━ 逝ⓣ쫯" }, bg: { "I am human": "�鈞 ��劇 �棘勻筠克" }, ca: { "I am human": "S처c hum횪" }, hr: { "I am human": "Ja sam 훾ovjek" }, cs: { "I am human": "Jsem 훾lov휎k" }, da: { "I am human": "Jeg er et menneske" }, nl: { "I am human": "Ik ben een mens" }, et: { "I am human": "Ma olen inimeste" }, fi: { "I am human": "Olen ihminen" }, fr: { "I am human": "Je suis humain" }, gl: { "I am human": "Eu son humano" }, ka: { "I am human": "�쎺깞 �뺗깘�� �먤깛�먤깫�섂깘�쒊깦" }, de: { "I am human": "Ich bin ein Mensch" }, el: { "I am human": "�官關慣菅 郭館罐���恝�" }, gu: { "I am human": "夕밝쳛夕� 夕�ぞ夕ⓣさ 夕쎹쳛夕�" }, iw: { "I am human": ". ��� ���漏�" }, hi: { "I am human": "西�쪎西� 西�ㅎ西ⓣㅅ 西밝쪈西�" }, hu: { "I am human": "Nem vagyok robot" }, is: { "I am human": "횋g er manneskja" }, id: { "I am human": "Aku manusia" }, it: { "I am human": "Sono un essere umano" }, ja: { "I am human": "燁곥겘雅븅뼋�㎯걲" }, kn: { "I am human": "淅ⓣ꼐淅ⓣ퀋 淅�꼐淅ⓣ껨淅ⓣ퀋" }, ko: { "I am human": "�щ엺�낅땲��" }, lo: { "I am human": "僊귖퍒僊�틡先�僊쎹볍僊쇸벙僊겯틯僊멘틪" }, lv: { "I am human": "Es esmu cilv휆ks" }, lt: { "I am human": "A큄 esu 탑mogaus" }, ms: { "I am human": "Saya manusia" }, ml: { "I am human": "石왽늅碩� 石�뇽碩곟뉠碩띭눕石ⓣ늅石｀탫" }, mr: { "I am human": "西�� 西�ㅎ西ⓣㅅ誓� 西녱ㅉ誓�" }, mn: { "I am human": "�龜 閨棘剋 �奈戟" }, no: { "I am human": "Jeg er et menneske" }, fa: { "I am human": "�� 碼�卍碼�� �卍魔�" }, pl: { "I am human": "Jestem cz흢owiekiem" }, pt: { "I am human": "Sou humano" }, ro: { "I am human": "Eu sunt om" }, ru: { "I am human": "赳 �筠剋棘勻筠克" }, sr: { "I am human": "Ja sam ljudski" }, si: { "I am human": "蓆멘떳 蓆멘퇁蓆긍퇁釋꺺톶釋꺺퇃" }, sk: { "I am human": "Ja som 훾lovek" }, sl: { "I am human": "Jaz sem 훾love큄ki" }, es: { "I am human": "Soy humano" }, sw: { "I am human": "Mimi ni binadamu" }, sv: { "I am human": "Jag 채r m채nniska" }, ta: { "I am human": "昔ⓣ�昔⒯칾 昔��昔욈�" }, te: { "I am human": "析ⓣ콋析ⓣ콅 析�감析욈갬析욈감析�" }, th: { "I am human": "錫쒉륫錫□툢錫멘릇錫№퉴" }, tr: { "I am human": "Ben bir insan캇m" }, uk: { "I am human": "赳 剋�畇龜戟龜" }, ur: { "I am human": "��謎 碼�卍碼� ��謎" }, vi: { "I am human": "T척i l횪 con ng튼沼쓎" }, zu: { "I am human": "Ngingumuntu" } }, Mt = null, Nt = "ltr", Ft = { translate: function (e, t) { var n = Ft.getBestTrans(Wt), r = n && n[e]; if (r = r || e, t) for (var i = Object.keys(t), o = i.length; o--;)r = r.replace(new RegExp("{{" + i[o] + "}}", "g"), t[i[o]]); return r }, getBestTrans: function (e) { var t = Ft.getLocale(); return t in e ? e[t] : Ft.getShortLocale(t) in e ? e[Ft.getShortLocale(t)] : "en" in e ? e.en : null }, resolveLocale: function (e) { var t = Ft.getShortLocale(e); return "in" === t && (e = "id"), "iw" === t && (e = "he"), "nb" === t && (e = "no"), "ji" === t && (e = "yi"), "zh-CN" === e && (e = "zh"), "jv" === t && (e = "jw"), "me" === t && (e = "bs"), St[e] ? e : St[t] ? t : "en" }, getLocale: function () { return Ft.resolveLocale(Mt || window.navigator.userLanguage || window.navigator.language) }, setLocale: function (e) { "zh-Hans" === e ? e = "zh-CN" : "zh-Hant" === e && (e = "zh-TW"), Mt = e }, getShortLocale: function (e) { return e.indexOf("-") >= 0 ? e.substring(0, e.indexOf("-")) : e }, getLangName: function (e) { return St[e] }, isShortLocale: function (e) { return 2 === e.length || 3 === e.length }, addTable: function (e, t) { if (t || (t = Object.create(null)), Wt[e]) { var n = Wt[e]; for (var r in t) n[r] = t[r] } else Wt[e] = t; return Wt[e] }, getTable: function (e) { return Wt[e] }, addTables: function (e) { for (var t in e) Ft.addTable(t, e[t]); return Wt }, getTables: function () { return Wt }, getDirection: function () { return Nt || "ltr" }, isRTL: function () { return "rtl" === Nt }, setDirection: function (e, t) { var n = t.split("-")[0]; Nt = -1 !== ["ar", "he", "fa", "ur", "ps", "dv", "yi"].indexOf(n) ? "rtl" : "ltr", e.setAttribute("dir", Nt || "ltr"), "ltr" === Nt ? e.css({ direction: "ltr", textAlign: "left" }) : e.css({ direction: "rtl", textAlign: "right" }) } }, Ot = { 400: "Rate limited or network error. Please retry.", 429: "Your computer or network has sent too many requests.", 500: "Cannot contact hCaptcha. Check your connection and try again." }, Ct = function (e) { try { return Ft.translate(Ot[e]) } catch (pr) { return !1 } }, Bt = "undefined" != typeof XDomainRequest && !("withCredentials" in XMLHttpRequest.prototype); function Pt(e, t, n) { n = n || {}; var r = { url: t, method: e.toUpperCase(), responseType: n.responseType || "string", dataType: n.dataType || null, withCredentials: n.withCredentials || !1, headers: n.headers || null, data: n.data || null, timeout: n.timeout || null, pst: n.pst || null }; r.legacy = r.withCredentials && Bt; var i = "fetch" in window && r.pst ? jt : Zt; return n.retry ? (n.retry.cancellable || !1 ? rt : nt)((function () { return n.data && (r.data = "function" == typeof n.data ? n.data() : n.data, "json" === r.dataType && "object" == typeof r.data ? r.data = JSON.stringify(r.data) : "query" === r.dataType && (r.data = Tt(r.data))), i(r) }), n.retry) : (n.data && (r.data = "function" == typeof n.data ? n.data() : n.data, "json" === r.dataType && "object" == typeof r.data ? r.data = JSON.stringify(r.data) : "query" === r.dataType && (r.data = Tt(r.data))), i(r)) } function Zt(e) { var t = e.legacy ? new XDomainRequest : new XMLHttpRequest, n = "function" == typeof e.url ? e.url() : e.url; return new Promise((function (r, i) { var o, a = function (o) { return function () { var a = t.response, s = t.statusText || "", c = t.status, l = t.readyState; if (a || "" !== t.responseType && "text" !== t.responseType || (a = t.responseText), 4 === l || e.legacy) { try { if (a) { var u = t.contentType; t.getResponseHeader && (u = t.getResponseHeader("content-type")); var h = -1 !== (u = u ? u.toLowerCase() : "").indexOf("application/json"); if ("ArrayBuffer" in window && a instanceof ArrayBuffer && h && (a = (new TextDecoder).decode(new Uint8Array(a))), "string" == typeof a) try { a = JSON.parse(a) } catch (p) { h && je("http", p, { url: n, config: e, responseType: t.responseType, contentType: u, response: a }) } } } catch (p) { return je("http", p, { contentType: u }), void i({ event: ce, endpoint: n, response: a, state: l, status: c, message: Ct(c || 400) || s }) } if ("error" === o || c >= 400 && c <= 511) return void i({ event: ce, endpoint: n, response: a, state: l, status: c, message: 409 === c && a.error || Ct(c || 400) || s }); r({ state: l, status: c, body: a, message: s }) } } }; if ((t.onload = a("complete"), t.onerror = t.ontimeout = a("error"), t.open(e.method, n), "arraybuffer" === e.responseType && (!e.legacy && "TextDecoder" in window && "ArrayBuffer" in window ? t.responseType = "arraybuffer" : (e.responseType = "json", e.headers.accept = "application/json")), e.timeout && (t.timeout = "function" == typeof e.timeout ? e.timeout(n) : e.timeout), !e.legacy) && (t.withCredentials = e.withCredentials, e.headers)) for (var s in e.headers) o = e.headers[s], t.setRequestHeader(s, o); setTimeout((function () { t.send(e.data) }), 0) })) } function jt(e) { var t, n = "function" == typeof e.url ? e.url() : e.url, r = new Headers; if ("json" === e.responseType && r.set("content-type", "application/json"), e.headers) for (var i in e.headers) t = e.headers[i], r.set(i, t); var o = { method: e.method, credentials: "include", body: e.data, headers: r }; if (e.pst) { var a = {}; "token-request" === e.pst ? a = { version: 1, operation: "token-request" } : "token-redemption" === e.pst ? a = { version: 1, operation: "token-redemption", refreshPolicy: "refresh" } : "send-redemption-record" === e.pst && (a = { version: 1, operation: "send-redemption-record", issuers: [ve.pstIssuer] }), o.privateToken = a } return new Promise((function (t, r) { fetch(n, o).then((function (i) { return 200 !== i.status ? r({ event: ce, endpoint: n, response: i, state: 4, status: i.status, message: Ct(i.status || 400) }) : ("arraybuffer" === e.responseType ? i.arrayBuffer() : "json" === e.responseType ? i.json() : i.text()).then((function (e) { t({ state: 4, status: i.status, body: e, message: Ct(i.status || 400) }) })) }))["catch"]((function (e) { r({ event: ce, endpoint: n, response: e.error, state: 4, status: 400, message: Ct(400) }) })) })) } var Gt = function (e, t) { if ("object" == typeof e && t === undefined && (e = (t = e).url), null === e) throw new Error("Url missing"); return Pt("GET", e, t) }, zt = ["svg", "gif", "png"]; function At(e, t) { t = t || {}; var n, r = e; if (0 === r.indexOf("data:image")) for (var i = !1, o = zt.length, a = -1; a++ < o && !i;)(i = r.indexOf(zt[a]) >= 0) && (n = zt[a]); else n = r.substr(r.lastIndexOf(".") + 1, r.length); !!(!document.createElementNS || !document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect) && t.fallback && (t.fallback.indexOf(".") >= 0 ? n = (r = t.fallback).substr(r.lastIndexOf(".") + 1, r.length) : (r = e.substr(0, e.indexOf(n)) + t.fallback, n = t.fallback)), t.prefix && (r = t.prefix + "/" + r), this.attribs = { crossOrigin: t.crossOrigin || null }, this.id = r, this.src = function (e) { if (ve.assethost && 0 === e.indexOf(ye.assetDomain)) return ve.assethost + e.replace(ye.assetDomain, ""); if (ve.imghost && e.indexOf("imgs") >= 0) { var t = e.indexOf(".ai") >= 0 ? e.indexOf(".ai") + 3 : e.indexOf(".com") + 4; return ve.imghost + e.substr(t, e.length) } return e }(r), this.ext = n, this.width = 0, this.height = 0, this.aspect = 0, this.loaded = !1, this.error = !1, this.element = null, this.cb = { load: [], error: [] } } function Jt(e, t, n) { for (var r = e[t], i = r.length, o = null; --i > -1;)o = r[i], r.splice(i, 1), o(n); "error" === t ? e.load = [] : e.error = [] } function Kt(e, t) { var n = e; t || (t = {}), t.prefix && (n = t.prefix + "/" + e), this.attribs = { defer: t.defer || null, async: t.async || null, crossOrigin: t.crossOrigin || null, integrity: t.integrity || null }, this.id = n, this.src = function (e) { if (ve.assethost && 0 === e.indexOf(ye.assetDomain)) return ve.assethost + e.replace(ye.assetDomain, ""); return e }(n), this.loaded = !1, this.error = !1, this.element = null, this.cb = { load: [], error: [] } } function Lt(e, t, n) { for (var r = e[t], i = r.length, o = null; --i > -1;)o = r[i], r.splice(i, 1), o(n); "error" === t ? e.load = [] : e.error = [] } function It(e, t) { var n = e; t || (t = {}), t.prefix && (n = t.prefix + "/" + e), this.responseType = t.responseType, this.id = n, this.src = function (e) { if (ve.assethost && 0 === e.indexOf(ye.assetDomain)) return ve.assethost + e.replace(ye.assetDomain, ""); return e }(n), this.loaded = !1, this.error = !1, this.cb = { load: [], error: [] }, this.data = null } function qt(e, t, n) { for (var r = e[t], i = r.length, o = null; --i > -1;)o = r[i], r.splice(i, 1), o(n); "error" === t ? e.load = [] : e.error = [] } function Dt(e, t) { t = t || {}, this._videoElement = document.createElement("video"), this.attribs = { crossOrigin: t.crossOrigin || null }; var n, r = e; n = "probably" === this._videoElement.canPlayType('video/webm; codecs="vp9, opus"') || "probably" === this._videoElement.canPlayType('video/webm; codecs="vp8, vorbis"') ? "webm" : "mp4", t.prefix && (r = t.prefix + "/" + r), this.id = r, this.src = function (e) { if (ve.assethost && 0 === e.indexOf(ye.assetDomain)) return ve.assethost + e.replace(ye.assetDomain, ""); if (ve.imghost && e.indexOf("imgs") >= 0) { var t = e.indexOf(".ai") >= 0 ? e.indexOf(".ai") + 3 : e.indexOf(".com") + 4; return ve.imghost + e.substr(t, e.length) } return e }(r), this.ext = n, this.width = 0, this.height = 0, this.aspect = 0, this.loaded = !1, this.error = !1, this.element = null, this.callbacks = { load: [], error: [] } } function Ht(e, t, n) { for (var r = e[t], i = r.length, o = null; --i > -1;)o = r[i], r.splice(i, 1), o(n); "error" === t ? e.load = [] : e.error = [] } At.prototype.load = function () { return ("svg" === this.ext ? this._loadSvg() : this._loadImg())["catch"]((function (e) { throw Ze("Asset failed", "error", "assets", { error: e }), e })) }, At.prototype._loadSvg = function () { var e, t = this, n = this.src, r = this.id; if (0 === n.indexOf("data:image/svg+xml")) { var i = n.slice("data:image/svg+xml,".length); e = Promise.resolve(decodeURIComponent(i)) } else e = Gt(n).then((function (e) { return e.body })); return e.then((function (e) { var n = (new DOMParser).parseFromString(e, "image/svg+xml").documentElement, r = parseInt(n.getAttribute("width")), i = parseInt(n.getAttribute("height")); return t._imgLoaded(n, r, i), t }))["catch"]((function (e) { t.error = !0; var n = (e && e.message ? e.message : e || "Loading Error") + ": " + r; throw Jt(t.cb, "error", n), n })) }, At.prototype._loadImg = function () { var e = this, t = this.attribs, n = this.src, r = this.id; return new Promise((function (i, o) { function a() { e.loaded || (e._imgLoaded(s, s.width, s.height), s.onload = s.onerror = null, i(e)) } var s = new Image; t.crossOrigin && (s.crossOrigin = t.crossOrigin), s.onerror = function () { e.error = !0, s.onload = s.onerror = null; var t = "Loading Error: " + r; Jt(e.cb, "error", t), o(t) }, s.onload = a, s.src = n, s.complete && a() })) }, At.prototype._imgLoaded = function (e, t, n) { this.element = new _t(e), this.width = t, this.height = n, this.aspect = t / n, this.loaded = !0, Jt(this.cb, "load", this) }, At.prototype.onload = function (e) { this.error || (this.loaded ? e(this) : this.cb.load.push(e)) }, At.prototype.onerror = function (e) { this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e)) }, Kt.prototype.load = function () { var e = this, t = this.attribs, n = this.src, r = this.id; return new Promise((function (i, o) { var a = document.createElement("script"); e.element = a, a.onerror = function () { e.error = !0, a.onload = a.onreadystatechange = a.onerror = null; var t = new Error("Loading Error: " + r); Lt(e.cb, "error", t), o(t) }, a.onload = a.onreadystatechange = function () { this.loaded || a.readyState && "loaded" !== a.readyState && "complete" !== a.readyState || (e.loaded = !0, a.onload = a.onreadystatechange = a.onerror = null, document.body.removeChild(a), Lt(e.cb, "load", e), i(e)) }, a.type = "text/javascript", a.src = n, t.crossOrigin && (a.crossorigin = t.crossOrigin), t.async && (a.async = !0), t.defer && (a.defer = !0), t.integrity && (a.integrity = t.integrity), document.body.appendChild(a), a.complete && a.onload() })) }, Kt.prototype.onload = function (e) { this.error || (this.loaded ? e(this) : this.cb.load.push(e)) }, Kt.prototype.onerror = function (e) { this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e)) }, It.prototype.load = function () { var e = this, t = this.src, n = this.id; return new Promise((function (r, i) { var o = {}; "arraybuffer" === e.responseType ? o.responseType = "arraybuffer" : t.indexOf("json") >= 0 && (o.responseType = "json"), Gt(t, o).then((function (t) { e.loaded = !0, e.data = t.body, qt(e.cb, "load", e), r(e) }))["catch"]((function (t) { e.error = !0; var r = (t && t.message ? t.message : "Loading Error") + ": " + n; qt(e.cb, "error", r), i(r) })) })) }, It.prototype.onload = function (e) { this.error || (this.loaded ? e(this) : this.cb.load.push(e)) }, It.prototype.onerror = function (e) { this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e)) }, Dt.prototype.load = function () { var e = this, t = this.attribs, n = this.src, r = this.id; return new Promise((function (i, o) { var a = e._videoElement; t.crossOrigin && (a.crossOrigin = t.crossOrigin), a.playsInline = !0, a.preload = "metadata", "ios" === ee.System.os && a.setAttribute("webkit-playsinline", ""), a.src = n + "." + e.ext, a.onerror = function () { e.error = !0, a.onloadedmetadata = a.onerror = null; var t = "Loading Error: " + r; Ht(e.callbacks, "error", t), o(t) }, a.onloadedmetadata = function () { if (!e.loaded) { var t = a.videoWidth, n = a.videoHeight; e.element = new _t(a), e.width = t, e.height = n, e.aspect = t / n, e.loaded = !0, a.onloadedmetadata = a.onerror = null, Ht(e.callbacks, "load", e), i(e) } }, a.load() }))["catch"]((function (e) { throw Ze("Asset failed", "error", "assets", { error: e }), e })) }, Dt.prototype.onload = function (e) { this.error || (this.loaded ? e(this) : this.callbacks.load.push(e)) }, Dt.prototype.onerror = function (e) { this.loaded && !this.error || (this.error ? e(this) : this.callbacks.error.push(e)) }; var Xt = [], Yt = function (e, t) { var n = new It(e, t); return Xt.push(n), n.load() }, $t = function (e) { return new Promise((function (t, n) { for (var r = Xt.length, i = !1, o = null; --r > -1 && !i;)i = (o = Xt[r]).id === e || -1 !== o.id.indexOf("/" === e[0] ? "" : "/" + e); if (!i) return t(null); o.onload(t), o.onerror(n) })) }, Qt = [], en = !1, tn = !1; function nn() { document.addEventListener ? (document.addEventListener("DOMContentLoaded", on), window.addEventListener("load", on)) : (document.attachEvent("onreadystatechange", rn), window.attachEvent("onload", on)), en = !0 } function rn() { "interactive" !== document.readyState && "loaded" !== document.readyState && "complete" !== document.readyState || on() } function on() { if (!1 === tn) { for (var e = 0; e < Qt.length; e++)Qt[e].fn.apply(null, Qt[e].args); Qt = [] } tn = !0, document.removeEventListener ? (document.removeEventListener("DOMContentLoaded", on), window.removeEventListener("load", on)) : (document.detachEvent("onreadystatechange", rn), window.detachEvent("onload", on)) } new _t(document); var an = new _t(window), sn = { touchstart: "ts", touchend: "te", touchmove: "tm", touchcancel: "tc" }, cn = { mousedown: "md", mouseup: "mu", mousemove: "mm" }, ln = { pointermove: "pm" }, un = { keydown: "kd", keyup: "ku" }, hn = { devicemotion: "dm" }, pn = function (e, t) { var n = cn[e], r = null; return function (e) { r = function (e) { return [e.windowX, e.windowY, Date.now()] }(e), t(n, r) } }, dn = function (e, t) { var n = ln[e], r = null; return function (e) { r = function (e) { var t = [], n = []; e.getCoalescedEvents && (n = e.getCoalescedEvents()); for (var r = 0; r < n.length; r++) { var i = n[r]; t.push([i.x, i.y, Date.now()]) } return t }(e); for (var i = 0; i < r.length; i++)t(n, r[i]) } }, fn = function (e, t) { var n = sn[e], r = null; return function (e) { r = function (e) { var t = []; try { var n, r; if (e.touches && e.touches.length >= 1 ? n = e.touches : e.changedTouches && e.changedTouches.length >= 1 && (n = e.changedTouches), n) { for (var i = 0; i < n.length; i++)(r = kt.eventCoords(n[i])) && t.push([n[i].identifier, r.x, r.y]); t.push(Date.now()) } return t } catch (pr) { return t } }(e), t(n, r) } }, mn = function (e, t) { var n = un[e], r = null; return function (e) { r = function (e) { return [e.keyNum, Date.now()] }(e), t(n, r) } }, gn = function (e, t) { var n = hn[e], r = null, i = []; return function (e) { r = function (e, t) { (e.acceleration === undefined || e.acceleration && e.acceleration.x === undefined) && (e.acceleration = { x: 0, y: 0, z: 0 }); (e.rotationRate === undefined || e.rotationRate && e.rotationRate.alpha === undefined) && (e.rotationRate = { alpha: 0, beta: 0, gamma: 0 }); var n = [e.acceleration.x, e.acceleration.y, e.acceleration.z, e.rotationRate.alpha, e.rotationRate.beta, e.rotationRate.gamma, Date.now()], r = []; if (0 === t.length) t = n, r = n; else { for (var i, o = 0, a = 0; a < 6; a++)i = t[a] - n[a], r.push(n[a]), o += Math.abs(i); if (r.push(Date.now()), t = n, o <= 0) return null } return { motion: r, prevmotion: t } }(e, i), null !== r && (i = r.prevmotion, r = r.motion, t(n, r)) } }; function yn() { this._manifest = {}, this.state = { timeBuffers: {}, loadTime: Date.now(), recording: !1, initRecord: !1, record: { mouse: !0, touch: !0, keys: !1, motion: !1 } }, this._recordEvent = this._recordEvent.bind(this) } yn.prototype.record = function (e, t, n, r) { if (this._manifest.st = Date.now(), this.state.record.mouse = e === undefined ? this.state.record.mouse : e, this.state.record.touch = n === undefined ? this.state.record.touch : n, this.state.record.keys = t === undefined ? this.state.record.keys : t, this.state.record.motion = r === undefined ? this.state.record.motion : r, !1 === this.state.initRecord) { var i = new _t(document.body); this.state.record.mouse && (i.addEventListener("mousedown", pn("mousedown", this._recordEvent), !0), i.addEventListener("mousemove", pn("mousemove", this._recordEvent), !0), i.addEventListener("mouseup", pn("mouseup", this._recordEvent), !0), i.addEventListener("pointermove", dn("pointermove", this._recordEvent), !0)), !0 === this.state.record.keys && (i.addEventListener("keyup", mn("keyup", this._recordEvent), !0), i.addEventListener("keydown", mn("keydown", this._recordEvent), !0)), this.state.record.touch && !0 === ee.Browser.hasEvent("touchstart", document.body) && (i.addEventListener("touchstart", fn("touchstart", this._recordEvent), !0), i.addEventListener("touchmove", fn("touchmove", this._recordEvent), !0), i.addEventListener("touchend", fn("touchend", this._recordEvent), !0)), this.state.record.motion && !0 === ee.Browser.hasEvent("devicemotion", window) && i.addEventListener("devicemotion", gn("devicemotion", this._recordEvent), !0), this.state.initRecord = !0 } this.state.recording = !0 }, yn.prototype.stop = function () { this.state.recording = !1 }, yn.prototype.time = function () { return this.state.loadTime }, yn.prototype.getData = function () { for (var e in this.state.timeBuffers) this._manifest[e] = this.state.timeBuffers[e].getData(), this._manifest[e + "-mp"] = this.state.timeBuffers[e].getMeanPeriod(); return this._manifest }, yn.prototype.setData = function (e, t) { this._manifest[e] = t }, yn.prototype.resetData = function () { this._manifest = {}, this.state.timeBuffers = {} }, yn.prototype.circBuffPush = function (e, t) { this._recordEvent(e, t) }, yn.prototype._recordEvent = function (e, t) { if (!1 !== this.state.recording) try { var n = t[t.length - 1]; if (!this.state.timeBuffers[e]) { var r = "mm" === e || "pm" === e ? 256 : 128; this.state.timeBuffers[e] = new et(16, 15e3, 0, r) } this.state.timeBuffers[e].push(n, t) } catch (hr) { je("motion", hr) } }; var vn, wn, bn, Vn, En, _n, kn = new yn; try { vn = function () { var e = { _klvW: 0, _9KJJkWE1H: 0, _zwqB5Gv: [], _xMjKyUZ: [], _7LZG419A: [], _rsjZJJgd: {}, _oao6LSn8: window, _BiHaqQpz: [function (e) { var t = e._LCscAEUbu[e._klvW++], n = e._LCscAEUbu[e._klvW++], r = -1 == t ? e._xMjKyUZ : e._7LZG419A[t]; e._zwqB5Gv.push(r[n]) }, function (e) { e._zwqB5Gv.push(e._zwqB5Gv[e._zwqB5Gv.length - 1]) }, function (e) { var t = e._LCscAEUbu[e._klvW++]; e._9KJJkWE1H = t }, function (e) { e._zwqB5Gv.push(mt) }, function (e) { e._zwqB5Gv.pop() }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++]; e._xMjKyUZ[r] = t; for (var i = 0; i < n; i++)e._xMjKyUZ[e._LCscAEUbu[e._klvW++]] = t[i] }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++]; (-1 == n ? e._xMjKyUZ : e._7LZG419A[n])[r] = t }, function (e) { var t = e._LCscAEUbu[e._klvW++], n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = -1 == t ? e._xMjKyUZ : e._7LZG419A[t]; r ? e._zwqB5Gv.push(++i[n]) : e._zwqB5Gv.push(i[n]++) }, function (e) { e._zwqB5Gv.push(e._LCscAEUbu[e._klvW++]) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n === t) }, function (e) { e._zwqB5Gv.push(undefined) }, function (e) { var t = e._zwqB5Gv.pop(); e._zwqB5Gv.push(!t) }, function (e) { var n = e._9KJJkWE1H, r = e._LCscAEUbu[e._klvW++], i = e._zwqB5Gv.length; try { t(e) } catch (o) { e._zwqB5Gv.length = i, e._zwqB5Gv.push(o), e._klvW = r, t(e) } e._9KJJkWE1H = n }, function (e) { var n = e._zwqB5Gv.pop(), r = function () { var i = !1, o = Array.prototype.slice.call(arguments); o.length > 0 && o[0] && o[0]._l ? o = o.splice(1, o.length - 1) : i = !0; var a = e._oao6LSn8, s = e._9KJJkWE1H, c = e._7LZG419A; if (e._zwqB5Gv.push(e._klvW), e._zwqB5Gv.push(e._oao6LSn8), e._zwqB5Gv.push(e._xMjKyUZ), e._zwqB5Gv.push(o), e._zwqB5Gv.push(r), e._9KJJkWE1H = e._klvW, e._klvW = n, e._oao6LSn8 = this, e._7LZG419A = r._r, t(e), e._oao6LSn8 = a, e._9KJJkWE1H = s, e._7LZG419A = c, i) return e._zwqB5Gv.pop() }; r._l = {}, r._r = Array.prototype.slice.call(e._7LZG419A), e._zwqB5Gv.push(r) }, function (e) { e._zwqB5Gv.push(sentryError) }, function (e) { for (var t = e._LCscAEUbu[e._klvW++], n = {}, r = 0; r < t; r++) { var i = e._zwqB5Gv.pop(); n[e._zwqB5Gv.pop()] = i } e._zwqB5Gv.push(n) }, function (e) { for (var t = e._LCscAEUbu[e._klvW++], n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = decodeURIComponent(atob(e._hwoYPQY.slice(t, t + n))), o = "", a = 0; a < i.length; a++)o += String.fromCharCode((256 + i.charCodeAt(a) + r) % 256); e._zwqB5Gv.push(o) }, function (e) { e._zwqB5Gv.push(null) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(delete n[t]) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n instanceof t) }, function () { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++]; e._xMjKyUZ = t, e._7LZG419A[n] = t }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(), r = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n[t] = r) }, function (e) { var t = e._zwqB5Gv.pop(); e._zwqB5Gv.push(+t) }, function (e) { e._rsjZJJgd[e._zwqB5Gv[e._zwqB5Gv.length - 1]] = e._zwqB5Gv[e._zwqB5Gv.length - 2] }, function (e) { e._zwqB5Gv.push(_t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(), r = n[t]; "function" == typeof r && Object.getPrototypeOf(n) !== Object.prototype && (r = r.bind(n)), e._zwqB5Gv.push(r) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n < t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n ^ t) }, function (e) { e._zwqB5Gv.push(ft) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(), r = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n[t] += r) }, function (e) { e._zwqB5Gv.push(!!e._LCscAEUbu[e._klvW++]) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n + t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n - t) }, function (e) { e._zwqB5Gv.pop(), e._zwqB5Gv.push(void 0) }, function () { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(), r = !1; t._l !== undefined && (r = !0, n.splice(0, 0, { _l: {} })); var i = new (Function.prototype.bind.apply(t, [null].concat(n))); r && e._zwqB5Gv.pop(), e._zwqB5Gv.push(i) }, function (e) { var t = e._zwqB5Gv.pop(); e._zwqB5Gv.push(window[t]) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); if (t && t._l !== undefined) n.splice(0, 0, { _l: {} }), t.apply(e._oao6LSn8, n); else { var r = t.apply(e._oao6LSn8, n); e._zwqB5Gv.push(r) } }, function (e) { var t = e._zwqB5Gv.pop(); e._zwqB5Gv.push(typeof t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n <= t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = -1 == n ? e._xMjKyUZ : e._7LZG419A[n]; e._zwqB5Gv.push(i[r] |= t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n >= t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n | t) }, function (e) { e._zwqB5Gv.push(kt) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n * t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n in t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n & t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = -1 == n ? e._xMjKyUZ : e._7LZG419A[n]; e._zwqB5Gv.push(i[r] ^= t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n / t) }, function (e) { e._zwqB5Gv.push(Ze) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n !== t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n > t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = -1 == n ? e._xMjKyUZ : e._7LZG419A[n]; e._zwqB5Gv.push(i[r] = t) }, function (e) { e._zwqB5Gv.push(e._oao6LSn8) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n == t) }, function (e) { for (var t = e._LCscAEUbu[e._klvW++], n = [], r = 0; r < t; r++)n.push(e._zwqB5Gv.pop()); e._zwqB5Gv.push(n) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++]; t || (e._klvW = n) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n >>> t) }, function () { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++]; e._7LZG419A[n] ? e._xMjKyUZ = e._7LZG419A[n] : (e._xMjKyUZ = t, e._7LZG419A[n] = t) }, function (e) { e._zwqB5Gv.push(mt) }, function (e) { e._zwqB5Gv.push(mt) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n != t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._zwqB5Gv.pop(); e._zwqB5Gv.push(n << t) }, function (e) { e._klvW = e._zwqB5Gv.splice(e._zwqB5Gv.length - 4, 1)[0], e._oao6LSn8 = e._zwqB5Gv.splice(e._zwqB5Gv.length - 3, 1)[0], e._xMjKyUZ = e._zwqB5Gv.splice(e._zwqB5Gv.length - 2, 1)[0] }, function (e) { var t = e._zwqB5Gv.pop(); e._zwqB5Gv.push(-t) }, function (e) { var t = e._zwqB5Gv.pop(), n = e._LCscAEUbu[e._klvW++], r = e._LCscAEUbu[e._klvW++], i = -1 == n ? e._xMjKyUZ : e._7LZG419A[n]; e._zwqB5Gv.push(i[r] += t) }], _LCscAEUbu: [54, 0, 57, 0, 8, 14, 13, 6, -1, 0, 30, 0, 55, 113, 54, 0, 20, 1, 4, 5, 1, 0, 1, 0, -1, 1, 16, 2140, 24, -7, 9, 55, 44, 0, 0, 99, 30, 0, 55, 112, 30, 0, 55, 54, 0, -1, 1, 16, 2668, 40, -19, 9, 55, 65, 0, 0, 100, 30, 0, 55, 112, 30, 0, 55, 75, 0, -1, 1, 16, 6052, 48, -17, 9, 55, 86, 0, 0, 101, 30, 0, 55, 112, 30, 0, 55, 90, 30, 0, 55, 99, 17, 30, 0, 55, 112, 30, 0, 55, 103, 30, 0, 55, 90, 16, 7100, 16, 12, 35, 30, 0, 55, 112, 62, 8, 123, 13, 6, -1, 1, 30, 0, 55, 222, 54, 0, 20, 2, 4, 5, 1, 0, 1, 0, -1, 1, 16, 1816, 20, -8, 9, 55, 153, 0, 0, 102, 30, 0, 55, 221, 30, 0, 55, 163, 0, -1, 1, 16, 3496, 16, 15, 9, 55, 174, 0, 0, 103, 30, 0, 55, 221, 30, 0, 55, 184, 0, -1, 1, 16, 1908, 12, -1, 9, 55, 195, 0, 0, 104, 30, 0, 55, 221, 30, 0, 55, 199, 30, 0, 55, 208, 17, 30, 0, 55, 221, 30, 0, 55, 212, 30, 0, 55, 199, 16, 7100, 16, 12, 35, 30, 0, 55, 221, 62, 8, 232, 13, 6, -1, 2, 30, 0, 55, 310, 54, 0, 20, 3, 4, 5, 1, 0, 1, 0, -1, 1, 16, 5340, 16, -7, 9, 55, 262, 0, 0, 106, 30, 0, 55, 309, 30, 0, 55, 272, 0, -1, 1, 16, 7520, 32, -18, 9, 55, 283, 0, 0, 107, 30, 0, 55, 309, 30, 0, 55, 287, 30, 0, 55, 296, 17, 30, 0, 55, 309, 30, 0, 55, 300, 30, 0, 55, 287, 16, 7100, 16, 12, 35, 30, 0, 55, 309, 62, 8, 320, 13, 6, -1, 3, 30, 0, 55, 377, 54, 0, 20, 4, 4, 5, 1, 0, 1, 0, -1, 1, 16, 4492, 28, 20, 9, 55, 350, 0, 0, 108, 30, 0, 55, 376, 30, 0, 55, 354, 30, 0, 55, 363, 17, 30, 0, 55, 376, 30, 0, 55, 367, 30, 0, 55, 354, 16, 7100, 16, 12, 35, 30, 0, 55, 376, 62, 8, 387, 13, 6, -1, 4, 30, 0, 55, 427, 54, 0, 20, 5, 4, 5, 1, 0, 1, 0, -1, 1, 16, 956, 28, -11, 9, 55, 417, 0, 0, 114, 30, 0, 55, 426, 30, 0, 55, 417, 16, 7100, 16, 12, 35, 30, 0, 55, 426, 62, 8, 437, 13, 6, -1, 5, 30, 0, 55, 788, 54, 0, 20, 6, 4, 5, 1, 0, 1, 0, -1, 1, 16, 4672, 8, -11, 9, 55, 467, 0, 0, 111, 30, 0, 55, 787, 30, 0, 55, 477, 0, -1, 1, 16, 7588, 12, -14, 9, 55, 488, 0, 0, 112, 30, 0, 55, 787, 30, 0, 55, 498, 0, -1, 1, 16, 1852, 8, -8, 9, 55, 509, 0, 0, 113, 30, 0, 55, 787, 30, 0, 55, 519, 0, -1, 1, 16, 3856, 4, 8, 9, 55, 530, 0, 0, 110, 30, 0, 55, 787, 30, 0, 55, 540, 0, -1, 1, 16, 5552, 8, -1, 9, 55, 551, 0, 0, 119, 30, 0, 55, 787, 30, 0, 55, 561, 0, -1, 1, 16, 3248, 20, -21, 9, 55, 572, 0, 0, 120, 30, 0, 55, 787, 30, 0, 55, 582, 0, -1, 1, 16, 8808, 12, -11, 9, 55, 593, 0, 0, 121, 30, 0, 55, 787, 30, 0, 55, 603, 0, -1, 1, 16, 4900, 16, -15, 9, 55, 614, 0, 0, 122, 30, 0, 55, 787, 30, 0, 55, 624, 0, -1, 1, 16, 3740, 8, 18, 9, 55, 635, 0, 0, 123, 30, 0, 55, 787, 30, 0, 55, 645, 0, -1, 1, 16, 7360, 4, -6, 9, 55, 656, 0, 0, 116, 30, 0, 55, 787, 30, 0, 55, 666, 0, -1, 1, 16, 8608, 8, 18, 9, 55, 677, 0, 0, 117, 30, 0, 55, 787, 30, 0, 55, 687, 0, -1, 1, 16, 7652, 4, -7, 9, 55, 698, 0, 0, 118, 30, 0, 55, 787, 30, 0, 55, 708, 0, -1, 1, 16, 6712, 4, 1, 9, 55, 719, 0, 0, 115, 30, 0, 55, 787, 30, 0, 55, 729, 0, -1, 1, 16, 992, 4, 21, 9, 55, 740, 0, 0, 124, 30, 0, 55, 787, 30, 0, 55, 750, 0, -1, 1, 16, 688, 12, -13, 9, 55, 761, 0, 0, 125, 30, 0, 55, 787, 30, 0, 55, 765, 30, 0, 55, 774, 17, 30, 0, 55, 787, 30, 0, 55, 778, 30, 0, 55, 765, 16, 7100, 16, 12, 35, 30, 0, 55, 787, 62, 8, 798, 13, 6, -1, 6, 30, 0, 55, 884, 54, 0, 20, 7, 4, 5, 2, 0, 1, 2, 8, 815, 13, 30, 0, 55, 879, 54, 0, 20, 8, 6, -1, 0, 5, 2, 1, 2, 3, 8, 834, 13, 30, 0, 55, 874, 54, 0, 20, 9, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 0, 7, 2, 36, 0, 8, 2, 54, 1, 0, 7, 1, 36, 54, 2, 0, 8, 3, 36, 30, 0, 55, 873, 62, 30, 0, 55, 878, 62, 30, 0, 55, 883, 62, 8, 894, 13, 6, -1, 7, 30, 0, 55, 1034, 54, 0, 20, 10, 4, 5, 2, 0, 1, 2, 8, 911, 13, 30, 0, 55, 1029, 54, 0, 20, 11, 6, -1, 0, 5, 2, 1, 2, 3, 8, 930, 13, 30, 0, 55, 1024, 54, 0, 20, 12, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 0, 10, 2, 36, 6, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 1014, 0, -1, 3, 0, -1, 5, 25, 0, 11, 2, 54, 1, 0, 10, 1, 36, 54, 2, 0, 11, 3, 36, 30, 0, 55, 1023, 8, 1, 64, -1, 5, 4, 30, 0, 55, 969, 16, 7100, 16, 12, 35, 30, 0, 55, 1023, 62, 30, 0, 55, 1028, 62, 30, 0, 55, 1033, 62, 8, 1044, 13, 6, -1, 8, 30, 0, 55, 1161, 54, 0, 20, 13, 4, 5, 1, 0, 1, 0, -1, 1, 16, 3748, 8, 2, 25, 0, -1, 1, 16, 5172, 20, 7, 25, 53, 1, 55, 1091, 4, 0, -1, 1, 16, 1076, 16, -21, 25, 0, -1, 1, 16, 2572, 32, -20, 25, 53, 6, -1, 2, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 2, 55, 1118, 8, 1, 30, 0, 55, 1120, 8, 0, 0, -1, 1, 16, 1588, 16, 11, 25, 55, 1136, 8, 1, 30, 0, 55, 1138, 8, 0, 0, -1, 1, 16, 6700, 12, 13, 25, 0, -1, 1, 16, 6876, 12, 20, 25, 54, 5, 30, 0, 55, 1160, 62, 8, 1171, 13, 6, -1, 9, 30, 0, 55, 1330, 54, 0, 20, 14, 4, 5, 1, 0, 1, 54, 0, 6, -1, 2, 54, 0, 6, -1, 3, 0, -1, 1, 16, 8056, 64, -13, 25, 55, 1215, 54, 0, 0, -1, 1, 16, 8056, 64, -13, 25, 36, 51, -1, 3, 4, 8, 0, 6, -1, 4, 0, -1, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 26, 55, 1322, 0, -1, 3, 0, -1, 4, 25, 6, -1, 5, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 5, 16, 4936, 8, -7, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 0, -1, 5, 16, 3704, 4, 6, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 54, 3, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 4, 0, 4, 30, 0, 55, 1220, 0, -1, 2, 30, 0, 55, 1329, 62, 8, 1340, 13, 6, -1, 10, 30, 0, 55, 1371, 54, 0, 20, 15, 4, 5, 1, 0, 1, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 8, 0, 54, 2, 30, 0, 55, 1370, 62, 8, 1381, 13, 6, -1, 11, 30, 0, 55, 1669, 54, 0, 20, 16, 4, 5, 1, 0, 1, 54, 0, 6, -1, 2, 12, 1649, 0, -1, 1, 16, 3964, 32, -14, 25, 1, 55, 1425, 4, 0, -1, 1, 16, 3964, 32, -14, 25, 16, 5860, 12, 13, 25, 8, 1, 40, 55, 1443, 0, -1, 1, 16, 3964, 32, -14, 25, 51, -1, 3, 4, 30, 0, 55, 1485, 0, -1, 1, 16, 1052, 24, 14, 25, 1, 55, 1471, 4, 0, -1, 1, 16, 1052, 24, 14, 25, 16, 5860, 12, 13, 25, 8, 1, 40, 55, 1485, 0, -1, 1, 16, 1052, 24, 14, 25, 51, -1, 3, 4, 0, -1, 3, 55, 1636, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 3, 16, 5860, 12, 13, 25, 26, 55, 1611, 0, -1, 3, 0, -1, 5, 25, 54, 1, 42, 16, 3876, 16, 0, 25, 36, 51, -1, 4, 4, 0, -1, 4, 55, 1602, 0, -1, 4, 16, 4936, 8, -7, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 0, -1, 4, 16, 3704, 4, 6, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 0, -1, 3, 0, -1, 5, 25, 16, 4164, 32, -15, 25, 54, 3, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 5, 0, 4, 30, 0, 55, 1495, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 2, 30, 0, 55, 1668, 2, 1645, 30, 0, 55, 1659, 6, -1, 6, 0, -1, 2, 30, 0, 55, 1668, 16, 7100, 16, 12, 35, 30, 0, 55, 1668, 62, 8, 1679, 13, 6, -1, 12, 30, 0, 55, 1962, 54, 0, 20, 17, 4, 5, 1, 0, 1, 0, -1, 1, 16, 1308, 28, 6, 25, 8, 0, 33, 9, 1, 11, 55, 1734, 4, 0, -1, 1, 16, 1308, 28, 6, 25, 1, 55, 1734, 4, 0, -1, 1, 16, 1308, 28, 6, 25, 16, 3704, 4, 6, 25, 8, 0, 33, 9, 55, 1765, 16, 7504, 8, -9, 8, 0, 16, 4936, 8, -7, 8, 0, 16, 3704, 4, 6, 8, 0, 15, 3, 0, -1, 1, 16, 1308, 28, 6, 21, 4, 0, -1, 1, 16, 4140, 24, 4, 25, 8, 0, 33, 9, 1, 11, 55, 1811, 4, 0, -1, 1, 16, 4140, 24, 4, 25, 1, 55, 1811, 4, 0, -1, 1, 16, 4140, 24, 4, 25, 16, 480, 12, -12, 25, 8, 0, 33, 9, 55, 1842, 16, 5912, 12, 6, 8, 0, 16, 1896, 12, 6, 8, 0, 16, 480, 12, -12, 8, 0, 15, 3, 0, -1, 1, 16, 4140, 24, 4, 21, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 2024, 16, 20, 25, 1, 11, 55, 1871, 4, 8, 2, 63, 0, -1, 1, 16, 4140, 24, 4, 25, 16, 5912, 12, 6, 25, 0, -1, 1, 16, 4140, 24, 4, 25, 16, 1896, 12, 6, 25, 0, -1, 1, 16, 4140, 24, 4, 25, 16, 480, 12, -12, 25, 0, -1, 1, 16, 1308, 28, 6, 25, 16, 7504, 8, -9, 25, 0, -1, 1, 16, 1308, 28, 6, 25, 16, 4936, 8, -7, 25, 0, -1, 1, 16, 1308, 28, 6, 25, 16, 3704, 4, 6, 25, 54, 8, 6, -1, 2, 0, -1, 2, 30, 0, 55, 1961, 62, 8, 1972, 13, 6, -1, 13, 30, 0, 55, 2187, 54, 0, 20, 18, 4, 5, 0, 0, 15, 0, 52, 16, 384, 24, -12, 21, 4, 16, 1196, 24, -1, 54, 0, 16, 6204, 16, 21, 16, 7692, 44, -21, 30, 1, 16, 3784, 16, -12, 30, 1, 16, 1768, 12, 18, 30, 1, 16, 1920, 32, -18, 30, 1, 15, 4, 16, 5592, 16, -8, 30, 0, 16, 0, 24, 18, 30, 0, 16, 8384, 20, 15, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 16, 5316, 24, -10, 15, 0, 15, 6, 52, 16, 6584, 8, 15, 21, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 135, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 136, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 137, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 138, 21, 4, 52, 54, 1, 52, 16, 6228, 48, -16, 25, 16, 5080, 8, -8, 25, 36, 52, 16, 6228, 48, -16, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 2186, 62, 8, 2197, 13, 6, -1, 14, 30, 0, 55, 2446, 54, 0, 20, 19, 4, 5, 1, 0, 1, 0, 0, 142, 55, 2244, 0, -1, 1, 54, 1, 0, 0, 142, 16, 7768, 12, 9, 25, 36, 6, -1, 2, 0, -1, 2, 8, 0, 33, 49, 55, 2244, 0, -1, 2, 30, 0, 55, 2445, 54, 0, 0, -1, 1, 16, 4956, 16, 4, 25, 16, 208, 20, -5, 25, 36, 6, -1, 3, 0, -1, 1, 16, 524, 4, -3, 25, 1, 11, 55, 2280, 4, 16, 1048, 0, -21, 6, -1, 4, 0, -1, 1, 16, 3324, 12, -15, 25, 1, 11, 55, 2300, 4, 16, 1048, 0, -21, 6, -1, 5, 0, -1, 1, 16, 1620, 8, -1, 25, 1, 11, 55, 2320, 4, 16, 1048, 0, -21, 6, -1, 6, 0, -1, 1, 16, 2788, 12, -5, 25, 1, 11, 55, 2340, 4, 16, 1048, 0, -21, 6, -1, 7, 0, -1, 1, 16, 5952, 36, -18, 25, 1, 11, 55, 2360, 4, 16, 1048, 0, -21, 6, -1, 8, 0, -1, 1, 54, 1, 0, 0, 15, 36, 6, -1, 9, 0, -1, 3, 0, -1, 4, 31, 0, -1, 5, 31, 0, -1, 6, 31, 0, -1, 7, 31, 0, -1, 8, 31, 0, -1, 9, 31, 6, -1, 10, 0, -1, 10, 54, 1, 28, 36, 6, -1, 11, 0, 0, 142, 55, 2438, 0, -1, 11, 0, -1, 1, 54, 2, 0, 0, 142, 16, 5540, 4, 17, 25, 36, 4, 0, -1, 11, 30, 0, 55, 2445, 62, 8, 2456, 13, 6, -1, 15, 30, 0, 55, 2873, 54, 0, 20, 20, 4, 5, 1, 0, 1, 0, -1, 1, 16, 524, 4, -3, 25, 16, 1048, 0, -21, 49, 55, 2502, 16, 6032, 20, -17, 0, -1, 1, 16, 524, 4, -3, 25, 31, 16, 7560, 4, -17, 31, 30, 0, 55, 2872, 0, -1, 1, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 9, 55, 2526, 16, 2952, 24, -9, 30, 0, 55, 2872, 16, 1048, 0, -21, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 1, 16, 8968, 48, -21, 25, 55, 2865, 0, -1, 3, 0, 0, 140, 50, 55, 2561, 30, 0, 55, 2865, 8, 0, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 1, 16, 8968, 48, -21, 25, 16, 4560, 36, -19, 25, 16, 5860, 12, 13, 25, 6, -1, 6, 0, 0, 141, 0, -1, 6, 54, 2, 16, 8312, 8, -4, 35, 16, 492, 4, -4, 25, 36, 6, -1, 7, 8, 0, 6, -1, 8, 0, -1, 8, 0, -1, 7, 26, 55, 2700, 0, -1, 1, 16, 8968, 48, -21, 25, 16, 4560, 36, -19, 25, 0, -1, 8, 25, 6, -1, 9, 0, -1, 9, 16, 7396, 12, -11, 25, 0, -1, 1, 16, 7396, 12, -11, 25, 9, 55, 2691, 0, -1, 9, 0, -1, 1, 9, 55, 2686, 0, -1, 4, 8, 1, 31, 51, -1, 5, 4, 7, -1, 4, 0, 4, 7, -1, 8, 0, 4, 30, 0, 55, 2619, 16, 3324, 12, -15, 54, 1, 0, -1, 1, 16, 6392, 56, -14, 25, 36, 1, 55, 2739, 4, 16, 3324, 12, -15, 54, 1, 0, -1, 1, 16, 3724, 16, -3, 25, 36, 16, 1048, 0, -21, 49, 55, 2800, 16, 1848, 4, 20, 54, 0, 0, -1, 1, 16, 7396, 12, -11, 25, 16, 208, 20, -5, 25, 36, 31, 16, 4644, 16, 10, 31, 16, 3324, 12, -15, 54, 1, 0, -1, 1, 16, 3724, 16, -3, 25, 36, 31, 16, 7560, 4, -17, 31, 0, -1, 2, 31, 51, -1, 2, 4, 30, 0, 55, 2843, 16, 1848, 4, 20, 54, 0, 0, -1, 1, 16, 7396, 12, -11, 25, 16, 208, 20, -5, 25, 36, 31, 16, 1048, 4, -14, 31, 0, -1, 5, 31, 16, 3364, 4, 22, 31, 0, -1, 2, 31, 51, -1, 2, 4, 0, -1, 1, 16, 8968, 48, -21, 25, 51, -1, 1, 4, 8, 1, 64, -1, 3, 4, 30, 0, 55, 2538, 0, -1, 2, 30, 0, 55, 2872, 62, 8, 2883, 13, 6, -1, 16, 30, 0, 55, 2905, 54, 0, 20, 21, 4, 5, 2, 0, 1, 2, 0, -1, 1, 0, -1, 2, 41, 30, 0, 55, 2904, 62, 8, 2915, 13, 6, -1, 17, 30, 0, 55, 3095, 54, 0, 20, 22, 4, 5, 1, 0, 1, 0, -1, 1, 54, 1, 0, 0, 14, 36, 6, -1, 2, 0, -1, 2, 54, 1, 0, 0, 154, 16, 7768, 12, 9, 25, 36, 6, -1, 3, 0, -1, 3, 55, 2965, 0, -1, 3, 30, 0, 55, 3094, 0, -1, 1, 16, 3840, 16, 6, 25, 55, 2981, 8, 1, 30, 0, 55, 2983, 8, 0, 0, -1, 1, 16, 4888, 12, 11, 25, 55, 2999, 8, 1, 30, 0, 55, 3001, 8, 0, 0, -1, 1, 16, 888, 16, 11, 25, 55, 3017, 8, 1, 30, 0, 55, 3019, 8, 0, 0, -1, 1, 16, 1628, 12, 15, 25, 55, 3035, 8, 1, 30, 0, 55, 3037, 8, 0, 0, -1, 1, 54, 1, 0, 0, 20, 36, 0, -1, 1, 54, 1, 0, 0, 19, 36, 0, -1, 1, 54, 1, 0, 0, 18, 36, 54, 7, 6, -1, 4, 0, -1, 4, 0, -1, 2, 54, 2, 0, 0, 154, 16, 5540, 4, 17, 25, 36, 4, 0, -1, 4, 30, 0, 55, 3094, 62, 8, 3105, 13, 6, -1, 18, 30, 0, 55, 3674, 54, 0, 20, 23, 4, 5, 1, 0, 1, 0, -1, 1, 16, 3512, 16, 7, 25, 16, 2636, 8, 15, 25, 55, 3136, 0, 0, 153, 30, 0, 55, 3673, 0, -1, 1, 16, 4928, 8, -1, 25, 55, 3153, 0, 0, 151, 30, 0, 55, 3673, 54, 0, 0, -1, 1, 16, 4956, 16, 4, 25, 16, 208, 20, -5, 25, 36, 6, -1, 2, 0, -1, 2, 16, 5560, 12, -2, 9, 55, 3189, 0, 0, 145, 30, 0, 55, 3673, 0, -1, 1, 16, 1620, 8, -1, 25, 55, 3219, 54, 0, 0, -1, 1, 16, 1620, 8, -1, 25, 16, 208, 20, -5, 25, 36, 30, 0, 55, 3223, 16, 1048, 0, -21, 6, -1, 3, 0, -1, 2, 16, 4084, 44, -20, 9, 1, 11, 55, 3247, 4, 0, -1, 3, 16, 4084, 44, -20, 9, 55, 3256, 0, 0, 152, 30, 0, 55, 3673, 0, -1, 3, 16, 3416, 12, 5, 9, 55, 3277, 0, 0, 143, 30, 0, 55, 3673, 30, 0, 55, 3287, 0, -1, 3, 16, 8872, 52, -18, 9, 55, 3298, 0, 0, 144, 30, 0, 55, 3673, 30, 0, 55, 3308, 0, -1, 3, 16, 5364, 12, -6, 9, 55, 3319, 0, 0, 146, 30, 0, 55, 3673, 30, 0, 55, 3329, 0, -1, 3, 16, 1392, 4, 2, 9, 55, 3340, 0, 0, 148, 30, 0, 55, 3673, 30, 0, 55, 3350, 0, -1, 3, 16, 5608, 4, 3, 9, 55, 3361, 0, 0, 149, 30, 0, 55, 3673, 30, 0, 55, 3371, 0, -1, 3, 16, 1112, 12, 11, 9, 55, 3382, 0, 0, 147, 30, 0, 55, 3673, 30, 0, 55, 3386, 30, 0, 55, 3660, 0, -1, 1, 16, 3324, 12, -15, 25, 1, 11, 55, 3403, 4, 16, 1048, 0, -21, 16, 7316, 4, -6, 31, 0, -1, 1, 16, 524, 4, -3, 25, 1, 11, 55, 3425, 4, 16, 1048, 0, -21, 31, 16, 7316, 4, -6, 31, 0, -1, 1, 16, 5952, 36, -18, 25, 1, 11, 55, 3448, 4, 16, 1048, 0, -21, 31, 16, 7316, 4, -6, 31, 0, -1, 1, 16, 2788, 12, -5, 25, 1, 11, 55, 3471, 4, 16, 1048, 0, -21, 31, 6, -1, 4, 54, 0, 0, -1, 4, 16, 208, 20, -5, 25, 36, 6, -1, 5, 0, 0, 148, 16, 1260, 8, 3, 54, 2, 0, 0, 144, 16, 8872, 52, -18, 54, 2, 0, 0, 143, 16, 3416, 12, 5, 54, 2, 54, 3, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 6, 16, 5860, 12, 13, 25, 6, -1, 8, 0, -1, 7, 0, -1, 8, 26, 55, 3596, 0, -1, 6, 0, -1, 7, 25, 8, 0, 25, 54, 1, 0, -1, 5, 16, 2164, 12, 2, 25, 36, 8, 1, 63, 49, 55, 3587, 0, -1, 6, 0, -1, 7, 25, 8, 1, 25, 30, 0, 55, 3673, 7, -1, 7, 0, 4, 30, 0, 55, 3537, 0, -1, 4, 54, 1, 16, 1028, 4, 3, 16, 3692, 12, 20, 54, 2, 16, 2800, 16, 21, 35, 34, 16, 2636, 8, 15, 25, 36, 55, 3632, 0, 0, 148, 30, 0, 55, 3673, 0, -1, 3, 16, 8844, 28, -20, 9, 55, 3649, 0, 0, 145, 30, 0, 55, 3652, 0, 0, 150, 30, 0, 55, 3673, 30, 0, 55, 3664, 30, 0, 55, 3386, 16, 7100, 16, 12, 35, 30, 0, 55, 3673, 62, 8, 3684, 13, 6, -1, 19, 30, 0, 55, 3830, 54, 0, 20, 24, 4, 5, 1, 0, 1, 16, 4220, 20, -20, 16, 7684, 8, 11, 16, 5952, 36, -18, 16, 3336, 12, 19, 16, 3324, 12, -15, 16, 524, 4, -3, 54, 6, 6, -1, 2, 54, 0, 6, -1, 3, 0, -1, 2, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 3822, 0, -1, 2, 0, -1, 5, 25, 6, -1, 6, 0, -1, 6, 54, 1, 0, -1, 1, 16, 6392, 56, -14, 25, 36, 55, 3800, 0, -1, 6, 54, 1, 0, -1, 1, 16, 3724, 16, -3, 25, 36, 54, 1, 28, 36, 30, 0, 55, 3801, 17, 54, 1, 0, -1, 3, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 5, 0, 4, 30, 0, 55, 3743, 0, -1, 3, 30, 0, 55, 3829, 62, 8, 3840, 13, 6, -1, 20, 30, 0, 55, 4311, 54, 0, 20, 25, 4, 5, 1, 0, 1, 12, 4292, 30, 1, 55, 3861, 54, 0, 30, 0, 55, 4310, 0, -1, 1, 16, 8032, 24, -10, 25, 6, -1, 2, 0, -1, 2, 16, 5860, 12, 13, 25, 6, -1, 3, 54, 0, 6, -1, 4, 54, 0, 6, -1, 5, 8, 5, 6, -1, 6, 8, 0, 6, -1, 7, 8, 0, 6, -1, 8, 0, -1, 8, 0, -1, 3, 26, 55, 4067, 0, -1, 7, 0, -1, 6, 40, 1, 11, 55, 3941, 4, 0, -1, 5, 16, 5860, 12, 13, 25, 0, -1, 6, 40, 55, 3947, 30, 0, 55, 4067, 0, -1, 2, 0, -1, 8, 25, 6, -1, 9, 0, -1, 9, 16, 3324, 12, -15, 25, 6, -1, 10, 16, 4748, 12, 8, 54, 1, 0, -1, 10, 16, 2164, 12, 2, 25, 36, 8, 0, 9, 55, 4022, 0, -1, 9, 16, 3324, 12, -15, 25, 54, 1, 28, 36, 54, 1, 0, -1, 4, 16, 3464, 8, 1, 25, 36, 4, 8, 1, 64, -1, 7, 4, 30, 0, 55, 4057, 16, 1672, 12, 7, 54, 1, 0, -1, 10, 16, 2164, 12, 2, 25, 36, 8, 0, 9, 55, 4057, 0, -1, 9, 54, 1, 0, -1, 5, 16, 3464, 8, 1, 25, 36, 4, 8, 1, 64, -1, 8, 4, 30, 0, 55, 3908, 0, -1, 5, 16, 5860, 12, 13, 25, 6, -1, 11, 8, 0, 6, -1, 12, 0, -1, 12, 0, -1, 11, 26, 55, 4149, 0, -1, 7, 0, -1, 6, 40, 55, 4105, 30, 0, 55, 4149, 0, -1, 5, 0, -1, 12, 25, 16, 3324, 12, -15, 25, 54, 1, 28, 36, 54, 1, 0, -1, 4, 16, 3464, 8, 1, 25, 36, 4, 8, 1, 64, -1, 7, 4, 8, 1, 64, -1, 12, 4, 30, 0, 55, 4083, 8, 0, 6, -1, 13, 0, -1, 13, 0, -1, 3, 26, 55, 4279, 0, -1, 7, 0, -1, 6, 40, 55, 4176, 30, 0, 55, 4279, 0, -1, 2, 0, -1, 13, 25, 51, -1, 9, 4, 16, 4748, 12, 8, 54, 1, 0, -1, 9, 16, 3324, 12, -15, 25, 16, 2164, 12, 2, 25, 36, 8, 0, 49, 1, 55, 4237, 4, 16, 1672, 12, 7, 54, 1, 0, -1, 9, 16, 3324, 12, -15, 25, 16, 2164, 12, 2, 25, 36, 8, 0, 49, 55, 4269, 0, -1, 9, 16, 3324, 12, -15, 25, 54, 1, 28, 36, 54, 1, 0, -1, 4, 16, 3464, 8, 1, 25, 36, 4, 8, 1, 64, -1, 7, 4, 8, 1, 64, -1, 13, 4, 30, 0, 55, 4154, 0, -1, 4, 30, 0, 55, 4310, 2, 4288, 30, 0, 55, 4301, 6, -1, 14, 54, 0, 30, 0, 55, 4310, 16, 7100, 16, 12, 35, 30, 0, 55, 4310, 62, 8, 4321, 13, 6, -1, 21, 30, 0, 55, 4441, 54, 0, 20, 26, 4, 5, 1, 0, 1, 0, -1, 1, 16, 2140, 24, -7, 9, 55, 4351, 0, 0, 155, 30, 0, 55, 4440, 30, 0, 55, 4361, 0, -1, 1, 16, 2668, 40, -19, 9, 55, 4372, 0, 0, 156, 30, 0, 55, 4440, 30, 0, 55, 4382, 0, -1, 1, 16, 6052, 48, -17, 9, 55, 4393, 0, 0, 157, 30, 0, 55, 4440, 30, 0, 55, 4403, 0, -1, 1, 16, 776, 52, -21, 9, 55, 4414, 0, 0, 158, 30, 0, 55, 4440, 30, 0, 55, 4418, 30, 0, 55, 4427, 17, 30, 0, 55, 4440, 30, 0, 55, 4431, 30, 0, 55, 4418, 16, 7100, 16, 12, 35, 30, 0, 55, 4440, 62, 8, 4451, 13, 6, -1, 22, 30, 0, 55, 4571, 54, 0, 20, 27, 4, 5, 1, 0, 1, 0, -1, 1, 16, 1816, 20, -8, 9, 55, 4481, 0, 0, 159, 30, 0, 55, 4570, 30, 0, 55, 4491, 0, -1, 1, 16, 3496, 16, 15, 9, 55, 4502, 0, 0, 160, 30, 0, 55, 4570, 30, 0, 55, 4512, 0, -1, 1, 16, 1908, 12, -1, 9, 55, 4523, 0, 0, 161, 30, 0, 55, 4570, 30, 0, 55, 4533, 0, -1, 1, 16, 6572, 12, -4, 9, 55, 4544, 0, 0, 162, 30, 0, 55, 4570, 30, 0, 55, 4548, 30, 0, 55, 4557, 17, 30, 0, 55, 4570, 30, 0, 55, 4561, 30, 0, 55, 4548, 16, 7100, 16, 12, 35, 30, 0, 55, 4570, 62, 8, 4581, 13, 6, -1, 23, 30, 0, 55, 4659, 54, 0, 20, 28, 4, 5, 1, 0, 1, 0, -1, 1, 16, 5340, 16, -7, 9, 55, 4611, 0, 0, 163, 30, 0, 55, 4658, 30, 0, 55, 4621, 0, -1, 1, 16, 7520, 32, -18, 9, 55, 4632, 0, 0, 164, 30, 0, 55, 4658, 30, 0, 55, 4636, 30, 0, 55, 4645, 17, 30, 0, 55, 4658, 30, 0, 55, 4649, 30, 0, 55, 4636, 16, 7100, 16, 12, 35, 30, 0, 55, 4658, 62, 8, 4669, 13, 6, -1, 24, 30, 0, 55, 4701, 54, 0, 20, 29, 4, 5, 1, 0, 1, 0, -1, 1, 16, 6720, 8, 5, 9, 55, 4695, 0, 0, 165, 30, 0, 55, 4700, 17, 30, 0, 55, 4700, 62, 8, 4711, 13, 6, -1, 25, 30, 0, 55, 4789, 54, 0, 20, 30, 4, 5, 1, 0, 1, 0, -1, 1, 16, 7736, 8, -2, 9, 55, 4741, 0, 0, 166, 30, 0, 55, 4788, 30, 0, 55, 4751, 0, -1, 1, 16, 336, 12, 18, 9, 55, 4762, 0, 0, 167, 30, 0, 55, 4788, 30, 0, 55, 4766, 30, 0, 55, 4775, 17, 30, 0, 55, 4788, 30, 0, 55, 4779, 30, 0, 55, 4766, 16, 7100, 16, 12, 35, 30, 0, 55, 4788, 62, 8, 4799, 13, 6, -1, 26, 30, 0, 55, 4919, 54, 0, 20, 31, 4, 5, 1, 0, 1, 0, -1, 1, 16, 7760, 8, -5, 9, 55, 4829, 0, 0, 168, 30, 0, 55, 4918, 30, 0, 55, 4839, 0, -1, 1, 16, 3228, 8, -3, 9, 55, 4850, 0, 0, 169, 30, 0, 55, 4918, 30, 0, 55, 4860, 0, -1, 1, 16, 3472, 24, 9, 9, 55, 4871, 0, 0, 170, 30, 0, 55, 4918, 30, 0, 55, 4881, 0, -1, 1, 16, 6812, 36, -13, 9, 55, 4892, 0, 0, 171, 30, 0, 55, 4918, 30, 0, 55, 4896, 30, 0, 55, 4905, 17, 30, 0, 55, 4918, 30, 0, 55, 4909, 30, 0, 55, 4896, 16, 7100, 16, 12, 35, 30, 0, 55, 4918, 62, 8, 4929, 13, 6, -1, 27, 30, 0, 55, 5028, 54, 0, 20, 32, 4, 5, 1, 0, 1, 0, -1, 1, 16, 5192, 20, 11, 9, 55, 4959, 0, 0, 172, 30, 0, 55, 5027, 30, 0, 55, 4969, 0, -1, 1, 16, 7964, 24, 21, 9, 55, 4980, 0, 0, 173, 30, 0, 55, 5027, 30, 0, 55, 4990, 0, -1, 1, 16, 4492, 28, 20, 9, 55, 5001, 0, 0, 174, 30, 0, 55, 5027, 30, 0, 55, 5005, 30, 0, 55, 5014, 17, 30, 0, 55, 5027, 30, 0, 55, 5018, 30, 0, 55, 5005, 16, 7100, 16, 12, 35, 30, 0, 55, 5027, 62, 8, 5038, 13, 6, -1, 28, 30, 0, 55, 5124, 54, 0, 20, 33, 4, 5, 2, 0, 1, 2, 8, 5055, 13, 30, 0, 55, 5119, 54, 0, 20, 34, 6, -1, 0, 5, 2, 1, 2, 3, 8, 5074, 13, 30, 0, 55, 5114, 54, 0, 20, 35, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 0, 33, 2, 36, 0, 34, 2, 54, 1, 0, 33, 1, 36, 54, 2, 0, 34, 3, 36, 30, 0, 55, 5113, 62, 30, 0, 55, 5118, 62, 30, 0, 55, 5123, 62, 8, 5134, 13, 6, -1, 29, 30, 0, 55, 5237, 54, 0, 20, 36, 4, 5, 1, 0, 1, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 1, 16, 6700, 12, 13, 25, 55, 5192, 0, -1, 1, 16, 6700, 12, 13, 25, 30, 0, 55, 5200, 0, -1, 1, 16, 1396, 20, -16, 25, 0, -1, 1, 16, 6876, 12, 20, 25, 55, 5222, 0, -1, 1, 16, 6876, 12, 20, 25, 30, 0, 55, 5230, 0, -1, 1, 16, 2040, 16, 5, 25, 54, 4, 30, 0, 55, 5236, 62, 8, 5247, 13, 6, -1, 30, 30, 0, 55, 5358, 54, 0, 20, 37, 4, 5, 1, 0, 1, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 1, 16, 4084, 44, -20, 25, 0, -1, 1, 16, 6700, 12, 13, 25, 55, 5313, 0, -1, 1, 16, 6700, 12, 13, 25, 30, 0, 55, 5321, 0, -1, 1, 16, 1396, 20, -16, 25, 0, -1, 1, 16, 6876, 12, 20, 25, 55, 5343, 0, -1, 1, 16, 6876, 12, 20, 25, 30, 0, 55, 5351, 0, -1, 1, 16, 2040, 16, 5, 25, 54, 5, 30, 0, 55, 5357, 62, 8, 5368, 13, 6, -1, 31, 30, 0, 55, 5631, 54, 0, 20, 38, 4, 5, 1, 0, 1, 8, 0, 6, -1, 2, 16, 5500, 16, 17, 0, 0, 196, 16, 1512, 24, -18, 0, 0, 195, 16, 3372, 20, -7, 0, 0, 194, 16, 8628, 12, 10, 0, 0, 193, 15, 4, 6, -1, 3, 16, 984, 8, -4, 0, 0, 201, 16, 3624, 12, -4, 0, 0, 200, 16, 496, 28, 6, 0, 0, 199, 16, 6772, 8, -10, 0, 0, 198, 16, 8420, 8, 20, 0, 0, 197, 15, 5, 6, -1, 4, 0, -1, 3, 54, 1, 16, 6356, 12, 4, 35, 16, 3784, 16, -12, 25, 36, 6, -1, 5, 0, -1, 5, 16, 5860, 12, 13, 25, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 7, 0, -1, 6, 26, 55, 5547, 0, -1, 5, 0, -1, 7, 25, 6, -1, 8, 0, -1, 1, 0, -1, 8, 25, 55, 5538, 0, -1, 3, 0, -1, 8, 25, 0, -1, 2, 54, 2, 0, 0, 16, 36, 51, -1, 2, 4, 7, -1, 7, 0, 4, 30, 0, 55, 5490, 0, -1, 4, 0, -1, 1, 16, 7656, 20, -22, 25, 25, 55, 5586, 0, -1, 4, 0, -1, 1, 16, 7656, 20, -22, 25, 25, 0, -1, 2, 54, 2, 0, 0, 16, 36, 51, -1, 2, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 2, 0, -1, 1, 16, 8436, 16, 7, 25, 54, 4, 30, 0, 55, 5630, 62, 8, 5641, 13, 6, -1, 32, 30, 0, 55, 5983, 54, 0, 20, 39, 4, 5, 1, 0, 1, 54, 0, 6, -1, 2, 12, 5963, 0, -1, 1, 16, 3964, 32, -14, 25, 1, 55, 5685, 4, 0, -1, 1, 16, 3964, 32, -14, 25, 16, 5860, 12, 13, 25, 8, 1, 40, 55, 5703, 0, -1, 1, 16, 3964, 32, -14, 25, 51, -1, 3, 4, 30, 0, 55, 5745, 0, -1, 1, 16, 1052, 24, 14, 25, 1, 55, 5731, 4, 0, -1, 1, 16, 1052, 24, 14, 25, 16, 5860, 12, 13, 25, 8, 1, 40, 55, 5745, 0, -1, 1, 16, 1052, 24, 14, 25, 51, -1, 3, 4, 0, -1, 3, 55, 5950, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 5, 8, 0, 6, -1, 6, 0, -1, 6, 0, -1, 5, 26, 55, 5899, 0, -1, 3, 0, -1, 6, 25, 54, 1, 42, 16, 3876, 16, 0, 25, 36, 51, -1, 4, 4, 0, -1, 4, 55, 5890, 0, -1, 3, 0, -1, 6, 25, 16, 4164, 32, -15, 25, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 4, 16, 3704, 4, 6, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 4, 16, 4936, 8, -7, 25, 54, 1, 16, 8312, 8, -4, 35, 16, 2560, 12, -10, 25, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 6, 0, 4, 30, 0, 55, 5766, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 2, 30, 0, 55, 5982, 2, 5959, 30, 0, 55, 5973, 6, -1, 7, 0, -1, 2, 30, 0, 55, 5982, 16, 7100, 16, 12, 35, 30, 0, 55, 5982, 62, 8, 5993, 13, 6, -1, 33, 30, 0, 55, 6036, 54, 0, 20, 40, 4, 5, 1, 0, 1, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 54, 2, 30, 0, 55, 6035, 62, 8, 6046, 13, 6, -1, 34, 30, 0, 55, 6370, 54, 0, 20, 41, 4, 5, 1, 0, 1, 0, -1, 1, 16, 4520, 16, -9, 25, 6, -1, 2, 0, -1, 1, 16, 1620, 8, -1, 25, 16, 7736, 8, -2, 9, 55, 6088, 0, 0, 202, 30, 0, 55, 6091, 0, 0, 203, 6, -1, 3, 0, -1, 2, 16, 8760, 12, 8, 25, 1, 11, 55, 6111, 4, 16, 1048, 0, -21, 6, -1, 4, 0, -1, 1, 16, 4996, 24, 17, 25, 1, 11, 55, 6128, 4, 17, 6, -1, 5, 0, -1, 5, 1, 55, 6146, 4, 0, -1, 5, 16, 600, 12, 14, 25, 55, 6167, 16, 8844, 28, -20, 54, 1, 0, -1, 5, 16, 600, 12, 14, 25, 36, 30, 0, 55, 6171, 16, 1048, 0, -21, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 3, 0, 0, 203, 9, 55, 6264, 0, -1, 2, 16, 1952, 28, -7, 25, 8, 0, 54, 2, 0, -1, 4, 16, 7480, 12, 16, 25, 36, 0, -1, 6, 31, 0, -1, 2, 16, 1416, 20, 3, 25, 54, 1, 0, -1, 4, 16, 7480, 12, 16, 25, 36, 31, 6, -1, 8, 0, -1, 6, 16, 5860, 12, 13, 25, 0, -1, 8, 16, 5860, 12, 13, 25, 47, 8, 100, 43, 51, -1, 7, 4, 30, 0, 55, 6318, 0, -1, 2, 16, 1416, 20, 3, 25, 0, -1, 2, 16, 1952, 28, -7, 25, 54, 2, 0, -1, 4, 16, 7480, 12, 16, 25, 36, 6, -1, 9, 0, -1, 9, 16, 5860, 12, 13, 25, 0, -1, 4, 16, 5860, 12, 13, 25, 47, 8, 100, 43, 51, -1, 7, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 2, 54, 1, 0, 0, 14, 36, 0, -1, 3, 0, 0, 203, 9, 55, 6356, 8, 1, 63, 30, 0, 55, 6357, 17, 0, -1, 7, 0, -1, 3, 54, 5, 30, 0, 55, 6369, 62, 8, 6380, 13, 6, -1, 35, 30, 0, 55, 6597, 54, 0, 20, 42, 4, 5, 1, 0, 1, 8, 0, 6, -1, 2, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 8340, 24, -5, 35, 19, 1, 11, 55, 6427, 4, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 6928, 28, -6, 35, 19, 55, 6455, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 8760, 12, 8, 25, 16, 5860, 12, 13, 25, 51, -1, 2, 4, 30, 0, 55, 6510, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 1e3, 28, 9, 35, 19, 1, 55, 6486, 4, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 8120, 60, -15, 25, 55, 6510, 0, -1, 1, 16, 4520, 16, -9, 25, 16, 4196, 24, -10, 25, 16, 5860, 12, 13, 25, 51, -1, 2, 4, 0, -1, 1, 16, 8836, 8, -7, 25, 55, 6537, 0, -1, 1, 16, 8836, 8, -7, 25, 16, 5860, 12, 13, 25, 30, 0, 55, 6540, 8, 1, 63, 6, -1, 3, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 17, 36, 0, -1, 3, 0, -1, 2, 54, 5, 30, 0, 55, 6596, 62, 8, 6607, 13, 6, -1, 36, 30, 0, 55, 6859, 54, 0, 20, 43, 4, 5, 1, 0, 1, 0, -1, 1, 16, 1620, 8, -1, 25, 16, 4492, 28, 20, 9, 1, 55, 6641, 4, 0, -1, 1, 16, 8056, 64, -13, 25, 55, 6776, 54, 0, 0, -1, 1, 16, 8056, 64, -13, 25, 36, 6, -1, 2, 54, 0, 8, 6666, 13, 30, 0, 55, 6751, 54, 0, 20, 44, 6, -1, 0, 5, 1, 1, 2, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 2, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 2, 16, 2620, 12, 15, 25, 0, -1, 2, 16, 528, 12, 1, 25, 0, -1, 2, 16, 7796, 20, -2, 25, 0, -1, 2, 16, 1396, 20, -16, 25, 0, -1, 2, 16, 2040, 16, 5, 25, 54, 7, 30, 0, 55, 6750, 62, 54, 1, 0, -1, 2, 16, 8600, 4, -2, 25, 36, 16, 7552, 8, -11, 25, 36, 30, 0, 55, 6858, 30, 0, 55, 6849, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 0, -1, 1, 16, 4520, 16, -9, 25, 54, 1, 0, 0, 14, 36, 0, -1, 1, 16, 2620, 12, 15, 25, 0, -1, 1, 16, 528, 12, 1, 25, 0, -1, 1, 16, 7796, 20, -2, 25, 0, -1, 1, 16, 1396, 20, -16, 25, 0, -1, 1, 16, 2040, 16, 5, 25, 54, 7, 30, 0, 55, 6858, 16, 7100, 16, 12, 35, 30, 0, 55, 6858, 62, 8, 6869, 13, 6, -1, 37, 30, 0, 55, 6981, 54, 0, 20, 45, 4, 5, 0, 0, 16, 40, 16, 14, 35, 16, 4732, 16, 18, 25, 11, 1, 11, 55, 6909, 4, 16, 40, 16, 14, 35, 16, 4732, 16, 18, 25, 16, 3640, 8, 3, 25, 11, 55, 6917, 30, 0, 30, 0, 55, 6980, 16, 40, 16, 14, 35, 16, 7888, 48, -21, 25, 11, 55, 6936, 30, 0, 30, 0, 55, 6980, 16, 40, 16, 14, 35, 16, 8772, 28, 8, 25, 11, 55, 6955, 30, 0, 30, 0, 55, 6980, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 11, 55, 6974, 30, 0, 30, 0, 55, 6980, 30, 1, 30, 0, 55, 6980, 62, 8, 6991, 13, 6, -1, 38, 30, 0, 55, 7219, 54, 0, 20, 46, 4, 5, 1, 0, 1, 54, 0, 0, 0, 37, 36, 11, 52, 16, 8292, 20, 6, 21, 4, 52, 16, 8292, 20, 6, 25, 55, 7027, 10, 30, 0, 55, 7218, 17, 52, 16, 7820, 8, 21, 21, 4, 54, 0, 52, 16, 2192, 16, -18, 21, 4, 0, -1, 1, 52, 16, 8708, 52, -18, 21, 4, 54, 0, 52, 16, 8940, 28, -19, 25, 36, 52, 16, 2184, 8, 15, 21, 4, 17, 52, 16, 7116, 32, -16, 21, 4, 54, 0, 52, 16, 6904, 24, -4, 21, 4, 30, 0, 52, 16, 5040, 24, -6, 21, 4, 52, 6, -1, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 55, 7209, 8, 7119, 13, 30, 0, 55, 7191, 54, 0, 20, 47, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 16, 7656, 20, -22, 25, 0, 46, 2, 16, 8708, 52, -18, 25, 9, 1, 55, 7159, 4, 0, -1, 2, 16, 540, 16, 10, 25, 55, 7181, 0, -1, 2, 16, 540, 16, 10, 25, 54, 1, 0, 46, 2, 16, 3060, 84, -21, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 7190, 62, 16, 3428, 36, -19, 54, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 7218, 62, 8, 7229, 13, 6, -1, 39, 30, 0, 55, 7727, 54, 0, 20, 48, 4, 5, 3, 0, 1, 2, 3, 0, -1, 3, 17, 53, 55, 7253, 8, 100, 51, -1, 3, 4, 0, -1, 2, 54, 1, 16, 8012, 8, 14, 35, 16, 4280, 40, -20, 25, 36, 11, 55, 7279, 0, 0, 207, 51, -1, 2, 4, 54, 0, 6, -1, 8, 15, 0, 6, -1, 9, 0, -1, 2, 16, 5860, 12, 13, 25, 6, -1, 10, 8, 0, 51, -1, 4, 4, 0, -1, 4, 0, -1, 10, 26, 55, 7349, 0, -1, 4, 0, -1, 9, 0, -1, 2, 0, -1, 4, 25, 21, 4, 54, 0, 0, -1, 8, 0, -1, 4, 21, 4, 7, -1, 4, 0, 4, 30, 0, 55, 7306, 0, -1, 1, 16, 5860, 12, 13, 25, 6, -1, 11, 8, 0, 51, -1, 4, 4, 0, -1, 4, 0, -1, 11, 26, 55, 7466, 0, -1, 1, 0, -1, 4, 25, 51, -1, 7, 4, 0, -1, 7, 8, 0, 25, 51, -1, 5, 4, 0, -1, 9, 0, -1, 5, 25, 8, 0, 33, 49, 55, 7457, 0, -1, 9, 0, -1, 5, 25, 51, -1, 6, 4, 16, 8696, 12, -22, 0, -1, 4, 16, 6544, 8, -1, 0, -1, 7, 15, 2, 0, -1, 8, 0, -1, 6, 25, 0, -1, 8, 0, -1, 6, 25, 16, 5860, 12, 13, 25, 21, 4, 7, -1, 4, 0, 4, 30, 0, 55, 7366, 0, -1, 8, 16, 5860, 12, 13, 25, 6, -1, 12, 54, 0, 6, -1, 13, 8, 0, 51, -1, 4, 4, 0, -1, 4, 0, -1, 12, 26, 55, 7606, 0, -1, 8, 0, -1, 4, 25, 6, -1, 14, 0, -1, 14, 16, 5860, 12, 13, 25, 6, -1, 15, 8, 0, 6, -1, 16, 0, -1, 16, 0, -1, 15, 26, 55, 7579, 0, -1, 14, 0, -1, 16, 25, 0, -1, 13, 0, -1, 13, 16, 5860, 12, 13, 25, 21, 4, 0, -1, 13, 16, 5860, 12, 13, 25, 0, -1, 3, 40, 55, 7570, 30, 0, 55, 7579, 7, -1, 16, 0, 4, 30, 0, 55, 7523, 0, -1, 13, 16, 5860, 12, 13, 25, 0, -1, 3, 40, 55, 7597, 30, 0, 55, 7606, 7, -1, 4, 0, 4, 30, 0, 55, 7488, 8, 7613, 13, 30, 0, 55, 7647, 54, 0, 20, 49, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 2, 16, 8696, 12, -22, 25, 0, -1, 3, 16, 8696, 12, -22, 25, 32, 30, 0, 55, 7646, 62, 54, 1, 0, -1, 13, 16, 5376, 8, -3, 25, 36, 4, 0, -1, 13, 16, 5860, 12, 13, 25, 6, -1, 17, 54, 0, 6, -1, 18, 8, 0, 51, -1, 4, 4, 0, -1, 4, 0, -1, 17, 26, 55, 7719, 0, -1, 13, 0, -1, 4, 25, 16, 6544, 8, -1, 25, 0, -1, 18, 0, -1, 4, 21, 4, 7, -1, 4, 0, 4, 30, 0, 55, 7681, 0, -1, 18, 30, 0, 55, 7726, 62, 8, 7737, 13, 6, -1, 40, 30, 0, 55, 7779, 54, 0, 20, 50, 4, 5, 0, 0, 54, 0, 16, 8312, 8, -4, 35, 16, 7408, 12, 9, 25, 36, 8, 100, 43, 54, 1, 16, 8312, 8, -4, 35, 16, 200, 8, -5, 25, 36, 30, 0, 55, 7778, 62, 8, 7789, 13, 6, -1, 41, 30, 0, 55, 7873, 54, 0, 20, 51, 4, 5, 0, 0, 8, 15, 8, 2, 54, 2, 8, 36, 54, 1, 54, 0, 16, 8312, 8, -4, 35, 16, 7408, 12, 9, 25, 36, 16, 7852, 36, -14, 25, 36, 16, 4692, 24, -8, 25, 36, 8, 15, 8, 2, 54, 2, 8, 36, 54, 1, 54, 0, 16, 8312, 8, -4, 35, 16, 7408, 12, 9, 25, 36, 16, 7852, 36, -14, 25, 36, 16, 4692, 24, -8, 25, 36, 31, 30, 0, 55, 7872, 62, 8, 7883, 13, 6, -1, 42, 30, 0, 55, 7942, 54, 0, 20, 52, 4, 5, 0, 0, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 2708, 16, 21, 25, 16, 6780, 4, 5, 54, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 1568, 20, -21, 25, 16, 3996, 36, -22, 25, 36, 8, 0, 25, 31, 30, 0, 55, 7941, 62, 8, 7952, 13, 6, -1, 43, 30, 0, 55, 8074, 54, 0, 20, 53, 4, 5, 1, 0, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 4928, 8, -1, 25, 6, -1, 2, 0, -1, 2, 1, 55, 7989, 4, 0, -1, 1, 55, 8067, 30, 0, 6, -1, 3, 8, 0, 6, -1, 4, 0, -1, 4, 0, -1, 1, 16, 5860, 12, 13, 25, 26, 55, 8060, 0, -1, 1, 0, -1, 4, 25, 6, -1, 5, 0, -1, 2, 54, 1, 0, -1, 5, 16, 2636, 8, 15, 25, 36, 55, 8051, 30, 1, 51, -1, 3, 4, 30, 0, 55, 8060, 7, -1, 4, 0, 4, 30, 0, 55, 8001, 0, -1, 3, 30, 0, 55, 8073, 30, 0, 30, 0, 55, 8073, 62, 8, 8084, 13, 6, -1, 44, 30, 0, 55, 8168, 54, 0, 20, 54, 4, 5, 1, 0, 1, 0, -1, 1, 11, 1, 11, 55, 8113, 4, 0, -1, 1, 16, 5860, 12, 13, 25, 8, 0, 9, 55, 8122, 0, -1, 1, 30, 0, 55, 8167, 0, -1, 1, 16, 5860, 12, 13, 25, 8, 4, 38, 55, 8143, 16, 5384, 16, 12, 30, 0, 55, 8167, 0, -1, 1, 16, 5860, 12, 13, 25, 54, 1, 16, 7516, 4, 19, 16, 7300, 8, 0, 25, 36, 30, 0, 55, 8167, 62, 8, 8178, 13, 6, -1, 45, 30, 0, 55, 8354, 54, 0, 20, 55, 4, 5, 1, 0, 1, 0, -1, 1, 8, 0, 25, 6, -1, 2, 0, -1, 2, 0, 0, 209, 9, 55, 8224, 0, -1, 1, 8, 1, 25, 1, 11, 55, 8220, 4, 16, 1048, 0, -21, 30, 0, 55, 8353, 0, -1, 2, 0, 0, 208, 9, 55, 8345, 0, -1, 1, 8, 3, 25, 6, -1, 3, 0, -1, 3, 55, 8266, 0, -1, 1, 8, 2, 25, 1, 11, 55, 8262, 4, 16, 1048, 0, -21, 30, 0, 55, 8353, 0, -1, 1, 8, 4, 25, 6, -1, 4, 16, 1048, 0, -21, 6, -1, 5, 0, -1, 4, 55, 8338, 0, -1, 4, 16, 5860, 12, 13, 25, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 7, 0, -1, 6, 26, 55, 8338, 0, -1, 4, 0, -1, 7, 25, 54, 1, 0, 0, 45, 36, 64, -1, 5, 4, 7, -1, 7, 0, 4, 30, 0, 55, 8303, 0, -1, 5, 30, 0, 55, 8353, 16, 1048, 0, -21, 30, 0, 55, 8353, 62, 8, 8364, 13, 6, -1, 46, 30, 0, 55, 8857, 54, 0, 20, 56, 4, 5, 2, 0, 1, 2, 8, 8384, 13, 6, -1, 3, 30, 0, 55, 8803, 54, 0, 20, 57, 4, 5, 1, 0, 1, 0, -1, 1, 11, 1, 11, 55, 8412, 4, 0, -1, 1, 16, 7148, 16, -4, 25, 17, 53, 55, 8430, 17, 30, 0, 16, 1048, 0, -21, 0, 0, 210, 54, 4, 30, 0, 55, 8802, 0, -1, 1, 16, 7148, 16, -4, 25, 6, -1, 2, 30, 0, 6, -1, 3, 0, -1, 2, 8, 3, 9, 55, 8536, 0, -1, 1, 16, 3708, 16, 12, 25, 1, 11, 55, 8471, 4, 16, 1048, 0, -21, 6, -1, 4, 0, -1, 4, 0, -1, 1, 54, 2, 0, 56, 2, 36, 51, -1, 3, 4, 0, -1, 3, 55, 8508, 0, -1, 4, 54, 1, 0, 0, 44, 36, 30, 0, 55, 8511, 0, -1, 4, 6, -1, 5, 0, -1, 1, 0, -1, 3, 0, -1, 5, 0, 0, 209, 54, 4, 30, 0, 55, 8802, 30, 0, 55, 8784, 0, -1, 2, 8, 1, 9, 55, 8784, 0, -1, 1, 6, -1, 6, 54, 0, 6, -1, 7, 0, -1, 6, 16, 4560, 36, -19, 25, 6, -1, 8, 16, 1048, 0, -21, 6, -1, 9, 0, -1, 8, 16, 5860, 12, 13, 25, 6, -1, 10, 8, 0, 6, -1, 11, 0, -1, 11, 0, -1, 10, 26, 55, 8651, 0, -1, 8, 0, -1, 11, 25, 54, 1, 0, 56, 3, 36, 6, -1, 12, 0, -1, 12, 54, 1, 0, -1, 7, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 12, 54, 1, 0, 0, 45, 36, 64, -1, 9, 4, 7, -1, 11, 0, 4, 30, 0, 55, 8589, 0, -1, 6, 16, 4956, 16, 4, 25, 55, 8681, 54, 0, 0, -1, 6, 16, 4956, 16, 4, 25, 16, 208, 20, -5, 25, 36, 30, 0, 55, 8685, 16, 1048, 0, -21, 6, -1, 13, 0, -1, 13, 16, 6720, 8, 5, 9, 1, 11, 55, 8709, 4, 0, -1, 13, 16, 5560, 12, -2, 9, 6, -1, 14, 0, -1, 14, 1, 11, 55, 8732, 4, 0, -1, 9, 0, -1, 6, 54, 2, 0, 56, 2, 36, 51, -1, 3, 4, 0, -1, 3, 55, 8754, 0, -1, 9, 54, 1, 0, 0, 44, 36, 30, 0, 55, 8757, 0, -1, 9, 6, -1, 15, 0, -1, 6, 0, -1, 7, 0, -1, 3, 0, -1, 15, 0, -1, 13, 0, 0, 208, 54, 6, 30, 0, 55, 8802, 0, -1, 1, 30, 0, 16, 1048, 0, -21, 0, 0, 210, 54, 4, 30, 0, 55, 8802, 62, 0, -1, 1, 11, 1, 11, 55, 8821, 4, 0, -1, 2, 37, 16, 2816, 16, -9, 49, 55, 8831, 16, 1048, 0, -21, 30, 0, 55, 8856, 0, -1, 1, 54, 1, 0, -1, 3, 36, 6, -1, 4, 0, -1, 4, 54, 1, 0, 0, 45, 36, 30, 0, 55, 8856, 62, 8, 8867, 13, 6, -1, 47, 30, 0, 55, 8982, 54, 0, 20, 58, 4, 5, 0, 0, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 17, 53, 55, 8895, 30, 0, 30, 0, 55, 8981, 12, 8963, 16, 1860, 24, 15, 6, -1, 1, 0, -1, 1, 0, -1, 1, 54, 2, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 16, 7744, 16, 7, 25, 36, 4, 0, -1, 1, 54, 1, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 16, 7636, 16, -4, 25, 36, 4, 30, 1, 30, 0, 55, 8981, 2, 8959, 30, 0, 55, 8972, 6, -1, 2, 30, 0, 30, 0, 55, 8981, 16, 7100, 16, 12, 35, 30, 0, 55, 8981, 62, 8, 8992, 13, 6, -1, 48, 30, 0, 55, 9183, 54, 0, 20, 59, 4, 5, 2, 0, 1, 2, 0, 0, 211, 11, 1, 11, 55, 9015, 4, 0, -1, 1, 11, 55, 9022, 10, 30, 0, 55, 9182, 0, -1, 2, 54, 1, 0, 0, 49, 36, 52, 16, 152, 48, -11, 21, 4, 52, 54, 1, 52, 16, 2108, 20, 21, 25, 16, 5080, 8, -8, 25, 36, 52, 16, 6100, 28, -1, 21, 4, 16, 8576, 12, -4, 54, 1, 0, 0, 38, 34, 52, 16, 2208, 68, -21, 21, 4, 54, 0, 0, 0, 40, 36, 52, 16, 8480, 20, -19, 21, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 52, 16, 6552, 20, 21, 21, 4, 8, 9117, 13, 30, 0, 55, 9138, 54, 0, 20, 60, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 9137, 62, 54, 1, 52, 16, 6552, 20, 21, 25, 54, 0, 0, 0, 42, 36, 54, 2, 0, 0, 175, 54, 2, 52, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 9182, 62, 8, 9193, 13, 6, -1, 49, 30, 0, 55, 9533, 54, 0, 20, 61, 4, 5, 1, 0, 1, 54, 0, 6, -1, 2, 0, -1, 1, 16, 4444, 20, 4, 25, 0, -1, 2, 0, 0, 212, 21, 4, 0, -1, 1, 16, 1780, 28, 17, 25, 0, -1, 2, 0, 0, 215, 21, 4, 0, -1, 1, 16, 5440, 32, -9, 25, 0, -1, 2, 0, 0, 217, 21, 4, 8, 0, 33, 0, -1, 2, 0, 0, 213, 21, 4, 8, 0, 33, 0, -1, 2, 0, 0, 214, 21, 4, 0, -1, 1, 16, 3648, 20, 11, 25, 0, -1, 2, 0, 0, 216, 21, 4, 0, -1, 1, 16, 5440, 32, -9, 25, 0, -1, 2, 0, 0, 217, 21, 4, 0, -1, 1, 16, 1684, 28, -8, 25, 55, 9395, 8, 9326, 13, 30, 0, 55, 9371, 54, 0, 20, 62, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 37, 16, 6956, 16, 11, 9, 55, 9363, 0, -1, 2, 54, 1, 16, 2800, 16, 21, 35, 34, 30, 0, 55, 9370, 0, -1, 2, 30, 0, 55, 9370, 62, 54, 1, 0, -1, 1, 16, 1684, 28, -8, 25, 16, 8600, 4, -2, 25, 36, 0, -1, 2, 0, 0, 213, 21, 4, 0, -1, 1, 16, 8180, 52, -15, 25, 55, 9481, 8, 9412, 13, 30, 0, 55, 9457, 54, 0, 20, 63, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 37, 16, 6956, 16, 11, 9, 55, 9449, 0, -1, 2, 54, 1, 16, 2800, 16, 21, 35, 34, 30, 0, 55, 9456, 0, -1, 2, 30, 0, 55, 9456, 62, 54, 1, 0, -1, 1, 16, 8180, 52, -15, 25, 16, 8600, 4, -2, 25, 36, 0, -1, 2, 0, 0, 214, 21, 4, 16, 7512, 4, -9, 54, 1, 0, -1, 1, 16, 1780, 28, 17, 25, 16, 740, 8, -12, 25, 36, 0, -1, 2, 0, 0, 216, 21, 4, 0, -1, 1, 16, 5440, 32, -9, 25, 0, -1, 2, 0, 0, 217, 21, 4, 0, -1, 2, 30, 0, 55, 9532, 62, 8, 9543, 13, 6, -1, 50, 30, 0, 55, 9765, 54, 0, 20, 64, 4, 5, 3, 0, 1, 2, 3, 0, -1, 1, 11, 55, 9565, 17, 30, 0, 55, 9764, 0, -1, 3, 37, 16, 5364, 12, -6, 9, 55, 9583, 0, -1, 3, 30, 0, 55, 9585, 8, 2, 6, -1, 4, 0, -1, 1, 6, -1, 5, 8, 0, 6, -1, 6, 16, 4944, 12, 21, 35, 16, 4128, 12, 4, 25, 6, -1, 7, 0, -1, 7, 16, 1884, 12, 18, 25, 37, 16, 2816, 16, -9, 9, 55, 9636, 16, 1884, 12, 18, 30, 0, 55, 9685, 0, -1, 7, 16, 268, 32, 6, 25, 37, 16, 2816, 16, -9, 9, 55, 9660, 16, 268, 32, 6, 30, 0, 55, 9685, 0, -1, 7, 16, 7272, 28, -2, 25, 37, 16, 2816, 16, -9, 9, 55, 9684, 16, 7272, 28, -2, 30, 0, 55, 9685, 17, 6, -1, 8, 0, -1, 5, 1, 55, 9702, 4, 0, -1, 6, 0, -1, 4, 38, 55, 9759, 0, -1, 8, 11, 55, 9715, 17, 30, 0, 55, 9764, 0, -1, 2, 54, 1, 0, -1, 5, 0, -1, 8, 25, 36, 55, 9737, 0, -1, 5, 30, 0, 55, 9764, 0, -1, 5, 16, 5020, 20, 12, 25, 51, -1, 5, 4, 8, 1, 64, -1, 6, 4, 30, 0, 55, 9688, 17, 30, 0, 55, 9764, 62, 8, 9775, 13, 6, -1, 51, 30, 0, 55, 10014, 54, 0, 20, 65, 4, 5, 0, 0, 15, 0, 52, 16, 384, 24, -12, 21, 4, 16, 1196, 24, -1, 54, 0, 16, 8384, 20, 15, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 16, 748, 28, -12, 8, 0, 16, 5812, 48, -19, 15, 0, 16, 3360, 4, 4, 15, 0, 16, 5316, 24, -10, 15, 0, 16, 5592, 16, -8, 30, 0, 16, 0, 24, 18, 30, 0, 15, 8, 52, 16, 6584, 8, 15, 21, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 222, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 223, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 224, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 225, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 226, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 227, 21, 4, 52, 54, 1, 52, 16, 6228, 48, -16, 25, 16, 5080, 8, -8, 25, 36, 52, 16, 6228, 48, -16, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 10013, 62, 8, 10024, 13, 6, -1, 52, 30, 0, 55, 10052, 54, 0, 20, 66, 4, 5, 0, 0, 8, 0, 33, 52, 16, 3672, 20, 21, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 10051, 62, 8, 10062, 13, 6, -1, 53, 30, 0, 55, 10199, 54, 0, 20, 67, 4, 5, 0, 0, 16, 40, 16, 14, 35, 16, 7344, 16, 1, 25, 6, -1, 1, 0, -1, 1, 11, 55, 10095, 8, 0, 30, 0, 55, 10198, 16, 1048, 0, -21, 6, -1, 2, 0, -1, 1, 54, 1, 16, 6356, 12, 4, 35, 16, 3784, 16, -12, 25, 36, 6, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 10185, 0, -1, 3, 0, -1, 5, 25, 6, -1, 6, 0, -1, 6, 16, 6464, 4, 0, 31, 0, -1, 1, 0, -1, 6, 25, 31, 64, -1, 2, 4, 7, -1, 5, 0, 4, 30, 0, 55, 10137, 0, -1, 2, 54, 1, 0, 0, 235, 36, 30, 0, 55, 10198, 62, 8, 10209, 13, 6, -1, 54, 30, 0, 55, 10258, 54, 0, 20, 68, 4, 5, 0, 0, 12, 10240, 54, 0, 0, 0, 139, 16, 600, 12, 14, 25, 36, 30, 0, 55, 10257, 2, 10236, 30, 0, 55, 10248, 6, -1, 1, 17, 30, 0, 55, 10257, 16, 7100, 16, 12, 35, 30, 0, 55, 10257, 62, 8, 10268, 13, 6, -1, 55, 30, 0, 55, 10333, 54, 0, 20, 69, 4, 5, 0, 0, 12, 10315, 8, 150, 8, 0, 54, 2, 16, 8328, 12, 1, 35, 16, 8436, 16, 7, 25, 16, 4928, 8, -1, 25, 16, 7480, 12, 16, 25, 36, 30, 0, 55, 10332, 2, 10311, 30, 0, 55, 10323, 6, -1, 1, 17, 30, 0, 55, 10332, 16, 7100, 16, 12, 35, 30, 0, 55, 10332, 62, 8, 10343, 13, 6, -1, 56, 30, 0, 55, 10408, 54, 0, 20, 70, 4, 5, 0, 0, 12, 10390, 8, 150, 8, 0, 54, 2, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 4928, 8, -1, 25, 16, 7480, 12, 16, 25, 36, 30, 0, 55, 10407, 2, 10386, 30, 0, 55, 10398, 6, -1, 1, 17, 30, 0, 55, 10407, 16, 7100, 16, 12, 35, 30, 0, 55, 10407, 62, 8, 10418, 13, 6, -1, 57, 30, 0, 55, 10511, 54, 0, 20, 71, 4, 5, 0, 0, 12, 10493, 16, 6988, 20, 1, 54, 1, 16, 5688, 20, 1, 35, 16, 4364, 32, 11, 25, 36, 6, -1, 1, 0, -1, 1, 16, 5860, 12, 13, 25, 8, 0, 50, 55, 10480, 0, -1, 1, 8, 0, 25, 16, 4320, 16, 6, 25, 30, 0, 55, 10510, 30, 0, 55, 10487, 8, 1, 63, 30, 0, 55, 10510, 2, 10489, 30, 0, 55, 10501, 6, -1, 2, 17, 30, 0, 55, 10510, 16, 7100, 16, 12, 35, 30, 0, 55, 10510, 62, 8, 10521, 13, 6, -1, 58, 30, 0, 55, 10570, 54, 0, 20, 72, 4, 5, 0, 0, 12, 10552, 54, 0, 0, 0, 234, 16, 600, 12, 14, 25, 36, 30, 0, 55, 10569, 2, 10548, 30, 0, 55, 10560, 6, -1, 1, 17, 30, 0, 55, 10569, 16, 7100, 16, 12, 35, 30, 0, 55, 10569, 62, 8, 10580, 13, 6, -1, 59, 30, 0, 55, 10624, 54, 0, 20, 73, 4, 5, 0, 0, 12, 10606, 54, 0, 0, 0, 53, 36, 30, 0, 55, 10623, 2, 10602, 30, 0, 55, 10614, 6, -1, 1, 17, 30, 0, 55, 10623, 16, 7100, 16, 12, 35, 30, 0, 55, 10623, 62, 8, 10634, 13, 6, -1, 60, 30, 0, 55, 10683, 54, 0, 20, 74, 4, 5, 0, 0, 12, 10665, 54, 0, 0, 0, 232, 16, 600, 12, 14, 25, 36, 30, 0, 55, 10682, 2, 10661, 30, 0, 55, 10673, 6, -1, 1, 17, 30, 0, 55, 10682, 16, 7100, 16, 12, 35, 30, 0, 55, 10682, 62, 8, 10693, 13, 6, -1, 61, 30, 0, 55, 10716, 54, 0, 20, 75, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 8260, 32, -11, 25, 30, 0, 55, 10715, 62, 8, 10726, 13, 6, -1, 62, 30, 0, 55, 10749, 54, 0, 20, 76, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 6292, 32, 16, 25, 30, 0, 55, 10748, 62, 8, 10759, 13, 6, -1, 63, 30, 0, 55, 10782, 54, 0, 20, 77, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 3772, 12, -5, 25, 30, 0, 55, 10781, 62, 8, 10792, 13, 6, -1, 64, 30, 0, 55, 10815, 54, 0, 20, 78, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 252, 16, 8, 25, 30, 0, 55, 10814, 62, 8, 10825, 13, 6, -1, 65, 30, 0, 55, 10848, 54, 0, 20, 79, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 2832, 20, -10, 25, 30, 0, 55, 10847, 62, 8, 10858, 13, 6, -1, 66, 30, 0, 55, 10881, 54, 0, 20, 80, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 1300, 8, -3, 25, 30, 0, 55, 10880, 62, 8, 10891, 13, 6, -1, 67, 30, 0, 55, 10914, 54, 0, 20, 81, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 4336, 16, -16, 25, 30, 0, 55, 10913, 62, 8, 10924, 13, 6, -1, 68, 30, 0, 55, 10947, 54, 0, 20, 82, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 1368, 24, 11, 25, 30, 0, 55, 10946, 62, 8, 10957, 13, 6, -1, 69, 30, 0, 55, 10980, 54, 0, 20, 83, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 348, 16, 0, 25, 30, 0, 55, 10979, 62, 8, 10990, 13, 6, -1, 70, 30, 0, 55, 11013, 54, 0, 20, 84, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 84, 24, 7, 25, 30, 0, 55, 11012, 62, 8, 11023, 13, 6, -1, 71, 30, 0, 55, 11046, 54, 0, 20, 85, 4, 5, 0, 0, 16, 3552, 28, -18, 35, 16, 8820, 16, -1, 25, 30, 0, 55, 11045, 62, 8, 11056, 13, 6, -1, 72, 30, 0, 55, 11074, 54, 0, 20, 86, 4, 5, 0, 0, 16, 2852, 32, 12, 35, 30, 0, 55, 11073, 62, 8, 11084, 13, 6, -1, 73, 30, 0, 55, 11153, 54, 0, 20, 87, 4, 5, 0, 0, 30, 0, 6, -1, 1, 12, 11142, 16, 6848, 24, -8, 54, 1, 16, 8328, 12, 1, 35, 16, 4544, 16, -4, 25, 36, 11, 11, 1, 55, 11132, 4, 16, 3892, 64, -14, 16, 40, 16, 14, 35, 44, 51, -1, 1, 4, 2, 11138, 30, 0, 55, 11145, 6, -1, 2, 0, -1, 1, 30, 0, 55, 11152, 62, 8, 11163, 13, 6, -1, 74, 30, 0, 55, 11186, 54, 0, 20, 88, 4, 5, 0, 0, 16, 2740, 48, -21, 35, 16, 8660, 36, -8, 25, 30, 0, 55, 11185, 62, 8, 11196, 13, 6, -1, 75, 30, 0, 55, 11330, 54, 0, 20, 89, 4, 5, 0, 0, 16, 7308, 8, 3, 35, 37, 16, 7100, 16, 12, 9, 1, 11, 55, 11231, 4, 16, 7308, 8, 3, 35, 16, 1536, 32, 9, 25, 11, 55, 11238, 17, 30, 0, 55, 11329, 54, 0, 16, 7308, 8, 3, 35, 16, 1536, 32, 9, 25, 36, 6, -1, 1, 0, -1, 1, 16, 7564, 24, 11, 25, 37, 16, 2816, 16, -9, 49, 55, 11275, 17, 30, 0, 55, 11329, 54, 0, 0, -1, 1, 16, 7564, 24, 11, 25, 36, 6, -1, 2, 0, -1, 2, 1, 55, 11310, 4, 0, -1, 2, 16, 4972, 12, 2, 25, 37, 16, 6956, 16, 11, 9, 55, 11324, 0, -1, 2, 16, 4972, 12, 2, 25, 30, 0, 55, 11325, 17, 30, 0, 55, 11329, 62, 8, 11340, 13, 6, -1, 76, 30, 0, 55, 11474, 54, 0, 20, 90, 4, 5, 0, 0, 16, 7308, 8, 3, 35, 37, 16, 7100, 16, 12, 9, 1, 11, 55, 11375, 4, 16, 7308, 8, 3, 35, 16, 1536, 32, 9, 25, 11, 55, 11382, 17, 30, 0, 55, 11473, 54, 0, 16, 7308, 8, 3, 35, 16, 1536, 32, 9, 25, 36, 6, -1, 1, 0, -1, 1, 16, 7564, 24, 11, 25, 37, 16, 2816, 16, -9, 49, 55, 11419, 17, 30, 0, 55, 11473, 54, 0, 0, -1, 1, 16, 7564, 24, 11, 25, 36, 6, -1, 2, 0, -1, 2, 1, 55, 11454, 4, 0, -1, 2, 16, 6276, 16, 16, 25, 37, 16, 6956, 16, 11, 9, 55, 11468, 0, -1, 2, 16, 6276, 16, 16, 25, 30, 0, 55, 11469, 17, 30, 0, 55, 11473, 62, 8, 11484, 13, 6, -1, 77, 30, 0, 55, 11523, 54, 0, 20, 91, 4, 5, 0, 0, 16, 6168, 28, -14, 54, 1, 16, 5308, 8, 3, 35, 34, 6, -1, 1, 54, 0, 0, -1, 1, 16, 7048, 32, -6, 25, 36, 30, 0, 55, 11522, 62, 8, 11533, 13, 6, -1, 78, 30, 0, 55, 11774, 54, 0, 20, 92, 4, 5, 0, 0, 12, 11756, 16, 6168, 28, -14, 54, 1, 16, 5308, 8, 3, 35, 34, 6, -1, 1, 16, 2632, 4, 6, 54, 1, 8, 11, 8, 1, 54, 2, 0, -1, 1, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 16, 7480, 12, 16, 25, 36, 16, 3996, 36, -22, 25, 36, 6, -1, 2, 0, -1, 2, 8, 0, 25, 6, -1, 3, 0, -1, 2, 8, 1, 25, 6, -1, 4, 0, -1, 2, 8, 2, 25, 6, -1, 5, 16, 1048, 0, -21, 0, -1, 4, 31, 16, 1848, 4, 20, 31, 0, -1, 5, 31, 16, 1848, 4, 20, 31, 0, -1, 3, 31, 6, -1, 6, 16, 1048, 0, -21, 0, -1, 3, 31, 16, 2632, 4, 6, 31, 0, -1, 4, 31, 16, 2632, 4, 6, 31, 0, -1, 5, 31, 6, -1, 7, 0, -1, 6, 54, 1, 16, 5308, 8, 3, 35, 34, 22, 6, -1, 8, 0, -1, 7, 54, 1, 16, 5308, 8, 3, 35, 34, 22, 6, -1, 9, 0, -1, 8, 0, -1, 9, 32, 8, 6e4, 47, 22, 6, -1, 10, 0, -1, 10, 54, 1, 16, 8312, 8, -4, 35, 16, 200, 8, -5, 25, 36, 30, 0, 55, 11773, 2, 11752, 30, 0, 55, 11764, 6, -1, 11, 17, 30, 0, 55, 11773, 16, 7100, 16, 12, 35, 30, 0, 55, 11773, 62, 8, 11784, 13, 6, -1, 79, 30, 0, 55, 11880, 54, 0, 20, 93, 4, 5, 0, 0, 8, 2018, 8, 1976, 8, 1952, 8, 1921, 8, 1879, 54, 5, 6, -1, 1, 8, 0, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, -1, 1, 16, 5860, 12, 13, 25, 26, 55, 11872, 16, 1808, 8, -10, 0, -1, 1, 0, -1, 3, 25, 31, 54, 1, 16, 5308, 8, 3, 35, 34, 54, 1, 16, 9016, 32, -22, 35, 36, 64, -1, 2, 4, 7, -1, 3, 0, 4, 30, 0, 55, 11817, 0, -1, 2, 30, 0, 55, 11879, 62, 8, 11890, 13, 6, -1, 80, 30, 0, 55, 11969, 54, 0, 20, 94, 4, 5, 0, 0, 16, 6168, 28, -14, 54, 1, 16, 5308, 8, 3, 35, 34, 54, 1, 16, 236, 16, -10, 35, 36, 54, 1, 16, 1048, 0, -21, 16, 4864, 24, 8, 54, 2, 16, 2800, 16, 21, 35, 34, 16, 5552, 8, -1, 25, 36, 6, -1, 1, 0, -1, 1, 55, 11960, 0, -1, 1, 8, 1, 25, 30, 0, 55, 11964, 16, 1048, 0, -21, 30, 0, 55, 11968, 62, 8, 11979, 13, 6, -1, 81, 30, 0, 55, 12006, 54, 0, 20, 95, 4, 5, 0, 0, 8, 4, 52, 16, 6008, 24, 1, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 12005, 62, 8, 12016, 13, 6, -1, 82, 30, 0, 55, 12226, 54, 0, 20, 96, 4, 5, 2, 0, 1, 2, 16, 8924, 16, 6, 54, 1, 16, 8328, 12, 1, 35, 16, 8500, 36, 4, 25, 36, 6, -1, 3, 16, 8616, 12, -4, 0, -1, 2, 31, 51, -1, 7, 4, 16, 996, 4, -9, 0, -1, 1, 31, 51, -1, 8, 4, 8, 0, 51, -1, 4, 4, 0, -1, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 26, 55, 12220, 0, -1, 3, 0, -1, 4, 25, 51, -1, 5, 4, 0, -1, 5, 16, 3724, 16, -3, 25, 55, 12130, 16, 2104, 4, 4, 54, 1, 0, -1, 5, 16, 3724, 16, -3, 25, 36, 30, 0, 55, 12131, 17, 51, -1, 6, 4, 0, -1, 6, 11, 55, 12162, 0, -1, 5, 16, 2104, 4, 4, 25, 1, 11, 55, 12158, 4, 16, 1048, 0, -21, 51, -1, 6, 4, 0, -1, 7, 54, 1, 0, -1, 6, 16, 2164, 12, 2, 25, 36, 8, 1, 63, 49, 1, 55, 12202, 4, 0, -1, 8, 54, 1, 0, -1, 6, 16, 2164, 12, 2, 25, 36, 8, 1, 63, 49, 55, 12211, 0, -1, 5, 30, 0, 55, 12225, 7, -1, 4, 0, 4, 30, 0, 55, 12076, 17, 30, 0, 55, 12225, 62, 8, 12236, 13, 6, -1, 83, 30, 0, 55, 12729, 54, 0, 20, 97, 4, 5, 1, 0, 1, 12, 12685, 16, 1436, 16, 15, 6, -1, 2, 17, 6, -1, 3, 0, -1, 1, 16, 8836, 8, -7, 25, 6, -1, 4, 0, -1, 4, 8, 0, 33, 49, 1, 55, 12292, 4, 0, -1, 4, 16, 3368, 4, -9, 25, 8, 0, 33, 49, 55, 12679, 0, -1, 4, 16, 3368, 4, -9, 25, 16, 680, 8, -19, 9, 55, 12448, 0, -1, 1, 16, 3144, 16, -8, 25, 16, 40, 16, 14, 35, 9, 55, 12411, 0, -1, 4, 16, 1640, 8, 9, 25, 8, 2, 9, 55, 12346, 16, 5708, 24, 10, 51, -1, 2, 4, 0, -1, 2, 0, -1, 4, 16, 1028, 4, 3, 25, 54, 2, 0, 0, 82, 36, 51, -1, 3, 4, 0, -1, 3, 17, 60, 55, 12407, 0, -1, 3, 16, 2104, 4, 4, 25, 0, -1, 3, 16, 6468, 76, -20, 25, 54, 2, 54, 1, 0, 0, 244, 8, 0, 25, 16, 3464, 8, 1, 25, 36, 4, 30, 0, 55, 12444, 0, -1, 1, 16, 5516, 24, -17, 25, 0, -1, 1, 16, 3144, 16, -8, 25, 54, 2, 54, 1, 0, 0, 244, 8, 0, 25, 16, 3464, 8, 1, 25, 36, 4, 30, 0, 55, 12679, 0, -1, 4, 16, 3368, 4, -9, 25, 16, 7816, 4, 15, 9, 55, 12586, 0, -1, 1, 16, 3144, 16, -8, 25, 16, 40, 16, 14, 35, 9, 55, 12557, 0, -1, 4, 16, 1640, 8, 9, 25, 8, 2, 9, 55, 12500, 16, 5708, 24, 10, 51, -1, 2, 4, 0, -1, 2, 0, -1, 4, 16, 1028, 4, 3, 25, 54, 2, 0, 0, 82, 36, 51, -1, 3, 4, 0, -1, 3, 17, 60, 55, 12553, 0, -1, 3, 16, 2104, 4, 4, 25, 0, -1, 3, 16, 6468, 76, -20, 25, 54, 2, 0, 0, 244, 8, 1, 21, 4, 30, 0, 55, 12582, 0, -1, 1, 16, 5516, 24, -17, 25, 0, -1, 1, 16, 3144, 16, -8, 25, 54, 2, 0, 0, 244, 8, 1, 21, 4, 30, 0, 55, 12679, 0, -1, 4, 16, 3368, 4, -9, 25, 16, 3636, 4, 4, 9, 55, 12679, 0, -1, 4, 16, 5544, 4, 10, 25, 17, 53, 55, 12618, 10, 30, 0, 55, 12728, 0, 0, 244, 8, 2, 25, 0, -1, 4, 16, 5544, 4, 10, 25, 25, 17, 60, 55, 12679, 0, -1, 4, 16, 680, 8, -19, 25, 0, -1, 4, 16, 7364, 4, -20, 25, 54, 2, 54, 1, 0, 0, 244, 8, 2, 25, 0, -1, 4, 16, 5544, 4, 10, 25, 25, 16, 3464, 8, 1, 25, 36, 4, 2, 12681, 30, 0, 55, 12719, 6, -1, 5, 16, 7828, 24, -13, 0, -1, 5, 16, 7828, 24, -13, 25, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 5416, 24, 6, 54, 4, 48, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 12728, 62, 8, 12739, 13, 6, -1, 84, 30, 0, 55, 13077, 54, 0, 20, 98, 4, 5, 3, 0, 1, 2, 3, 12, 13033, 0, -1, 1, 16, 8836, 8, -7, 25, 6, -1, 4, 0, -1, 4, 8, 0, 33, 49, 1, 55, 12786, 4, 0, -1, 4, 16, 3368, 4, -9, 25, 8, 0, 33, 49, 55, 13027, 0, -1, 4, 16, 3368, 4, -9, 25, 16, 1648, 4, -4, 9, 55, 13027, 0, -1, 4, 16, 1028, 4, 3, 25, 17, 60, 1, 55, 12829, 4, 0, -1, 4, 16, 1028, 4, 3, 25, 0, -1, 3, 49, 55, 12836, 10, 30, 0, 55, 13076, 8, 12843, 13, 30, 0, 55, 12893, 54, 0, 20, 99, 4, 5, 1, 0, 1, 16, 7828, 24, -13, 0, -1, 1, 16, 7828, 24, -13, 25, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 1988, 20, -10, 54, 4, 48, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 12892, 62, 54, 1, 8, 12902, 13, 30, 0, 55, 13006, 54, 0, 20, 100, 4, 5, 0, 0, 16, 7516, 4, 19, 16, 5544, 4, 10, 0, 98, 4, 16, 5544, 4, 10, 25, 16, 680, 8, -19, 0, 0, 236, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 1, 0, 0, 86, 36, 16, 7364, 4, -20, 0, 98, 2, 16, 3368, 4, -9, 16, 3636, 4, 4, 16, 3144, 16, -8, 16, 7344, 16, 1, 15, 5, 54, 2, 16, 40, 16, 14, 35, 16, 7676, 8, -2, 25, 16, 1720, 48, -13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13005, 62, 54, 1, 54, 0, 0, 0, 85, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 4, 2, 13029, 30, 0, 55, 13067, 6, -1, 5, 16, 7828, 24, -13, 0, -1, 5, 16, 7828, 24, -13, 25, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 3800, 40, -10, 54, 4, 48, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13076, 62, 8, 13087, 13, 6, -1, 85, 30, 0, 55, 13451, 54, 0, 20, 101, 4, 5, 0, 0, 8, 13105, 13, 6, -1, 1, 30, 0, 55, 13354, 54, 0, 20, 102, 4, 5, 2, 0, 1, 2, 8, 13122, 13, 30, 0, 55, 13187, 54, 0, 20, 103, 4, 5, 2, 0, 1, 2, 8, 25, 8, 13141, 13, 30, 0, 55, 13168, 54, 0, 20, 104, 4, 5, 0, 0, 16, 4596, 20, -14, 54, 1, 16, 1712, 8, 2, 35, 34, 54, 1, 0, 103, 2, 36, 62, 54, 2, 16, 108, 44, -12, 35, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13186, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 6, -1, 3, 8, 13205, 13, 30, 0, 55, 13257, 54, 0, 20, 105, 6, -1, 0, 5, 1, 1, 2, 16, 7828, 24, -13, 0, -1, 2, 16, 7828, 24, -13, 25, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 6368, 24, 17, 54, 4, 48, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13256, 62, 54, 1, 8, 13266, 13, 30, 0, 55, 13298, 54, 0, 20, 106, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 0, 0, 236, 0, 102, 2, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13297, 62, 54, 1, 0, -1, 3, 54, 0, 0, -1, 1, 36, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 54, 2, 54, 1, 16, 7320, 24, -13, 35, 16, 904, 12, 6, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 13353, 62, 54, 0, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, 0, 237, 16, 5860, 12, 13, 25, 26, 55, 13430, 0, 0, 237, 0, -1, 3, 25, 37, 16, 2816, 16, -9, 9, 55, 13421, 0, -1, 3, 0, 0, 237, 0, -1, 3, 25, 54, 2, 0, -1, 1, 36, 54, 1, 0, -1, 2, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 3, 0, 4, 30, 0, 55, 13364, 0, -1, 2, 54, 1, 16, 7320, 24, -13, 35, 16, 8604, 4, 10, 25, 36, 30, 0, 55, 13450, 62, 8, 13461, 13, 6, -1, 86, 30, 0, 55, 13478, 54, 0, 20, 107, 4, 5, 1, 0, 1, 0, -1, 1, 30, 0, 55, 13477, 62, 8, 13488, 13, 6, -1, 87, 30, 0, 55, 13630, 54, 0, 20, 108, 4, 5, 2, 0, 1, 2, 8, 13505, 13, 30, 0, 55, 13571, 54, 0, 20, 109, 4, 5, 2, 0, 1, 2, 0, 108, 2, 8, 13525, 13, 30, 0, 55, 13552, 54, 0, 20, 110, 4, 5, 0, 0, 16, 3580, 12, 20, 54, 1, 16, 1712, 8, 2, 35, 34, 54, 1, 0, 109, 2, 36, 62, 54, 2, 16, 108, 44, -12, 35, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13570, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 6, -1, 3, 54, 0, 0, -1, 1, 36, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 6, -1, 4, 0, -1, 3, 0, -1, 4, 54, 2, 54, 1, 16, 7320, 24, -13, 35, 16, 904, 12, 6, 25, 36, 30, 0, 55, 13629, 62, 8, 13640, 13, 6, -1, 88, 30, 0, 55, 13977, 54, 0, 20, 111, 4, 5, 4, 0, 1, 2, 3, 4, 16, 6872, 4, -3, 51, 0, 245, 4, 0, -1, 1, 37, 16, 5364, 12, -6, 49, 1, 11, 55, 13680, 4, 0, -1, 1, 8, 2, 50, 55, 13688, 8, 0, 51, -1, 1, 4, 0, -1, 4, 55, 13703, 0, -1, 1, 8, 1, 31, 30, 0, 55, 13705, 8, 1, 6, -1, 5, 8, 13715, 13, 30, 0, 55, 13964, 54, 0, 20, 112, 6, -1, 0, 5, 2, 1, 2, 3, 8, 13737, 13, 6, -1, 4, 30, 0, 55, 13951, 54, 0, 20, 113, 4, 5, 1, 0, 1, 16, 2732, 8, -18, 0, -1, 1, 31, 51, 0, 245, 4, 12, 13928, 0, 0, 244, 8, 2, 25, 0, 111, 3, 25, 6, -1, 2, 0, -1, 2, 16, 5860, 12, 13, 25, 0, 111, 5, 49, 6, -1, 3, 0, -1, 2, 8, 0, 33, 9, 1, 11, 55, 13803, 4, 0, -1, 3, 6, -1, 4, 0, -1, 4, 1, 55, 13819, 4, 0, -1, 1, 8, 30, 26, 55, 13891, 0, -1, 1, 8, 10, 26, 55, 13835, 8, 1, 30, 0, 55, 13837, 8, 3, 6, -1, 5, 0, -1, 5, 8, 13850, 13, 30, 0, 55, 13878, 54, 0, 20, 114, 6, -1, 0, 5, 0, 1, 0, 113, 1, 0, 113, 5, 31, 54, 1, 0, 112, 4, 36, 30, 0, 55, 13877, 62, 54, 2, 16, 108, 44, -12, 35, 36, 4, 30, 0, 55, 13922, 16, 3956, 8, 12, 51, 0, 245, 4, 0, -1, 2, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 1, 0, 112, 2, 36, 4, 2, 13924, 30, 0, 55, 13941, 6, -1, 6, 0, -1, 6, 54, 1, 0, 112, 3, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 13950, 62, 8, 0, 54, 1, 0, -1, 4, 36, 30, 0, 55, 13963, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 30, 0, 55, 13976, 62, 8, 13987, 13, 6, -1, 90, 30, 0, 55, 14131, 54, 0, 20, 115, 4, 5, 2, 0, 1, 2, 8, 0, 6, -1, 3, 8, 0, 6, -1, 4, 0, -1, 4, 0, 0, 244, 8, 0, 25, 16, 5860, 12, 13, 25, 26, 55, 14123, 0, 0, 244, 8, 0, 25, 0, -1, 4, 25, 8, 0, 25, 17, 60, 55, 14114, 0, 0, 244, 8, 0, 25, 0, -1, 4, 25, 8, 1, 25, 16, 5544, 4, 10, 0, -1, 2, 16, 1028, 4, 3, 0, -1, 1, 16, 3368, 4, -9, 16, 1648, 4, -4, 16, 3144, 16, -8, 16, 7344, 16, 1, 15, 4, 54, 2, 0, 0, 244, 8, 0, 25, 0, -1, 4, 25, 8, 0, 25, 16, 1720, 48, -13, 25, 36, 4, 8, 1, 64, -1, 3, 4, 7, -1, 4, 0, 4, 30, 0, 55, 14007, 0, -1, 3, 30, 0, 55, 14130, 62, 8, 14141, 13, 6, -1, 91, 30, 0, 55, 14528, 54, 0, 20, 116, 4, 5, 4, 0, 1, 2, 3, 4, 0, -1, 2, 17, 53, 55, 14165, 10, 30, 0, 55, 14527, 12, 14437, 8, 0, 6, -1, 5, 0, -1, 3, 1, 55, 14183, 4, 0, -1, 4, 11, 55, 14201, 0, -1, 2, 0, -1, 1, 54, 2, 0, 0, 90, 36, 51, -1, 5, 4, 16, 5872, 4, -8, 51, 0, 245, 4, 54, 0, 0, 0, 85, 36, 6, -1, 6, 8, 14225, 13, 30, 0, 55, 14270, 54, 0, 20, 117, 4, 5, 1, 0, 1, 16, 8428, 8, 0, 0, -1, 1, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 1220, 40, -11, 54, 4, 48, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 14269, 62, 54, 1, 8, 14279, 13, 30, 0, 55, 14410, 54, 0, 20, 118, 6, -1, 0, 5, 0, 1, 16, 3668, 4, -15, 51, 0, 245, 4, 0, 0, 236, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 1, 0, 0, 86, 36, 8, 0, 54, 2, 54, 1, 0, 0, 244, 8, 2, 25, 0, 116, 2, 25, 16, 3464, 8, 1, 25, 36, 4, 0, 116, 4, 55, 14387, 0, 0, 244, 8, 2, 25, 0, 116, 2, 25, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 14409, 0, 116, 3, 0, 116, 2, 0, 116, 1, 0, 116, 5, 54, 4, 0, 0, 88, 36, 30, 0, 55, 14409, 62, 54, 1, 0, -1, 6, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 14527, 2, 14433, 30, 0, 55, 14518, 6, -1, 7, 16, 7828, 24, -13, 0, -1, 7, 16, 7828, 24, -13, 25, 15, 1, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 4760, 104, -21, 54, 4, 48, 36, 4, 8, 14478, 13, 30, 0, 55, 14506, 54, 0, 20, 119, 6, -1, 0, 5, 1, 1, 2, 54, 0, 0, -1, 2, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 14505, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 30, 0, 55, 14527, 16, 7100, 16, 12, 35, 30, 0, 55, 14527, 62, 8, 14538, 13, 6, -1, 92, 30, 0, 55, 14586, 54, 0, 20, 120, 4, 5, 0, 0, 8, 15, 8, 2, 54, 2, 8, 36, 54, 1, 54, 0, 16, 8312, 8, -4, 35, 16, 7408, 12, 9, 25, 36, 16, 7852, 36, -14, 25, 36, 16, 4692, 24, -8, 25, 36, 30, 0, 55, 14585, 62, 8, 14596, 13, 6, -1, 93, 30, 0, 55, 14680, 54, 0, 20, 121, 4, 5, 0, 0, 16, 7320, 24, -13, 35, 37, 16, 7100, 16, 12, 49, 1, 55, 14635, 4, 16, 7320, 24, -13, 35, 16, 904, 12, 6, 25, 37, 16, 2816, 16, -9, 9, 1, 55, 14655, 4, 16, 7320, 24, -13, 35, 16, 8604, 4, 10, 25, 37, 16, 2816, 16, -9, 9, 1, 55, 14675, 4, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 37, 16, 2816, 16, -9, 9, 30, 0, 55, 14679, 62, 8, 14690, 13, 6, -1, 94, 30, 0, 55, 14989, 54, 0, 20, 122, 4, 5, 4, 0, 1, 2, 3, 4, 54, 0, 0, 0, 93, 36, 11, 55, 14716, 17, 30, 0, 55, 14988, 0, -1, 4, 8, 0, 33, 49, 1, 55, 14736, 4, 0, -1, 4, 54, 1, 0, 0, 95, 36, 55, 14743, 17, 30, 0, 55, 14988, 0, -1, 3, 37, 16, 1452, 28, -17, 49, 55, 14760, 30, 0, 51, -1, 3, 4, 0, -1, 2, 37, 16, 1452, 28, -17, 49, 55, 14777, 30, 1, 51, -1, 2, 4, 54, 0, 0, 0, 92, 36, 6, -1, 5, 54, 0, 0, 0, 244, 8, 2, 25, 0, -1, 5, 21, 4, 8, 14806, 13, 30, 0, 55, 14886, 54, 0, 20, 123, 6, -1, 0, 5, 1, 1, 2, 16, 5872, 4, -8, 51, 0, 245, 4, 16, 1836, 12, -19, 0, 0, 245, 16, 992, 4, 21, 0, 122, 2, 16, 8428, 8, 0, 0, -1, 2, 15, 3, 16, 4080, 4, -2, 16, 8428, 8, 0, 16, 5732, 28, 9, 54, 4, 48, 36, 4, 0, 0, 244, 8, 2, 25, 0, 122, 5, 18, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 14885, 62, 54, 1, 8, 14895, 13, 30, 0, 55, 14925, 54, 0, 20, 124, 6, -1, 0, 5, 1, 1, 2, 0, 0, 244, 8, 2, 25, 0, 122, 5, 18, 4, 0, -1, 2, 30, 0, 55, 14924, 62, 54, 1, 8, 90, 8, 14936, 13, 30, 0, 55, 14966, 54, 0, 20, 125, 6, -1, 0, 5, 0, 1, 0, 122, 2, 0, 122, 5, 0, 122, 1, 54, 3, 0, 0, 91, 36, 30, 0, 55, 14965, 62, 54, 2, 0, 0, 87, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 14988, 62, 8, 14999, 13, 6, -1, 95, 30, 0, 55, 15106, 54, 0, 20, 126, 4, 5, 1, 0, 1, 0, -1, 1, 17, 53, 55, 15034, 16, 7936, 28, -21, 16, 1604, 16, -3, 54, 2, 48, 36, 4, 30, 0, 30, 0, 55, 15105, 0, 0, 246, 16, 5860, 12, 13, 25, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, -1, 2, 26, 55, 15099, 8, 8, 8, 0, 54, 2, 0, -1, 1, 16, 7480, 12, 16, 25, 36, 0, 0, 246, 0, -1, 3, 25, 9, 55, 15090, 30, 1, 30, 0, 55, 15105, 7, -1, 3, 0, 4, 30, 0, 55, 15050, 30, 0, 30, 0, 55, 15105, 62, 8, 15116, 13, 6, -1, 96, 30, 0, 55, 15198, 54, 0, 20, 127, 4, 5, 1, 0, 1, 0, -1, 1, 8, 0, 9, 55, 15158, 0, 0, 83, 16, 7828, 24, -13, 54, 2, 16, 40, 16, 14, 35, 16, 6728, 44, 7, 25, 36, 4, 30, 0, 55, 15188, 0, 0, 248, 8, 0, 33, 49, 55, 15188, 0, 0, 248, 16, 7828, 24, -13, 54, 2, 16, 40, 16, 14, 35, 16, 6728, 44, 7, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 15197, 62, 8, 15208, 13, 6, -1, 97, 30, 0, 55, 15488, 54, 0, 20, 128, 4, 5, 2, 0, 1, 2, 0, -1, 1, 54, 1, 0, 0, 247, 16, 2164, 12, 2, 25, 36, 8, 1, 63, 49, 55, 15243, 10, 30, 0, 55, 15487, 0, -1, 1, 54, 1, 0, 0, 247, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 1, 8, 0, 9, 55, 15291, 0, 0, 83, 16, 7828, 24, -13, 54, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 36, 4, 30, 0, 55, 15478, 8, 15298, 13, 30, 0, 55, 15335, 54, 0, 20, 129, 6, -1, 0, 5, 1, 1, 2, 0, 128, 2, 0, 128, 1, 0, -1, 2, 54, 3, 0, 0, 84, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 15334, 62, 51, 0, 248, 4, 0, 0, 248, 16, 7828, 24, -13, 54, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7516, 4, 19, 16, 1028, 4, 3, 0, -1, 2, 16, 1640, 8, 9, 0, -1, 1, 16, 3368, 4, -9, 16, 680, 8, -19, 16, 3144, 16, -8, 16, 7344, 16, 1, 15, 4, 54, 2, 16, 40, 16, 14, 35, 16, 7676, 8, -2, 25, 16, 1720, 48, -13, 25, 36, 4, 0, -1, 1, 8, 2, 9, 55, 15478, 16, 7516, 4, 19, 16, 1028, 4, 3, 0, -1, 2, 16, 1640, 8, 9, 0, -1, 1, 16, 3368, 4, -9, 16, 7816, 4, 15, 16, 3144, 16, -8, 16, 7344, 16, 1, 15, 4, 54, 2, 16, 40, 16, 14, 35, 16, 7676, 8, -2, 25, 16, 1720, 48, -13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 15487, 62, 8, 100, 6, -1, 99, 8, 101, 6, -1, 100, 8, 102, 6, -1, 101, 8, 110, 6, -1, 102, 8, 111, 6, -1, 103, 8, 112, 6, -1, 104, 8, 113, 6, -1, 105, 8, 120, 6, -1, 106, 8, 121, 6, -1, 107, 8, 130, 6, -1, 108, 8, 131, 6, -1, 109, 8, 140, 6, -1, 110, 8, 150, 6, -1, 111, 8, 151, 6, -1, 112, 8, 152, 6, -1, 113, 8, 160, 6, -1, 114, 8, 161, 6, -1, 115, 8, 162, 6, -1, 116, 8, 164, 6, -1, 117, 8, 165, 6, -1, 118, 8, 170, 6, -1, 119, 8, 171, 6, -1, 120, 8, 172, 6, -1, 121, 8, 173, 6, -1, 122, 8, 174, 6, -1, 123, 8, 180, 6, -1, 124, 8, 181, 6, -1, 125, 0, -1, 11, 0, -1, 0, 54, 2, 0, -1, 6, 36, 6, -1, 126, 0, -1, 8, 0, -1, 1, 54, 2, 0, -1, 6, 36, 6, -1, 127, 0, -1, 10, 0, -1, 2, 54, 2, 0, -1, 6, 36, 6, -1, 128, 0, -1, 9, 0, -1, 3, 54, 2, 0, -1, 7, 36, 6, -1, 129, 0, -1, 12, 0, -1, 4, 54, 2, 0, -1, 6, 36, 6, -1, 130, 8, 16, 6, -1, 131, 8, 15, 8, 1e3, 43, 6, -1, 132, 8, 12, 6, -1, 133, 8, 256, 6, -1, 134, 8, 1, 6, -1, 135, 8, 2, 6, -1, 136, 8, 3, 6, -1, 137, 8, 4, 6, -1, 138, 8, 15748, 13, 30, 0, 55, 16284, 54, 0, 20, 130, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 1, 11, 55, 15769, 4, 15, 0, 51, -1, 2, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 21, 4, 0, -1, 2, 0, 0, 135, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 135, 21, 4, 0, -1, 2, 0, 0, 136, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 136, 21, 4, 0, -1, 2, 0, 0, 137, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 137, 21, 4, 0, -1, 2, 0, 0, 138, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 138, 21, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 52, 16, 384, 24, -12, 25, 0, 0, 111, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 5592, 16, -8, 25, 30, 0, 9, 55, 16260, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 54, 1, 24, 34, 6, -1, 3, 0, 0, 130, 16, 956, 28, -11, 0, 0, 138, 54, 3, 0, 0, 126, 16, 2668, 40, -19, 0, 0, 137, 54, 3, 0, 0, 126, 16, 6052, 48, -17, 0, 0, 137, 54, 3, 0, 0, 126, 16, 2140, 24, -7, 0, 0, 137, 54, 3, 0, 0, 128, 16, 5340, 16, -7, 0, 0, 136, 54, 3, 0, 0, 128, 16, 7520, 32, -18, 0, 0, 136, 54, 3, 0, 0, 129, 16, 4492, 28, 20, 0, 0, 135, 54, 3, 0, 0, 127, 16, 1908, 12, -1, 0, 0, 135, 54, 3, 0, 0, 127, 16, 3496, 16, 15, 0, 0, 135, 54, 3, 0, 0, 127, 16, 1816, 20, -8, 0, 0, 135, 54, 3, 54, 10, 6, -1, 4, 0, -1, 4, 16, 5860, 12, 13, 25, 6, -1, 5, 8, 0, 6, -1, 6, 0, -1, 6, 0, -1, 5, 26, 55, 16246, 0, -1, 4, 0, -1, 6, 25, 6, -1, 7, 0, -1, 7, 8, 1, 25, 6, -1, 8, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, -1, 7, 8, 0, 25, 25, 30, 1, 9, 55, 16237, 52, 16, 6228, 48, -16, 25, 0, -1, 8, 54, 2, 0, -1, 7, 8, 2, 25, 36, 6, -1, 9, 30, 1, 0, -1, 9, 0, -1, 8, 54, 3, 0, -1, 3, 16, 1480, 32, 14, 25, 36, 4, 30, 1, 0, -1, 9, 0, -1, 8, 0, -1, 3, 54, 4, 54, 1, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 6, 0, 4, 30, 0, 55, 16112, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 5592, 16, -8, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 16283, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 6204, 16, 21, 21, 4, 8, 16305, 13, 30, 0, 55, 16481, 54, 0, 20, 131, 6, -1, 0, 5, 0, 1, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 55, 16457, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, -1, 2, 16, 5860, 12, 13, 25, 26, 55, 16443, 0, -1, 2, 0, -1, 3, 25, 8, 0, 25, 6, -1, 4, 0, -1, 2, 0, -1, 3, 25, 8, 1, 25, 6, -1, 5, 0, -1, 2, 0, -1, 3, 25, 8, 2, 25, 6, -1, 6, 0, -1, 2, 0, -1, 3, 25, 8, 3, 25, 6, -1, 7, 0, -1, 7, 0, -1, 6, 0, -1, 5, 54, 3, 0, -1, 4, 16, 6728, 44, 7, 25, 36, 4, 7, -1, 3, 0, 4, 30, 0, 55, 16347, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 21, 4, 30, 0, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 16480, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 2176, 8, 0, 21, 4, 8, 16502, 13, 30, 0, 55, 16528, 54, 0, 20, 132, 6, -1, 0, 5, 0, 1, 52, 16, 6584, 8, 15, 25, 16, 8384, 20, 15, 25, 30, 0, 55, 16527, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 1980, 8, 3, 21, 4, 8, 16549, 13, 30, 0, 55, 16783, 54, 0, 20, 133, 6, -1, 0, 5, 0, 1, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 54, 1, 16, 6356, 12, 4, 35, 16, 3784, 16, -12, 25, 36, 6, -1, 2, 0, -1, 2, 16, 5860, 12, 13, 25, 6, -1, 3, 8, 0, 6, -1, 4, 0, -1, 4, 0, -1, 3, 26, 55, 16772, 0, -1, 2, 0, -1, 4, 25, 6, -1, 5, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 5, 25, 16, 600, 12, 14, 25, 36, 52, 16, 384, 24, -12, 25, 0, -1, 5, 21, 4, 0, -1, 5, 0, 0, 104, 53, 55, 16698, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 5, 25, 16, 5572, 20, -1, 25, 36, 52, 16, 384, 24, -12, 25, 0, 0, 105, 21, 4, 0, -1, 5, 0, 0, 108, 53, 55, 16741, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 5, 25, 16, 5572, 20, -1, 25, 36, 52, 16, 384, 24, -12, 25, 0, 0, 109, 21, 4, 0, -1, 5, 0, 0, 108, 53, 55, 16763, 54, 0, 52, 16, 384, 24, -12, 25, 0, 0, 108, 21, 4, 7, -1, 4, 0, 4, 30, 0, 55, 16602, 52, 16, 384, 24, -12, 25, 30, 0, 55, 16782, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 600, 12, 14, 21, 4, 8, 16804, 13, 30, 0, 55, 16866, 54, 0, 20, 134, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 2, 54, 1, 16, 6972, 12, 4, 35, 36, 55, 16842, 0, -1, 2, 54, 1, 0, 0, 5, 36, 51, -1, 2, 4, 0, -1, 3, 52, 16, 384, 24, -12, 25, 0, -1, 2, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 16865, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 8588, 12, 18, 21, 4, 8, 16887, 13, 30, 0, 55, 16930, 54, 0, 20, 135, 6, -1, 0, 5, 0, 1, 15, 0, 52, 16, 384, 24, -12, 21, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 16929, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 5876, 36, -13, 21, 4, 8, 16951, 13, 30, 0, 55, 16989, 54, 0, 20, 136, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 3, 0, -1, 2, 54, 2, 52, 16, 6228, 48, -16, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 16988, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 5264, 44, -17, 21, 4, 8, 17010, 13, 30, 0, 55, 17330, 54, 0, 20, 137, 6, -1, 0, 5, 2, 1, 2, 3, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 25, 30, 0, 9, 55, 17043, 10, 30, 0, 55, 17329, 12, 17300, 0, -1, 2, 54, 1, 16, 6972, 12, 4, 35, 36, 55, 17071, 0, -1, 2, 54, 1, 0, 0, 5, 36, 51, -1, 2, 4, 8, 10, 0, -1, 2, 54, 2, 16, 8536, 12, -4, 35, 36, 51, -1, 2, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 8, 1, 32, 6, -1, 4, 0, -1, 3, 0, -1, 4, 25, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 32, 6, -1, 5, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 25, 11, 55, 17237, 0, -1, 2, 0, 0, 104, 9, 1, 11, 55, 17161, 4, 0, -1, 2, 0, 0, 108, 9, 55, 17169, 30, 1, 30, 0, 55, 17171, 30, 0, 6, -1, 6, 0, -1, 6, 55, 17186, 0, 0, 134, 30, 0, 55, 17189, 0, 0, 133, 6, -1, 7, 0, -1, 7, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 0, 0, 132, 0, 0, 131, 54, 4, 58, 16, 8404, 16, 4, 25, 34, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 21, 4, 0, -1, 3, 0, -1, 4, 25, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 32, 0, -1, 3, 0, -1, 4, 21, 4, 0, -1, 3, 0, -1, 5, 54, 2, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 25, 16, 3464, 8, 1, 25, 36, 4, 2, 17296, 30, 0, 55, 17320, 6, -1, 8, 0, -1, 8, 16, 7692, 44, -21, 54, 2, 58, 16, 3392, 20, 5, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 17329, 62, 0, -1, 13, 16, 4128, 12, 4, 25, 16, 6228, 48, -16, 21, 4, 54, 0, 0, -1, 13, 34, 6, -1, 139, 8, 1, 6, -1, 140, 8, 2, 6, -1, 141, 16, 4680, 12, -4, 35, 37, 16, 7100, 16, 12, 49, 55, 17388, 54, 0, 16, 4680, 12, -4, 35, 34, 30, 0, 55, 17389, 17, 6, -1, 142, 8, 0, 6, -1, 143, 8, 1, 6, -1, 144, 8, 2, 6, -1, 145, 8, 3, 6, -1, 146, 8, 4, 6, -1, 147, 8, 5, 6, -1, 148, 8, 6, 6, -1, 149, 8, 7, 6, -1, 150, 8, 8, 6, -1, 151, 8, 9, 6, -1, 152, 8, 10, 6, -1, 153, 54, 0, 8, 17456, 13, 30, 0, 55, 17556, 54, 0, 20, 138, 6, -1, 0, 5, 0, 1, 15, 0, 6, -1, 2, 16, 5540, 4, 17, 8, 17482, 13, 30, 0, 55, 17515, 54, 0, 20, 139, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 3, 0, 138, 2, 0, -1, 2, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 17514, 62, 16, 7768, 12, 9, 8, 17526, 13, 30, 0, 55, 17549, 54, 0, 20, 140, 6, -1, 0, 5, 1, 1, 2, 0, 138, 2, 0, -1, 2, 25, 30, 0, 55, 17548, 62, 15, 2, 30, 0, 55, 17555, 62, 36, 6, -1, 154, 8, 0, 6, -1, 155, 8, 1, 6, -1, 156, 8, 2, 6, -1, 157, 8, 3, 6, -1, 158, 8, 10, 6, -1, 159, 8, 11, 6, -1, 160, 8, 12, 6, -1, 161, 8, 13, 6, -1, 162, 8, 20, 6, -1, 163, 8, 21, 6, -1, 164, 8, 30, 6, -1, 165, 8, 40, 6, -1, 166, 8, 41, 6, -1, 167, 8, 50, 6, -1, 168, 8, 51, 6, -1, 169, 8, 52, 6, -1, 170, 8, 53, 6, -1, 171, 8, 60, 6, -1, 172, 8, 61, 6, -1, 173, 8, 62, 6, -1, 174, 8, 70, 6, -1, 175, 8, 71, 6, -1, 176, 8, 72, 6, -1, 177, 8, 73, 6, -1, 178, 8, 74, 6, -1, 179, 8, 75, 6, -1, 180, 8, 76, 6, -1, 181, 8, 77, 6, -1, 182, 8, 78, 6, -1, 183, 8, 89, 6, -1, 184, 0, -1, 29, 0, -1, 22, 54, 2, 0, -1, 28, 36, 6, -1, 185, 0, -1, 30, 0, -1, 22, 54, 2, 0, -1, 28, 36, 6, -1, 186, 0, -1, 32, 0, -1, 21, 54, 2, 0, -1, 28, 36, 6, -1, 187, 0, -1, 31, 0, -1, 23, 54, 2, 0, -1, 28, 36, 6, -1, 188, 0, -1, 33, 0, -1, 26, 54, 2, 0, -1, 28, 36, 6, -1, 189, 0, -1, 34, 0, -1, 25, 54, 2, 0, -1, 28, 36, 6, -1, 190, 0, -1, 35, 0, -1, 24, 54, 2, 0, -1, 28, 36, 6, -1, 191, 0, -1, 36, 0, -1, 27, 54, 2, 0, -1, 28, 36, 6, -1, 192, 8, 1, 8, 0, 61, 6, -1, 193, 8, 1, 8, 1, 61, 6, -1, 194, 8, 1, 8, 2, 61, 6, -1, 195, 8, 1, 8, 3, 61, 6, -1, 196, 8, 1, 8, 4, 61, 6, -1, 197, 8, 1, 8, 5, 61, 6, -1, 198, 8, 1, 8, 6, 61, 6, -1, 199, 8, 1, 8, 7, 61, 6, -1, 200, 8, 1, 8, 8, 61, 6, -1, 201, 8, 0, 6, -1, 202, 8, 1, 6, -1, 203, 16, 40, 16, 14, 35, 16, 4464, 28, -3, 25, 37, 16, 2816, 16, -9, 9, 55, 17944, 16, 40, 16, 14, 35, 16, 4464, 28, -3, 25, 30, 0, 55, 17980, 8, 17951, 13, 30, 0, 55, 17980, 54, 0, 20, 141, 6, -1, 0, 5, 1, 1, 2, 8, 50, 0, -1, 2, 54, 2, 16, 108, 44, -12, 35, 36, 30, 0, 55, 17979, 62, 6, -1, 204, 16, 40, 16, 14, 35, 16, 916, 40, 12, 25, 37, 16, 2816, 16, -9, 9, 55, 18015, 16, 40, 16, 14, 35, 16, 916, 40, 12, 25, 30, 0, 55, 18055, 8, 18022, 13, 30, 0, 55, 18055, 54, 0, 20, 142, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 16, 2644, 24, 18, 35, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 18054, 62, 6, -1, 205, 8, 212, 8, 81, 8, 127, 8, 16, 8, 59, 8, 17, 8, 231, 8, 255, 8, 172, 8, 102, 8, 136, 8, 155, 8, 103, 8, 126, 8, 36, 8, 6, 8, 52, 8, 69, 8, 137, 8, 139, 8, 158, 8, 214, 8, 78, 8, 237, 8, 128, 8, 162, 8, 26, 8, 135, 8, 42, 8, 253, 8, 125, 8, 205, 54, 32, 6, -1, 206, 8, 18134, 13, 30, 0, 55, 18222, 54, 0, 20, 143, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 8, 18155, 13, 30, 0, 55, 18194, 54, 0, 20, 144, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 0, 143, 2, 16, 7820, 8, 21, 21, 4, 54, 0, 0, 143, 2, 16, 5612, 8, -5, 25, 36, 30, 0, 55, 18193, 62, 54, 1, 52, 16, 2056, 44, -15, 25, 54, 1, 52, 16, 4716, 16, 8, 25, 36, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 18221, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 8940, 28, -19, 21, 4, 8, 18243, 13, 30, 0, 55, 18313, 54, 0, 20, 145, 6, -1, 0, 5, 0, 1, 16, 2884, 28, -13, 16, 844, 44, -21, 54, 2, 30, 0, 16, 3324, 12, -15, 16, 5988, 20, 11, 15, 1, 0, 0, 206, 54, 1, 16, 7888, 48, -21, 35, 34, 16, 316, 20, -18, 54, 5, 16, 4732, 16, 18, 35, 16, 3640, 8, 3, 25, 16, 4032, 20, 17, 25, 36, 30, 0, 55, 18312, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 4716, 16, 8, 21, 4, 8, 18334, 13, 30, 0, 55, 18770, 54, 0, 20, 146, 6, -1, 0, 5, 1, 1, 2, 52, 6, -1, 3, 52, 16, 5040, 24, -6, 25, 55, 18362, 10, 30, 0, 55, 18769, 30, 1, 52, 16, 5040, 24, -6, 21, 4, 52, 16, 7116, 32, -16, 25, 17, 49, 55, 18402, 52, 16, 7116, 32, -16, 25, 54, 1, 0, 0, 205, 36, 4, 17, 52, 16, 7116, 32, -16, 21, 4, 8, 18409, 13, 30, 0, 55, 18739, 54, 0, 20, 147, 6, -1, 0, 5, 0, 1, 54, 0, 0, 146, 3, 16, 2192, 16, -18, 25, 16, 7480, 12, 16, 25, 36, 6, -1, 2, 8, 18445, 13, 30, 0, 55, 18479, 54, 0, 20, 148, 6, -1, 0, 5, 0, 1, 30, 0, 0, 146, 3, 16, 5040, 24, -6, 21, 4, 0, 146, 3, 16, 2192, 16, -18, 25, 30, 0, 55, 18478, 62, 54, 1, 8, 18488, 13, 30, 0, 55, 18706, 54, 0, 20, 149, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 16, 8012, 8, 14, 35, 16, 4280, 40, -20, 25, 36, 11, 55, 18524, 54, 0, 51, -1, 2, 4, 0, 147, 2, 0, -1, 2, 54, 2, 0, 146, 3, 16, 3756, 16, 12, 25, 36, 6, -1, 3, 0, -1, 3, 0, 146, 3, 16, 2192, 16, -18, 21, 4, 0, 147, 2, 16, 5860, 12, 13, 25, 8, 0, 50, 55, 18682, 8, 18576, 13, 30, 0, 55, 18610, 54, 0, 20, 150, 6, -1, 0, 5, 0, 1, 30, 0, 0, 146, 3, 16, 5040, 24, -6, 21, 4, 0, 146, 3, 16, 2192, 16, -18, 25, 30, 0, 55, 18609, 62, 54, 1, 8, 18619, 13, 30, 0, 55, 18653, 54, 0, 20, 151, 6, -1, 0, 5, 0, 1, 30, 0, 0, 146, 3, 16, 5040, 24, -6, 21, 4, 0, 146, 3, 16, 2192, 16, -18, 25, 30, 0, 55, 18652, 62, 54, 1, 54, 0, 0, 146, 3, 16, 3268, 48, -13, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 18705, 30, 0, 0, 146, 3, 16, 5040, 24, -6, 21, 4, 0, 146, 3, 16, 2192, 16, -18, 25, 30, 0, 55, 18705, 62, 54, 1, 0, 146, 2, 54, 1, 0, 146, 3, 16, 3004, 40, -16, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 18738, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 52, 16, 2184, 8, 15, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 18769, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 3060, 84, -21, 21, 4, 8, 18791, 13, 30, 0, 55, 19037, 54, 0, 20, 152, 6, -1, 0, 5, 2, 1, 2, 3, 54, 0, 6, -1, 4, 15, 0, 6, -1, 5, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 7, 0, -1, 6, 26, 55, 18921, 0, -1, 3, 0, -1, 7, 25, 6, -1, 8, 0, -1, 8, 1, 55, 18863, 4, 0, -1, 8, 16, 524, 4, -3, 25, 1, 55, 18880, 4, 0, -1, 5, 0, -1, 8, 16, 524, 4, -3, 25, 25, 11, 55, 18912, 0, -1, 8, 54, 1, 0, -1, 4, 16, 3464, 8, 1, 25, 36, 4, 30, 1, 0, -1, 5, 0, -1, 8, 16, 524, 4, -3, 25, 21, 4, 7, -1, 7, 0, 4, 30, 0, 55, 18829, 0, -1, 2, 16, 5860, 12, 13, 25, 6, -1, 9, 8, 0, 6, -1, 10, 0, -1, 10, 0, -1, 9, 26, 55, 19029, 0, -1, 2, 0, -1, 10, 25, 6, -1, 11, 0, -1, 11, 1, 55, 18971, 4, 0, -1, 11, 16, 524, 4, -3, 25, 1, 55, 18988, 4, 0, -1, 5, 0, -1, 11, 16, 524, 4, -3, 25, 25, 11, 55, 19020, 0, -1, 11, 54, 1, 0, -1, 4, 16, 3464, 8, 1, 25, 36, 4, 30, 1, 0, -1, 5, 0, -1, 11, 16, 524, 4, -3, 25, 21, 4, 7, -1, 10, 0, 4, 30, 0, 55, 18937, 0, -1, 4, 30, 0, 55, 19036, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 3756, 16, 12, 21, 4, 8, 19058, 13, 30, 0, 55, 19352, 54, 0, 20, 153, 6, -1, 0, 5, 1, 1, 2, 12, 19319, 52, 6, -1, 3, 54, 0, 16, 8772, 28, 8, 35, 34, 6, -1, 4, 8, 12, 54, 1, 16, 7888, 48, -21, 35, 34, 54, 1, 16, 4732, 16, 18, 35, 16, 3592, 32, -10, 25, 36, 6, -1, 5, 0, -1, 2, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 1, 0, -1, 4, 16, 3860, 16, -14, 25, 36, 6, -1, 6, 8, 19149, 13, 30, 0, 55, 19255, 54, 0, 20, 154, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 16, 7888, 48, -21, 35, 34, 6, -1, 3, 0, 153, 5, 17, 54, 2, 16, 236, 16, -10, 35, 16, 2008, 16, -5, 25, 16, 2724, 8, -5, 25, 36, 54, 1, 16, 40, 16, 14, 35, 16, 3316, 8, 15, 25, 36, 16, 3412, 4, -1, 31, 0, -1, 3, 17, 54, 2, 16, 236, 16, -10, 35, 16, 2008, 16, -5, 25, 16, 2724, 8, -5, 25, 36, 54, 1, 16, 40, 16, 14, 35, 16, 3316, 8, 15, 25, 36, 31, 30, 0, 55, 19254, 62, 54, 1, 0, -1, 6, 0, -1, 3, 16, 7820, 8, 21, 25, 16, 5548, 4, 2, 0, -1, 5, 16, 3324, 12, -15, 16, 5988, 20, 11, 15, 2, 54, 3, 16, 4732, 16, 18, 35, 16, 3640, 8, 3, 25, 16, 844, 44, -21, 25, 36, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 19351, 2, 19315, 30, 0, 55, 19342, 6, -1, 7, 0, -1, 7, 54, 1, 16, 7320, 24, -13, 35, 16, 4536, 8, -2, 25, 36, 30, 0, 55, 19351, 16, 7100, 16, 12, 35, 30, 0, 55, 19351, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 828, 16, -1, 21, 4, 8, 19373, 13, 30, 0, 55, 19802, 54, 0, 20, 155, 6, -1, 0, 5, 1, 1, 2, 52, 6, -1, 3, 0, -1, 2, 11, 55, 19413, 54, 0, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 19801, 12, 19770, 16, 3412, 4, -1, 54, 1, 0, -1, 2, 16, 3996, 36, -22, 25, 36, 6, -1, 4, 8, 19440, 13, 30, 0, 55, 19469, 54, 0, 20, 156, 6, -1, 0, 5, 1, 1, 2, 8, 0, 54, 1, 0, -1, 2, 16, 8364, 20, -9, 25, 36, 30, 0, 55, 19468, 62, 54, 1, 16, 1048, 0, -21, 54, 1, 0, -1, 4, 8, 0, 25, 54, 1, 16, 40, 16, 14, 35, 16, 5356, 8, -11, 25, 36, 16, 3996, 36, -22, 25, 36, 16, 8600, 4, -2, 25, 36, 54, 1, 16, 7888, 48, -21, 35, 34, 6, -1, 5, 8, 19526, 13, 30, 0, 55, 19555, 54, 0, 20, 157, 6, -1, 0, 5, 1, 1, 2, 8, 0, 54, 1, 0, -1, 2, 16, 8364, 20, -9, 25, 36, 30, 0, 55, 19554, 62, 54, 1, 16, 1048, 0, -21, 54, 1, 0, -1, 4, 8, 1, 25, 54, 1, 16, 40, 16, 14, 35, 16, 5356, 8, -11, 25, 36, 16, 3996, 36, -22, 25, 36, 16, 8600, 4, -2, 25, 36, 54, 1, 16, 7888, 48, -21, 35, 34, 6, -1, 6, 8, 19612, 13, 30, 0, 55, 19629, 54, 0, 20, 158, 6, -1, 0, 5, 0, 1, 54, 0, 30, 0, 55, 19628, 62, 54, 1, 8, 19638, 13, 30, 0, 55, 19700, 54, 0, 20, 159, 6, -1, 0, 5, 1, 1, 2, 54, 0, 16, 7368, 16, 1, 35, 34, 6, -1, 3, 0, -1, 2, 54, 1, 16, 7888, 48, -21, 35, 34, 54, 1, 0, -1, 3, 16, 8320, 8, -8, 25, 36, 54, 1, 16, 1336, 8, 0, 35, 16, 8800, 8, 12, 25, 36, 30, 0, 55, 19699, 62, 54, 1, 0, -1, 6, 0, -1, 3, 16, 7820, 8, 21, 25, 16, 5548, 4, 2, 0, -1, 5, 16, 3324, 12, -15, 16, 5988, 20, 11, 15, 2, 54, 3, 16, 4732, 16, 18, 35, 16, 3640, 8, 3, 25, 16, 2884, 28, -13, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 19801, 2, 19766, 30, 0, 55, 19792, 6, -1, 7, 54, 0, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 19801, 16, 7100, 16, 12, 35, 30, 0, 55, 19801, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 3004, 40, -16, 21, 4, 8, 19823, 13, 30, 0, 55, 19939, 54, 0, 20, 160, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 52, 16, 8708, 52, -18, 25, 54, 1, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 16, 4052, 28, -16, 25, 36, 6, -1, 3, 8, 19871, 13, 30, 0, 55, 19914, 54, 0, 20, 161, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 1, 11, 55, 19892, 4, 54, 0, 0, 160, 2, 16, 2192, 16, -18, 21, 4, 0, 160, 2, 16, 2192, 16, -18, 25, 30, 0, 55, 19913, 62, 54, 1, 0, -1, 3, 54, 1, 52, 16, 3004, 40, -16, 25, 36, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 19938, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 5612, 8, -5, 21, 4, 8, 19960, 13, 30, 0, 55, 20528, 54, 0, 20, 162, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 52, 16, 6904, 24, -4, 25, 11, 55, 19992, 54, 0, 52, 16, 6904, 24, -4, 21, 4, 8, 19999, 13, 30, 0, 55, 20515, 54, 0, 20, 163, 6, -1, 0, 5, 2, 1, 2, 3, 16, 4536, 8, -2, 0, -1, 3, 16, 4352, 12, -6, 0, -1, 2, 15, 2, 54, 1, 0, 162, 2, 16, 6904, 24, -4, 25, 16, 3464, 8, 1, 25, 36, 4, 0, 162, 2, 16, 7116, 32, -16, 25, 17, 49, 55, 20081, 0, 162, 2, 16, 7116, 32, -16, 25, 54, 1, 0, 0, 205, 36, 4, 17, 0, 162, 2, 16, 7116, 32, -16, 21, 4, 8, 20088, 13, 30, 0, 55, 20490, 54, 0, 20, 164, 6, -1, 0, 5, 0, 1, 12, 20415, 17, 0, 162, 2, 16, 7116, 32, -16, 21, 4, 8, 100, 63, 54, 1, 0, 162, 2, 16, 2192, 16, -18, 25, 16, 7480, 12, 16, 25, 36, 0, 162, 2, 16, 2192, 16, -18, 21, 4, 8, 20145, 13, 30, 0, 55, 20242, 54, 0, 20, 165, 6, -1, 0, 5, 1, 1, 2, 0, 162, 2, 16, 6904, 24, -4, 25, 1, 11, 55, 20171, 4, 54, 0, 6, -1, 3, 54, 0, 0, 162, 2, 16, 6904, 24, -4, 21, 4, 8, 0, 6, -1, 4, 0, -1, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 26, 55, 20232, 0, -1, 2, 54, 1, 0, -1, 3, 0, -1, 4, 25, 16, 4536, 8, -2, 25, 36, 4, 7, -1, 4, 0, 4, 30, 0, 55, 20190, 16, 7100, 16, 12, 35, 30, 0, 55, 20241, 62, 54, 1, 8, 20251, 13, 30, 0, 55, 20375, 54, 0, 20, 166, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 0, 162, 2, 16, 8708, 52, -18, 25, 54, 2, 16, 40, 16, 14, 35, 16, 3528, 24, 18, 25, 16, 7744, 16, 7, 25, 36, 4, 0, 162, 2, 16, 6904, 24, -4, 25, 1, 11, 55, 20307, 4, 54, 0, 6, -1, 3, 54, 0, 0, 162, 2, 16, 6904, 24, -4, 21, 4, 8, 0, 6, -1, 4, 0, -1, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 26, 55, 20365, 54, 0, 0, -1, 3, 0, -1, 4, 25, 16, 4352, 12, -6, 25, 36, 4, 7, -1, 4, 0, 4, 30, 0, 55, 20326, 16, 7100, 16, 12, 35, 30, 0, 55, 20374, 62, 54, 1, 0, 162, 2, 16, 2192, 16, -18, 25, 54, 1, 0, 162, 2, 16, 828, 16, -1, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 4, 2, 20411, 30, 0, 55, 20480, 6, -1, 2, 0, -1, 2, 16, 1712, 8, 2, 35, 19, 1, 55, 20451, 4, 16, 8020, 12, 9, 54, 1, 0, -1, 2, 16, 7828, 24, -13, 25, 16, 7384, 12, -3, 25, 36, 55, 20468, 0, -1, 2, 54, 1, 0, 163, 3, 36, 4, 10, 30, 0, 55, 20489, 0, -1, 2, 16, 732, 8, -15, 54, 2, 14, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 20489, 62, 54, 1, 0, 0, 204, 36, 0, 162, 2, 16, 7116, 32, -16, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 20514, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 30, 0, 55, 20527, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 3268, 48, -13, 21, 4, 8, 20549, 13, 30, 0, 55, 20642, 54, 0, 20, 167, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 8, 20570, 13, 30, 0, 55, 20623, 54, 0, 20, 168, 6, -1, 0, 5, 0, 1, 0, 167, 2, 16, 5040, 24, -6, 25, 55, 20607, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 20622, 54, 0, 0, 167, 2, 16, 3268, 48, -13, 25, 36, 30, 0, 55, 20622, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 20641, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 2276, 8, -3, 21, 4, 8, 20663, 13, 30, 0, 55, 20936, 54, 0, 20, 169, 6, -1, 0, 5, 1, 1, 2, 52, 16, 8292, 20, 6, 25, 55, 20699, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 20935, 0, -1, 2, 17, 53, 1, 11, 55, 20719, 4, 0, -1, 2, 16, 524, 4, -3, 25, 17, 53, 55, 20738, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 20935, 52, 6, -1, 3, 8, 20749, 13, 30, 0, 55, 20917, 54, 0, 20, 170, 6, -1, 0, 5, 0, 1, 12, 20884, 30, 0, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, 169, 3, 16, 2192, 16, -18, 25, 16, 5860, 12, 13, 25, 26, 55, 20837, 0, 169, 3, 16, 2192, 16, -18, 25, 0, -1, 3, 25, 16, 524, 4, -3, 25, 0, 169, 2, 16, 524, 4, -3, 25, 9, 55, 20828, 30, 1, 51, -1, 2, 4, 30, 0, 55, 20837, 7, -1, 3, 0, 4, 30, 0, 55, 20771, 0, -1, 2, 11, 55, 20878, 0, 169, 2, 54, 1, 0, 169, 3, 16, 2192, 16, -18, 25, 16, 3464, 8, 1, 25, 36, 4, 54, 0, 0, 169, 3, 16, 2276, 8, -3, 25, 36, 30, 0, 55, 20916, 2, 20880, 30, 0, 55, 20907, 6, -1, 4, 0, -1, 4, 54, 1, 16, 7320, 24, -13, 35, 16, 4536, 8, -2, 25, 36, 30, 0, 55, 20916, 16, 7100, 16, 12, 35, 30, 0, 55, 20916, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 20935, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 6696, 4, -9, 21, 4, 8, 20957, 13, 30, 0, 55, 21045, 54, 0, 20, 171, 6, -1, 0, 5, 0, 1, 52, 16, 8292, 20, 6, 25, 55, 20992, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 21044, 52, 6, -1, 2, 8, 21003, 13, 30, 0, 55, 21026, 54, 0, 20, 172, 6, -1, 0, 5, 0, 1, 0, 171, 2, 16, 2192, 16, -18, 25, 30, 0, 55, 21025, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 21044, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 2996, 8, -5, 21, 4, 8, 21066, 13, 30, 0, 55, 21170, 54, 0, 20, 173, 6, -1, 0, 5, 0, 1, 52, 16, 8292, 20, 6, 25, 55, 21101, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 21169, 52, 6, -1, 2, 8, 21112, 13, 30, 0, 55, 21138, 54, 0, 20, 174, 6, -1, 0, 5, 0, 1, 54, 0, 0, 173, 2, 16, 5612, 8, -5, 25, 36, 30, 0, 55, 21137, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 52, 16, 2184, 8, 15, 21, 4, 52, 16, 2184, 8, 15, 25, 30, 0, 55, 21169, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 24, 16, 5, 21, 4, 8, 21191, 13, 30, 0, 55, 21293, 54, 0, 20, 175, 6, -1, 0, 5, 0, 1, 52, 16, 8292, 20, 6, 25, 55, 21226, 54, 0, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 21292, 52, 6, -1, 2, 8, 21237, 13, 30, 0, 55, 21274, 54, 0, 20, 176, 6, -1, 0, 5, 0, 1, 54, 0, 0, 175, 2, 16, 2192, 16, -18, 21, 4, 54, 0, 0, 175, 2, 16, 2276, 8, -3, 25, 36, 30, 0, 55, 21273, 62, 54, 1, 52, 16, 2184, 8, 15, 25, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 21292, 62, 0, -1, 38, 16, 4128, 12, 4, 25, 16, 6220, 8, 7, 21, 4, 0, -1, 176, 0, -1, 181, 0, -1, 183, 0, -1, 182, 0, -1, 180, 0, -1, 179, 0, -1, 177, 0, -1, 178, 0, -1, 184, 0, -1, 175, 54, 10, 6, -1, 207, 8, 0, 6, -1, 208, 8, 1, 6, -1, 209, 8, 2, 6, -1, 210, 54, 0, 0, -1, 47, 36, 6, -1, 211, 8, 0, 6, -1, 212, 8, 1, 6, -1, 213, 8, 2, 6, -1, 214, 8, 3, 6, -1, 215, 8, 4, 6, -1, 216, 8, 5, 6, -1, 217, 8, 6, 6, -1, 218, 8, 21408, 13, 30, 0, 55, 21510, 54, 0, 20, 177, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 0, 0, 49, 36, 52, 16, 152, 48, -11, 21, 4, 52, 16, 152, 48, -11, 25, 0, 0, 212, 25, 11, 55, 21476, 52, 16, 6100, 28, -1, 25, 16, 7988, 24, -22, 54, 2, 16, 8328, 12, 1, 35, 16, 6728, 44, 7, 25, 36, 4, 30, 0, 55, 21500, 52, 16, 6100, 28, -1, 25, 16, 7988, 24, -22, 54, 2, 16, 8328, 12, 1, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 21509, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 3160, 68, -12, 21, 4, 8, 21531, 13, 30, 0, 55, 21600, 54, 0, 20, 178, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 0, 0, 228, 25, 55, 21561, 54, 0, 52, 16, 5636, 52, 7, 25, 36, 4, 0, -1, 2, 0, 0, 229, 25, 55, 21590, 54, 0, 52, 16, 408, 72, -12, 25, 36, 4, 54, 0, 52, 16, 6592, 100, -18, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 21599, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 6204, 16, 21, 21, 4, 8, 21621, 13, 30, 0, 55, 21816, 54, 0, 20, 179, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 8, 21642, 13, 30, 0, 55, 21788, 54, 0, 20, 180, 6, -1, 0, 5, 0, 1, 16, 8328, 12, 1, 35, 16, 3840, 16, 6, 25, 55, 21723, 8, 21671, 13, 30, 0, 55, 21692, 54, 0, 20, 181, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 21691, 62, 54, 1, 8, 0, 54, 1, 0, 0, 183, 54, 2, 0, 179, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 30, 0, 55, 21778, 8, 21730, 13, 30, 0, 55, 21751, 54, 0, 20, 182, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 21750, 62, 54, 1, 8, 1, 54, 1, 0, 0, 183, 54, 2, 0, 179, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 21787, 62, 16, 2912, 24, -3, 54, 2, 16, 8328, 12, 1, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 21815, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 5636, 52, 7, 21, 4, 8, 21837, 13, 30, 0, 55, 22465, 54, 0, 20, 183, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 8, 21858, 13, 30, 0, 55, 21974, 54, 0, 20, 184, 6, -1, 0, 5, 1, 1, 2, 8, 21876, 13, 30, 0, 55, 21897, 54, 0, 20, 185, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 21896, 62, 54, 1, 8, 21906, 13, 30, 0, 55, 21927, 54, 0, 20, 186, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 21926, 62, 54, 1, 54, 0, 0, 0, 42, 36, 54, 1, 0, 0, 178, 54, 2, 0, 183, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 21973, 62, 16, 7164, 56, -22, 54, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 36, 4, 8, 21999, 13, 30, 0, 55, 22079, 54, 0, 20, 187, 6, -1, 0, 5, 1, 1, 2, 8, 22017, 13, 30, 0, 55, 22038, 54, 0, 20, 188, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 22037, 62, 54, 1, 54, 0, 0, 0, 42, 36, 54, 1, 0, 0, 177, 54, 2, 0, 183, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 22078, 62, 16, 5212, 16, 2, 54, 2, 16, 40, 16, 14, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7780, 16, 19, 35, 16, 7232, 40, -14, 25, 6, -1, 3, 16, 7780, 16, 19, 35, 16, 4240, 40, -13, 25, 6, -1, 4, 8, 22130, 13, 30, 0, 55, 22278, 54, 0, 20, 189, 6, -1, 0, 5, 3, 1, 2, 3, 4, 0, -1, 4, 0, -1, 3, 0, -1, 2, 16, 7780, 16, 19, 35, 54, 4, 0, 183, 3, 16, 7220, 12, 6, 25, 36, 4, 8, 22176, 13, 30, 0, 55, 22197, 54, 0, 20, 190, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 22196, 62, 54, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 2708, 16, 21, 25, 16, 6780, 4, 5, 54, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 1568, 20, -21, 25, 16, 3996, 36, -22, 25, 36, 8, 0, 25, 31, 54, 1, 0, 0, 179, 54, 2, 0, 183, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 22277, 62, 16, 7780, 16, 19, 35, 16, 7232, 40, -14, 21, 4, 8, 22296, 13, 30, 0, 55, 22444, 54, 0, 20, 191, 6, -1, 0, 5, 3, 1, 2, 3, 4, 0, -1, 4, 0, -1, 3, 0, -1, 2, 16, 7780, 16, 19, 35, 54, 4, 0, 183, 4, 16, 7220, 12, 6, 25, 36, 4, 8, 22342, 13, 30, 0, 55, 22363, 54, 0, 20, 192, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 22362, 62, 54, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 2708, 16, 21, 25, 16, 6780, 4, 5, 54, 1, 16, 40, 16, 14, 35, 16, 8436, 16, 7, 25, 16, 1568, 20, -21, 25, 16, 3996, 36, -22, 25, 36, 8, 0, 25, 31, 54, 1, 0, 0, 180, 54, 2, 0, 183, 2, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 22443, 62, 16, 7780, 16, 19, 35, 16, 4240, 40, -13, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 22464, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 408, 72, -12, 21, 4, 8, 22486, 13, 30, 0, 55, 23006, 54, 0, 20, 193, 6, -1, 0, 5, 1, 1, 2, 52, 6, -1, 3, 12, 22976, 0, -1, 3, 16, 152, 48, -11, 25, 6, -1, 4, 0, -1, 4, 0, 0, 212, 25, 11, 55, 22529, 10, 30, 0, 55, 23005, 0, -1, 4, 0, 0, 213, 25, 17, 60, 1, 55, 22556, 4, 0, -1, 4, 0, 0, 213, 25, 54, 1, 0, 0, 43, 36, 11, 55, 22563, 10, 30, 0, 55, 23005, 0, -1, 4, 0, 0, 214, 25, 17, 60, 1, 55, 22589, 4, 0, -1, 4, 0, 0, 214, 25, 54, 1, 0, 0, 43, 36, 55, 22596, 10, 30, 0, 55, 23005, 8, 2, 0, -1, 4, 0, 0, 216, 25, 0, -1, 2, 16, 4520, 16, -9, 25, 54, 3, 0, 0, 50, 36, 6, -1, 5, 0, -1, 5, 17, 53, 55, 22634, 10, 30, 0, 55, 23005, 8, 20, 8, 0, 54, 2, 16, 1620, 8, -1, 54, 1, 0, -1, 5, 16, 3724, 16, -3, 25, 36, 1, 11, 55, 22664, 4, 16, 1048, 0, -21, 16, 7480, 12, 16, 25, 36, 6, -1, 6, 8, 20, 8, 0, 54, 2, 16, 7448, 32, -19, 54, 1, 0, -1, 5, 16, 3724, 16, -3, 25, 36, 1, 11, 55, 22703, 4, 16, 1048, 0, -21, 16, 7480, 12, 16, 25, 36, 6, -1, 7, 8, 20, 8, 0, 54, 2, 16, 4916, 12, 9, 54, 1, 0, -1, 5, 16, 3724, 16, -3, 25, 36, 1, 11, 55, 22742, 4, 16, 1048, 0, -21, 16, 7480, 12, 16, 25, 36, 6, -1, 8, 8, 20, 8, 0, 54, 2, 0, 0, 219, 54, 1, 0, -1, 5, 16, 3724, 16, -3, 25, 36, 1, 11, 55, 22780, 4, 16, 1048, 0, -21, 16, 7480, 12, 16, 25, 36, 6, -1, 9, 8, 50, 8, 0, 54, 2, 8, 22802, 13, 30, 0, 55, 22884, 54, 0, 20, 194, 6, -1, 0, 5, 2, 1, 2, 3, 0, 193, 3, 16, 152, 48, -11, 25, 0, 0, 217, 25, 55, 22838, 30, 1, 30, 0, 55, 22883, 30, 0, 55, 22877, 0, 193, 3, 16, 152, 48, -11, 25, 0, 0, 218, 25, 55, 22877, 0, -1, 3, 0, -1, 2, 54, 2, 0, 193, 3, 16, 152, 48, -11, 25, 0, 0, 218, 25, 36, 30, 0, 55, 22883, 30, 0, 30, 0, 55, 22883, 62, 0, -1, 5, 54, 2, 0, 0, 46, 36, 16, 7480, 12, 16, 25, 36, 6, -1, 10, 8, 22909, 13, 30, 0, 55, 22930, 54, 0, 20, 195, 6, -1, 0, 5, 1, 1, 2, 16, 7100, 16, 12, 35, 30, 0, 55, 22929, 62, 54, 1, 0, -1, 10, 0, -1, 9, 0, -1, 7, 0, -1, 8, 0, -1, 6, 54, 5, 0, 0, 184, 54, 2, 0, -1, 3, 16, 6228, 48, -16, 25, 36, 16, 588, 12, 13, 25, 36, 4, 2, 22972, 30, 0, 55, 22996, 6, -1, 11, 0, -1, 11, 54, 1, 16, 300, 12, -8, 35, 16, 8428, 8, 0, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 23005, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 2108, 20, 21, 21, 4, 16, 8232, 28, -7, 6, -1, 219, 8, 23034, 13, 30, 0, 55, 23096, 54, 0, 20, 196, 6, -1, 0, 5, 0, 1, 52, 16, 152, 48, -11, 25, 0, 0, 212, 25, 11, 55, 23062, 10, 30, 0, 55, 23095, 52, 16, 6100, 28, -1, 25, 16, 7988, 24, -22, 54, 2, 16, 8328, 12, 1, 35, 16, 1480, 32, 14, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 23095, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 6592, 100, -18, 21, 4, 8, 23117, 13, 30, 0, 55, 23204, 54, 0, 20, 197, 6, -1, 0, 5, 2, 1, 2, 3, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 52, 16, 6552, 20, 21, 25, 32, 6, -1, 4, 16, 8760, 12, 8, 0, -1, 4, 52, 16, 8480, 20, -19, 25, 0, -1, 3, 0, -1, 2, 54, 4, 16, 524, 4, -3, 54, 0, 0, 0, 41, 36, 15, 2, 54, 1, 52, 16, 2208, 68, -21, 25, 16, 6696, 4, -9, 25, 36, 30, 0, 55, 23203, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 6228, 48, -16, 21, 4, 8, 23225, 13, 30, 0, 55, 23636, 54, 0, 20, 198, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 8, 23246, 13, 30, 0, 55, 23609, 54, 0, 20, 199, 6, -1, 0, 5, 1, 1, 2, 8, 23264, 13, 30, 0, 55, 23288, 54, 0, 20, 200, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 16, 8760, 12, 8, 25, 30, 0, 55, 23287, 62, 54, 1, 0, -1, 2, 16, 8600, 4, -2, 25, 36, 6, -1, 3, 0, -1, 3, 54, 1, 0, 0, 39, 36, 6, -1, 4, 54, 0, 6, -1, 5, 15, 0, 6, -1, 6, 0, -1, 4, 16, 5860, 12, 13, 25, 6, -1, 7, 8, 0, 6, -1, 8, 0, -1, 8, 0, -1, 7, 26, 55, 23584, 0, -1, 4, 0, -1, 8, 25, 6, -1, 9, 0, -1, 9, 8, 1, 25, 54, 1, 16, 8012, 8, 14, 35, 16, 4280, 40, -20, 25, 36, 11, 55, 23385, 30, 0, 55, 23575, 0, -1, 9, 8, 1, 25, 6, -1, 10, 0, -1, 10, 16, 5860, 12, 13, 25, 6, -1, 11, 8, 0, 6, -1, 12, 0, -1, 12, 0, -1, 11, 26, 55, 23575, 0, -1, 10, 0, -1, 12, 25, 6, -1, 13, 0, -1, 13, 37, 16, 6956, 16, 11, 53, 1, 55, 23460, 4, 0, -1, 13, 54, 1, 0, -1, 5, 16, 2164, 12, 2, 25, 36, 8, 1, 63, 9, 55, 23513, 0, -1, 13, 54, 1, 0, -1, 5, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 13, 54, 1, 28, 36, 6, -1, 14, 0, -1, 14, 0, -1, 6, 0, -1, 13, 21, 4, 0, -1, 14, 0, -1, 10, 0, -1, 12, 21, 4, 30, 0, 55, 23566, 0, -1, 6, 0, -1, 13, 25, 51, -1, 14, 4, 0, -1, 14, 8, 0, 33, 9, 55, 23555, 0, -1, 13, 54, 1, 28, 36, 51, -1, 14, 4, 0, -1, 14, 0, -1, 6, 0, -1, 13, 21, 4, 0, -1, 14, 0, -1, 10, 0, -1, 12, 21, 4, 7, -1, 12, 0, 4, 30, 0, 55, 23410, 7, -1, 8, 0, 4, 30, 0, 55, 23340, 54, 0, 0, 198, 2, 16, 5876, 36, -13, 25, 36, 4, 0, -1, 5, 0, -1, 4, 54, 2, 30, 0, 55, 23608, 62, 54, 1, 54, 0, 52, 16, 2208, 68, -21, 25, 16, 2996, 8, -5, 25, 36, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 23635, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 600, 12, 14, 21, 4, 8, 23657, 13, 30, 0, 55, 23686, 54, 0, 20, 201, 6, -1, 0, 5, 0, 1, 54, 0, 52, 16, 2208, 68, -21, 25, 16, 6220, 8, 7, 25, 36, 30, 0, 55, 23685, 62, 0, -1, 48, 16, 4128, 12, 4, 25, 16, 5876, 36, -13, 21, 4, 8, 16, 6, -1, 220, 8, 150, 8, 1e3, 43, 6, -1, 221, 8, 1, 6, -1, 222, 8, 2, 6, -1, 223, 8, 3, 6, -1, 224, 8, 4, 6, -1, 225, 8, 5, 6, -1, 226, 8, 6, 6, -1, 227, 8, 7, 6, -1, 228, 8, 8, 6, -1, 229, 8, 64, 6, -1, 230, 8, 16, 6, -1, 231, 8, 23770, 13, 30, 0, 55, 24183, 54, 0, 20, 202, 6, -1, 0, 5, 0, 1, 52, 6, -1, 2, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 11, 1, 11, 55, 23816, 4, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 16, 7148, 16, -4, 25, 11, 55, 23823, 10, 30, 0, 55, 24182, 8, 23830, 13, 30, 0, 55, 24018, 54, 0, 20, 203, 6, -1, 0, 5, 1, 1, 2, 8, 23848, 13, 30, 0, 55, 23996, 54, 0, 20, 204, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 16, 1620, 8, -1, 25, 16, 6784, 28, 12, 9, 55, 23986, 0, -1, 2, 16, 6448, 16, -1, 25, 6, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 0, 0, 231, 50, 55, 23906, 0, 0, 231, 30, 0, 55, 23914, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 23986, 0, -1, 3, 0, -1, 5, 25, 6, -1, 6, 0, -1, 6, 16, 7148, 16, -4, 25, 16, 7436, 12, 7, 35, 16, 8640, 20, -10, 25, 9, 55, 23977, 0, -1, 6, 54, 1, 0, 202, 2, 16, 636, 44, 19, 25, 36, 4, 7, -1, 5, 0, 4, 30, 0, 55, 23922, 16, 7100, 16, 12, 35, 30, 0, 55, 23995, 62, 54, 1, 0, -1, 2, 16, 7080, 20, -16, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 24017, 62, 6, -1, 3, 16, 3236, 12, 1, 35, 37, 16, 2980, 16, 15, 9, 1, 55, 24052, 4, 16, 3236, 12, 1, 35, 16, 2284, 12, 2, 25, 37, 16, 2816, 16, -9, 9, 55, 24088, 0, -1, 3, 54, 1, 16, 6144, 24, -3, 35, 54, 2, 16, 3236, 12, 1, 35, 16, 2284, 12, 2, 25, 36, 52, 16, 4984, 12, 14, 21, 4, 30, 0, 55, 24106, 0, -1, 3, 54, 1, 16, 6144, 24, -3, 35, 34, 52, 16, 4984, 12, 14, 21, 4, 12, 24153, 16, 7492, 12, 15, 30, 1, 16, 6784, 28, 12, 30, 1, 15, 2, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 54, 2, 52, 16, 4984, 12, 14, 25, 16, 7600, 36, -20, 25, 36, 4, 2, 24149, 30, 0, 55, 24173, 6, -1, 4, 0, -1, 4, 16, 1124, 72, -11, 54, 2, 59, 16, 3392, 20, 5, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 24182, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 5088, 84, -13, 21, 4, 8, 24204, 13, 30, 0, 55, 24356, 54, 0, 20, 205, 6, -1, 0, 5, 0, 1, 15, 0, 6, -1, 2, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 54, 1, 16, 6356, 12, 4, 35, 16, 3784, 16, -12, 25, 36, 6, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 24348, 0, -1, 3, 0, -1, 5, 25, 6, -1, 6, 0, -1, 6, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 25, 44, 55, 24339, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 25, 0, -1, 6, 25, 6, -1, 7, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 0, -1, 6, 25, 0, -1, 2, 0, -1, 7, 21, 4, 7, -1, 5, 0, 4, 30, 0, 55, 24262, 0, -1, 2, 30, 0, 55, 24355, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 5228, 36, 19, 21, 4, 8, 24377, 13, 30, 0, 55, 24607, 54, 0, 20, 206, 6, -1, 0, 5, 1, 1, 2, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 11, 55, 24416, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 25, 11, 55, 24458, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 21, 4, 8, 0, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 25, 0, 0, 230, 40, 55, 24480, 10, 30, 0, 55, 24606, 0, -1, 2, 16, 5472, 28, 6, 25, 37, 16, 2816, 16, -9, 9, 55, 24519, 16, 4396, 48, -10, 54, 1, 0, -1, 2, 16, 5472, 28, 6, 25, 36, 51, -1, 3, 4, 30, 0, 55, 24525, 54, 0, 51, -1, 3, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 24597, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 25, 0, 0, 230, 40, 55, 24571, 30, 0, 55, 24597, 0, -1, 3, 0, -1, 5, 25, 54, 1, 52, 16, 1344, 24, -11, 25, 36, 4, 7, -1, 5, 0, 4, 30, 0, 55, 24541, 16, 7100, 16, 12, 35, 30, 0, 55, 24606, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 636, 44, 19, 21, 4, 8, 24628, 13, 30, 0, 55, 24773, 54, 0, 20, 207, 6, -1, 0, 5, 1, 1, 2, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 25, 0, 0, 230, 40, 55, 24661, 10, 30, 0, 55, 24772, 0, -1, 2, 54, 1, 0, 0, 14, 36, 6, -1, 3, 0, -1, 3, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 44, 11, 55, 24763, 0, -1, 2, 54, 1, 0, 0, 17, 36, 6, -1, 4, 0, -1, 4, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 0, -1, 3, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 25, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 25, 0, -1, 3, 21, 4, 8, 1, 52, 16, 6584, 8, 15, 25, 16, 748, 28, -12, 29, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 24772, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 1344, 24, -11, 21, 4, 8, 24794, 13, 30, 0, 55, 25675, 54, 0, 20, 208, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 2, 1, 11, 55, 24816, 4, 15, 0, 51, -1, 2, 4, 0, -1, 3, 17, 53, 55, 24853, 16, 1780, 28, 17, 16, 312, 4, 21, 16, 4084, 44, -20, 54, 2, 16, 4444, 20, 4, 30, 1, 15, 2, 51, -1, 3, 4, 0, -1, 2, 0, 0, 229, 25, 30, 1, 9, 1, 55, 24877, 4, 52, 16, 6988, 20, 1, 25, 8, 0, 33, 9, 55, 24897, 0, -1, 3, 30, 1, 54, 2, 0, 0, 48, 34, 52, 16, 6988, 20, 1, 21, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 21, 4, 0, -1, 2, 0, 0, 222, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 222, 21, 4, 0, -1, 2, 0, 0, 223, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 223, 21, 4, 0, -1, 2, 0, 0, 224, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 224, 21, 4, 0, -1, 2, 0, 0, 225, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 225, 21, 4, 0, -1, 2, 0, 0, 226, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 226, 21, 4, 0, -1, 2, 0, 0, 227, 25, 30, 0, 49, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 227, 21, 4, 0, -1, 2, 0, 0, 228, 25, 54, 1, 16, 4660, 12, 9, 35, 36, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 228, 21, 4, 0, -1, 2, 0, 0, 229, 25, 54, 1, 16, 4660, 12, 9, 35, 36, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, 0, 229, 21, 4, 54, 0, 16, 5308, 8, 3, 35, 16, 2100, 4, 8, 25, 36, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 21, 4, 54, 0, 52, 16, 5088, 84, -13, 25, 36, 4, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 54, 1, 52, 16, 636, 44, 19, 25, 36, 4, 52, 16, 6584, 8, 15, 25, 16, 5592, 16, -8, 25, 30, 0, 9, 55, 25614, 16, 8328, 12, 1, 35, 16, 1092, 20, -18, 25, 54, 1, 24, 34, 6, -1, 4, 0, 0, 190, 16, 336, 12, 18, 0, 0, 227, 54, 3, 0, 0, 190, 16, 7736, 8, -2, 0, 0, 227, 54, 3, 0, 0, 191, 16, 6720, 8, 5, 0, 0, 226, 54, 3, 0, 0, 189, 16, 6812, 36, -13, 0, 0, 225, 54, 3, 0, 0, 189, 16, 3472, 24, 9, 0, 0, 225, 54, 3, 0, 0, 189, 16, 3228, 8, -3, 0, 0, 225, 54, 3, 0, 0, 189, 16, 7760, 8, -5, 0, 0, 225, 54, 3, 0, 0, 187, 16, 2668, 40, -19, 0, 0, 224, 54, 3, 0, 0, 187, 16, 6052, 48, -17, 0, 0, 224, 54, 3, 0, 0, 187, 16, 2140, 24, -7, 0, 0, 224, 54, 3, 0, 0, 188, 16, 5340, 16, -7, 0, 0, 223, 54, 3, 0, 0, 188, 16, 7520, 32, -18, 0, 0, 223, 54, 3, 0, 0, 186, 16, 6572, 12, -4, 0, 0, 222, 54, 3, 0, 0, 186, 16, 3496, 16, 15, 0, 0, 222, 54, 3, 0, 0, 185, 16, 1908, 12, -1, 0, 0, 222, 54, 3, 0, 0, 186, 16, 1816, 20, -8, 0, 0, 222, 54, 3, 0, 0, 192, 16, 7964, 24, 21, 0, 0, 222, 54, 3, 0, 0, 192, 16, 4492, 28, 20, 0, 0, 222, 54, 3, 0, 0, 192, 16, 5192, 20, 11, 0, 0, 222, 54, 3, 54, 19, 6, -1, 5, 0, -1, 5, 16, 5860, 12, 13, 25, 6, -1, 6, 8, 0, 6, -1, 7, 0, -1, 7, 0, -1, 6, 26, 55, 25600, 0, -1, 5, 0, -1, 7, 25, 6, -1, 8, 0, -1, 8, 8, 1, 25, 6, -1, 9, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 0, -1, 8, 8, 0, 25, 25, 30, 1, 9, 55, 25591, 52, 16, 6228, 48, -16, 25, 0, -1, 9, 54, 2, 0, -1, 8, 8, 2, 25, 36, 6, -1, 10, 30, 1, 0, -1, 10, 0, -1, 9, 54, 3, 0, -1, 4, 16, 1480, 32, 14, 25, 36, 4, 30, 1, 0, -1, 10, 0, -1, 9, 0, -1, 4, 54, 4, 54, 1, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 16, 3464, 8, 1, 25, 36, 4, 7, -1, 7, 0, 4, 30, 0, 55, 25466, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 5592, 16, -8, 21, 4, 30, 1, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 21, 4, 52, 16, 6988, 20, 1, 25, 55, 25665, 12, 25662, 0, -1, 2, 54, 1, 52, 16, 6988, 20, 1, 25, 16, 6204, 16, 21, 25, 36, 4, 2, 25658, 30, 0, 55, 25665, 6, -1, 11, 16, 7100, 16, 12, 35, 30, 0, 55, 25674, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 6204, 16, 21, 21, 4, 8, 25696, 13, 30, 0, 55, 25895, 54, 0, 20, 209, 6, -1, 0, 5, 0, 1, 52, 16, 4984, 12, 14, 25, 55, 25729, 54, 0, 52, 16, 4984, 12, 14, 25, 16, 1032, 16, 4, 25, 36, 4, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 55, 25871, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 25, 6, -1, 2, 8, 0, 6, -1, 3, 0, -1, 3, 0, -1, 2, 16, 5860, 12, 13, 25, 26, 55, 25857, 0, -1, 2, 0, -1, 3, 25, 8, 0, 25, 6, -1, 4, 0, -1, 2, 0, -1, 3, 25, 8, 1, 25, 6, -1, 5, 0, -1, 2, 0, -1, 3, 25, 8, 2, 25, 6, -1, 6, 0, -1, 2, 0, -1, 3, 25, 8, 3, 25, 6, -1, 7, 0, -1, 7, 0, -1, 6, 0, -1, 5, 54, 3, 0, -1, 4, 16, 6728, 44, 7, 25, 36, 4, 7, -1, 3, 0, 4, 30, 0, 55, 25761, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 1196, 24, -1, 21, 4, 30, 0, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 25894, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 2176, 8, 0, 21, 4, 8, 25916, 13, 30, 0, 55, 26232, 54, 0, 20, 210, 6, -1, 0, 5, 0, 1, 15, 0, 6, -1, 2, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 54, 1, 16, 6356, 12, 4, 35, 16, 3784, 16, -12, 25, 36, 6, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, -1, 4, 26, 55, 26033, 0, -1, 3, 0, -1, 5, 25, 6, -1, 6, 54, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 6, 25, 16, 600, 12, 14, 25, 36, 0, -1, 2, 0, -1, 6, 21, 4, 7, -1, 5, 0, 4, 30, 0, 55, 25974, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 54, 0, 52, 16, 5228, 36, 19, 25, 36, 0, -1, 2, 54, 0, 52, 16, 5760, 52, 6, 25, 36, 54, 4, 6, -1, 7, 52, 16, 6988, 20, 1, 25, 55, 26211, 12, 26208, 8, 26087, 13, 30, 0, 55, 26106, 54, 0, 20, 211, 6, -1, 0, 5, 1, 1, 2, 0, 210, 7, 30, 0, 55, 26105, 62, 54, 1, 8, 26115, 13, 30, 0, 55, 26170, 54, 0, 20, 212, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 8, 0, 25, 54, 1, 0, 210, 7, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 2, 8, 1, 25, 54, 1, 0, 210, 7, 16, 3464, 8, 1, 25, 36, 4, 0, 210, 7, 30, 0, 55, 26169, 62, 54, 1, 54, 0, 52, 16, 6988, 20, 1, 25, 16, 600, 12, 14, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 30, 0, 55, 26231, 2, 26204, 30, 0, 55, 26211, 6, -1, 8, 0, -1, 7, 54, 1, 16, 7320, 24, -13, 35, 16, 4352, 12, -6, 25, 36, 30, 0, 55, 26231, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 600, 12, 14, 21, 4, 8, 26253, 13, 30, 0, 55, 26289, 54, 0, 20, 213, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 3, 52, 16, 384, 24, -12, 25, 0, -1, 2, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 26288, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 8588, 12, 18, 21, 4, 8, 26310, 13, 30, 0, 55, 26353, 54, 0, 20, 214, 6, -1, 0, 5, 0, 1, 15, 0, 52, 16, 384, 24, -12, 21, 4, 15, 0, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 26352, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 5876, 36, -13, 21, 4, 8, 26374, 13, 30, 0, 55, 26821, 54, 0, 20, 215, 6, -1, 0, 5, 2, 1, 2, 3, 52, 16, 6584, 8, 15, 25, 16, 0, 24, 18, 25, 30, 0, 9, 55, 26407, 10, 30, 0, 55, 26820, 12, 26791, 8, 10, 0, -1, 2, 54, 2, 16, 8536, 12, -4, 35, 36, 51, -1, 2, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 8, 1, 32, 6, -1, 4, 0, -1, 3, 0, -1, 4, 25, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 32, 6, -1, 5, 0, -1, 3, 0, -1, 3, 16, 5860, 12, 13, 25, 8, 2, 32, 25, 6, -1, 6, 0, -1, 2, 0, 0, 165, 40, 1, 55, 26498, 4, 0, -1, 2, 0, 0, 166, 26, 55, 26558, 0, -1, 3, 8, 2, 25, 6, -1, 7, 0, -1, 7, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 0, -1, 6, 21, 4, 0, -1, 3, 8, 4, 25, 0, -1, 3, 8, 3, 25, 0, -1, 3, 8, 1, 25, 0, -1, 3, 8, 0, 25, 54, 4, 51, -1, 3, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 8, 1, 32, 51, -1, 4, 4, 0, -1, 3, 0, -1, 4, 25, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 32, 0, -1, 3, 0, -1, 4, 21, 4, 0, -1, 3, 16, 5860, 12, 13, 25, 8, 2, 32, 6, -1, 8, 52, 16, 6584, 8, 15, 25, 16, 5812, 48, -19, 25, 0, -1, 6, 25, 6, -1, 9, 0, -1, 9, 0, -1, 3, 0, -1, 8, 21, 4, 52, 16, 6584, 8, 15, 25, 16, 3360, 4, 4, 25, 0, -1, 6, 25, 6, -1, 10, 0, -1, 10, 11, 55, 26672, 10, 30, 0, 55, 26820, 0, -1, 10, 8, 0, 25, 6, -1, 11, 0, -1, 11, 0, 0, 150, 9, 55, 26695, 10, 30, 0, 55, 26820, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 25, 11, 55, 26755, 52, 16, 6584, 8, 15, 25, 16, 7008, 40, -18, 25, 0, 0, 221, 0, 0, 220, 54, 3, 59, 16, 8404, 16, 4, 25, 34, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 21, 4, 0, -1, 3, 0, -1, 5, 54, 2, 52, 16, 6584, 8, 15, 25, 16, 5316, 24, -10, 25, 0, -1, 2, 25, 16, 3464, 8, 1, 25, 36, 4, 2, 26787, 30, 0, 55, 26811, 6, -1, 12, 0, -1, 12, 16, 5620, 16, 5, 54, 2, 59, 16, 3392, 20, 5, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 26820, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 6228, 48, -16, 21, 4, 8, 26842, 13, 30, 0, 55, 26880, 54, 0, 20, 216, 6, -1, 0, 5, 2, 1, 2, 3, 0, -1, 3, 0, -1, 2, 54, 2, 52, 16, 6228, 48, -16, 25, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 26879, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 1268, 32, -11, 21, 4, 8, 26901, 13, 30, 0, 55, 27082, 54, 0, 20, 217, 6, -1, 0, 5, 0, 1, 8, 0, 6, -1, 2, 52, 16, 6584, 8, 15, 25, 16, 6204, 16, 21, 25, 6, -1, 3, 0, -1, 3, 0, 0, 222, 25, 55, 26948, 8, 1, 8, 0, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 223, 25, 55, 26966, 8, 1, 8, 1, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 224, 25, 55, 26984, 8, 1, 8, 2, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 225, 25, 55, 27002, 8, 1, 8, 3, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 226, 25, 55, 27020, 8, 1, 8, 4, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 227, 25, 55, 27038, 8, 1, 8, 5, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 228, 25, 55, 27056, 8, 1, 8, 6, 61, 39, -1, 2, 4, 0, -1, 3, 0, 0, 229, 25, 55, 27074, 8, 1, 8, 7, 61, 39, -1, 2, 4, 0, -1, 2, 30, 0, 55, 27081, 62, 0, -1, 51, 16, 4128, 12, 4, 25, 16, 5760, 52, 6, 21, 4, 54, 0, 0, -1, 51, 34, 6, -1, 232, 8, 27112, 13, 30, 0, 55, 27142, 54, 0, 20, 218, 6, -1, 0, 5, 0, 1, 8, 0, 33, 52, 16, 3672, 20, 21, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 27141, 62, 0, -1, 52, 16, 4128, 12, 4, 25, 16, 2128, 12, 13, 21, 4, 8, 27163, 13, 30, 0, 55, 27194, 54, 0, 20, 219, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 52, 16, 3672, 20, 21, 21, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 27193, 62, 0, -1, 52, 16, 4128, 12, 4, 25, 16, 7420, 16, 15, 21, 4, 8, 27215, 13, 30, 0, 55, 27236, 54, 0, 20, 220, 6, -1, 0, 5, 0, 1, 52, 16, 3672, 20, 21, 25, 30, 0, 55, 27235, 62, 0, -1, 52, 16, 4128, 12, 4, 25, 16, 600, 12, 14, 21, 4, 0, -1, 52, 6, -1, 233, 54, 0, 0, -1, 233, 34, 6, -1, 234, 8, 27272, 13, 30, 0, 55, 27544, 54, 0, 20, 221, 4, 5, 2, 0, 1, 2, 0, -1, 2, 8, 0, 33, 9, 55, 27297, 8, 0, 51, -1, 2, 4, 8, 3735928559, 0, -1, 2, 27, 6, -1, 3, 8, 1103547991, 0, -1, 2, 27, 6, -1, 4, 16, 8312, 8, -4, 35, 16, 8548, 28, -20, 25, 6, -1, 5, 0, -1, 1, 54, 1, 0, -1, 1, 16, 8364, 20, -9, 25, 16, 5080, 8, -8, 25, 36, 6, -1, 6, 0, -1, 1, 16, 5860, 12, 13, 25, 6, -1, 7, 8, 0, 6, -1, 8, 0, -1, 8, 0, -1, 7, 26, 55, 27435, 0, -1, 8, 54, 1, 0, -1, 6, 36, 51, -1, 9, 4, 8, 2654435761, 0, -1, 3, 0, -1, 9, 27, 54, 2, 0, -1, 5, 36, 51, -1, 3, 4, 8, 1597334677, 0, -1, 4, 0, -1, 9, 27, 54, 2, 0, -1, 5, 36, 51, -1, 4, 4, 7, -1, 8, 0, 4, 30, 0, 55, 27366, 8, 2246822507, 0, -1, 3, 0, -1, 3, 8, 16, 56, 27, 54, 2, 0, -1, 5, 36, 51, -1, 3, 4, 8, 3266489909, 0, -1, 4, 0, -1, 4, 8, 13, 56, 27, 54, 2, 0, -1, 5, 36, 46, -1, 3, 4, 8, 2246822507, 0, -1, 4, 0, -1, 4, 8, 16, 56, 27, 54, 2, 0, -1, 5, 36, 51, -1, 4, 4, 8, 3266489909, 0, -1, 3, 0, -1, 3, 8, 13, 56, 27, 54, 2, 0, -1, 5, 36, 46, -1, 4, 4, 8, 4294967296, 8, 2097151, 0, -1, 4, 45, 43, 0, -1, 3, 8, 0, 56, 31, 30, 0, 55, 27543, 62, 6, -1, 235, 16, 2296, 264, 11, 8, 1, 63, 8, 1, 63, 8, 1, 63, 54, 0, 0, -1, 57, 36, 54, 0, 0, -1, 56, 36, 54, 0, 0, -1, 55, 36, 8, 1, 63, 54, 8, 6, -1, 236, 8, 27593, 13, 30, 0, 55, 27608, 54, 0, 20, 222, 4, 5, 0, 0, 54, 0, 0, 0, 60, 36, 62, 8, 27615, 13, 30, 0, 55, 27630, 54, 0, 20, 223, 4, 5, 0, 0, 54, 0, 0, 0, 59, 36, 62, 8, 27637, 13, 30, 0, 55, 27652, 54, 0, 20, 224, 4, 5, 0, 0, 54, 0, 0, 0, 58, 36, 62, 17, 17, 17, 8, 27662, 13, 30, 0, 55, 27677, 54, 0, 20, 225, 4, 5, 0, 0, 54, 0, 0, 0, 54, 36, 62, 54, 7, 6, -1, 237, 0, -1, 63, 0, -1, 65, 0, -1, 64, 0, -1, 62, 0, -1, 61, 54, 5, 6, -1, 238, 0, -1, 72, 0, -1, 74, 0, -1, 73, 0, -1, 71, 0, -1, 70, 0, -1, 69, 0, -1, 68, 0, -1, 67, 0, -1, 66, 54, 9, 6, -1, 239, 0, -1, 76, 0, -1, 80, 0, -1, 79, 0, -1, 77, 0, -1, 78, 0, -1, 75, 54, 6, 6, -1, 240, 0, -1, 240, 54, 1, 0, -1, 239, 54, 1, 0, -1, 238, 16, 56, 28, -19, 25, 36, 16, 56, 28, -19, 25, 36, 6, -1, 241, 8, 27792, 13, 30, 0, 55, 27930, 54, 0, 20, 226, 6, -1, 0, 5, 1, 1, 2, 54, 0, 6, -1, 3, 0, -1, 2, 16, 228, 8, -7, 25, 6, -1, 4, 8, 0, 6, -1, 5, 0, -1, 5, 0, 0, 241, 16, 5860, 12, 13, 25, 26, 55, 27907, 12, 27886, 54, 0, 0, 0, 241, 0, -1, 5, 25, 36, 6, -1, 6, 0, -1, 6, 37, 16, 7100, 16, 12, 9, 55, 27869, 17, 30, 0, 55, 27872, 0, -1, 6, 0, -1, 3, 0, -1, 5, 21, 4, 2, 27882, 30, 0, 55, 27898, 6, -1, 7, 17, 0, -1, 3, 0, -1, 5, 21, 4, 7, -1, 5, 0, 4, 30, 0, 55, 27824, 0, -1, 4, 54, 1, 0, -1, 3, 16, 3464, 8, 1, 25, 36, 4, 0, -1, 3, 30, 0, 55, 27929, 62, 0, -1, 81, 16, 4128, 12, 4, 25, 16, 8452, 28, 21, 21, 4, 8, 27951, 13, 30, 0, 55, 28011, 54, 0, 20, 227, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 52, 16, 8452, 28, 21, 25, 36, 6, -1, 3, 16, 708, 16, -6, 0, -1, 3, 54, 1, 16, 1336, 8, 0, 35, 16, 1652, 20, 12, 25, 36, 54, 2, 3, 16, 556, 32, 9, 25, 36, 30, 0, 55, 28010, 62, 0, -1, 81, 16, 4128, 12, 4, 25, 16, 6888, 16, 6, 21, 4, 8, 28032, 13, 30, 0, 55, 28115, 54, 0, 20, 228, 6, -1, 0, 5, 1, 1, 2, 52, 6, -1, 3, 8, 28054, 13, 30, 0, 55, 28090, 54, 0, 20, 229, 6, -1, 0, 5, 1, 1, 2, 0, 228, 3, 16, 6008, 24, 1, 25, 0, -1, 2, 54, 2, 3, 16, 6128, 16, 11, 25, 36, 30, 0, 55, 28089, 62, 54, 1, 0, -1, 2, 54, 1, 52, 16, 6888, 16, 6, 25, 36, 16, 6196, 8, 4, 25, 36, 30, 0, 55, 28114, 62, 0, -1, 81, 16, 4128, 12, 4, 25, 16, 6336, 20, 12, 21, 4, 8, 28136, 13, 30, 0, 55, 28397, 54, 0, 20, 230, 6, -1, 0, 5, 1, 1, 2, 52, 6, -1, 3, 8, 28158, 13, 30, 0, 55, 28384, 54, 0, 20, 231, 6, -1, 0, 5, 2, 1, 2, 3, 12, 28361, 0, 230, 2, 16, 6984, 4, -3, 25, 11, 55, 28196, 17, 54, 1, 0, -1, 2, 36, 4, 10, 30, 0, 55, 28383, 0, 230, 2, 16, 700, 8, -11, 25, 37, 16, 5364, 12, -6, 9, 55, 28232, 0, 230, 2, 16, 700, 8, -11, 25, 54, 1, 0, -1, 2, 36, 4, 10, 30, 0, 55, 28383, 8, 28239, 13, 30, 0, 55, 28286, 54, 0, 20, 232, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 16, 6984, 4, -3, 54, 2, 3, 16, 3392, 20, 5, 25, 36, 4, 8, 0, 54, 1, 0, 231, 2, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 28285, 62, 54, 1, 8, 28295, 13, 30, 0, 55, 28326, 54, 0, 20, 233, 6, -1, 0, 5, 1, 1, 2, 0, -1, 2, 54, 1, 0, 231, 2, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 28325, 62, 54, 1, 0, 230, 2, 54, 1, 0, 230, 3, 16, 6336, 20, 12, 25, 36, 16, 6196, 8, 4, 25, 36, 16, 588, 12, 13, 25, 36, 4, 2, 28357, 30, 0, 55, 28374, 6, -1, 4, 0, -1, 4, 54, 1, 0, -1, 3, 36, 4, 16, 7100, 16, 12, 35, 30, 0, 55, 28383, 62, 54, 1, 16, 7320, 24, -13, 35, 34, 30, 0, 55, 28396, 62, 0, -1, 81, 16, 4128, 12, 4, 25, 16, 5924, 28, 10, 21, 4, 0, -1, 81, 6, -1, 242, 54, 0, 0, -1, 242, 34, 6, -1, 243, 15, 0, 8, 0, 33, 54, 0, 54, 3, 6, -1, 244, 17, 6, -1, 245, 16, 3044, 16, -6, 16, 5064, 16, -16, 16, 5400, 16, -3, 16, 364, 20, 20, 16, 2604, 16, -12, 16, 612, 24, -5, 16, 6324, 12, -17, 16, 2936, 16, 2, 54, 8, 6, -1, 246, 54, 0, 6, -1, 247, 0, -1, 234, 16, 312, 4, 21, 23, 0, -1, 232, 16, 6692, 4, -9, 23, 0, -1, 94, 16, 4616, 28, 22, 23, 0, -1, 243, 16, 6984, 4, -3, 23, 0, -1, 95, 16, 6716, 4, -1, 23, 0, -1, 139, 16, 2976, 4, 12, 23, 0, -1, 94, 16, 724, 8, -15, 23, 0, -1, 96, 16, 4672, 8, -11, 23, 0, -1, 97, 16, 3348, 12, 4, 23], _hwoYPQY: atob("SlRZd1UxRWxOVVFsTmpCU1Z5VTFRMVU9YlNVMk1HZHFKVFZEWHc9PWFTVTFRaVUyTUZaaGFRPT1kaVZETWlVNE1pVkRNaVU0TVhaMEpVTXlKVGczSlRWRGFHVm9heVV6UkNVMVJXbHRZUT09SlRkR2NTVkRNaVU0TUNVMk1IVjVjU1UzUWlWRE1pVTRNU1ZETWlVNE1BPT1hbXdsUXpJbE9EQWxOMFo2VG13bE4wSWxOMFlsUXpJbE9EQWxOMFJ3VG5wNWNYUnlhM0YwZEhjPWVYUlJkQ1UzUTJwM1NHWjRhZz09YW5sbWVnPT1KVFZFZmlVM1EzTjRjUT09WkZsbVgyMVpYeVUxUkE9PVoyMUhKVFZDYmlVMVJHSmZiVTFmWmw4bE5VUnVhV3c9YTNkMkpUZENkM1J0VEE9PUpVTXlKVGcwY3lWRE1pVTRPUT09SlRWRlQyRmlVdz09WVhaaGFXeElaV2xuYUhRPUlTVXlNazBsTWpJaFVDVXlNazA9YTNsdGVuVnljU1UzUmlWRE1pVTRNQT09YTI5K2NXMGxReklsT0RCeFdtMGxReklsT0RKMWMyMGxReklsT0RCMUpUZENlbGgxSlRkR0pVTXlKVGd3Y1hweGZpVTNSZz09YlhnbE4wTjBiUT09Y1cxeUpUTkRKVFZDSlRWRVpXMXFKVFZDSlRWRVh3PT1iR2M9YjI1b2JYTmtjVWhqWkNVMVFtMU1WMkpySlRWQ0pUVkZKVFZEWlNVMVEybFlheVUxUXlVelJpVTFRMjg9VmxSblZpVTFRZz09V1ZkbU5sTm1Vdz09YW1nbE0wSTRKVE5ESlROQk9TVXpRZz09SlRWRVRsOGxOakJTSlROQ1VtUXpKVFZEWDFveVdWSmFVaVUxUW1FbE5qQT1KVU15SlRnMUpVTXlKVGd4Y0E9PWJpVTNSR3AwV1U1SE16Z2xNMElsTTBNPUpVTXlKVGd5ZUhNbE4wSjBkaVUzUW5WNmNubHJkRzBsTjBaMGEzVjZjSEVsUXpJbE9EUT1KVU15SlRnNUpVTXlKVGcwSlVNeUpUaEJlQ1UzUkhoMkpVTXlKVGd6ZUhvbFF6SWxPREU9SlRZd1ptOWtjM3B4ZFE9PWVpVkRNaVU0TTNnbFF6SWxPRGNsUXpJbE9FVWxReklsT0RVbFF6SWxPRGs9V1NVMVJXaFdWMkZhV1E9PWJDVTFRaVUxUkY4PVYxVmlWMWtsTmpBbE0wUllKVFl3V1RkVkpUWXdKVFl3VmxWWFh3PT1iM0FsUXpJbE9ERjBibkI0ZWlVM1JuUjZlUT09U1hKNGFYWT1ZUT09Y20xR0pUTkdTMFJESlRORFl5VTFRMlFsTlVObGF3PT1aZz09SlRZd1pXOWZhMnBxWVY5d2FRPT1WVnBUSlRZd1dWZFdSbUZuVlZwWFpRPT1KVU15SlRnMWRpVTNRM3B0ZENWRE1pVTRNWFlsUXpJbE9FST1hRnBXWjFnbE5VUT1UVlJZZWlVM1JuUjZlVVVsTWtKMGVYUWxOMFpZSlVNeUpUZ3dKVGRHYkNVM1JuUjZlVnB0Zm5BbE4wUWxReklsT0RGd0pUZEVabTFtYm1admRVMXFkSFZtYjJaemRBPT1KVGRHZHlWRE1pVTRNWGc0YlhNbE4wSTRjQ1UzUkNVM1JIb2xOMFE9YldWc2EyST1KVGRDSlVNeUpUZ3dmbk5RSlVNeUpUZ3hjSGtsTjBZPWVteG5kMnM9SlRWQ0pUVkVKVFZFWDJaZmJDVTFRbTVqYVdnPVNsTlBUZz09Ykc5dlVYb2xOMFI0VUhkd2VIQjVKVGRHVm10V0pUVkZZVXdsTlVWWmFTVTFSQT09Y21OcWN5VTNRM2wxZmlWRE1pVTROR2s9Y0dKcFlpVTJNSEZtYkd0Q2EyRT1WRmxXVkNVMVExTWxOakJwY3lWRE1pVTRNQ1ZETWlVNE1DVTNSSFp5SlRkR1UxWldOMmhYSlRZd1ppVXpSU1UxUW1WbVZ5VTJNRmRrYzM0bFF6SWxPRFlsTlVSM0pVTXlKVGhDSlROQ1dHc2xOVU5MSlRZd1pDVTFReVV6UkdacFpGaHJKVGRFZGlWRE1pVTRPQ1UzUkE9PUpUVkZhRWxuYW1ocFdsaz1kMjk1Y0RCMmJqQnhlRzl2ZFhweFpnPT1ZMVppWmxwalZsVT1KVFZFSlRZd2RtYz1aMmhtSlRWRVlpVTFRaVUxUkZwdEpUVkVXbTFhSlRJMkpUZEVlblJKZEhSM0pUZEdWSEVsTjBJbE4wTT1RM0J3YlhBPUpUZEVKVGRESlVNeUpUZ3dKVU15SlRneFduSWxReklsT0RBbFF6SWxPREJ1ZEhJPVlpVTFSR05SVmc9PVZDVTFRbFFsTlVOVUpUVkVZeVV6UWxoaVl3PT1RVGtsTTBJNWRYY2xOMFFsTjBKdGJIY2xOMFoyZUNWRE1pVTROZz09SlRGQ2RIZ2xOME09SlRJeVV5VXlOQ1V5TWlVeU0xcFRKVEkwSlRWQ1QySlJWbE5oSlRWRFgyNGxOVUk9Ym5CMmRHWnVjSGRtSlRkR0pVTXlKVGd4SlVNeUpUZzNKVU15SlRnMWR3PT1lbXh6YkdvbE4wSndkblZhSlRkQ2FIa2xOMEk9Y1dacVlnPT1mbllsUXpJbE9EQjNOMjEyYlE9PWEzZDBja2h0Wm5kSWRHbHFWVm9sTmpCUkpUVkZZazFZSlRWRloyUWxOakJwYjFNPWJucDBKVU15SlRnNEpUVkRjQ1ZETWlVNE0zUWxReklsT0RGNGNDVTNRZz09Wm1kdmIyNWZTazVYVkU1V00weFpUMWRRSlRWRVZsOVlWR1UzVkdkVUpUZENkaVUzUTJwdmVpVTNRbWg1SlRkQ1oyeGlZM1pOWkE9PWMzUnZjQT09VUdOV1VsVnFjWFp6SlVNeUpUZzJjdz09ZEhvbFF6SWxPRUo2SlVNeUpUZ3pKVU15SlRnNUpVTXlKVGc0YUNWRE1pVTRPU1ZETWlVNE5DVkRNaVU0TjNZbE4wTjZZblprZVdnPVlXMXNjWEp3YzJGeUpUSkRPRlpmV2tzbE0wSmFKVEpES2pkTVRTZHJibVJpYkZjbE0wVWxOVUlvT0dGSVJpVTFSU1UxUW00bE5qQTNaVVJIV1V3blRTVXpSaVV6UVNVelEwaHZLaVV6UTE4bE5VSldKVE5EV1NVMVFpVXpRMWc0T0RncFNEZHZZU1V5TkNVMVEwUkdha3hEWVdRbE1qQW5MVTVXYlc4bE0wSXRObFkzVEdoZmJpVTJNR3dsTTBGcFZsa2xOREJCUjA4bE5VVWxNMElsTWtOSktUbGlKVFZDUW00bE1qUkNiQ1V6UTJ0alMyb2xNMFVsTlVNbE5qQnZKVEpEYWpaT09XSWxOREJyU2c9PUpUZERlU1UzUm5odUpVTXlKVGczZHlWRE1pVTRObmw1SlVNeUpUZ3liQT09UlVSRUpUTkdiaVV6UkVSdVlXTldaR1JtWTFZPUp3PT1aVlprWlE9PVVWcFRUeVUyTUVKWEpUVkNVeVUxUkdOaUpVTXlKVGczSlVNeUpUZ3lKVU15SlRnNGRpVTNRbmdsUXpJbE9ERjNKVFZDVEY5VFdVeFlVQT09Wm5WMWNYND1KVU15SlRnNUpVTXlKVGd6ZGlWRE1pVTRRbjRsTjBOMkpVTXlKVGc1SlVNeUpUZzBKVU15SlRnM2FIRm1lSGhUWm5KcUpUTkVVRkl3WXlVMVFnPT1iMzUzYkNVM1JISjRkdz09ZG10NGNTVTNSbXR4YnlVM1JBPT1XRmxxSlRWRVYxbEVKVFZFYkZrbE5qQkdWV2dsTlVSamNYSndKVGRHSlVNeUpUZzJKVGRFSlVNeUpUZ3hlV3gyYkdWc2IyeDNKVGREWm10a2NXcG9NalF4SlRZd055VXlSalZqT0hFbE4wUjJkVGhyZUcwbFF6SWxPREk9WVE9PUpUWXdVeVUxUWxaVVpRPT1kMnBtYVE9PWIzUjFjeVZETWlVNE1pVkRNaVU0T1NWRE1pVTRNQ1ZETWlVNE5BPT1aelkyYkNVelJEWTJPUT09ZENVM1JIWWxReklsT0RONUpVTXlKVGd4ZW1nbFF6SWxPRGtsUXpJbE9EUWxReklsT0RkMkpUZERlbG9sUXpJbE9FSjZKVU15SlRnekpVTXlKVGc1SlRkQ2R5VTNSSHByYlE9PWIzUnRlbk54VFNWRE1pVTRNU1ZETWlVNE1DVTNRazl0SlRkREpVTXlKVGd3SlVNeUpUZ3hmbkZQSlRkQ2VuSjFjdz09Wlc5NGRRPT1VV1JsYTJSaWN3PT1KVU15SlRnMWVpVkRNaVU0TVE9PWJDVkRNaVU0TUc0bFF6SWxPRE55VVhZbE4wWnljQ1ZETWlVNE1Ya2xReklsT0RZPVUyVWxOakJTSlRkRWNDVTNRM1E9VUZsT0pUWXdKVFl3YjNBbE5VUnVjQT09WW1rPVJ3PT1KVGRFZW05d2JTVTNRbEpzSlVNeUpUZ3diaVUyTUdsdmJYUWxOREJ0YldwdEpUTkNKVFl3YUNVMVEyUm5KVU15SlRnMkpVTXlKVGczSlVNeUpUZ3lKVU15SlRnMWRIcDRiM1J5Wnc9PVpHWnNhaVUxUXlVMVEyVnJKVFZEYVE9PUpUVkZKVFl3Wm1SV1ptRT1KVFZFV20xYWJDVTFSVzA9V2lVMVJGRlBXa0ZpSlRWRUpUWXdUMVZUSlVNeUpUZzFkU1ZETWlVNE5IZDNKVU15SlRnd1l5VTJNQ1UxUWc9PWNXOStKVFZEYTNodWVYY2xOakJyZGlVM1JtOGxOMFE9UjJWMGQxQnpaMjg9WHc9PWNISmZjV2xpV21GYVlscGphVWhhWVZwWWFXUm5RUT09VEZrbE5VVmlVQ1UxUkNVMVJRPT1TRTRsTmpCUldFaE9jZz09WW1OWVdVcFZKVFl3YVZrPWFtaDNSSGQzZFd4bGVIZG9WeVUxUTJRPWJsOWxZMWM9VTJGWlppVTFRbGs0VldoVmRYRm1lV3QwZDNJPWQzRWxReklsT0RVbE4wWT1mbllsUXpJbE9EQjNOMjE1ZG5admJYNDNieVUzUXlVM1Eza2xOME09WW1NbE5VVWxOVVZmYUE9PWNIRT1jeVUzUTNFbE4wUnljdz09WlhabGJuUkRiMjl5WkhNPUpUZEVKVGRESlVNeUpUZ3lKVGRFSlVNeUpUZ3pjWFlsUXpJbE9ERWxReklsT0RKdkpVTXlKVGd3SlVNeUpUZ3laMmNsTlVRPUpVTXlKVGd5SlRkRUpVTXlKVGd6Y1haekpVTXlKVGd4SlVNeUpUZzVKVU15SlRnMkpVTXlKVGd5SlRkR0pVTXlKVGhCV0NVMVExOGxOVVZoWXlVelFWUm9kM1VsUXpJbE9EUlpKVU15SlRnMGRTVTNSQT09WTNKcmRpVkRNaVU0T1NWRE1pVTRPQ1ZETWlVNE9DVkRNaVU0TXlWRE1pVTRNZz09Ykc1cmNHdHdkV3hoYm10d0pUVkVjR1ZyYWs0bE5VUndZUT09ZUhOMEpUZEVKVU15SlRnemVIVjRkQ1ZETWlVNE1RPT1jM2g0YnlVM1F5VTFSVzhsUXpJbE9ESitKVU15SlRnd2RYWjVKVU15SlRnd0pUZEdjaVUzUkhsdWNISWxOakFsUXpJbE9ERnVKVU15SlRneGNnPT1KVGRFSlVNeUpUZzNWU1ZETWlVNE5pVkRNaVU0Tm5VbFF6SWxPRVE9SlRWRmIyd2xOVUp1WTJsb2VIVjVkM2dsUXpJbE9EUT1lR3Q1ZFhJbE4wTnJKVFZEV21rbE0wRmphV2NsTlVWYWFEZHVTVzVsV2c9PWMzaDZKVGRHZmpZcUpUZEViM1p2Ylg0MktuNXZKVU15SlRneWZtc2xOME52YXc9PVlXb2xOVVFsTlVWb1lTVTJNQT09ZFdoMGVHaDJkMHhuYjJoR1pHOXZaV1JtYmc9PUpUVkRKVFZDVlZvbE5qQlJKVFZGV1NVMVFtSlJKVGRFYWlVM1FuQnVKVGRFZEdkc1oyVjJaM1pwWlhocFNYcHBjbmc9ZGlVM1FpVTNReVUzUm5kaEpVTXlKVGd5ZDNnbFF6SWxPRFk9Y1NVelFpVkRNaVU0TW5jbE4wSnpUVmxXVms5TkpUVkZKVFF3Vnk1TEpUVkZTdz09VVRaa1YyTWxOVUl6SlRFNE9XWm1ZeVUxUTFobGZpVTNSZz09SlRWQ2FXVnZVV1YwSlRkQ0pUZEVhaVUzUWlVM1EzcHhkbTg9VjJGbGFHZHFiRU1sTlVSeFVTVTJNR2NsTlVWaUpUVkVXV3BoV1NVeU5RPT1KVU15SlRnNUpVTXlKVGd4SlVNeUpUaENKVU15SlRneVFpVkRNaVU0T0NWRE1pVTRRWGNsUXpJbE9ESitKVU15SlRnNVFub2xReklsT0RjbFF6SWxPRGNsUXpJbE9EUWxReklsT0RjPVZDVXlNQ1V5TUNVeU5pVXlNeUZVSVE9PVoxcFdXVVJqWVc0PUpVTXlKVGd6ZDNRbE4wTjBheVUyTUd0akpUVkRhWE5tWnc9PUpVTXlKVGd3TUZkUVdGQlpYdz09Y0NVMVJHTktKVFZFYVdFPWNtZHJZMWh0YkdNPVVXRlVaVmRrYUZka1VpVTFRbGhmVVNVMVJWQmhVek5RWTFBPVpGVm1XV0pvT1NVMk1GbGhXV0pvWlhocmNuVm5hazkwVm5oMWJYaHJlWGs9SlRRd2NrVjBRMFJFUVE9PWFuRjJiQT09ZGlVM1FuWWxReklsT0RGYUpVTXlKVGd5SlVNeUpUZ3hiaVZETWlVNE1YWWxOME1sTjBJbE5VTnZKVU15SlRnd2NpVTNSaVZETWlVNE0zSWxOMFk9YkNVMVEyc2xOVVVsTlVWblVnPT1aV1FsTlVWamFWcG5XV1JzWXc9PVpsOXhabUZtWDJ4bFl3PT1WRkpoTTFvbE5EQmhUbUZTUkZaaFZUWWxOVUpSVmxCU0pUWXdkSG9sUXpJbE9ETjBVeVZETWlVNE5uZDNZU1ZETWlVNE5pVkRNaVU0TkhrPVFTVTFSWEZpZm5OM2Iwd2xOMFp3Y0c4bE4wTWxOMFE9Y213bFF6SWxPREJyZG41MWJDVTNSbnB0ZENVM1FuTm9hM2c9ZG5KMWR3PT1KVEZGSlRGRkpURkZKVEZGSlROQ016bG1OR2xwTmc9PWJtWndaeWRzWHlVMVJIQW5YMnhzYVd3PWRtb2xOME4wU25WMUpUVkViaVZETWlVNE1TVTNSQT09YTI5ZmJITk5YMlpmSlRWRWJtbHNKVE5DWm1ZPUpUVkRWR05RSlROQlZHZz1KVU15SlRnd0pVTXlKVGd6ZW5oNkpUZEdZbFJqSlRWQ1ozUT1abmxtWkE9PWRtZDZkbU4wWjJNPWFHWjFUbVppYjFGbWMycHdaUT09Y1haeEpUZERXbTFyZDNwc2NtOXBaSEYwWm1rPUpUTkVSRWhxYjJScWFRPT1XQ1UxUTJzbE5VVmFiU1UxUlU5aWJHSWxOVUppWldKdGNrVmliRzBsTlVWbkpUVkZhMnc9YjJSeFpXNXhiQ1UyTUcxaVpBPT1XU1UxUlZkaVlpVTFRbVFsTlVRbE5VST1hMk50WkNVeU5HcHNXV1FsTmpCckpUSTBhMlk9V1Y5b0pUVkVhU1UxUlY4bE0wUnBhQ1UyTUdOaFRta2xNME5qYmlVMk1HWWxOVUpoYlE9PWVTVkRNaVU0TUhJbE4wSjBKVU15SlRnMkpUZENjaVZETWlVNE1IUWxReklsT0RNPVgxaGhXbWNsTlVJPU9RPT1KVGRHY2lWRE1pVTRNSElsUXpJbE9ERlJiaVZETWlVNE1XND1ZU1UxUW1kbkpUVkNabWhsV1NVMVFtbHBKVE5HWTFjbE5VUWxOVUk9SlVNeUpUZ3lmbk4xZDNvbFF6SWxPREYrZG5jbFF6SWxPRFE9TmlVelFVZ2xNaklsTTBNNFFnPT1VMDVUSlRRd1N5VTFSVWhNSlRRd1JrUlNKVFF3SlRRd0pUTkNiRkY2ZFU0ekpVTXlKVGcxSlVNeUpUZ3dKVU15SlRnMmRIbCtKVU15SlRnd0pVTXlKVGczZGc9PUpUWXdZM0IyYjJWRWJXcGtiRWxpYjJWdFpuTT1KVFZFV20xQ1pGbHFZV1E9VUhoM1pIZHNjbkZTWlhab2RYbG9kUT09SlROR0pUTkVKVE5HSlRORUpUTkdSMFVsTTBVPWNHUmhhZz09SlRWRVVFNWFKVFZFVHc9PWNHSnBKVFZGYnlWRE1pVTRNblZ6SlRkR0pVTXlKVGd5ZEZVbFF6SWxPRFoxZmlWRE1pVTROQT09SlRWRFgxTlJKVFZEVlE9PVdGRmlWR2RSWWxVelh5VTFSVk5sWW1KVkpUVkZVMms9UTBWMmRVRkJSMFU9VXlVMVFsbG9OMFlsTTBSaVdGbHNTeVUxUldaaFgzQT1ZeVUxUW1VbE5VTWxNVU5TSlRWQ1VRPT1kbThsUXpJbE9ERlBKVU15SlRneUpVTXlKVGd5SlVNeUpUZ3dkM0FsUXpJbE9ETWxReklsT0RKelltVmxabVZQY0dWbWRBPT1KVEJCZHlWRE1pVTRNeVZETWlVNE1pVkRNaVU0T0hrbFF6SWxPRElsUXpJbE9EaHJKVGRFSlVNeUpUZ3llQ1ZETWlVNE15VkRNaVU0UWc9PVpuZG1iM1U9SlRWRlgwd2xOVVJmSlROR1ZGaFFhR1p3WjNCdFoyOD1aR1ZTWlZZPWNYVWxReklsT0RSM2N5VkRNaVU0Tm5kWEpVTXlKVGc0ZHlWRE1pVTRNQ1ZETWlVNE5pVTFSU1UzUWlWRE1pVTROU1ZETWlVNE5uY2xReklsT0RCM0pVTXlKVGcwSlVNeUpUZzFhdz09YW0xdGFpVTFRMkZYWW1wTWJuRT1aUT09WkdscmNHOD1heVUxUldab2J5VTFSU1V6Ulc4bE5VVm5iVVZpYkcwbE5VVm5KVFZGYXc9PVRtOTJiMzV2SlROQlZ5VTFReVUxUkNVMk1GZ2xOREFsTlVSbmFBPT1laVUzUXlWRE1pVTRNaVZETWlVNE1ISjVjbTRsUXpJbE9ETnlKVFZEZHlVM1JHdHdUWDV0ZGlVM1F3PT1kbXc9WTFWYVVDVTFRbU5FV1dGZmJrSWxOVUp0WWc9PVkzUnBjbWh0Y210VWRuTnhiWGRwZHc9PVRscFRVbHByZm5wSGVHdG5TM0pyYzJ0MGVnPT1hR2xuSlRWRll5VTFRdz09Wlc5S0pUVkVTZz09Wm5VPWJTVTJNSFZvWmlVMk1ITm9ibTA9SlVNeUpUZzBkM1VsUXpJbE9ERWxReklsT0RSMlppVTNRaVUzUm5jPWJXdDZXbTl6YXlWRE1pVTRNSFYwYTFWc2JIbHJlZz09ZGlVM1JpVkRNaVU0TWxWeGMzZz1hV0pZV1ZvbE5VUmlXVmc9YnlWRE1pVTRNM0VsUXpJbE9EWjFXSEYrZENVM1EzVT1jbk5vYVZnbE4wUjBhUT09SlVNeUpUZzJKVU15SlRnMUpVTXlKVGcySlVNeUpUZzVKVU15SlRoQmR5VkRNaVU0UVNVM1FnPT1KVFZFSlRWQ1ptWT1maVZETWlVNE15VkRNaVU0TVhaaEpVTXlKVGd5YnlWRE1pVTRNbk09ZVdka2JXdDJUMk4yWldwbmRWVm5ibWRsZG5GMGNtVndaV0YwUm10eGFRPT1NZz09SlRWRUpUZEdKVGREZW5ZbFF6SWxPREJ5WjJJbE5qQnZjMkpuSlRZd2VXaz1lZz09VTJSM2MwTmtZbTVqWkhFPWJIRm1iM2huYUhZPWVYcHZjRmxzZUhBPWFWaGxKVFZDWm1RPVpHVWxOakJqVmpWU1pWST1SMmdsTlVRbE5VVT1kQ1ZETWlVNE5TVTNRM1FsTkRBbE4wWjBkWGdsTjBZPVl5VTFRMWxUVlE9PVpHWlRaV05XVmc9PUpVTXlKVGd6TlNrPUpURTNKVGRFZHlWRE1pVTRRaVZETWlVNE55VkRNaVU0TWc9PWNYZHNKVGRHTTI0PVoxcG9aR0ZyV2xsRVpXa2xOVVZrWTJnPWNuRWxReklsT0RJPUpVTXlKVGd6ZGlWRE1pVTROM2tsUXpJbE9EWWxReklsT0VGNWRtbHhjM3BwVFhocGNRPT1mbkE9SlVNeUpUZ3hKVGRDSlVNeUpUaEdjbU4wWjNCMloyUmhXZz09SlVNeUpUZ3lKVU15SlRnMEpVTXlKVGc1ZmlWRE1pVTROQ1ZETWlVNE13PT1aWEZ5SlRkQ2JDVTFSVzFDYlNVMVJXWT1hM1JvZW5nPUpUVkZKVFZEYXc9PVZWWWxOakJoSlRWRFgyWT1jbkZyY0habmRGWWxOMEp5Wnc9PVkxbz1TbFpRWkE9PWVuSWxReklsT0RBbFF6SWxPREJ1ZEhJPUpVTXlKVGd5SlRkRVlTVkRNaVU0TWlWRE1pVTRNSGNsTjBOMWFuNGxReklsT0RNbFF6SWxPRGxOVmlWRE1pVTROeVZETWlVNE4zWWxReklsT0VVPUpVTXlKVGhEZGlWRE1pVTROeVZETWlVNE13PT1KVFZDV2xSWlgxQWxOVVFsTmpBbE5VST1lU1ZETWlVNE1pVTNSbmtsUXpJbE9ERT1NMlJrVTJzPVduQmFZeVUyTUZvPWEzNStKVGREYzJ3bE4wWitieVUzUkE9PWRISWxReklsT0RGUUpUZERibmx5SlVNeUpUZ3djSEp4VWlWRE1pVTRNM0lsTjBJbFF6SWxPREVsUXpJbE9EQT1lQ1ZETWlVNE1sSitKVGRFSlVNeUpUZ3pkQ1UzUkNWRE1pVTRNMVJ6ZUNWRE1pVTRNM0J4SlRkQ2RBPT1KVU15SlRnMEpVTXlKVGd4SlRkQ1VTVTNRbjV5ZWlVMVFuZ2xReklsT0RJbFF6SWxPRE09YTJnbE4wSm9OR3dsTjBRbE4wSnphR2xzY3c9PWIzQWxReklsT0RGMGJuQlljSGg2SlRkRUpVTXlKVGcwV1c5b2JXOXFhbWxzYmw4bE5VVT1VV1Y0YkE9PWJHMXJkMnh0WTI1aWRHeGtiWE09VFZsU1VVNXpkWHA1U25GcWNtcHplUT09YkhGcUpUZENUSGh0YmtvbE4wUT1KVFZFSlRZd1VsVkZXaVUxUlZZPVVHVnBZU1V6UlhGaVltRnVKVFF3VFU0PVpYSnliM0k9WldnbE5VTmFiV0pvWnc9PVNsSlFYeTVYVkZCWlh5VXpSVlJTV1V4WEpUVkZjaVZETWlVNE4zUjFKVFZEZHc9PVkyRndRV2hoYVdGcWNHOGxNMFYxVUNVMVJHTktKVFZFYVdFPWRHVjJkMmxOY25nPUpUZEVKVU15SlRneEpVTXlKVGc1SlVNeUpUZ3diR2RsZEdONWJtTnBZVk5pTWs5aVR3PT1iMk55VjJKaVVpVTJNQT09SjJwMlpYRnBRUT09V1dwb1lrRWxOVUp2VDFaUFYwOVlKVFZGYVZoWlRrOD1kV2tsUXpJbE9EQWxOVU4zSlRkRWEzQllkM0YySlRkREpUZENKVU15SlRnMUpUZEdjU1ZETWlVNE5TVkRNaVU0TmlWRE1pVTRNU1ZETWlVNE5ITjVkeVUxUkhjbFF6SWxPRUk9Ymxsa2JTVTFSQT09VENVMVJIQnNKVE5FWmlVMVFtY2xOVU1sTlVScVpGVm1aMWs9Zm5RbFF6SWxPRFZ3Y1dwNVptMUZabkYxYVE9PWEyZ2xOMEpvSlVNeUpUZzRlU1ZETWlVNFF5VkRNaVU0T0E9PUpVTXlKVGd5Y3lWRE1pVTROU1ZETWlVNE5TVkRNaVU0T1NWRE1pVTRNU1ZETWlVNE5IWT1ZeVUyTUd3bE5VSm5Ydz09Y2lVM1F5VkRNaVU0TVNVM1F5VkRNaVU0Tnc9PUpVTXlKVGcxZGlWRE1pVTROM29sUXpJbE9ETWxReklsT0RsakpVTXlKVGcwZVhvPVpDVkRNaVU0UWlWRE1pVTRNM2dsTjBJbFF6SWxPRGc9") }; function t(e) { for (; e._klvW !== e._9KJJkWE1H;) { var t = e._LCscAEUbu[e._klvW++], n = e._BiHaqQpz[t]; if ("function" != typeof n) return void Ze("ooga", "warn", "api", { c: e._klvW, e: e._9KJJkWE1H }); n(e) } } return e._9KJJkWE1H = e._LCscAEUbu.length, t(e), e._rsjZJJgd }(), Vn = vn.s, wn = vn.m, bn = vn.b, vn.a, En = vn.start, vn.stop, vn.j, _n = vn.d, vn.cr } catch (fr) { Ze("ob-error", "error", "api", { message: fr.message }); var Tn = function () { }; Tn, _n = Tn, Vn = function () { return Promise.resolve(null) }, wn = { record: Tn, resetData: Tn, setData: Tn, getData: Tn, stop: Tn, circBuffPush: Tn }, bn = { record: Tn, stop: Tn }, { storeData: Tn, clearData: Tn, getData: Tn }, {}, { processImage: function () { return Promise.resolve() }, getData: Tn }, En = Tn } function Rn(e, t) { this.cause = e, this.message = t } function Un(e) { Rn.call(this, de, "Invalid hCaptcha id: " + e) } function xn() { Rn.call(this, he, "No hCaptcha exists.") } function Sn() { Rn.call(this, pe, "Missing sitekey - https://docs.hcaptcha.com/configuration#javascript-api") } Rn.prototype = Error.prototype; var Wn = [], Mn = [], Nn = { add: function (e) { Wn.push(e) }, remove: function (e) { for (var t = !1, n = Wn.length; --n > -1 && !1 === t;)Wn[n].id === e.id && (t = Wn[n], Wn.splice(n, 1)); return t }, each: function (e) { for (var t = -1; ++t < Wn.length;)e(Wn[t]) }, isValidId: function (e) { for (var t = !1, n = -1; ++n < Wn.length && !1 === t;)Wn[n].id === e && (t = !0); return t }, getByIndex: function (e) { for (var t = !1, n = -1; ++n < Wn.length && !1 === t;)n === e && (t = Wn[n]); return t }, getById: function (e) { for (var t = !1, n = -1; ++n < Wn.length && !1 === t;)Wn[n].id === e && (t = Wn[n]); return t }, getCaptchaIdList: function () { var e = []; return Nn.each((function (t) { e.push(t.id) })), e }, pushSession: function (e, t) { Mn.push([e, t]), Mn.length > 10 && Mn.splice(0, Mn.length - 10) }, getSession: function () { return Mn } }; function Fn(e, t) { "object" != typeof e || t || (t = e, e = null); var n, r, i, o = !0 === (t = t || {}).async, a = new Promise((function (e, t) { r = e, i = t })); if (a.resolve = r, a.reject = i, n = e ? Nn.getById(e) : Nn.getByIndex(0)) { Ge("Execute called", "hCaptcha", "info"); try { kn.setData("exec", "api") } catch (hr) { Ze("Set MD Failed", "error", "execute", hr) } try { _n(n.config.sitekey) ? (bn.stop(), wn.stop()) : wn.setData("exec", "api") } catch (hr) { Ze("vm-err", "error", "execute", hr) } o && n.setPromise(a), n.onReady(n.initChallenge, t) } else if (e) { if (!o) throw new Un(e); a.reject(de) } else { if (!o) throw new xn; a.reject(he) } if (o) return a } function On(e) { var t = "", n = null; n = e ? Nn.getById(e) : Nn.getByIndex(0); try { for (var r = Nn.getSession(), i = r.length, o = !1; --i > -1 && !o;)(o = r[i][1] === n.id) && (t = r[i][0]) } catch (fr) { t = "" } return t } function Cn(e, t, n) { this.target = e, this.setTargetOrigin(n), this.id = t, this.messages = [], this.incoming = [], this.waiting = [], this.isReady = !0, this.queue = [] } Cn.prototype._sendMessage = function (e, t) { var n = e instanceof HTMLIFrameElement; try { n ? e.contentWindow.postMessage(JSON.stringify(t), this.targetOrigin) : e.postMessage(JSON.stringify(t), this.targetOrigin) } catch (hr) { je("messaging", hr), "*" !== this.targetOrigin && (this.setTargetOrigin("*"), this._sendMessage(e, t)) } }, Cn.prototype.setReady = function (e) { var t = this; t.isReady = e, t.isReady && t.queue.length && (t.queue.forEach((function (e) { t._sendMessage.apply(t, e) })), t.clearQueue()) }, Cn.prototype.clearQueue = function () { this.queue = [] }, Cn.prototype.setID = function (e) { this.id = e }, Cn.prototype.setTargetOrigin = function (e) { this.targetOrigin = "*" }, Cn.prototype.contact = function (e, t) { if (!this.id) throw new Error("Chat requires unique id to communicate between windows"); var n = this, r = Math.random().toString(36).substr(2), i = { source: "hcaptcha", label: e, id: this.id, promise: "create", lookup: r }; if (t) { if ("object" != typeof t) throw new Error("Message must be an object."); i.contents = t } return new Promise((function (t, o) { n.waiting.push({ label: e, reject: o, resolve: t, lookup: r }), n._addToQueue(n.target, i) })) }, Cn.prototype.listen = function (e, t) { if (!this.id) throw new Error("Chat requires unique id to communicate between windows"); for (var n = this.messages.length, r = !1; --n > -1 && !1 === r;)this.messages[n].label === e && (r = this.messages[n]); !1 === r && (r = { label: e, listeners: [] }, this.messages.push(r)), r.listeners.push(t) }, Cn.prototype.answer = function (e, t) { if (!this.id) throw new Error("Chat requires unique id to communicate between windows"); for (var n = this.incoming.length, r = !1; --n > -1 && !1 === r;)this.incoming[n].label === e && (r = this.incoming[n]); !1 === r && (r = { label: e, listeners: [] }, this.incoming.push(r)), r.listeners.push(t) }, Cn.prototype.send = function (e, t) { var n = this; if (!n.id) throw new Error("Chat requires unique id to communicate between windows"); var r = { source: "hcaptcha", label: e, id: n.id }; if (t) { if ("object" != typeof t) throw new Error("Message must be an object."); r.contents = t } n._addToQueue(n.target, r) }, Cn.prototype.check = function (e, t) { for (var n = [].concat.apply([], [this.messages, this.incoming, this.waiting]), r = [], i = -1; ++i < n.length;)if (n[i].label === e) { if (t && n[i].lookup && t !== n[i].lookup) continue; r.push(n[i]) } return r }, Cn.prototype.respond = function (e) { for (var t, n, r = -1, i = 0, o = [].concat.apply([], [this.messages, this.incoming, this.waiting]); ++r < o.length;)if (o[r].label === e.label) { if (e.lookup && o[r].lookup && e.lookup !== o[r].lookup) continue; var a = []; if (t = o[r], e.error && a.push(e.error), e.contents && a.push(e.contents), e.promise && "create" !== e.promise) { t[e.promise].apply(t[e.promise], a); for (var s = this.waiting.length, c = !1; --s > -1 && !1 === c;)this.waiting[s].label === t.label && this.waiting[s].lookup === t.lookup && (c = !0, this.waiting.splice(s, 1)); continue } for (i = 0; i < t.listeners.length; i++) { if (n = t.listeners[i], "create" === e.promise) { var l = this._contactPromise(t.label, e.lookup); a.push(l) } try { n.apply(n, a) } catch (hr) { je("chat-cb", hr) } } } o = null }, Cn.prototype.destroy = function () { return this.clearQueue(), this.messages = null, this.incoming = null, this.waiting = null, this.isReady = !1, null }, Cn.prototype._contactPromise = function (e, t) { var n = this, r = {}, i = new Promise((function (e, t) { r.resolve = e, r.reject = t })), o = { source: "hcaptcha", label: e, id: n.id, promise: null, lookup: t }; return i.then((function (e) { o.promise = "resolve", null !== e && (o.contents = e), n._addToQueue(n.target, o) }))["catch"]((function (e) { o.promise = "reject", null !== e && (o.error = e), n._addToQueue(n.target, o) })), r }, Cn.prototype._addToQueue = function (e, t) { this.isReady ? this._sendMessage(e, t) : this.queue.push([e, t]) }; var Bn = { chats: [], messages: [], globalEnabled: !1, isSupported: function () { return !!window.postMessage }, createChat: function (e, t, n) { var r = new Cn(e, t, n); return Bn.chats.push(r), r }, addChat: function (e) { Bn.chats.push(e) }, removeChat: function (e) { for (var t = !1, n = Bn.chats.length; --n > -1 && !1 === t;)e.id === Bn.chats[n].id && e.target === Bn.chats[n].target && (t = Bn.chats[n], Bn.chats.splice(n, 1)); return t }, consumeMessages: function () { var e = Bn.messages; return Bn.messages = [], e }, handleGlobal: function (e) { if (Bn.globalEnabled) { var t = Bn.messages; if (t.length >= 10) Bn.globalEnabled = !1; else { var n = t.some((function (t) { return JSON.stringify(t.data) === JSON.stringify(e.data) })); n || t.push(e) } } }, handle: function (e) { var t = e.data, n = "string" == typeof t && t.indexOf("hcaptcha") >= 0 || "object" == typeof t && JSON.stringify(t).indexOf("hcaptcha") >= 0; try { if (!n) return void Bn.handleGlobal(e); "string" == typeof t && (t = JSON.parse(t)), "d" === t.t && Bn.messages.push(e); for (var r, i = Bn.chats, o = -1; ++o < i.length;) { var a = "*" === (r = i[o]).targetOrigin || e.origin === r.targetOrigin; r.id === t.id && a && r.respond(t) } } catch (hr) { Ge("postMessage handler error", "postMessage", "debug", { event: e, error: hr }) } } }; function Pn(e) { var t = e ? Nn.getById(e) : Nn.getByIndex(0); if (!t) throw e ? new Un(e) : new xn; Nn.remove(t), t.destroy(), t = null } function Zn() { try { return Object.keys(window).sort().join(",") } catch (pr) { return null } } window.addEventListener ? window.addEventListener("message", Bn.handle) : window.attachEvent("onmessage", Bn.handle); var jn = Ae(); function Gn(e, t) { for (var n in t) { var r = t[n]; switch (typeof r) { case "string": e[n] = r; break; case "object": e[n] = e[n] || {}, Gn(e[n], r); break; default: throw new Error("Source theme contains invalid data types. Only string and object types are supported.") } } } function zn(e, t) { try { return e in t } catch (n) { return !1 } } function An(e) { return !!e && "object" == typeof e } function Jn(e) { return An(e) ? Kn({}, e) : e } function Kn(e, t) { var n, r = {}, i = Object.keys(e); for (n = 0; n < i.length; n++)r[i[n]] = Jn(e[i[n]]); var o, a, s = Object.keys(t); for (n = 0; n < s.length; n++) { var c = s[n]; if (!(!zn(o = c, a = e) || Object.hasOwnProperty.call(a, o) && Object.propertyIsEnumerable.call(a, o))) return; zn(c, e) && An(e[c]) ? r[c] = Kn(e[c], t[c]) : r[c] = Jn(t[c]) } return r } var Ln = { transparent: "transparent", white: "#ffffff", black: "#000000", grey: "#707070" }, In = { 100: "#fafafa", 200: "#f5f5f5", 300: "#E0E0E0", 400: "#D7D7D7", 500: "#BFBFBF", 600: "#919191", 700: "#555555", 800: "#333333", 900: "#222222", 1e3: "#14191F" }, qn = "#4DE1D2", Dn = "#00838F", Hn = { mode: "light", grey: In, primary: { main: Dn }, secondary: { main: qn }, warn: { light: "#BF1722", main: "#BF1722", dark: "#9D1B1B" }, text: { heading: In[800], body: In[800] } }, Xn = { mode: "dark", grey: In, primary: { main: Dn }, secondary: { main: qn }, text: { heading: In[200], body: In[200] } }; function Yn(e, t) { return "dark" === t && e in Xn ? Xn[e] : Hn[e] } function $n() { this._themes = Object.create(null), this._active = "light", this.add("light", {}), this.add("dark", { palette: { mode: "dark" } }) } $n.prototype.get = function (e) { if (!e) return this._themes[this._active]; var t = this._themes[e]; if (!t) throw new Error("Cannot find theme with name: " + e); return t }, $n.prototype.use = function (e) { this._themes[e] ? this._active = e : console.error("Cannot find theme with name: " + e) }, $n.prototype.active = function () { return this._active }, $n.prototype.add = function (e, t) { t || (t = {}), t.palette = function (e) { e || (e = {}); var t = e.mode || "light", n = e.primary || Yn("primary", t), r = e.secondary || Yn("secondary", t), i = e.warn || Yn("warn", t), o = e.grey || Yn("grey", t), a = e.text || Yn("text", t); return Kn({ common: Ln, mode: t, primary: n, secondary: r, grey: o, warn: i, text: a }, e) }(t.palette), t.component = t.component || Object.create(null), this._themes[e] = t }, $n.prototype.extend = function (e, t) { "string" == typeof t && (t = JSON.parse(t)); var n = JSON.parse(JSON.stringify(this.get(e))); return Gn(n, t), n }, $n.merge = function (e, t) { return Kn(e, t || {}) }; var Qn = ["light", "dark", "contrast", "grey-red"], er = new $n; er.add("contrast", {}), er.add("grey-red", { component: { challenge: { main: { border: "#6a6a6a" } } } }); function tr(e, t) { var n = this; this.challengeCreationSent = !1, this.id = e, this.width = null, this.height = null, this.mobile = !1, this.ready = !1, this.listeners = [], this.config = t, this._visible = !1, this._selected = !1, this.$iframe = new _t("iframe"), this._host = ye.host || window.location.hostname; var r = ye.assetUrl; ve.assethost && (r = ve.assethost + ye.assetUrl.replace(ye.assetDomain, "")); var i = r.match(/^.+\:\/\/[^\/]+/), o = i ? i[0] : null, a = r + "/hcaptcha.html#frame=challenge&id=" + this.id + "&host=" + this._host + (t ? "&" + Xe(this.config) : ""), s = ve.isSecure && ee.Browser.supportsPST(); this.setupParentContainer(t), this.chat = Bn.createChat(this.$iframe.dom, e, o), this.chat.setReady(!1), this._timeoutFailedToInitialize = setTimeout((function () { n.$iframe && n.$iframe.isConnected() ? Ze("Failed to initialize. Iframe attached", "error", "frame:challenge", { contentWindow: !!n.$iframe.dom.contentWindow, iframeSrc: a, supportsPST: s, customContainer: n._hasCustomContainer }) : Ze("Failed to initialize. Iframe detached", "error", "frame:challenge") }), 6e4), this.$iframe.dom.src = a, this.$iframe.dom.frameBorder = 0, this.$iframe.dom.scrolling = "no", s && (this.$iframe.dom.allow = "private-state-token-redemption"), this.translate(), this._hasCustomContainer ? (this._hideIframe(), this._parent.appendChild(this.$iframe.dom)) : (this.$container = new _t("div"), this.$wrapper = this.$container.createElement("div"), this.$overlay = this.$container.createElement("div"), this.$arrow = this.$container.createElement("div"), this.$arrow.fg = this.$arrow.createElement("div"), this.$arrow.bg = this.$arrow.createElement("div"), this.style.call(this), this.$wrapper.appendElement(this.$iframe), this._parent.appendChild(this.$container.dom), this.$container.setAttribute("aria-hidden", !0)), this.style() } tr.prototype.setupParentContainer = function (e) { var t, n = e["challenge-container"]; n && (t = "string" == typeof n ? document.getElementById(n) : n), t ? (this._hasCustomContainer = !0, this._parent = t) : (this._hasCustomContainer = !1, this._parent = document.body) }, tr.prototype._hideIframe = function () { var e = {}; "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (e.opacity = 0, e.visibility = "hidden") : e.display = "none", this.$iframe.setAttribute("aria-hidden", !0), this.$iframe.css(e) }, tr.prototype._showIframe = function () { var e = {}; "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (e.opacity = 1, e.visibility = "visible") : e.display = "block", this.$iframe.removeAttribute("aria-hidden"), this.$iframe.css(e) }, tr.prototype.style = function () { var e = function (e) { var t = e.palette, n = e.component; return $n.merge({ main: { fill: t.common.white, border: t.grey[400] } }, n.challenge) }(er.get()); if (this._hasCustomContainer) this.$iframe.css({ border: 0, position: "relative", backgroundColor: e.main.fill }); else { var t = { backgroundColor: e.main.fill, border: "1px solid " + e.main.border, boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 4px", borderRadius: 4, left: "auto", top: -1e4, zIndex: -9999999999999, position: "absolute", pointerEvents: "auto" }; "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (t.transition = "opacity 0.15s ease-out", t.opacity = 0, t.visibility = "hidden") : t.display = "none", this.$container.css(t), this.$wrapper.css({ position: "relative", zIndex: 1 }), this.$overlay.css({ width: "100%", height: "100%", position: "fixed", pointerEvents: "none", top: 0, left: 0, zIndex: 0, backgroundColor: e.main.fill, opacity: .05 }), this.$arrow.css({ borderWidth: 11, borderStyle: "none", position: "absolute", pointerEvents: "none", marginTop: -11, zIndex: 1, right: "100%" }), this.$arrow.fg.css({ borderWidth: 10, borderStyle: "solid", borderColor: "transparent rgb(255, 255, 255) transparent transparent", position: "relative", top: 10, zIndex: 1 }), this.$arrow.bg.css({ borderWidth: 11, borderStyle: "solid", borderColor: "transparent " + e.main.border + " transparent transparent", position: "relative", top: -11, zIndex: 0 }), this.$iframe.css({ border: 0, zIndex: 2e9, position: "relative" }) } }, tr.prototype.setup = function (e) { this.chat.send("create-challenge", e), this.challengeCreationSent = !0 }, tr.prototype.sendTranslation = function (e) { var t = { locale: e, table: Ft.getTable(e) || {} }; this.chat && this.chat.send("challenge-translate", t), this.translate() }, tr.prototype.translate = function () { this.$iframe.dom.title = Ft.translate("Main content of the hCaptcha challenge") }, tr.prototype.isVisible = function () { return this._visible }, tr.prototype.getDimensions = function (e, t) { return this._visible ? this.chat.contact("resize-challenge", { width: e, height: t }) : Promise.resolve(null) }, tr.prototype.show = function () { if (!0 !== this._visible) if (this._visible = !0, this._hasCustomContainer) this._showIframe(); else { var e = { zIndex: 9999999999999, display: "block" }; ("ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version) && (e.opacity = 1, e.visibility = "visible"), this.$container.css(e), this.$container.removeAttribute("aria-hidden"), this.$overlay.css({ pointerEvents: "auto", cursor: "pointer" }) } }, tr.prototype.focus = function () { this.$iframe.dom.focus() }, tr.prototype.close = function (e) { if (!1 !== this._visible) { if (this._visible = !1, this._hasCustomContainer) return this._hideIframe(), void this.chat.send("close-challenge", { event: e }); var t = { left: "auto", top: -1e4, zIndex: -9999999999999 }; "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (t.opacity = 0, t.visibility = "hidden") : t.display = "none", this.$container.css(t), this._hasCustomContainer || this.$overlay.css({ pointerEvents: "none", cursor: "default" }), this.chat.send("close-challenge", { event: e }), this.$container.setAttribute("aria-hidden", !0) } }, tr.prototype.size = function (e, t, n) { this.width = e, this.height = t, this.mobile = n, this.$iframe.css({ width: e, height: t }), this._hasCustomContainer || (this.$wrapper.css({ width: e, height: t }), n ? this.$overlay.css({ opacity: .5 }) : this.$overlay.css({ opacity: .05 })) }, tr.prototype.position = function (e) { if (!this._hasCustomContainer && e) { var t = 10, n = window.document.documentElement, r = ee.Browser.scrollY(), i = ee.Browser.width(), o = ee.Browser.height(), a = this.mobile || "invisible" === this.config.size || e.offset.left + e.tick.x <= e.tick.width / 2, s = Math.round(e.bounding.top) + r !== e.offset.top, c = a ? (i - this.width) / 2 : e.bounding.left + e.tick.right + 10; (c + this.width + t > i || c < 0) && (c = (i - this.width) / 2, a = !0); var l = (n.scrollHeight < n.clientHeight ? n.clientHeight : n.scrollHeight) - this.height - t, u = a ? (o - this.height) / 2 + r : e.bounding.top + e.tick.y + r - this.height / 2; s && u < r && (u = r + t), s && u + this.height >= r + o && (u = r + o - (this.height + t)), u = Math.max(Math.min(u, l), 10); var h = e.bounding.top + e.tick.y + r - u - 10, p = this.height - 10 - 30; h = Math.max(Math.min(h, p), t), this.$container.css({ left: c, top: u }), this.$arrow.fg.css({ display: a ? "none" : "block" }), this.$arrow.bg.css({ display: a ? "none" : "block" }), this.$arrow.css({ top: h }), this.top = u, this.$container.dom.getBoundingClientRect() } }, tr.prototype.destroy = function () { this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize), this._timeoutFailedToInitialize = null), this._visible && this.close.call(this), Bn.removeChat(this.chat), this.chat = this.chat.destroy(), this._hasCustomContainer ? this._parent.removeChild(this.$iframe.dom) : (this._parent.removeChild(this.$container.dom), this.$container = this.$container.__destroy()), this.$iframe = this.$iframe.__destroy() }, tr.prototype.setReady = function () { var e; this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize), this._timeoutFailedToInitialize = null), this.chat && this.chat.setReady(!0), this.ready = !0; for (var t = this.listeners.length; --t > -1;)e = this.listeners[t], this.listeners.splice(t, 1), e() }, tr.prototype.onReady = function (e) { var t = Array.prototype.slice.call(arguments, 1), n = function () { e.apply(null, t) }; this.ready ? n() : this.listeners.push(n) }, tr.prototype.onOverlayClick = function (e) { this._hasCustomContainer || this.$overlay.addEventListener("click", e) }, tr.prototype.setData = function (e) { this.chat && this.chat.send("challenge-data", e) }, tr.prototype.resetData = function () { this.chat && this.chat.send("reset-challenge-data") }; function nr(e, t, n) { var r = this; this.id = t, this.response = null, this.location = { tick: null, offset: null, bounding: null }, this.config = n, this._ticked = !0, this.$container = e instanceof _t ? e : new _t(e), this._host = ye.host || window.location.hostname, this.$iframe = new _t("iframe"); var i = ye.assetUrl; ve.assethost && (i = ve.assethost + ye.assetUrl.replace(ye.assetDomain, "")); var o = i.match(/^.+\:\/\/[^\/]+/), a = o ? o[0] : null, s = i + "/hcaptcha.html#frame=checkbox&id=" + this.id + "&host=" + this._host + (n ? "&" + Xe(this.config) : ""); this.chat = Bn.createChat(this.$iframe.dom, t, a), this.chat.setReady(!1), this._timeoutFailedToInitialize = setTimeout((function () { r.$iframe && r.$iframe.isConnected() ? Ze("Failed to initialize. Iframe attached", "error", "frame:checkbox", { contentWindow: !!r.$iframe.dom.contentWindow, iframeSrc: s }) : Ze("Failed to initialize. Iframe detached", "error", "frame:checkbox") }), 6e4), this.$iframe.dom.src = s, this.$iframe.dom.tabIndex = this.config.tabindex || 0, this.$iframe.dom.frameBorder = "0", this.$iframe.dom.scrolling = "no", ve.isSecure && ee.Browser.supportsPST() && (this.$iframe.dom.allow = "private-state-token-redemption"), this.translate(), this.config.size && "invisible" === this.config.size && this.$iframe.setAttribute("aria-hidden", "true"), this.$iframe.setAttribute("data-hcaptcha-widget-id", t), this.$iframe.setAttribute("data-hcaptcha-response", ""), this.$container.appendElement(this.$iframe), "off" !== ve.recaptchacompat && (this.$textArea0 = this.$container.createElement("textarea", "#g-recaptcha-response-" + t), this.$textArea0.dom.name = "g-recaptcha-response", this.$textArea0.css({ display: "none" })), this.$textArea1 = this.$container.createElement("textarea", "#h-captcha-response-" + t), this.$textArea1.dom.name = "h-captcha-response", this.$textArea1.css({ display: "none" }), this.ready = new Promise((function (e) { r.chat.listen("checkbox-ready", e) })).then((function () { r._timeoutFailedToInitialize && (clearTimeout(r._timeoutFailedToInitialize), r._timeoutFailedToInitialize = null), r.chat && r.chat.setReady(!0) })), this.clearLoading = this.clearLoading.bind(this), this.style() } function rr(e, t, n) { this.id = t, this.response = null, this.location = { tick: null, offset: null, bounding: null }, this.config = n, this.$container = e instanceof _t ? e : new _t(e), this.$iframe = new _t("iframe"), this.$iframe.setAttribute("aria-hidden", "true"), this.$iframe.css({ display: "none" }), this.$iframe.setAttribute("data-hcaptcha-widget-id", t), this.$iframe.setAttribute("data-hcaptcha-response", ""); var r = ye.assetUrl; ve.assethost && (r = ve.assethost + ye.assetUrl.replace(ye.assetDomain, "")), this.$iframe.dom.src = r + "/hcaptcha.html#frame=checkbox-invisible", this.$container.appendElement(this.$iframe), "off" !== ve.recaptchacompat && (this.$textArea0 = this.$container.createElement("textarea", "#g-recaptcha-response-" + t), this.$textArea0.dom.name = "g-recaptcha-response", this.$textArea0.css({ display: "none" })), this.$textArea1 = this.$container.createElement("textarea", "#h-captcha-response-" + t), this.$textArea1.dom.name = "h-captcha-response", this.$textArea1.css({ display: "none" }) } function ir(e, t, n) { if (!n.sitekey) throw new Sn; this.id = t, this.visible = !1, this.overflow = { override: !1, cssUsed: !0, value: null, scroll: 0 }, this.onError = null, this.onPass = null, this.onExpire = null, this.onChalExpire = null, this.onOpen = null, this.onClose = null, this._ready = !1, this._active = !1, this._listeners = [], this.config = n, Qn.indexOf(n.theme) >= 0 && er.use(n.theme), this._state = { escaped: !1, passed: !1, expiredChallenge: !1, expiredResponse: !1 }, this._origData = null, this._langSet = !1, this._promise = null, this._responseTimer = null, this.initChallenge = this.initChallenge.bind(this), this.closeChallenge = this.closeChallenge.bind(this), this.displayChallenge = this.displayChallenge.bind(this), this.getGetCaptchaManifest = this.getGetCaptchaManifest.bind(this), this.challenge = new tr(t, n), "invisible" === this.config.size ? (Ge("Invisible mode is set", "hCaptcha", "info"), this.checkbox = new rr(e, t, n)) : this.checkbox = new nr(e, t, n) } function or(e) { if ("en" === e) return Promise.resolve(); var t = e + ".json"; return new Promise((function (n, r) { $t(t).then((function (n) { return n || Yt(t, { prefix: "https://newassets.hcaptcha.com/captcha/v1/ce98e9030cd29b4ed4e107baf3f9e4ffbdc58266/static/i18n" }).then((function (t) { return Ft.addTable(e, t.data), t })) })).then((function (e) { n(e.data) }))["catch"]((function (e) { r(e) })) })) } nr.prototype.setResponse = function (e) { this.response = e, this.$iframe.dom.setAttribute("data-hcaptcha-response", e), "off" !== ve.recaptchacompat && (this.$textArea0.dom.value = e), this.$textArea1.dom.value = e }, nr.prototype.style = function () { var e = this.config.size; switch (this.$iframe.css({ pointerEvents: "auto", backgroundColor: "rgba(255,255,255,0)", borderRadius: 4 }), e) { case "compact": this.$iframe.css({ width: 158, height: 138 }); break; case "invisible": this.$iframe.css({ display: "none" }); break; default: this.$iframe.css({ width: 302, height: 76, overflow: "hidden" }) } }, nr.prototype.reset = function () { this._ticked = !1, this.$iframe && this.$iframe.dom.contentWindow && this.chat && this.chat.send("checkbox-reset") }, nr.prototype.clearLoading = function () { this.chat && this.chat.send("checkbox-clear") }, nr.prototype.sendTranslation = function (e) { var t = { locale: e, table: Ft.getTable(e) || {} }; this.chat && this.chat.send("checkbox-translate", t), this.translate() }, nr.prototype.translate = function () { this.$iframe.dom.title = Ft.translate("Widget containing checkbox for hCaptcha security challenge") }, nr.prototype.status = function (e, t) { this.$iframe && this.$iframe.dom.contentWindow && this.chat && this.chat.send("checkbox-status", { text: e || null, a11yOnly: t || !1 }) }, nr.prototype.tick = function () { this._ticked = !0, this.chat && this.chat.send("checkbox-tick") }, nr.prototype.getTickLocation = function () { return this.chat.contact("checkbox-location") }, nr.prototype.getOffset = function () { var e = this.$iframe.dom; e.offsetParent || (e = e.parentElement); for (var t = 0, n = 0; e;)t += e.offsetLeft, n += e.offsetTop, e = e.offsetParent; return { top: n, left: t } }, nr.prototype.getBounding = function () { return this.$iframe.dom.getBoundingClientRect() }, nr.prototype.destroy = function () { this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize), this._timeoutFailedToInitialize = null), this._ticked && this.reset(), Bn.removeChat(this.chat), this.chat = this.chat.destroy(), this.$container.removeElement(this.$iframe), this.$container.removeElement(this.$textArea1), "off" !== ve.recaptchacompat && (this.$container.removeElement(this.$textArea0), this.$textArea0 = this.$textArea0.__destroy()), this.$textArea1 = this.$textArea1.__destroy(), this.$container = this.$container.__destroy(), this.$iframe = this.$iframe.__destroy() }, rr.prototype.setResponse = function (e) { this.response = e, this.$iframe.dom.setAttribute("data-hcaptcha-response", e), "off" !== ve.recaptchacompat && (this.$textArea0.dom.value = e), this.$textArea1.dom.value = e }, rr.prototype.reset = function () { }, rr.prototype.clearLoading = function () { }, rr.prototype.sendTranslation = function (e) { }, rr.prototype.status = function (e, t) { }, rr.prototype.tick = function () { }, rr.prototype.getTickLocation = function () { return Promise.resolve({ left: 0, right: 0, top: 0, bottom: 0, width: 0, height: 0, x: 0, y: 0 }) }, rr.prototype.getOffset = function () { var e = this.$iframe.dom; e.offsetParent || (e = e.parentElement); for (var t = 0, n = 0; e;)t += e.offsetLeft, n += e.offsetTop, e = e.offsetParent; return { top: n, left: t } }, rr.prototype.getBounding = function () { return this.$iframe.dom.getBoundingClientRect() }, rr.prototype.destroy = function () { this._ticked && this.reset(), this.$container.removeElement(this.$iframe), this.$container.removeElement(this.$textArea1), "off" !== ve.recaptchacompat && (this.$container.removeElement(this.$textArea0), this.$textArea0 = this.$textArea0.__destroy()), this.$textArea1 = this.$textArea1.__destroy(), this.$container = this.$container.__destroy(), this.$iframe = this.$iframe.__destroy() }, ir.prototype._resetTimer = function () { null !== this._responseTimer && (clearTimeout(this._responseTimer), this._responseTimer = null) }, ir.prototype.initChallenge = function (e) { var t = this; e || (e = {}), Ge("Initiate challenge", "hCaptcha", "info"), t._origData = e; var n = this.getGetCaptchaManifest(), r = e.charity || null, i = e.a11yChallenge || !1, o = e.link || null, a = e.action || "", s = e.rqdata || null, c = e.errors || [], l = e.mfa_phone || null, u = e.mfa_phoneprefix || null, h = ee.Browser.width(), p = ee.Browser.height(); this._active = !0, this._resetTimer(), this._resetState(), this.checkbox.setResponse(""); var d = { a11yChallenge: i, manifest: n, width: h, height: p, charity: r, link: o, action: a, rqdata: s, mfa_phone: l, mfa_phoneprefix: u, wdata: Zn(), errors: c.concat(jn.collect()) }; try { var f = this.visible || "invisible" !== this.config.size, m = Vn(t.id, f, !0, this.config.sitekey); if (null == m) return void t.challenge.setup(d); it(m, 100).then((function (e) { d.vmdata = e }))["catch"]((function (e) { je("submitvm", e) }))["finally"]((function () { t.challenge.setup(d) })) } catch (hr) { t.challenge.setup(d), Ze("SubmitVM Failed", "error", "execute", hr) } }, ir.prototype.getGetCaptchaManifest = function () { var e = (this._origData || {}).manifest || null; e || ((e = Object.create(null)).st = Date.now()), e.v = 1, e.session = Nn.getSession(), e.widgetList = Nn.getCaptchaIdList(), e.widgetId = this.id; try { e.topLevel = kn.getData() } catch (hr) { Ze("challenge:get-manifest-error", "error", "challenge", { error: hr }) } return e.href = window.location.href, e.prev = JSON.parse(JSON.stringify(this._state)), e }, ir.prototype.displayChallenge = function (e) { if (this._active) { var t = this; this.visible = !0; var n = this.checkbox, r = this.challenge, i = ee.Browser.height(); if (!("ie" === ee.Browser.type && 8 === ee.Browser.version)) { var o = window.getComputedStyle(document.body).getPropertyValue("overflow-y"); this.overflow.override = "hidden" === o, this.overflow.override && (this.overflow.cssUsed = "" === document.body.style.overflow && "" === document.body.style.overflowY, this.overflow.cssUsed || (this.overflow.value = "" === o ? "auto" : o), this.overflow.scroll = ee.Browser.scrollY(), document.body.style.overflowY = "auto") } return new Promise((function (o) { n.status(), n.getTickLocation().then((function (a) { if (t._active) { if (r.size(e.width, e.height, e.mobile), r.show(), n.clearLoading(), n.location.bounding = n.getBounding(), n.location.tick = a, n.location.offset = n.getOffset(), r.position(n.location), r.focus(), r.height > window.document.documentElement.clientHeight) (window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = Math.abs(r.height - i) + r.top; o() } })) })).then((function () { Ge("Challenge is displayed", "hCaptcha", "info"), t.onOpen && ut(t.onOpen) })) } }, ir.prototype.resize = function (e, t, n) { var r = this, i = this.checkbox, o = this.challenge; o.getDimensions(e, t).then((function (e) { e && o.size(e.width, e.height, e.mobile), i.location.bounding = i.getBounding(), i.location.offset = i.getOffset(), ee.System.mobile && !n || o.position(i.location) }))["catch"]((function (e) { r.closeChallenge.call(r, { event: le, message: "Captcha resize caused error.", error: e }) })) }, ir.prototype.position = function () { var e = this.checkbox, t = this.challenge; ee.System.mobile || (e.location.bounding = e.getBounding(), t.position(e.location)) }, ir.prototype.reset = function () { Ge("Captcha Reset", "hCaptcha", "info"); try { this.checkbox.reset(), this.checkbox.setResponse(""), this.challenge.resetData(), this._resetTimer(), this._resetState() } catch (fr) { je("hCaptcha", fr) } }, ir.prototype._resetState = function () { for (var e in this._state) this._state[e] = !1 }, ir.prototype.closeChallenge = function (e) { this.visible = !1, this._active = !1; var t = this, n = this.checkbox, r = this.challenge; this.overflow.override && ((window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = this.overflow.scroll, this.overflow.override = !1, this.overflow.scroll = 0, document.body.style.overflowY = this.overflow.cssUsed ? null : this.overflow.value); var i = e.response || ""; n.setResponse(i); var o = e.event; switch ("string" == typeof i && "" !== i || o !== te || (o = ne, Ze("Passed without response", "error", "api", e)), r.close(o), n.$iframe.dom.focus(), Ge("Challenge has closed", "hCaptcha", "info", { event: o, response: e.response, message: e.message }), o) { case ne: this._state.escaped = !0, n.reset(), t.onClose && ut(t.onClose), t._promise && t._promise.reject(re); break; case ie: this._state.expiredChallenge = !0, n.reset(), n.status("hCaptcha window closed due to timeout.", !0), t.onChalExpire && ut(t.onChalExpire), t._promise && t._promise.reject(ie); break; case le: case ae: case ce: var a = o; n.reset(), o === ce ? (n.status(e.message), 429 === e.status ? a = se : "invalid-data" === e.message ? a = oe : "client-fail" === e.message && (a = le)) : o === ae ? a = le : o === le && "Answers are incomplete" === e.message && (a = ue), Ze("api:challenge-failed-" + a, "error", "hCaptcha", { error: a, event: o, message: e.message }), this.onError && ut(this.onError, a), t._promise && t._promise.reject(a); break; case te: this._state.passed = !0, n.tick(), this.onPass && ut(this.onPass, i), t._promise && t._promise.resolve({ response: i, key: On(this.id) }), "number" == typeof e.expiration && (t._resetTimer(), t._responseTimer = setTimeout((function () { try { n.$iframe && (n.$iframe.dom.contentWindow ? (n.reset(), n.setResponse(""), n.status("hCaptcha security token has expired. Please complete the challenge again.", !0)) : Pn(t.id)) } catch (hr) { je("global", hr) } t.onExpire && ut(t.onExpire), t._responseTimer = null, t._state.expiredResponse = !0 }), 1e3 * e.expiration)) }t._promise = null }, ir.prototype.updateTranslation = function (e) { this.config.hl = e, this._langSet = !0, this.checkbox && this.checkbox.sendTranslation(e), this.challenge && this.challenge.sendTranslation(e) }, ir.prototype.isLangSet = function () { return this._langSet }, ir.prototype.isReady = function () { return this._ready }, ir.prototype.isActive = function () { return this._active }, ir.prototype.setReady = function (e) { if (this._ready = e, this._ready) { var t; Ge("Instance is ready", "hCaptcha", "info"); for (var n = this._listeners.length; --n > -1;)t = this._listeners[n], this._listeners.splice(n, 1), t() } }, ir.prototype.setPromise = function (e) { this._promise = e }, ir.prototype.onReady = function (e) { var t = Array.prototype.slice.call(arguments, 1), n = function () { e.apply(null, t) }; this._ready ? n() : this._listeners.push(n) }, ir.prototype.destroy = function () { (Ge("Captcha Destroy", "hCaptcha", "info"), this._resetTimer(), this.overflow.override) && ((window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = this.overflow.scroll, this.overflow.override = !1, this.overflow.scroll = 0, document.body.style.overflowY = this.overflow.cssUsed ? null : this.overflow.value); this.challenge.destroy(), this.checkbox.destroy(), this.challenge = null, this.checkbox = null }, ir.prototype.setSiteConfig = function (e) { var t = this; if ("ok" in e) { var n = e.ok.features || {}; if (this.config.themeConfig && n.custom_theme) { var r = "custom-" + this.id; er.add(r, er.extend(er.active(), this.config.themeConfig)), er.use(r), this.challenge.style() } } return "invisible" === this.config.size ? ("err" in e && console.error("[hCaptcha] " + e.err.message), Promise.resolve()) : this.checkbox.ready.then((function () { return t.checkbox.chat.send("site-setup", e), new Promise((function (e) { t.checkbox.chat.listen("checkbox-loaded", (function () { e() })) })) })) }; var ar = 0, sr = ["hl", "custom", "andint", "tplinks", "sitekey", "theme", "size", "tabindex", "challenge-container", "confirm-nav", "orientation", "mode"]; function cr(e, t) { if (e) try { e.updateTranslation(t) } catch (hr) { je("translation", hr) } } var lr, ur = { render: (lr = function (e, t) { if ("string" == typeof e && (e = document.getElementById(e)), e && "object" == typeof e && 1 === e.nodeType && "string" == typeof e.tagName) if (function (e) { if (!e || !("challenge-container" in e)) return !0; var t = e["challenge-container"]; return "string" == typeof t && (t = document.getElementById(t)), !!t && 1 === t.nodeType }(t)) { if (!1 !== Bn.isSupported()) { for (var n, r, i = e.getElementsByTagName("iframe"), o = -1; ++o < i.length && !n;)(r = i[o].getAttribute("data-hcaptcha-widget-id")) && (n = !0); if (n) return console.error("Only one captcha is permitted per parent container."), r; Ge("Render instance", "hCaptcha", "info"); var a = ht(e, t), s = ar++ + Math.random().toString(36).substr(2), c = Object.create(null); c.sentry = ve.sentry, c.reportapi = ve.reportapi, c.recaptchacompat = ve.recaptchacompat, c.custom = ve.custom, null !== ve.language && (c.hl = Ft.getLocale()), ve.assethost && (c.assethost = ve.assethost), ve.imghost && (c.imghost = ve.imghost), ve.tplinks && (c.tplinks = ve.tplinks), ve.andint && (c.andint = ve.andint), ve.se && (c.se = ve.se), "off" === ve.pat && (c.pat = ve.pat), c.pstissuer = ve.pstIssuer, "landscape" === ve.orientation && (c.orientation = ve.orientation); for (var l = 0; l < sr.length; l++) { var u = sr[l]; u in a && (c[u] = a[u]) } var h = ve.endpoint, p = c.sitekey; "78c843a4-f80d-4a14-b3e5-74b492762487" === p && (h = me); try { if (_n(p)) try { bn.stop(), wn.stop() } catch (hr) { je("bivm", hr) } } catch (hr) { je("vm", hr) } h === fe && -1 === ["pt-BR", "es-BR"].indexOf(navigator.language) && Math.random() < .001 && p && -1 === p.indexOf("-0000-0000-0000-") && (h = me), h !== fe && (c.endpoint = h), c.theme = ve.theme; var d = window.location, f = d.origin || d.protocol + "//" + d.hostname + (d.port ? ":" + d.port : ""); if ("null" !== f && (c.origin = f), a.theme) try { var m = a.theme; "string" == typeof m && (m = JSON.parse(m)), c.themeConfig = m, c.custom = !0 } catch (pr) { c.theme = m } if (e instanceof HTMLButtonElement || e instanceof HTMLInputElement) { var g = new _t("div", ".h-captcha"); g.css({ display: "none" }); for (var y = null, v = 0; v < e.attributes.length; v++)(y = e.attributes[v]).name.startsWith("data-") && g.setAttribute(y.name, y.value); var w = e.tagName.toLowerCase() + "[data-hcaptcha-widget-id='" + s + "']"; e.setAttribute("data-hcaptcha-widget-id", s), g.setAttribute("data-hcaptcha-source-id", w), e.parentNode.insertBefore(g.dom, e), e.onclick = function (e) { return e.preventDefault(), Ge("User initiated", "hCaptcha", "info", e), Fn(s) }, e = g, c.size = "invisible" } c.mode === ge && "invisible" === c.size && (console.warn("[hCaptcha] mode='auto' cannot be used in combination with size='invisible'."), delete c.mode); try { var b = new ir(e, s, c) } catch (hr) { je("api", hr); var V = "Your browser plugins or privacy policies are blocking the hCaptcha service. Please disable them for hCaptcha.com"; return hr instanceof Sn && (V = "hCaptcha has failed to initialize. Please see the developer tools console for more information.", console.error(hr.message)), void Ee(e, V) } a.callback && (b.onPass = a.callback), a["expired-callback"] && (b.onExpire = a["expired-callback"]), a["chalexpired-callback"] && (b.onChalExpire = a["chalexpired-callback"]), a["open-callback"] && (b.onOpen = a["open-callback"]), a["close-callback"] && (b.onClose = a["close-callback"]), a["error-callback"] && (b.onError = a["error-callback"]); try { kn.setData("inv", "invisible" === c.size), kn.setData("size", c.size), kn.setData("theme", ft(c.themeConfig || c.theme)), kn.setData("pel", (e.outerHTML || "").replace(e.innerHTML, "")), _n(b.config.sitekey) || (wn.setData("inv", "invisible" === c.size), wn.setData("size", c.size), wn.setData("theme", ft(c.themeConfig || c.theme)), wn.setData("pel", (e.outerHTML || "").replace(e.innerHTML, ""))) } catch (fr) { je("api", fr) } return function (e, t) { "invisible" !== t.size && (e.checkbox.chat.listen("checkbox-selected", (function (t) { Ge("User initiated", "hCaptcha", "info"); try { var n = "enter" === t.action ? "kb" : "m"; try { kn.setData("exec", n), _n(e.config.sitekey) || wn.setData("exec", n) } catch (hr) { je("msetdata", hr) } try { e.onReady(e.initChallenge, t) } catch (hr) { je("onready", hr) } } catch (hr) { Ze("Checkbox Select Failed", "error", "render", hr) } })), e.checkbox.chat.listen("checkbox-loaded", (function (n) { Ge("Loaded", "frame:checkbox", "info"), e.checkbox.location.bounding = e.checkbox.getBounding(), e.checkbox.location.tick = n, e.checkbox.location.offset = e.checkbox.getOffset(), e.checkbox.sendTranslation(t.hl) })), t.mode === ge && e.onReady((function () { Fn(e.id) }), t)) }(b, c), function (e, t) { function n(t, n) { if (t.locale) { var r = Ft.resolveLocale(t.locale); or(r).then((function () { n ? cr(e, r) : (Ft.setLocale(r), Nn.each((function (e) { cr(e, r) }))) }))["catch"]((function (e) { Ze("lang:loading-error", "error", "api", { locale: r, error: e }) })) } } e.challenge.chat.listen("site-setup", (function (t) { var n = e.setSiteConfig(t); e.challenge.onReady((function () { n.then((function () { e.setReady(!0) })) })) })), e.challenge.chat.listen("challenge-loaded", (function () { Ge("Loaded", "frame:challenge", "info"), e.challenge.setReady(), e.challenge.sendTranslation(t.hl) })), e.challenge.chat.answer("challenge-ready", (function (t, n) { if (e && e.isActive()) try { e.displayChallenge(t).then(n.resolve)["catch"]((function (e) { je("display-challenge", e), n.reject(e) })) } catch (hr) { je("challenge-ready", hr), n.reject(hr) } else e.isActive() ? Ge("hCaptcha instance no longer exists.", "frame:challenge", "info") : Ge("hCaptcha instance was stopped during execution flow.", "frame:challenge", "info") })), e.challenge.chat.listen("challenge-resize", (function () { var t = ee.Browser.width(), n = ee.Browser.height(); e.resize(t, n) })), e.challenge.chat.listen(re, (function (t) { try { kn.setData("lpt", Date.now()), _n(e.config.sitekey) || wn.setData("lpt", Date.now()) } catch (hr) { je("challenge-closed-vm", hr) } try { e.closeChallenge(t) } catch (hr) { je("challenge-closed", hr) } })), e.challenge.chat.answer("get-url", (function (e) { try { e.resolve(window.location.href) } catch (hr) { je("get-url", hr), e.reject(hr) } })), e.challenge.chat.answer("getcaptcha-manifest", (function (t) { try { var n = e.getGetCaptchaManifest(), r = e.visible || "invisible" !== e.config.size; try { var i = Vn(e.id, r, e.config.sitekey); if (null == i) return void t.resolve(n); it(i, 100).then((function (e) { n.vmdata = e }))["catch"]((function (e) { je("submitvm", e) }))["finally"]((function () { t.resolve(n) })) } catch (hr) { je("svm", hr), t.resolve(n) } } catch (hr) { je("getcaptcha-manifest", hr), t.reject(hr) } })), e.challenge.chat.answer("check-api", (function (t) { try { var n = e.visible || "invisible" !== e.config.size, r = { motiondata: kn.getData() }; try { var i = Vn(e.id, n, !n, e.config.sitekey); if (null == i) return void t.resolve(r); it(i, 100).then((function (e) { r.vmdata = e }))["catch"]((function (e) { je("submitvm", e) }))["finally"]((function () { try { t.resolve(r) } catch (hr) { t.reject(hr) } })) } catch (hr) { je("svm", hr), t.resolve(r) } } catch (hr) { Ze("check api error", "error", "render", hr), t.reject(hr) } })), e.challenge.chat.listen("challenge-key", (function (t) { Nn.pushSession(t.key, e.id) })), e.challenge.onOverlayClick((function () { e.closeChallenge({ event: ne }) })), e.challenge.chat.listen("challenge-language", n), n({ locale: t.hl }, !0), e.challenge.chat.answer("get-ac", (function (e) { try { var t = Je.hasCookie("hc_accessibility"); e.resolve(t) } catch (hr) { je("get-ac", hr), e.reject(hr) } })) }(b, c), Nn.add(b), s } Ee(e, "Your browser is missing or has disabled Cross-Window Messaging. Please <a style='color:inherit;text-decoration:underline; font: inherit' target='_blank' href='https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto'>upgrade your browser</a> or enable it for hCaptcha.com") } else console.log("[hCaptcha] render: invalid challenge container '" + t["challenge-container"] + "'."); else { console.log("[hCaptcha] render: invalid container '" + e + "'."); var E = e && "object" == typeof e; Ze("invalid-container", "error", "render", { container: e, containerTypeof: typeof e, containerNodeType: E ? e.nodeType : "-", containerTagNameTypeof: E ? typeof e.tagName : "-" }) } }, function () { try { return lr.apply(this, arguments) } catch (hr) { je("global", hr) } }), reset: function (e) { var t; if (e) { if (!(t = Nn.getById(e))) throw new Un(e); t.reset() } else { if (!(t = Nn.getByIndex(0))) throw new xn; t.reset() } }, remove: Pn, execute: Fn, getResponse: function (e) { var t, n; if ((n = e ? Nn.getById(e) : Nn.getByIndex(0)) && (t = n.checkbox.response || ""), void 0 !== t) return t; throw e ? new Un(e) : new xn }, getRespKey: On, close: function (e) { var t = !1; if (!(t = e ? Nn.getById(e) : Nn.getByIndex(0))) throw e ? new Un(e) : new xn; t.closeChallenge({ event: ne }) }, setData: function (e, t) { if ("object" != typeof e || t || (t = e, e = null), !t || "object" != typeof t) throw Error("[hCaptcha] invalid data supplied"); var n = !1; if (!(n = e ? Nn.getById(e) : Nn.getByIndex(0))) throw e ? new Un(e) : new xn; Ge("Set data", "hCaptcha", "info"); var r = n.challenge.setData.bind(n.challenge); n.onReady(r, t) }, nodes: Nn }; !function (e) { try { En(0) } catch (hr) { je("vm", hr) } ye.file = "hcaptcha"; var t = document.currentScript, n = !1, r = !1, i = "on", o = ee.Browser.width() / ee.Browser.height(), a = !(!window.hcaptcha || !window.hcaptcha.render), s = !1; function c() { var e = ee.Browser.width(), t = ee.Browser.height(), n = ee.System.mobile && o !== e / t; o = e / t, h(), ur.nodes.each((function (r) { r.visible && r.resize(e, t, n) })) } function l(e) { u(), ur.nodes.each((function (e) { e.visible && e.position() })) } function u() { try { var e = [ee.Browser.scrollX(), ee.Browser.scrollY(), document.documentElement.clientWidth / ee.Browser.width(), Date.now()]; kn.circBuffPush("xy", e), wn.circBuffPush("xy", e) } catch (hr) { je("motion", hr) } } function h() { try { var e = [ee.Browser.width(), ee.Browser.height(), ee.System.dpr(), Date.now()]; kn.circBuffPush("wn", e) } catch (hr) { je("motion", hr) } } window.hcaptcha = { render: function () { return a || console.warn("[hCaptcha] should not render before js api is fully loaded. `render=explicit` should be used in combination with `onload`."), ur.render.apply(this, arguments) }, remove: ur.remove, execute: ur.execute, reset: ur.reset, close: ur.close, setData: ur.setData, getResponse: ur.getResponse, getRespKey: ur.getRespKey }, jn.run({ topLevel: !0 }), function (e) { var t = Array.prototype.slice.call(arguments, 1); !0 !== tn && "interactive" !== document.readyState && "loaded" !== document.readyState && "complete" !== document.readyState ? (Qt.push({ fn: e, args: t }), !1 === en && nn()) : setTimeout((function () { e(t) }), 1) }((function () { !function () { var o; o = t ? [t] : document.getElementsByTagName("script"); var a = -1, c = !1, l = null, u = null; for (; ++a < o.length && !1 === c;)o[a] && o[a].src && (u = (l = o[a].src.split("?"))[0], /\/(hcaptcha|1\/api)\.js$/.test(u) && (c = o[a], u && -1 !== u.toLowerCase().indexOf("www.") && console.warn("[hCaptcha] JS API is being loaded from www.hcaptcha.com. Please use https://js.hcaptcha.com/1/api.js"))); if (!1 === c) return; e = e || He(l[1]), n = e.onload || !1, r = e.render || !1, s = Boolean(e.uj) || !1, "off" === e.tplinks && (i = "off"); ve.tplinks = i, ve.language = e.hl || null, e.endpoint && (ve.endpoint = e.endpoint); ve.reportapi = e.reportapi || ve.reportapi, ve.imghost = e.imghost || null, ve.custom = e.custom || ve.custom, ve.se = e.se || null, ve.pat = e.pat || ve.pat, ve.pstIssuer = e.pstissuer || ve.pstIssuer, ve.andint = e.andint || ve.andint, ve.orientation = e.orientation || null, e.assethost && (dt.URL(e.assethost) ? ve.assethost = e.assethost : console.error("Invalid assethost uri.")); ve.isSecure = "https:" === window.location.protocol, ve.recaptchacompat = e.recaptchacompat || ve.recaptchacompat, ye.host = e.host || window.location.hostname, ve.sentry = !1 !== e.sentry, Pe(!0, !1), ve.language = ve.language || window.navigator.userLanguage || window.navigator.language, Ft.setLocale(ve.language), "off" === ve.recaptchacompat ? console.log("recaptchacompat disabled") : window.grecaptcha = window.hcaptcha }(), n && setTimeout((function () { ut(n) }), 1), a || (a = !0, function () { var e = Ft.getLocale(); if ("en" === e) return; or(e).then((function () { ur.nodes.each((function (t) { if (t) try { t.isLangSet() || t.updateTranslation(e) } catch (hr) { je("translation", hr) } })) }))["catch"]((function (t) { Ze("lang:loading-error", "error", "api", { locale: e, error: t }) })) }(), !1 === r || "onload" === r ? _e(ur.render) : "explicit" !== r && console.log("hcaptcha: invalid render parameter '" + r + "', using 'explicit' instead."), function () { try { kn.record(), kn.setData("sc", ee.Browser.getScreenDimensions()), kn.setData("or", ee.Browser.getOrientation()), kn.setData("wi", ee.Browser.getWindowDimensions()), kn.setData("nv", ee.Browser.interrogateNavigator()), kn.setData("dr", document.referrer), h(), u(), wn.record({ 1: !0, 2: !0, 3: !0, 4: !1 }), wn.setData("sc", ee.Browser.getScreenDimensions()), wn.setData("wi", ee.Browser.getWindowDimensions()), wn.setData("or", ee.Browser.getOrientation()), wn.setData("dr", document.referrer) } catch (hr) { je("motion", hr) } }(), function () { try { bn.record({ 1: !1, 2: !0, 3: !0, 4: !0, 5: !0, 6: !0, 7: s, 8: s }) } catch (hr) { je("bi-vm", hr) } }(), an.addEventListener("resize", c), an.addEventListener("scroll", l)) })) }()
+!function() {
+    "use strict";
+    function e(e) {
+        var t = this.constructor;
+        return this.then((function(n) {
+            return t.resolve(e()).then((function() {
+                return n
+            }
+            ))
+        }
+        ), (function(n) {
+            return t.resolve(e()).then((function() {
+                return t.reject(n)
+            }
+            ))
+        }
+        ))
+    }
+    function t(e) {
+        return new this((function(t, n) {
+            if (!e || "undefined" == typeof e.length)
+                return n(new TypeError(typeof e + " " + e + " is not iterable(cannot read property Symbol(Symbol.iterator))"));
+            var r = Array.prototype.slice.call(e);
+            if (0 === r.length)
+                return t([]);
+            var i = r.length;
+            function o(e, n) {
+                if (n && ("object" == typeof n || "function" == typeof n)) {
+                    var a = n.then;
+                    if ("function" == typeof a)
+                        return void a.call(n, (function(t) {
+                            o(e, t)
+                        }
+                        ), (function(n) {
+                            r[e] = {
+                                status: "rejected",
+                                reason: n
+                            },
+                            0 == --i && t(r)
+                        }
+                        ))
+                }
+                r[e] = {
+                    status: "fulfilled",
+                    value: n
+                },
+                0 == --i && t(r)
+            }
+            for (var a = 0; a < r.length; a++)
+                o(a, r[a])
+        }
+        ))
+    }
+    var n = setTimeout
+      , r = "undefined" != typeof setImmediate ? setImmediate : null;
+    function i(e) {
+        return Boolean(e && "undefined" != typeof e.length)
+    }
+    function o() {}
+    function a(e) {
+        if (!(this instanceof a))
+            throw new TypeError("Promises must be constructed via new");
+        if ("function" != typeof e)
+            throw new TypeError("not a function");
+        this._state = 0,
+        this._handled = !1,
+        this._value = undefined,
+        this._deferreds = [],
+        p(e, this)
+    }
+    function s(e, t) {
+        for (; 3 === e._state; )
+            e = e._value;
+        0 !== e._state ? (e._handled = !0,
+        a._immediateFn((function() {
+            var n = 1 === e._state ? t.onFulfilled : t.onRejected;
+            if (null !== n) {
+                var r;
+                try {
+                    r = n(e._value)
+                } catch (i) {
+                    return void l(t.promise, i)
+                }
+                c(t.promise, r)
+            } else
+                (1 === e._state ? c : l)(t.promise, e._value)
+        }
+        ))) : e._deferreds.push(t)
+    }
+    function c(e, t) {
+        try {
+            if (t === e)
+                throw new TypeError("A promise cannot be resolved with itself.");
+            if (t && ("object" == typeof t || "function" == typeof t)) {
+                var n = t.then;
+                if (t instanceof a)
+                    return e._state = 3,
+                    e._value = t,
+                    void u(e);
+                if ("function" == typeof n)
+                    return void p((r = n,
+                    i = t,
+                    function() {
+                        r.apply(i, arguments)
+                    }
+                    ), e)
+            }
+            e._state = 1,
+            e._value = t,
+            u(e)
+        } catch (o) {
+            l(e, o)
+        }
+        var r, i
+    }
+    function l(e, t) {
+        e._state = 2,
+        e._value = t,
+        u(e)
+    }
+    function u(e) {
+        2 === e._state && 0 === e._deferreds.length && a._immediateFn((function() {
+            e._handled || a._unhandledRejectionFn(e._value)
+        }
+        ));
+        for (var t = 0, n = e._deferreds.length; t < n; t++)
+            s(e, e._deferreds[t]);
+        e._deferreds = null
+    }
+    function h(e, t, n) {
+        this.onFulfilled = "function" == typeof e ? e : null,
+        this.onRejected = "function" == typeof t ? t : null,
+        this.promise = n
+    }
+    function p(e, t) {
+        var n = !1;
+        try {
+            e((function(e) {
+                n || (n = !0,
+                c(t, e))
+            }
+            ), (function(e) {
+                n || (n = !0,
+                l(t, e))
+            }
+            ))
+        } catch (r) {
+            if (n)
+                return;
+            n = !0,
+            l(t, r)
+        }
+    }
+    a.prototype["catch"] = function(e) {
+        return this.then(null, e)
+    }
+    ,
+    a.prototype.then = function(e, t) {
+        var n = new this.constructor(o);
+        return s(this, new h(e,t,n)),
+        n
+    }
+    ,
+    a.prototype["finally"] = e,
+    a.all = function(e) {
+        return new a((function(t, n) {
+            if (!i(e))
+                return n(new TypeError("Promise.all accepts an array"));
+            var r = Array.prototype.slice.call(e);
+            if (0 === r.length)
+                return t([]);
+            var o = r.length;
+            function a(e, i) {
+                try {
+                    if (i && ("object" == typeof i || "function" == typeof i)) {
+                        var s = i.then;
+                        if ("function" == typeof s)
+                            return void s.call(i, (function(t) {
+                                a(e, t)
+                            }
+                            ), n)
+                    }
+                    r[e] = i,
+                    0 == --o && t(r)
+                } catch (c) {
+                    n(c)
+                }
+            }
+            for (var s = 0; s < r.length; s++)
+                a(s, r[s])
+        }
+        ))
+    }
+    ,
+    a.allSettled = t,
+    a.resolve = function(e) {
+        return e && "object" == typeof e && e.constructor === a ? e : new a((function(t) {
+            t(e)
+        }
+        ))
+    }
+    ,
+    a.reject = function(e) {
+        return new a((function(t, n) {
+            n(e)
+        }
+        ))
+    }
+    ,
+    a.race = function(e) {
+        return new a((function(t, n) {
+            if (!i(e))
+                return n(new TypeError("Promise.race accepts an array"));
+            for (var r = 0, o = e.length; r < o; r++)
+                a.resolve(e[r]).then(t, n)
+        }
+        ))
+    }
+    ,
+    a._immediateFn = "function" == typeof r && function(e) {
+        r(e)
+    }
+    || function(e) {
+        n(e, 0)
+    }
+    ,
+    a._unhandledRejectionFn = function(e) {
+        "undefined" != typeof console && console && console.warn("Possible Unhandled Promise Rejection:", e)
+    }
+    ;
+    var d = function() {
+        if ("undefined" != typeof self)
+            return self;
+        if ("undefined" != typeof window)
+            return window;
+        if ("undefined" != typeof global)
+            return global;
+        throw new Error("unable to locate global object")
+    }();
+    function f(e, t, n) {
+        return t <= e && e <= n
+    }
+    function m(e) {
+        if (e === undefined)
+            return {};
+        if (e === Object(e))
+            return e;
+        throw TypeError("Could not convert argument to dictionary")
+    }
+    "function" != typeof d.Promise ? d.Promise = a : (d.Promise.prototype["finally"] || (d.Promise.prototype["finally"] = e),
+    d.Promise.allSettled || (d.Promise.allSettled = t));
+    var g = function(e) {
+        return e >= 0 && e <= 127
+    }
+      , y = -1;
+    function v(e) {
+        this.tokens = [].slice.call(e),
+        this.tokens.reverse()
+    }
+    v.prototype = {
+        endOfStream: function() {
+            return !this.tokens.length
+        },
+        read: function() {
+            return this.tokens.length ? this.tokens.pop() : y
+        },
+        prepend: function(e) {
+            if (Array.isArray(e))
+                for (var t = e; t.length; )
+                    this.tokens.push(t.pop());
+            else
+                this.tokens.push(e)
+        },
+        push: function(e) {
+            if (Array.isArray(e))
+                for (var t = e; t.length; )
+                    this.tokens.unshift(t.shift());
+            else
+                this.tokens.unshift(e)
+        }
+    };
+    var w = -1;
+    function b(e, t) {
+        if (e)
+            throw TypeError("Decoder error");
+        return t || 65533
+    }
+    function V(e) {
+        return e = String(e).trim().toLowerCase(),
+        Object.prototype.hasOwnProperty.call(_, e) ? _[e] : null
+    }
+    var _ = {};
+    [{
+        encodings: [{
+            labels: ["unicode-1-1-utf-8", "utf-8", "utf8"],
+            name: "UTF-8"
+        }],
+        heading: "The Encoding"
+    }].forEach((function(e) {
+        e.encodings.forEach((function(e) {
+            e.labels.forEach((function(t) {
+                _[t] = e
+            }
+            ))
+        }
+        ))
+    }
+    ));
+    var k, E = {
+        "UTF-8": function(e) {
+            return new W(e)
+        }
+    }, R = {
+        "UTF-8": function(e) {
+            return new U(e)
+        }
+    }, T = "utf-8";
+    function x(e, t) {
+        if (!(this instanceof x))
+            throw TypeError("Called as a function. Did you forget 'new'?");
+        e = e !== undefined ? String(e) : T,
+        t = m(t),
+        this._encoding = null,
+        this._decoder = null,
+        this._ignoreBOM = !1,
+        this._BOMseen = !1,
+        this._error_mode = "replacement",
+        this._do_not_flush = !1;
+        var n = V(e);
+        if (null === n || "replacement" === n.name)
+            throw RangeError("Unknown encoding: " + e);
+        if (!R[n.name])
+            throw Error("Decoder not present. Did you forget to include encoding-indexes.js first?");
+        var r = this;
+        return r._encoding = n,
+        t.fatal && (r._error_mode = "fatal"),
+        t.ignoreBOM && (r._ignoreBOM = !0),
+        Object.defineProperty || (this.encoding = r._encoding.name.toLowerCase(),
+        this.fatal = "fatal" === r._error_mode,
+        this.ignoreBOM = r._ignoreBOM),
+        r
+    }
+    function S(e, t) {
+        if (!(this instanceof S))
+            throw TypeError("Called as a function. Did you forget 'new'?");
+        t = m(t),
+        this._encoding = null,
+        this._encoder = null,
+        this._do_not_flush = !1,
+        this._fatal = t.fatal ? "fatal" : "replacement";
+        var n = this;
+        if (t.NONSTANDARD_allowLegacyEncoding) {
+            var r = V(e = e !== undefined ? String(e) : T);
+            if (null === r || "replacement" === r.name)
+                throw RangeError("Unknown encoding: " + e);
+            if (!E[r.name])
+                throw Error("Encoder not present. Did you forget to include encoding-indexes.js first?");
+            n._encoding = r
+        } else
+            n._encoding = V("utf-8");
+        return Object.defineProperty || (this.encoding = n._encoding.name.toLowerCase()),
+        n
+    }
+    function U(e) {
+        var t = e.fatal
+          , n = 0
+          , r = 0
+          , i = 0
+          , o = 128
+          , a = 191;
+        this.handler = function(e, s) {
+            if (s === y && 0 !== i)
+                return i = 0,
+                b(t);
+            if (s === y)
+                return w;
+            if (0 === i) {
+                if (f(s, 0, 127))
+                    return s;
+                if (f(s, 194, 223))
+                    i = 1,
+                    n = 31 & s;
+                else if (f(s, 224, 239))
+                    224 === s && (o = 160),
+                    237 === s && (a = 159),
+                    i = 2,
+                    n = 15 & s;
+                else {
+                    if (!f(s, 240, 244))
+                        return b(t);
+                    240 === s && (o = 144),
+                    244 === s && (a = 143),
+                    i = 3,
+                    n = 7 & s
+                }
+                return null
+            }
+            if (!f(s, o, a))
+                return n = i = r = 0,
+                o = 128,
+                a = 191,
+                e.prepend(s),
+                b(t);
+            if (o = 128,
+            a = 191,
+            n = n << 6 | 63 & s,
+            (r += 1) !== i)
+                return null;
+            var c = n;
+            return n = i = r = 0,
+            c
+        }
+    }
+    function W(e) {
+        e.fatal;
+        this.handler = function(e, t) {
+            if (t === y)
+                return w;
+            if (g(t))
+                return t;
+            var n, r;
+            f(t, 128, 2047) ? (n = 1,
+            r = 192) : f(t, 2048, 65535) ? (n = 2,
+            r = 224) : f(t, 65536, 1114111) && (n = 3,
+            r = 240);
+            for (var i = [(t >> 6 * n) + r]; n > 0; ) {
+                var o = t >> 6 * (n - 1);
+                i.push(128 | 63 & o),
+                n -= 1
+            }
+            return i
+        }
+    }
+    Object.defineProperty && (Object.defineProperty(x.prototype, "encoding", {
+        get: function() {
+            return this._encoding.name.toLowerCase()
+        }
+    }),
+    Object.defineProperty(x.prototype, "fatal", {
+        get: function() {
+            return "fatal" === this._error_mode
+        }
+    }),
+    Object.defineProperty(x.prototype, "ignoreBOM", {
+        get: function() {
+            return this._ignoreBOM
+        }
+    })),
+    x.prototype.decode = function(e, t) {
+        var n;
+        n = "object" == typeof e && e instanceof ArrayBuffer ? new Uint8Array(e) : "object" == typeof e && "buffer"in e && e.buffer instanceof ArrayBuffer ? new Uint8Array(e.buffer,e.byteOffset,e.byteLength) : new Uint8Array(0),
+        t = m(t),
+        this._do_not_flush || (this._decoder = R[this._encoding.name]({
+            fatal: "fatal" === this._error_mode
+        }),
+        this._BOMseen = !1),
+        this._do_not_flush = Boolean(t.stream);
+        for (var r, i = new v(n), o = []; ; ) {
+            var a = i.read();
+            if (a === y)
+                break;
+            if ((r = this._decoder.handler(i, a)) === w)
+                break;
+            null !== r && (Array.isArray(r) ? o.push.apply(o, r) : o.push(r))
+        }
+        if (!this._do_not_flush) {
+            do {
+                if ((r = this._decoder.handler(i, i.read())) === w)
+                    break;
+                null !== r && (Array.isArray(r) ? o.push.apply(o, r) : o.push(r))
+            } while (!i.endOfStream());
+            this._decoder = null
+        }
+        return function(e) {
+            var t, n;
+            return t = ["UTF-8", "UTF-16LE", "UTF-16BE"],
+            n = this._encoding.name,
+            -1 === t.indexOf(n) || this._ignoreBOM || this._BOMseen || (e.length > 0 && 65279 === e[0] ? (this._BOMseen = !0,
+            e.shift()) : e.length > 0 && (this._BOMseen = !0)),
+            function(e) {
+                for (var t = "", n = 0; n < e.length; ++n) {
+                    var r = e[n];
+                    r <= 65535 ? t += String.fromCharCode(r) : (r -= 65536,
+                    t += String.fromCharCode(55296 + (r >> 10), 56320 + (1023 & r)))
+                }
+                return t
+            }(e)
+        }
+        .call(this, o)
+    }
+    ,
+    Object.defineProperty && Object.defineProperty(S.prototype, "encoding", {
+        get: function() {
+            return this._encoding.name.toLowerCase()
+        }
+    }),
+    S.prototype.encode = function(e, t) {
+        e = e === undefined ? "" : String(e),
+        t = m(t),
+        this._do_not_flush || (this._encoder = E[this._encoding.name]({
+            fatal: "fatal" === this._fatal
+        })),
+        this._do_not_flush = Boolean(t.stream);
+        for (var n, r = new v(function(e) {
+            for (var t = String(e), n = t.length, r = 0, i = []; r < n; ) {
+                var o = t.charCodeAt(r);
+                if (o < 55296 || o > 57343)
+                    i.push(o);
+                else if (o >= 56320 && o <= 57343)
+                    i.push(65533);
+                else if (o >= 55296 && o <= 56319)
+                    if (r === n - 1)
+                        i.push(65533);
+                    else {
+                        var a = t.charCodeAt(r + 1);
+                        if (a >= 56320 && a <= 57343) {
+                            var s = 1023 & o
+                              , c = 1023 & a;
+                            i.push(65536 + (s << 10) + c),
+                            r += 1
+                        } else
+                            i.push(65533)
+                    }
+                r += 1
+            }
+            return i
+        }(e)), i = []; ; ) {
+            var o = r.read();
+            if (o === y)
+                break;
+            if ((n = this._encoder.handler(r, o)) === w)
+                break;
+            Array.isArray(n) ? i.push.apply(i, n) : i.push(n)
+        }
+        if (!this._do_not_flush) {
+            for (; (n = this._encoder.handler(r, r.read())) !== w; )
+                Array.isArray(n) ? i.push.apply(i, n) : i.push(n);
+            this._encoder = null
+        }
+        return new Uint8Array(i)
+    }
+    ,
+    window.TextDecoder || (window.TextDecoder = x),
+    window.TextEncoder || (window.TextEncoder = S),
+    function(e) {
+        if ("function" != typeof Promise)
+            throw "Promise support required";
+        var t = e.crypto || e.msCrypto;
+        if (t) {
+            var n = t.subtle || t.webkitSubtle;
+            if (n) {
+                var r = e.Crypto || t.constructor || Object
+                  , i = e.SubtleCrypto || n.constructor || Object
+                  , o = (e.CryptoKey || e.Key,
+                e.navigator.userAgent.indexOf("Edge/") > -1)
+                  , a = !!e.msCrypto && !o
+                  , s = !t.subtle && !!t.webkitSubtle;
+                if (a || s) {
+                    var c = {
+                        KoZIhvcNAQEB: "1.2.840.113549.1.1.1"
+                    }
+                      , l = {
+                        "1.2.840.113549.1.1.1": "KoZIhvcNAQEB"
+                    };
+                    if (["generateKey", "importKey", "unwrapKey"].forEach((function(e) {
+                        var r = n[e];
+                        n[e] = function(i, o, c) {
+                            var l, u, h, f, b = [].slice.call(arguments);
+                            switch (e) {
+                            case "generateKey":
+                                l = m(i),
+                                u = o,
+                                h = c;
+                                break;
+                            case "importKey":
+                                l = m(c),
+                                u = b[3],
+                                h = b[4],
+                                "jwk" === i && ((o = y(o)).alg || (o.alg = g(l)),
+                                o.key_ops || (o.key_ops = "oct" !== o.kty ? "d"in o ? h.filter(R) : h.filter(E) : h.slice()),
+                                b[1] = v(o));
+                                break;
+                            case "unwrapKey":
+                                l = b[4],
+                                u = b[5],
+                                h = b[6],
+                                b[2] = c._key
+                            }
+                            if ("generateKey" === e && "HMAC" === l.name && l.hash)
+                                return l.length = l.length || {
+                                    "SHA-1": 512,
+                                    "SHA-256": 512,
+                                    "SHA-384": 1024,
+                                    "SHA-512": 1024
+                                }[l.hash.name],
+                                n.importKey("raw", t.getRandomValues(new Uint8Array(l.length + 7 >> 3)), l, u, h);
+                            if (s && "generateKey" === e && "RSASSA-PKCS1-v1_5" === l.name && (!l.modulusLength || l.modulusLength >= 2048))
+                                return (i = m(i)).name = "RSAES-PKCS1-v1_5",
+                                delete i.hash,
+                                n.generateKey(i, !0, ["encrypt", "decrypt"]).then((function(e) {
+                                    return Promise.all([n.exportKey("jwk", e.publicKey), n.exportKey("jwk", e.privateKey)])
+                                }
+                                )).then((function(e) {
+                                    return e[0].alg = e[1].alg = g(l),
+                                    e[0].key_ops = h.filter(E),
+                                    e[1].key_ops = h.filter(R),
+                                    Promise.all([n.importKey("jwk", e[0], l, !0, e[0].key_ops), n.importKey("jwk", e[1], l, u, e[1].key_ops)])
+                                }
+                                )).then((function(e) {
+                                    return {
+                                        publicKey: e[0],
+                                        privateKey: e[1]
+                                    }
+                                }
+                                ));
+                            if ((s || a && "SHA-1" === (l.hash || {}).name) && "importKey" === e && "jwk" === i && "HMAC" === l.name && "oct" === o.kty)
+                                return n.importKey("raw", d(p(o.k)), c, b[3], b[4]);
+                            if (s && "importKey" === e && ("spki" === i || "pkcs8" === i))
+                                return n.importKey("jwk", w(o), c, b[3], b[4]);
+                            if (a && "unwrapKey" === e)
+                                return n.decrypt(b[3], c, o).then((function(e) {
+                                    return n.importKey(i, e, b[4], b[5], b[6])
+                                }
+                                ));
+                            try {
+                                f = r.apply(n, b)
+                            } catch (V) {
+                                return Promise.reject(V)
+                            }
+                            return a && (f = new Promise((function(e, t) {
+                                f.onabort = f.onerror = function(e) {
+                                    t(e)
+                                }
+                                ,
+                                f.oncomplete = function(t) {
+                                    e(t.target.result)
+                                }
+                            }
+                            ))),
+                            f = f.then((function(e) {
+                                return "HMAC" === l.name && (l.length || (l.length = 8 * e.algorithm.length)),
+                                0 == l.name.search("RSA") && (l.modulusLength || (l.modulusLength = (e.publicKey || e).algorithm.modulusLength),
+                                l.publicExponent || (l.publicExponent = (e.publicKey || e).algorithm.publicExponent)),
+                                e = e.publicKey && e.privateKey ? {
+                                    publicKey: new k(e.publicKey,l,u,h.filter(E)),
+                                    privateKey: new k(e.privateKey,l,u,h.filter(R))
+                                } : new k(e,l,u,h)
+                            }
+                            ))
+                        }
+                    }
+                    )),
+                    ["exportKey", "wrapKey"].forEach((function(e) {
+                        var t = n[e];
+                        n[e] = function(r, i, o) {
+                            var c, l = [].slice.call(arguments);
+                            switch (e) {
+                            case "exportKey":
+                                l[1] = i._key;
+                                break;
+                            case "wrapKey":
+                                l[1] = i._key,
+                                l[2] = o._key
+                            }
+                            if ((s || a && "SHA-1" === (i.algorithm.hash || {}).name) && "exportKey" === e && "jwk" === r && "HMAC" === i.algorithm.name && (l[0] = "raw"),
+                            !s || "exportKey" !== e || "spki" !== r && "pkcs8" !== r || (l[0] = "jwk"),
+                            a && "wrapKey" === e)
+                                return n.exportKey(r, i).then((function(e) {
+                                    return "jwk" === r && (e = d(unescape(encodeURIComponent(JSON.stringify(y(e)))))),
+                                    n.encrypt(l[3], o, e)
+                                }
+                                ));
+                            try {
+                                c = t.apply(n, l)
+                            } catch (u) {
+                                return Promise.reject(u)
+                            }
+                            return a && (c = new Promise((function(e, t) {
+                                c.onabort = c.onerror = function(e) {
+                                    t(e)
+                                }
+                                ,
+                                c.oncomplete = function(t) {
+                                    e(t.target.result)
+                                }
+                            }
+                            ))),
+                            "exportKey" === e && "jwk" === r && (c = c.then((function(e) {
+                                return (s || a && "SHA-1" === (i.algorithm.hash || {}).name) && "HMAC" === i.algorithm.name ? {
+                                    kty: "oct",
+                                    alg: g(i.algorithm),
+                                    key_ops: i.usages.slice(),
+                                    ext: !0,
+                                    k: h(f(e))
+                                } : ((e = y(e)).alg || (e.alg = g(i.algorithm)),
+                                e.key_ops || (e.key_ops = "public" === i.type ? i.usages.filter(E) : "private" === i.type ? i.usages.filter(R) : i.usages.slice()),
+                                e)
+                            }
+                            ))),
+                            !s || "exportKey" !== e || "spki" !== r && "pkcs8" !== r || (c = c.then((function(e) {
+                                return e = b(y(e))
+                            }
+                            ))),
+                            c
+                        }
+                    }
+                    )),
+                    ["encrypt", "decrypt", "sign", "verify"].forEach((function(e) {
+                        var t = n[e];
+                        n[e] = function(r, i, o, s) {
+                            if (a && (!o.byteLength || s && !s.byteLength))
+                                throw new Error("Empty input is not allowed");
+                            var c, l = [].slice.call(arguments), u = m(r);
+                            if (!a || "sign" !== e && "verify" !== e || "RSASSA-PKCS1-v1_5" !== r && "HMAC" !== r || (l[0] = {
+                                name: r
+                            }),
+                            a && i.algorithm.hash && (l[0].hash = l[0].hash || i.algorithm.hash),
+                            a && "decrypt" === e && "AES-GCM" === u.name) {
+                                var h = r.tagLength >> 3;
+                                l[2] = (o.buffer || o).slice(0, o.byteLength - h),
+                                r.tag = (o.buffer || o).slice(o.byteLength - h)
+                            }
+                            a && "AES-GCM" === u.name && l[0].tagLength === undefined && (l[0].tagLength = 128),
+                            l[1] = i._key;
+                            try {
+                                c = t.apply(n, l)
+                            } catch (p) {
+                                return Promise.reject(p)
+                            }
+                            return a && (c = new Promise((function(t, n) {
+                                c.onabort = c.onerror = function(e) {
+                                    n(e)
+                                }
+                                ,
+                                c.oncomplete = function(n) {
+                                    n = n.target.result;
+                                    if ("encrypt" === e && n instanceof AesGcmEncryptResult) {
+                                        var r = n.ciphertext
+                                          , i = n.tag;
+                                        (n = new Uint8Array(r.byteLength + i.byteLength)).set(new Uint8Array(r), 0),
+                                        n.set(new Uint8Array(i), r.byteLength),
+                                        n = n.buffer
+                                    }
+                                    t(n)
+                                }
+                            }
+                            ))),
+                            c
+                        }
+                    }
+                    )),
+                    a) {
+                        var u = n.digest;
+                        n.digest = function(e, t) {
+                            if (!t.byteLength)
+                                throw new Error("Empty input is not allowed");
+                            var r;
+                            try {
+                                r = u.call(n, e, t)
+                            } catch (i) {
+                                return Promise.reject(i)
+                            }
+                            return r = new Promise((function(e, t) {
+                                r.onabort = r.onerror = function(e) {
+                                    t(e)
+                                }
+                                ,
+                                r.oncomplete = function(t) {
+                                    e(t.target.result)
+                                }
+                            }
+                            )),
+                            r
+                        }
+                        ,
+                        e.crypto = Object.create(t, {
+                            getRandomValues: {
+                                value: function(e) {
+                                    return t.getRandomValues(e)
+                                }
+                            },
+                            subtle: {
+                                value: n
+                            }
+                        }),
+                        e.CryptoKey = k
+                    }
+                    s && (t.subtle = n,
+                    e.Crypto = r,
+                    e.SubtleCrypto = i,
+                    e.CryptoKey = k)
+                }
+            }
+        }
+        function h(e) {
+            return btoa(e).replace(/\=+$/, "").replace(/\+/g, "-").replace(/\//g, "_")
+        }
+        function p(e) {
+            return e = (e += "===").slice(0, -e.length % 4),
+            atob(e.replace(/-/g, "+").replace(/_/g, "/"))
+        }
+        function d(e) {
+            for (var t = new Uint8Array(e.length), n = 0; n < e.length; n++)
+                t[n] = e.charCodeAt(n);
+            return t
+        }
+        function f(e) {
+            return e instanceof ArrayBuffer && (e = new Uint8Array(e)),
+            String.fromCharCode.apply(String, e)
+        }
+        function m(e) {
+            var t = {
+                name: (e.name || e || "").toUpperCase().replace("V", "v")
+            };
+            switch (t.name) {
+            case "SHA-1":
+            case "SHA-256":
+            case "SHA-384":
+            case "SHA-512":
+                break;
+            case "AES-CBC":
+            case "AES-GCM":
+            case "AES-KW":
+                e.length && (t.length = e.length);
+                break;
+            case "HMAC":
+                e.hash && (t.hash = m(e.hash)),
+                e.length && (t.length = e.length);
+                break;
+            case "RSAES-PKCS1-v1_5":
+                e.publicExponent && (t.publicExponent = new Uint8Array(e.publicExponent)),
+                e.modulusLength && (t.modulusLength = e.modulusLength);
+                break;
+            case "RSASSA-PKCS1-v1_5":
+            case "RSA-OAEP":
+                e.hash && (t.hash = m(e.hash)),
+                e.publicExponent && (t.publicExponent = new Uint8Array(e.publicExponent)),
+                e.modulusLength && (t.modulusLength = e.modulusLength);
+                break;
+            default:
+                throw new SyntaxError("Bad algorithm name")
+            }
+            return t
+        }
+        function g(e) {
+            return {
+                HMAC: {
+                    "SHA-1": "HS1",
+                    "SHA-256": "HS256",
+                    "SHA-384": "HS384",
+                    "SHA-512": "HS512"
+                },
+                "RSASSA-PKCS1-v1_5": {
+                    "SHA-1": "RS1",
+                    "SHA-256": "RS256",
+                    "SHA-384": "RS384",
+                    "SHA-512": "RS512"
+                },
+                "RSAES-PKCS1-v1_5": {
+                    "": "RSA1_5"
+                },
+                "RSA-OAEP": {
+                    "SHA-1": "RSA-OAEP",
+                    "SHA-256": "RSA-OAEP-256"
+                },
+                "AES-KW": {
+                    128: "A128KW",
+                    192: "A192KW",
+                    256: "A256KW"
+                },
+                "AES-GCM": {
+                    128: "A128GCM",
+                    192: "A192GCM",
+                    256: "A256GCM"
+                },
+                "AES-CBC": {
+                    128: "A128CBC",
+                    192: "A192CBC",
+                    256: "A256CBC"
+                }
+            }[e.name][(e.hash || {}).name || e.length || ""]
+        }
+        function y(e) {
+            (e instanceof ArrayBuffer || e instanceof Uint8Array) && (e = JSON.parse(decodeURIComponent(escape(f(e)))));
+            var t = {
+                kty: e.kty,
+                alg: e.alg,
+                ext: e.ext || e.extractable
+            };
+            switch (t.kty) {
+            case "oct":
+                t.k = e.k;
+            case "RSA":
+                ["n", "e", "d", "p", "q", "dp", "dq", "qi", "oth"].forEach((function(n) {
+                    n in e && (t[n] = e[n])
+                }
+                ));
+                break;
+            default:
+                throw new TypeError("Unsupported key type")
+            }
+            return t
+        }
+        function v(e) {
+            var t = y(e);
+            return a && (t.extractable = t.ext,
+            delete t.ext),
+            d(unescape(encodeURIComponent(JSON.stringify(t)))).buffer
+        }
+        function w(e) {
+            var t = V(e)
+              , n = !1;
+            t.length > 2 && (n = !0,
+            t.shift());
+            var r = {
+                ext: !0
+            };
+            if ("1.2.840.113549.1.1.1" !== t[0][0])
+                throw new TypeError("Unsupported key type");
+            var i = ["n", "e", "d", "p", "q", "dp", "dq", "qi"]
+              , o = V(t[1]);
+            n && o.shift();
+            for (var a = 0; a < o.length; a++)
+                o[a][0] || (o[a] = o[a].subarray(1)),
+                r[i[a]] = h(f(o[a]));
+            return r.kty = "RSA",
+            r
+        }
+        function b(e) {
+            var t, n = [["", null]], r = !1;
+            if ("RSA" !== e.kty)
+                throw new TypeError("Unsupported key type");
+            for (var i = ["n", "e", "d", "p", "q", "dp", "dq", "qi"], o = [], a = 0; a < i.length && i[a]in e; a++) {
+                var s = o[a] = d(p(e[i[a]]));
+                128 & s[0] && (o[a] = new Uint8Array(s.length + 1),
+                o[a].set(s, 1))
+            }
+            return o.length > 2 && (r = !0,
+            o.unshift(new Uint8Array([0]))),
+            n[0][0] = "1.2.840.113549.1.1.1",
+            t = o,
+            n.push(new Uint8Array(_(t)).buffer),
+            r ? n.unshift(new Uint8Array([0])) : n[1] = {
+                tag: 3,
+                value: n[1]
+            },
+            new Uint8Array(_(n)).buffer
+        }
+        function V(e, t) {
+            if (e instanceof ArrayBuffer && (e = new Uint8Array(e)),
+            t || (t = {
+                pos: 0,
+                end: e.length
+            }),
+            t.end - t.pos < 2 || t.end > e.length)
+                throw new RangeError("Malformed DER");
+            var n, r = e[t.pos++], i = e[t.pos++];
+            if (i >= 128) {
+                if (i &= 127,
+                t.end - t.pos < i)
+                    throw new RangeError("Malformed DER");
+                for (var o = 0; i--; )
+                    o <<= 8,
+                    o |= e[t.pos++];
+                i = o
+            }
+            if (t.end - t.pos < i)
+                throw new RangeError("Malformed DER");
+            switch (r) {
+            case 2:
+                n = e.subarray(t.pos, t.pos += i);
+                break;
+            case 3:
+                if (e[t.pos++])
+                    throw new Error("Unsupported bit string");
+                i--;
+            case 4:
+                n = new Uint8Array(e.subarray(t.pos, t.pos += i)).buffer;
+                break;
+            case 5:
+                n = null;
+                break;
+            case 6:
+                var a = btoa(f(e.subarray(t.pos, t.pos += i)));
+                if (!(a in c))
+                    throw new Error("Unsupported OBJECT ID " + a);
+                n = c[a];
+                break;
+            case 48:
+                n = [];
+                for (var s = t.pos + i; t.pos < s; )
+                    n.push(V(e, t));
+                break;
+            default:
+                throw new Error("Unsupported DER tag 0x" + r.toString(16))
+            }
+            return n
+        }
+        function _(e, t) {
+            t || (t = []);
+            var n = 0
+              , r = 0
+              , i = t.length + 2;
+            if (t.push(0, 0),
+            e instanceof Uint8Array) {
+                n = 2,
+                r = e.length;
+                for (var o = 0; o < r; o++)
+                    t.push(e[o])
+            } else if (e instanceof ArrayBuffer) {
+                n = 4,
+                r = e.byteLength,
+                e = new Uint8Array(e);
+                for (o = 0; o < r; o++)
+                    t.push(e[o])
+            } else if (null === e)
+                n = 5,
+                r = 0;
+            else if ("string" == typeof e && e in l) {
+                var a = d(atob(l[e]));
+                n = 6,
+                r = a.length;
+                for (o = 0; o < r; o++)
+                    t.push(a[o])
+            } else if (e instanceof Array) {
+                for (o = 0; o < e.length; o++)
+                    _(e[o], t);
+                n = 48,
+                r = t.length - i
+            } else {
+                if (!("object" == typeof e && 3 === e.tag && e.value instanceof ArrayBuffer))
+                    throw new Error("Unsupported DER value " + e);
+                n = 3,
+                r = (e = new Uint8Array(e.value)).byteLength,
+                t.push(0);
+                for (o = 0; o < r; o++)
+                    t.push(e[o]);
+                r++
+            }
+            if (r >= 128) {
+                var s = r;
+                r = 4;
+                for (t.splice(i, 0, s >> 24 & 255, s >> 16 & 255, s >> 8 & 255, 255 & s); r > 1 && !(s >> 24); )
+                    s <<= 8,
+                    r--;
+                r < 4 && t.splice(i, 4 - r),
+                r |= 128
+            }
+            return t.splice(i - 2, 2, n, r),
+            t
+        }
+        function k(e, t, n, r) {
+            Object.defineProperties(this, {
+                _key: {
+                    value: e
+                },
+                type: {
+                    value: e.type,
+                    enumerable: !0
+                },
+                extractable: {
+                    value: n === undefined ? e.extractable : n,
+                    enumerable: !0
+                },
+                algorithm: {
+                    value: t === undefined ? e.algorithm : t,
+                    enumerable: !0
+                },
+                usages: {
+                    value: r === undefined ? e.usages : r,
+                    enumerable: !0
+                }
+            })
+        }
+        function E(e) {
+            return "verify" === e || "encrypt" === e || "wrapKey" === e
+        }
+        function R(e) {
+            return "sign" === e || "decrypt" === e || "unwrapKey" === e
+        }
+    }(window),
+    Array.prototype.indexOf || (Array.prototype.indexOf = function(e) {
+        return function(t, n) {
+            if (null === this || this === undefined)
+                throw TypeError("Array.prototype.indexOf called on null or undefined");
+            var r = e(this)
+              , i = r.length >>> 0
+              , o = Math.min(0 | n, i);
+            if (o < 0)
+                o = Math.max(0, i + o);
+            else if (o >= i)
+                return -1;
+            if (void 0 === t) {
+                for (; o !== i; ++o)
+                    if (void 0 === r[o] && o in r)
+                        return o
+            } else if (t != t) {
+                for (; o !== i; ++o)
+                    if (r[o] != r[o])
+                        return o
+            } else
+                for (; o !== i; ++o)
+                    if (r[o] === t)
+                        return o;
+            return -1
+        }
+    }(Object)),
+    Array.isArray || (Array.isArray = function(e) {
+        return "[object Array]" === Object.prototype.toString.call(e)
+    }
+    ),
+    document.getElementsByClassName || (window.Element.prototype.getElementsByClassName = document.constructor.prototype.getElementsByClassName = function(e) {
+        if (document.querySelectorAll)
+            return document.querySelectorAll("." + e);
+        for (var t = document.getElementsByTagName("*"), n = new RegExp("(^|\\s)" + e + "(\\s|$)"), r = [], i = 0; i < t.length; i++)
+            n.test(t[i].className) && r.push(t[i]);
+        return r
+    }
+    ),
+    String.prototype.startsWith || (String.prototype.startsWith = function(e, t) {
+        return this.substr(!t || t < 0 ? 0 : +t, e.length) === e
+    }
+    ),
+    String.prototype.endsWith || (String.prototype.endsWith = function(e, t) {
+        return (t === undefined || t > this.length) && (t = this.length),
+        this.substring(t - e.length, t) === e
+    }
+    );
+    try {
+        if (Object.defineProperty && Object.getOwnPropertyDescriptor && Object.getOwnPropertyDescriptor(Element.prototype, "textContent") && !Object.getOwnPropertyDescriptor(Element.prototype, "textContent").get) {
+            var M = Object.getOwnPropertyDescriptor(Element.prototype, "innerText");
+            Object.defineProperty(Element.prototype, "textContent", {
+                get: function() {
+                    return M.get.call(this)
+                },
+                set: function(e) {
+                    M.set.call(this, e)
+                }
+            })
+        }
+    } catch (hr) {}
+    Function.prototype.bind || (Function.prototype.bind = function(e) {
+        if ("function" != typeof this)
+            throw new TypeError("Function.prototype.bind: Item Can Not Be Bound.");
+        var t = Array.prototype.slice.call(arguments, 1)
+          , n = this
+          , r = function() {}
+          , i = function() {
+            return n.apply(this instanceof r ? this : e, t.concat(Array.prototype.slice.call(arguments)))
+        };
+        return this.prototype && (r.prototype = this.prototype),
+        i.prototype = new r,
+        i
+    }
+    ),
+    "function" != typeof Object.create && (Object.create = function(e, t) {
+        function n() {}
+        if (n.prototype = e,
+        "object" == typeof t)
+            for (var r in t)
+                t.hasOwnProperty(r) && (n[r] = t[r]);
+        return new n
+    }
+    ),
+    Date.now || (Date.now = function() {
+        return (new Date).getTime()
+    }
+    ),
+    window.console || (window.console = {});
+    for (var A, N, H, O, C = ["error", "info", "log", "show", "table", "trace", "warn"], F = function(e) {}, P = C.length; --P > -1; )
+        k = C[P],
+        window.console[k] || (window.console[k] = F);
+    if (window.atob)
+        try {
+            window.atob(" ")
+        } catch (pr) {
+            window.atob = function(e) {
+                var t = function(t) {
+                    return e(String(t).replace(/[\t\n\f\r ]+/g, ""))
+                };
+                return t.original = e,
+                t
+            }(window.atob)
+        }
+    else {
+        var j = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+          , z = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3}=?)?$/;
+        window.atob = function(e) {
+            if (e = String(e).replace(/[\t\n\f\r ]+/g, ""),
+            !z.test(e))
+                throw new TypeError("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.");
+            var t, n, r;
+            e += "==".slice(2 - (3 & e.length));
+            for (var i = "", o = 0; o < e.length; )
+                t = j.indexOf(e.charAt(o++)) << 18 | j.indexOf(e.charAt(o++)) << 12 | (n = j.indexOf(e.charAt(o++))) << 6 | (r = j.indexOf(e.charAt(o++))),
+                i += 64 === n ? String.fromCharCode(t >> 16 & 255) : 64 === r ? String.fromCharCode(t >> 16 & 255, t >> 8 & 255) : String.fromCharCode(t >> 16 & 255, t >> 8 & 255, 255 & t);
+            return i
+        }
+    }
+    if (Event.prototype.preventDefault || (Event.prototype.preventDefault = function() {
+        this.returnValue = !1
+    }
+    ),
+    Event.prototype.stopPropagation || (Event.prototype.stopPropagation = function() {
+        this.cancelBubble = !0
+    }
+    ),
+    window.Prototype && Array.prototype.toJSON) {
+        console.error("[hCaptcha] Custom JSON polyfill detected, please remove to ensure hCaptcha works properly");
+        var Z = Array.prototype.toJSON
+          , L = JSON.stringify;
+        JSON.stringify = function(e) {
+            try {
+                return delete Array.prototype.toJSON,
+                L(e)
+            } finally {
+                Array.prototype.toJSON = Z
+            }
+        }
+    }
+    if (Object.keys || (Object.keys = (A = Object.prototype.hasOwnProperty,
+    N = !Object.prototype.propertyIsEnumerable.call({
+        toString: null
+    }, "toString"),
+    O = (H = ["toString", "toLocaleString", "valueOf", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "constructor"]).length,
+    function(e) {
+        if ("function" != typeof e && ("object" != typeof e || null === e))
+            throw new TypeError("Object.keys called on non-object");
+        var t, n, r = [];
+        for (t in e)
+            A.call(e, t) && r.push(t);
+        if (N)
+            for (n = 0; n < O; n++)
+                A.call(e, H[n]) && r.push(H[n]);
+        return r
+    }
+    )),
+    !Uint8Array.prototype.slice)
+        try {
+            Object.defineProperty(Uint8Array.prototype, "slice", {
+                value: function(e, t) {
+                    return new Uint8Array(Array.prototype.slice.call(this, e, t))
+                },
+                writable: !0
+            })
+        } catch (pr) {
+            if ("function" != typeof Uint8Array.prototype.slice)
+                try {
+                    Uint8Array.prototype.slice = function(e, t) {
+                        return new Uint8Array(Array.prototype.slice.call(this, e, t))
+                    }
+                } catch (dr) {}
+        }
+    /*! Raven.js 3.27.2 (6d91db933) | github.com/getsentry/raven-js */
+    !function(e) {
+        if ("object" == typeof exports && "undefined" != typeof module)
+            module.exports = e();
+        else if ("function" == typeof define && define.amd)
+            define("raven-js", e);
+        else {
+            ("undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this).Raven = e()
+        }
+    }((function() {
+        return function e(t, n, r) {
+            function i(a, s) {
+                if (!n[a]) {
+                    if (!t[a]) {
+                        var c = "function" == typeof require && require;
+                        if (!s && c)
+                            return c(a, !0);
+                        if (o)
+                            return o(a, !0);
+                        var l = new Error("Cannot find module '" + a + "'");
+                        throw l.code = "MODULE_NOT_FOUND",
+                        l
+                    }
+                    var u = n[a] = {
+                        exports: {}
+                    };
+                    t[a][0].call(u.exports, (function(e) {
+                        var n = t[a][1][e];
+                        return i(n || e)
+                    }
+                    ), u, u.exports, e, t, n, r)
+                }
+                return n[a].exports
+            }
+            for (var o = "function" == typeof require && require, a = 0; a < r.length; a++)
+                i(r[a]);
+            return i
+        }({
+            1: [function(e, t, n) {
+                function r(e) {
+                    this.name = "RavenConfigError",
+                    this.message = e
+                }
+                r.prototype = new Error,
+                r.prototype.constructor = r,
+                t.exports = r
+            }
+            , {}],
+            2: [function(e, t, n) {
+                var r = e(5);
+                t.exports = {
+                    wrapMethod: function(e, t, n) {
+                        var i = e[t]
+                          , o = e;
+                        if (t in e) {
+                            var a = "warn" === t ? "warning" : t;
+                            e[t] = function() {
+                                var e = [].slice.call(arguments)
+                                  , s = r.safeJoin(e, " ")
+                                  , c = {
+                                    level: a,
+                                    logger: "console",
+                                    extra: {
+                                        arguments: e
+                                    }
+                                };
+                                "assert" === t ? !1 === e[0] && (s = "Assertion failed: " + (r.safeJoin(e.slice(1), " ") || "console.assert"),
+                                c.extra.arguments = e.slice(1),
+                                n && n(s, c)) : n && n(s, c),
+                                i && Function.prototype.apply.call(i, o, e)
+                            }
+                        }
+                    }
+                }
+            }
+            , {
+                5: 5
+            }],
+            3: [function(e, t, n) {
+                (function(n) {
+                    function r() {
+                        return +new Date
+                    }
+                    function i(e, t) {
+                        return v(t) ? function(n) {
+                            return t(n, e)
+                        }
+                        : t
+                    }
+                    function o() {
+                        for (var e in this.a = !("object" != typeof JSON || !JSON.stringify),
+                        this.b = !y(D),
+                        this.c = !y(I),
+                        this.d = null,
+                        this.e = null,
+                        this.f = null,
+                        this.g = null,
+                        this.h = null,
+                        this.i = null,
+                        this.j = {},
+                        this.k = {
+                            release: B.SENTRY_RELEASE && B.SENTRY_RELEASE.id,
+                            logger: "javascript",
+                            ignoreErrors: [],
+                            ignoreUrls: [],
+                            whitelistUrls: [],
+                            includePaths: [],
+                            headers: null,
+                            collectWindowErrors: !0,
+                            captureUnhandledRejections: !0,
+                            maxMessageLength: 0,
+                            maxUrlLength: 250,
+                            stackTraceLimit: 50,
+                            autoBreadcrumbs: !0,
+                            instrument: !0,
+                            sampleRate: 1,
+                            sanitizeKeys: []
+                        },
+                        this.l = {
+                            method: "POST",
+                            referrerPolicy: C() ? "origin" : ""
+                        },
+                        this.m = 0,
+                        this.n = !1,
+                        this.o = Error.stackTraceLimit,
+                        this.p = B.console || {},
+                        this.q = {},
+                        this.r = [],
+                        this.s = r(),
+                        this.t = [],
+                        this.u = [],
+                        this.v = null,
+                        this.w = B.location,
+                        this.x = this.w && this.w.href,
+                        this.y(),
+                        this.p)
+                            this.q[e] = this.p[e]
+                    }
+                    var a = e(6)
+                      , s = e(7)
+                      , c = e(8)
+                      , l = e(1)
+                      , u = e(5)
+                      , h = u.isErrorEvent
+                      , p = u.isDOMError
+                      , d = u.isDOMException
+                      , f = u.isError
+                      , m = u.isObject
+                      , g = u.isPlainObject
+                      , y = u.isUndefined
+                      , v = u.isFunction
+                      , w = u.isString
+                      , b = u.isArray
+                      , V = u.isEmptyObject
+                      , _ = u.each
+                      , k = u.objectMerge
+                      , E = u.truncate
+                      , R = u.objectFrozen
+                      , T = u.hasKey
+                      , x = u.joinRegExp
+                      , S = u.urlencode
+                      , U = u.uuid4
+                      , W = u.htmlTreeAsString
+                      , M = u.isSameException
+                      , A = u.isSameStacktrace
+                      , N = u.parseUrl
+                      , H = u.fill
+                      , O = u.supportsFetch
+                      , C = u.supportsReferrerPolicy
+                      , F = u.serializeKeysForMessage
+                      , P = u.serializeException
+                      , j = u.sanitize
+                      , z = e(2).wrapMethod
+                      , Z = "source protocol user pass host port path".split(" ")
+                      , L = /^(?:(\w+):)?\/\/(?:(\w+)(:\w+)?@)?([\w\.-]+)(?::(\d+))?(\/.*)/
+                      , B = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}
+                      , D = B.document
+                      , I = B.navigator;
+                    o.prototype = {
+                        VERSION: "3.27.2",
+                        debug: !1,
+                        TraceKit: a,
+                        config: function(e, t) {
+                            var n = this;
+                            if (n.g)
+                                return this.z("error", "Error: Raven has already been configured"),
+                                n;
+                            if (!e)
+                                return n;
+                            var r = n.k;
+                            t && _(t, (function(e, t) {
+                                "tags" === e || "extra" === e || "user" === e ? n.j[e] = t : r[e] = t
+                            }
+                            )),
+                            n.setDSN(e),
+                            r.ignoreErrors.push(/^Script error\.?$/),
+                            r.ignoreErrors.push(/^Javascript error: Script error\.? on line 0$/),
+                            r.ignoreErrors = x(r.ignoreErrors),
+                            r.ignoreUrls = !!r.ignoreUrls.length && x(r.ignoreUrls),
+                            r.whitelistUrls = !!r.whitelistUrls.length && x(r.whitelistUrls),
+                            r.includePaths = x(r.includePaths),
+                            r.maxBreadcrumbs = Math.max(0, Math.min(r.maxBreadcrumbs || 100, 100));
+                            var i = {
+                                xhr: !0,
+                                console: !0,
+                                dom: !0,
+                                location: !0,
+                                sentry: !0
+                            }
+                              , o = r.autoBreadcrumbs;
+                            "[object Object]" === {}.toString.call(o) ? o = k(i, o) : !1 !== o && (o = i),
+                            r.autoBreadcrumbs = o;
+                            var s = {
+                                tryCatch: !0
+                            }
+                              , c = r.instrument;
+                            return "[object Object]" === {}.toString.call(c) ? c = k(s, c) : !1 !== c && (c = s),
+                            r.instrument = c,
+                            a.collectWindowErrors = !!r.collectWindowErrors,
+                            n
+                        },
+                        install: function() {
+                            var e = this;
+                            return e.isSetup() && !e.n && (a.report.subscribe((function() {
+                                e.A.apply(e, arguments)
+                            }
+                            )),
+                            e.k.captureUnhandledRejections && e.B(),
+                            e.C(),
+                            e.k.instrument && e.k.instrument.tryCatch && e.D(),
+                            e.k.autoBreadcrumbs && e.E(),
+                            e.F(),
+                            e.n = !0),
+                            Error.stackTraceLimit = e.k.stackTraceLimit,
+                            this
+                        },
+                        setDSN: function(e) {
+                            var t = this
+                              , n = t.G(e)
+                              , r = n.path.lastIndexOf("/")
+                              , i = n.path.substr(1, r);
+                            t.H = e,
+                            t.h = n.user,
+                            t.I = n.pass && n.pass.substr(1),
+                            t.i = n.path.substr(r + 1),
+                            t.g = t.J(n),
+                            t.K = t.g + "/" + i + "api/" + t.i + "/store/",
+                            this.y()
+                        },
+                        context: function(e, t, n) {
+                            return v(e) && (n = t || [],
+                            t = e,
+                            e = {}),
+                            this.wrap(e, t).apply(this, n)
+                        },
+                        wrap: function(e, t, n) {
+                            function r() {
+                                var r = []
+                                  , o = arguments.length
+                                  , a = !e || e && !1 !== e.deep;
+                                for (n && v(n) && n.apply(this, arguments); o--; )
+                                    r[o] = a ? i.wrap(e, arguments[o]) : arguments[o];
+                                try {
+                                    return t.apply(this, r)
+                                } catch (s) {
+                                    throw i.L(),
+                                    i.captureException(s, e),
+                                    s
+                                }
+                            }
+                            var i = this;
+                            if (y(t) && !v(e))
+                                return e;
+                            if (v(e) && (t = e,
+                            e = void 0),
+                            !v(t))
+                                return t;
+                            try {
+                                if (t.M)
+                                    return t;
+                                if (t.N)
+                                    return t.N
+                            } catch (o) {
+                                return t
+                            }
+                            for (var a in t)
+                                T(t, a) && (r[a] = t[a]);
+                            return r.prototype = t.prototype,
+                            t.N = r,
+                            r.M = !0,
+                            r.O = t,
+                            r
+                        },
+                        uninstall: function() {
+                            return a.report.uninstall(),
+                            this.P(),
+                            this.Q(),
+                            this.R(),
+                            this.S(),
+                            Error.stackTraceLimit = this.o,
+                            this.n = !1,
+                            this
+                        },
+                        T: function(e) {
+                            this.z("debug", "Raven caught unhandled promise rejection:", e),
+                            this.captureException(e.reason, {
+                                mechanism: {
+                                    type: "onunhandledrejection",
+                                    handled: !1
+                                }
+                            })
+                        },
+                        B: function() {
+                            return this.T = this.T.bind(this),
+                            B.addEventListener && B.addEventListener("unhandledrejection", this.T),
+                            this
+                        },
+                        P: function() {
+                            return B.removeEventListener && B.removeEventListener("unhandledrejection", this.T),
+                            this
+                        },
+                        captureException: function(e, t) {
+                            if (t = k({
+                                trimHeadFrames: 0
+                            }, t || {}),
+                            h(e) && e.error)
+                                e = e.error;
+                            else {
+                                if (p(e) || d(e)) {
+                                    var n = e.name || (p(e) ? "DOMError" : "DOMException")
+                                      , r = e.message ? n + ": " + e.message : n;
+                                    return this.captureMessage(r, k(t, {
+                                        stacktrace: !0,
+                                        trimHeadFrames: t.trimHeadFrames + 1
+                                    }))
+                                }
+                                if (f(e))
+                                    e = e;
+                                else {
+                                    if (!g(e))
+                                        return this.captureMessage(e, k(t, {
+                                            stacktrace: !0,
+                                            trimHeadFrames: t.trimHeadFrames + 1
+                                        }));
+                                    t = this.U(t, e),
+                                    e = new Error(t.message)
+                                }
+                            }
+                            this.d = e;
+                            try {
+                                var i = a.computeStackTrace(e);
+                                this.V(i, t)
+                            } catch (o) {
+                                if (e !== o)
+                                    throw o
+                            }
+                            return this
+                        },
+                        U: function(e, t) {
+                            var n = Object.keys(t).sort()
+                              , r = k(e, {
+                                message: "Non-Error exception captured with keys: " + F(n),
+                                fingerprint: [c(n)],
+                                extra: e.extra || {}
+                            });
+                            return r.extra.W = P(t),
+                            r
+                        },
+                        captureMessage: function(e, t) {
+                            if (!this.k.ignoreErrors.test || !this.k.ignoreErrors.test(e)) {
+                                var n, r = k({
+                                    message: e += ""
+                                }, t = t || {});
+                                try {
+                                    throw new Error(e)
+                                } catch (i) {
+                                    n = i
+                                }
+                                n.name = null;
+                                var o = a.computeStackTrace(n)
+                                  , s = b(o.stack) && o.stack[1];
+                                s && "Raven.captureException" === s.func && (s = o.stack[2]);
+                                var c = s && s.url || "";
+                                if ((!this.k.ignoreUrls.test || !this.k.ignoreUrls.test(c)) && (!this.k.whitelistUrls.test || this.k.whitelistUrls.test(c))) {
+                                    if (this.k.stacktrace || t.stacktrace || "" === r.message) {
+                                        r.fingerprint = null == r.fingerprint ? e : r.fingerprint,
+                                        (t = k({
+                                            trimHeadFrames: 0
+                                        }, t)).trimHeadFrames += 1;
+                                        var l = this.X(o, t);
+                                        r.stacktrace = {
+                                            frames: l.reverse()
+                                        }
+                                    }
+                                    return r.fingerprint && (r.fingerprint = b(r.fingerprint) ? r.fingerprint : [r.fingerprint]),
+                                    this.Y(r),
+                                    this
+                                }
+                            }
+                        },
+                        captureBreadcrumb: function(e) {
+                            var t = k({
+                                timestamp: r() / 1e3
+                            }, e);
+                            if (v(this.k.breadcrumbCallback)) {
+                                var n = this.k.breadcrumbCallback(t);
+                                if (m(n) && !V(n))
+                                    t = n;
+                                else if (!1 === n)
+                                    return this
+                            }
+                            return this.u.push(t),
+                            this.u.length > this.k.maxBreadcrumbs && this.u.shift(),
+                            this
+                        },
+                        addPlugin: function(e) {
+                            var t = [].slice.call(arguments, 1);
+                            return this.r.push([e, t]),
+                            this.n && this.F(),
+                            this
+                        },
+                        setUserContext: function(e) {
+                            return this.j.user = e,
+                            this
+                        },
+                        setExtraContext: function(e) {
+                            return this.Z("extra", e),
+                            this
+                        },
+                        setTagsContext: function(e) {
+                            return this.Z("tags", e),
+                            this
+                        },
+                        clearContext: function() {
+                            return this.j = {},
+                            this
+                        },
+                        getContext: function() {
+                            return JSON.parse(s(this.j))
+                        },
+                        setEnvironment: function(e) {
+                            return this.k.environment = e,
+                            this
+                        },
+                        setRelease: function(e) {
+                            return this.k.release = e,
+                            this
+                        },
+                        setDataCallback: function(e) {
+                            var t = this.k.dataCallback;
+                            return this.k.dataCallback = i(t, e),
+                            this
+                        },
+                        setBreadcrumbCallback: function(e) {
+                            var t = this.k.breadcrumbCallback;
+                            return this.k.breadcrumbCallback = i(t, e),
+                            this
+                        },
+                        setShouldSendCallback: function(e) {
+                            var t = this.k.shouldSendCallback;
+                            return this.k.shouldSendCallback = i(t, e),
+                            this
+                        },
+                        setTransport: function(e) {
+                            return this.k.transport = e,
+                            this
+                        },
+                        lastException: function() {
+                            return this.d
+                        },
+                        lastEventId: function() {
+                            return this.f
+                        },
+                        isSetup: function() {
+                            return !(!this.a || !this.g && (this.ravenNotConfiguredError || (this.ravenNotConfiguredError = !0,
+                            this.z("error", "Error: Raven has not been configured.")),
+                            1))
+                        },
+                        afterLoad: function() {
+                            var e = B.RavenConfig;
+                            e && this.config(e.dsn, e.config).install()
+                        },
+                        showReportDialog: function(e) {
+                            if (D) {
+                                if (!(e = k({
+                                    eventId: this.lastEventId(),
+                                    dsn: this.H,
+                                    user: this.j.user || {}
+                                }, e)).eventId)
+                                    throw new l("Missing eventId");
+                                if (!e.dsn)
+                                    throw new l("Missing DSN");
+                                var t = encodeURIComponent
+                                  , n = [];
+                                for (var r in e)
+                                    if ("user" === r) {
+                                        var i = e.user;
+                                        i.name && n.push("name=" + t(i.name)),
+                                        i.email && n.push("email=" + t(i.email))
+                                    } else
+                                        n.push(t(r) + "=" + t(e[r]));
+                                var o = this.J(this.G(e.dsn))
+                                  , a = D.createElement("script");
+                                a.async = !0,
+                                a.src = o + "/api/embed/error-page/?" + n.join("&"),
+                                (D.head || D.body).appendChild(a)
+                            }
+                        },
+                        L: function() {
+                            var e = this;
+                            this.m += 1,
+                            setTimeout((function() {
+                                e.m -= 1
+                            }
+                            ))
+                        },
+                        $: function(e, t) {
+                            var n, r;
+                            if (this.b) {
+                                for (r in t = t || {},
+                                e = "raven" + e.substr(0, 1).toUpperCase() + e.substr(1),
+                                D.createEvent ? (n = D.createEvent("HTMLEvents")).initEvent(e, !0, !0) : (n = D.createEventObject()).eventType = e,
+                                t)
+                                    T(t, r) && (n[r] = t[r]);
+                                if (D.createEvent)
+                                    D.dispatchEvent(n);
+                                else
+                                    try {
+                                        D.fireEvent("on" + n.eventType.toLowerCase(), n)
+                                    } catch (i) {}
+                            }
+                        },
+                        _: function(e) {
+                            var t = this;
+                            return function(n) {
+                                if (t.aa = null,
+                                t.v !== n) {
+                                    var r;
+                                    t.v = n;
+                                    try {
+                                        r = W(n.target)
+                                    } catch (i) {
+                                        r = "<unknown>"
+                                    }
+                                    t.captureBreadcrumb({
+                                        category: "ui." + e,
+                                        message: r
+                                    })
+                                }
+                            }
+                        },
+                        ba: function() {
+                            var e = this;
+                            return function(t) {
+                                var n;
+                                try {
+                                    n = t.target
+                                } catch (i) {
+                                    return
+                                }
+                                var r = n && n.tagName;
+                                if (r && ("INPUT" === r || "TEXTAREA" === r || n.isContentEditable)) {
+                                    var o = e.aa;
+                                    o || e._("input")(t),
+                                    clearTimeout(o),
+                                    e.aa = setTimeout((function() {
+                                        e.aa = null
+                                    }
+                                    ), 1e3)
+                                }
+                            }
+                        },
+                        ca: function(e, t) {
+                            var n = N(this.w.href)
+                              , r = N(t)
+                              , i = N(e);
+                            this.x = t,
+                            n.protocol === r.protocol && n.host === r.host && (t = r.relative),
+                            n.protocol === i.protocol && n.host === i.host && (e = i.relative),
+                            this.captureBreadcrumb({
+                                category: "navigation",
+                                data: {
+                                    to: t,
+                                    from: e
+                                }
+                            })
+                        },
+                        C: function() {
+                            var e = this;
+                            e.da = Function.prototype.toString,
+                            Function.prototype.toString = function() {
+                                return "function" == typeof this && this.M ? e.da.apply(this.O, arguments) : e.da.apply(this, arguments)
+                            }
+                        },
+                        Q: function() {
+                            this.da && (Function.prototype.toString = this.da)
+                        },
+                        D: function() {
+                            function e(e) {
+                                return function(t, r) {
+                                    for (var i = new Array(arguments.length), o = 0; o < i.length; ++o)
+                                        i[o] = arguments[o];
+                                    var a = i[0];
+                                    return v(a) && (i[0] = n.wrap({
+                                        mechanism: {
+                                            type: "instrument",
+                                            data: {
+                                                "function": e.name || "<anonymous>"
+                                            }
+                                        }
+                                    }, a)),
+                                    e.apply ? e.apply(this, i) : e(i[0], i[1])
+                                }
+                            }
+                            function t(e) {
+                                var t = B[e] && B[e].prototype;
+                                t && t.hasOwnProperty && t.hasOwnProperty("addEventListener") && (H(t, "addEventListener", (function(t) {
+                                    return function(r, o, a, s) {
+                                        try {
+                                            o && o.handleEvent && (o.handleEvent = n.wrap({
+                                                mechanism: {
+                                                    type: "instrument",
+                                                    data: {
+                                                        target: e,
+                                                        "function": "handleEvent",
+                                                        handler: o && o.name || "<anonymous>"
+                                                    }
+                                                }
+                                            }, o.handleEvent))
+                                        } catch (c) {}
+                                        var l, u, h;
+                                        return i && i.dom && ("EventTarget" === e || "Node" === e) && (u = n._("click"),
+                                        h = n.ba(),
+                                        l = function(e) {
+                                            if (e) {
+                                                var t;
+                                                try {
+                                                    t = e.type
+                                                } catch (n) {
+                                                    return
+                                                }
+                                                return "click" === t ? u(e) : "keypress" === t ? h(e) : void 0
+                                            }
+                                        }
+                                        ),
+                                        t.call(this, r, n.wrap({
+                                            mechanism: {
+                                                type: "instrument",
+                                                data: {
+                                                    target: e,
+                                                    "function": "addEventListener",
+                                                    handler: o && o.name || "<anonymous>"
+                                                }
+                                            }
+                                        }, o, l), a, s)
+                                    }
+                                }
+                                ), r),
+                                H(t, "removeEventListener", (function(e) {
+                                    return function(t, n, r, i) {
+                                        try {
+                                            n = n && (n.N ? n.N : n)
+                                        } catch (o) {}
+                                        return e.call(this, t, n, r, i)
+                                    }
+                                }
+                                ), r))
+                            }
+                            var n = this
+                              , r = n.t
+                              , i = this.k.autoBreadcrumbs;
+                            H(B, "setTimeout", e, r),
+                            H(B, "setInterval", e, r),
+                            B.requestAnimationFrame && H(B, "requestAnimationFrame", (function(e) {
+                                return function(t) {
+                                    return e(n.wrap({
+                                        mechanism: {
+                                            type: "instrument",
+                                            data: {
+                                                "function": "requestAnimationFrame",
+                                                handler: e && e.name || "<anonymous>"
+                                            }
+                                        }
+                                    }, t))
+                                }
+                            }
+                            ), r);
+                            for (var o = ["EventTarget", "Window", "Node", "ApplicationCache", "AudioTrackList", "ChannelMergerNode", "CryptoOperation", "EventSource", "FileReader", "HTMLUnknownElement", "IDBDatabase", "IDBRequest", "IDBTransaction", "KeyOperation", "MediaController", "MessagePort", "ModalWindow", "Notification", "SVGElementInstance", "Screen", "TextTrack", "TextTrackCue", "TextTrackList", "WebSocket", "WebSocketWorker", "Worker", "XMLHttpRequest", "XMLHttpRequestEventTarget", "XMLHttpRequestUpload"], a = 0; a < o.length; a++)
+                                t(o[a])
+                        },
+                        E: function() {
+                            function e(e, n) {
+                                e in n && v(n[e]) && H(n, e, (function(n) {
+                                    return t.wrap({
+                                        mechanism: {
+                                            type: "instrument",
+                                            data: {
+                                                "function": e,
+                                                handler: n && n.name || "<anonymous>"
+                                            }
+                                        }
+                                    }, n)
+                                }
+                                ))
+                            }
+                            var t = this
+                              , n = this.k.autoBreadcrumbs
+                              , r = t.t;
+                            if (n.xhr && "XMLHttpRequest"in B) {
+                                var i = B.XMLHttpRequest && B.XMLHttpRequest.prototype;
+                                H(i, "open", (function(e) {
+                                    return function(n, r) {
+                                        return w(r) && -1 === r.indexOf(t.h) && (this.ea = {
+                                            method: n,
+                                            url: r,
+                                            status_code: null
+                                        }),
+                                        e.apply(this, arguments)
+                                    }
+                                }
+                                ), r),
+                                H(i, "send", (function(n) {
+                                    return function() {
+                                        function r() {
+                                            if (i.ea && 4 === i.readyState) {
+                                                try {
+                                                    i.ea.status_code = i.status
+                                                } catch (e) {}
+                                                t.captureBreadcrumb({
+                                                    type: "http",
+                                                    category: "xhr",
+                                                    data: i.ea
+                                                })
+                                            }
+                                        }
+                                        for (var i = this, o = ["onload", "onerror", "onprogress"], a = 0; a < o.length; a++)
+                                            e(o[a], i);
+                                        return "onreadystatechange"in i && v(i.onreadystatechange) ? H(i, "onreadystatechange", (function(e) {
+                                            return t.wrap({
+                                                mechanism: {
+                                                    type: "instrument",
+                                                    data: {
+                                                        "function": "onreadystatechange",
+                                                        handler: e && e.name || "<anonymous>"
+                                                    }
+                                                }
+                                            }, e, r)
+                                        }
+                                        )) : i.onreadystatechange = r,
+                                        n.apply(this, arguments)
+                                    }
+                                }
+                                ), r)
+                            }
+                            n.xhr && O() && H(B, "fetch", (function(e) {
+                                return function() {
+                                    for (var n = new Array(arguments.length), r = 0; r < n.length; ++r)
+                                        n[r] = arguments[r];
+                                    var i, o = n[0], a = "GET";
+                                    if ("string" == typeof o ? i = o : "Request"in B && o instanceof B.Request ? (i = o.url,
+                                    o.method && (a = o.method)) : i = "" + o,
+                                    -1 !== i.indexOf(t.h))
+                                        return e.apply(this, n);
+                                    n[1] && n[1].method && (a = n[1].method);
+                                    var s = {
+                                        method: a,
+                                        url: i,
+                                        status_code: null
+                                    };
+                                    return e.apply(this, n).then((function(e) {
+                                        return s.status_code = e.status,
+                                        t.captureBreadcrumb({
+                                            type: "http",
+                                            category: "fetch",
+                                            data: s
+                                        }),
+                                        e
+                                    }
+                                    ))["catch"]((function(e) {
+                                        throw t.captureBreadcrumb({
+                                            type: "http",
+                                            category: "fetch",
+                                            data: s,
+                                            level: "error"
+                                        }),
+                                        e
+                                    }
+                                    ))
+                                }
+                            }
+                            ), r),
+                            n.dom && this.b && (D.addEventListener ? (D.addEventListener("click", t._("click"), !1),
+                            D.addEventListener("keypress", t.ba(), !1)) : D.attachEvent && (D.attachEvent("onclick", t._("click")),
+                            D.attachEvent("onkeypress", t.ba())));
+                            var o = B.chrome
+                              , a = !(o && o.app && o.app.runtime) && B.history && B.history.pushState && B.history.replaceState;
+                            if (n.location && a) {
+                                var s = B.onpopstate;
+                                B.onpopstate = function() {
+                                    var e = t.w.href;
+                                    if (t.ca(t.x, e),
+                                    s)
+                                        return s.apply(this, arguments)
+                                }
+                                ;
+                                var c = function(e) {
+                                    return function() {
+                                        var n = arguments.length > 2 ? arguments[2] : void 0;
+                                        return n && t.ca(t.x, n + ""),
+                                        e.apply(this, arguments)
+                                    }
+                                };
+                                H(B.history, "pushState", c, r),
+                                H(B.history, "replaceState", c, r)
+                            }
+                            if (n.console && "console"in B && console.log) {
+                                var l = function(e, n) {
+                                    t.captureBreadcrumb({
+                                        message: e,
+                                        level: n.level,
+                                        category: "console"
+                                    })
+                                };
+                                _(["debug", "info", "warn", "error", "log"], (function(e, t) {
+                                    z(console, t, l)
+                                }
+                                ))
+                            }
+                        },
+                        R: function() {
+                            for (var e; this.t.length; ) {
+                                var t = (e = this.t.shift())[0]
+                                  , n = e[1]
+                                  , r = e[2];
+                                t[n] = r
+                            }
+                        },
+                        S: function() {
+                            for (var e in this.q)
+                                this.p[e] = this.q[e]
+                        },
+                        F: function() {
+                            var e = this;
+                            _(this.r, (function(t, n) {
+                                var r = n[0]
+                                  , i = n[1];
+                                r.apply(e, [e].concat(i))
+                            }
+                            ))
+                        },
+                        G: function(e) {
+                            var t = L.exec(e)
+                              , n = {}
+                              , r = 7;
+                            try {
+                                for (; r--; )
+                                    n[Z[r]] = t[r] || ""
+                            } catch (i) {
+                                throw new l("Invalid DSN: " + e)
+                            }
+                            if (n.pass && !this.k.allowSecretKey)
+                                throw new l("Do not specify your secret key in the DSN. See: http://bit.ly/raven-secret-key");
+                            return n
+                        },
+                        J: function(e) {
+                            var t = "//" + e.host + (e.port ? ":" + e.port : "");
+                            return e.protocol && (t = e.protocol + ":" + t),
+                            t
+                        },
+                        A: function(e, t) {
+                            (t = t || {}).mechanism = t.mechanism || {
+                                type: "onerror",
+                                handled: !1
+                            },
+                            this.m || this.V(e, t)
+                        },
+                        V: function(e, t) {
+                            var n = this.X(e, t);
+                            this.$("handle", {
+                                stackInfo: e,
+                                options: t
+                            }),
+                            this.fa(e.name, e.message, e.url, e.lineno, n, t)
+                        },
+                        X: function(e, t) {
+                            var n = this
+                              , r = [];
+                            if (e.stack && e.stack.length && (_(e.stack, (function(t, i) {
+                                var o = n.ga(i, e.url);
+                                o && r.push(o)
+                            }
+                            )),
+                            t && t.trimHeadFrames))
+                                for (var i = 0; i < t.trimHeadFrames && i < r.length; i++)
+                                    r[i].in_app = !1;
+                            return r = r.slice(0, this.k.stackTraceLimit)
+                        },
+                        ga: function(e, t) {
+                            var n = {
+                                filename: e.url,
+                                lineno: e.line,
+                                colno: e.column,
+                                "function": e.func || "?"
+                            };
+                            return e.url || (n.filename = t),
+                            n.in_app = !(this.k.includePaths.test && !this.k.includePaths.test(n.filename) || /(Raven|TraceKit)\./.test(n["function"]) || /raven\.(min\.)?js$/.test(n.filename)),
+                            n
+                        },
+                        fa: function(e, t, n, r, i, o) {
+                            var a, s = (e ? e + ": " : "") + (t || "");
+                            if ((!this.k.ignoreErrors.test || !this.k.ignoreErrors.test(t) && !this.k.ignoreErrors.test(s)) && (i && i.length ? (n = i[0].filename || n,
+                            i.reverse(),
+                            a = {
+                                frames: i
+                            }) : n && (a = {
+                                frames: [{
+                                    filename: n,
+                                    lineno: r,
+                                    in_app: !0
+                                }]
+                            }),
+                            (!this.k.ignoreUrls.test || !this.k.ignoreUrls.test(n)) && (!this.k.whitelistUrls.test || this.k.whitelistUrls.test(n)))) {
+                                var c = k({
+                                    exception: {
+                                        values: [{
+                                            type: e,
+                                            value: t,
+                                            stacktrace: a
+                                        }]
+                                    },
+                                    transaction: n
+                                }, o)
+                                  , l = c.exception.values[0];
+                                null == l.type && "" === l.value && (l.value = "Unrecoverable error caught"),
+                                !c.exception.mechanism && c.mechanism && (c.exception.mechanism = c.mechanism,
+                                delete c.mechanism),
+                                c.exception.mechanism = k({
+                                    type: "generic",
+                                    handled: !0
+                                }, c.exception.mechanism || {}),
+                                this.Y(c)
+                            }
+                        },
+                        ha: function(e) {
+                            var t = this.k.maxMessageLength;
+                            if (e.message && (e.message = E(e.message, t)),
+                            e.exception) {
+                                var n = e.exception.values[0];
+                                n.value = E(n.value, t)
+                            }
+                            var r = e.request;
+                            return r && (r.url && (r.url = E(r.url, this.k.maxUrlLength)),
+                            r.Referer && (r.Referer = E(r.Referer, this.k.maxUrlLength))),
+                            e.breadcrumbs && e.breadcrumbs.values && this.ia(e.breadcrumbs),
+                            e
+                        },
+                        ia: function(e) {
+                            for (var t, n, r, i = ["to", "from", "url"], o = 0; o < e.values.length; ++o)
+                                if ((n = e.values[o]).hasOwnProperty("data") && m(n.data) && !R(n.data)) {
+                                    r = k({}, n.data);
+                                    for (var a = 0; a < i.length; ++a)
+                                        t = i[a],
+                                        r.hasOwnProperty(t) && r[t] && (r[t] = E(r[t], this.k.maxUrlLength));
+                                    e.values[o].data = r
+                                }
+                        },
+                        ja: function() {
+                            if (this.c || this.b) {
+                                var e = {};
+                                return this.c && I.userAgent && (e.headers = {
+                                    "User-Agent": I.userAgent
+                                }),
+                                B.location && B.location.href && (e.url = B.location.href),
+                                this.b && D.referrer && (e.headers || (e.headers = {}),
+                                e.headers.Referer = D.referrer),
+                                e
+                            }
+                        },
+                        y: function() {
+                            this.ka = 0,
+                            this.la = null
+                        },
+                        ma: function() {
+                            return this.ka && r() - this.la < this.ka
+                        },
+                        na: function(e) {
+                            var t = this.e;
+                            return !(!t || e.message !== t.message || e.transaction !== t.transaction) && (e.stacktrace || t.stacktrace ? A(e.stacktrace, t.stacktrace) : e.exception || t.exception ? M(e.exception, t.exception) : !e.fingerprint && !t.fingerprint || Boolean(e.fingerprint && t.fingerprint) && JSON.stringify(e.fingerprint) === JSON.stringify(t.fingerprint))
+                        },
+                        oa: function(e) {
+                            if (!this.ma()) {
+                                var t = e.status;
+                                if (400 === t || 401 === t || 429 === t) {
+                                    var n;
+                                    try {
+                                        n = O() ? e.headers.get("Retry-After") : e.getResponseHeader("Retry-After"),
+                                        n = 1e3 * parseInt(n, 10)
+                                    } catch (i) {}
+                                    this.ka = n || (2 * this.ka || 1e3),
+                                    this.la = r()
+                                }
+                            }
+                        },
+                        Y: function(e) {
+                            var t = this.k
+                              , n = {
+                                project: this.i,
+                                logger: t.logger,
+                                platform: "javascript"
+                            }
+                              , i = this.ja();
+                            if (i && (n.request = i),
+                            e.trimHeadFrames && delete e.trimHeadFrames,
+                            (e = k(n, e)).tags = k(k({}, this.j.tags), e.tags),
+                            e.extra = k(k({}, this.j.extra), e.extra),
+                            e.extra["session:duration"] = r() - this.s,
+                            this.u && this.u.length > 0 && (e.breadcrumbs = {
+                                values: [].slice.call(this.u, 0)
+                            }),
+                            this.j.user && (e.user = this.j.user),
+                            t.environment && (e.environment = t.environment),
+                            t.release && (e.release = t.release),
+                            t.serverName && (e.server_name = t.serverName),
+                            e = this.pa(e),
+                            Object.keys(e).forEach((function(t) {
+                                (null == e[t] || "" === e[t] || V(e[t])) && delete e[t]
+                            }
+                            )),
+                            v(t.dataCallback) && (e = t.dataCallback(e) || e),
+                            e && !V(e) && (!v(t.shouldSendCallback) || t.shouldSendCallback(e)))
+                                return this.ma() ? void this.z("warn", "Raven dropped error due to backoff: ", e) : void ("number" == typeof t.sampleRate ? Math.random() < t.sampleRate && this.qa(e) : this.qa(e))
+                        },
+                        pa: function(e) {
+                            return j(e, this.k.sanitizeKeys)
+                        },
+                        ra: function() {
+                            return U()
+                        },
+                        qa: function(e, t) {
+                            var n = this
+                              , r = this.k;
+                            if (this.isSetup()) {
+                                if (e = this.ha(e),
+                                !this.k.allowDuplicates && this.na(e))
+                                    return void this.z("warn", "Raven dropped repeat event: ", e);
+                                this.f = e.event_id || (e.event_id = this.ra()),
+                                this.e = e,
+                                this.z("debug", "Raven about to send:", e);
+                                var i = {
+                                    sentry_version: "7",
+                                    sentry_client: "raven-js/" + this.VERSION,
+                                    sentry_key: this.h
+                                };
+                                this.I && (i.sentry_secret = this.I);
+                                var o = e.exception && e.exception.values[0];
+                                this.k.autoBreadcrumbs && this.k.autoBreadcrumbs.sentry && this.captureBreadcrumb({
+                                    category: "sentry",
+                                    message: o ? (o.type ? o.type + ": " : "") + o.value : e.message,
+                                    event_id: e.event_id,
+                                    level: e.level || "error"
+                                });
+                                var a = this.K;
+                                (r.transport || this._makeRequest).call(this, {
+                                    url: a,
+                                    auth: i,
+                                    data: e,
+                                    options: r,
+                                    onSuccess: function() {
+                                        n.y(),
+                                        n.$("success", {
+                                            data: e,
+                                            src: a
+                                        }),
+                                        t && t()
+                                    },
+                                    onError: function(r) {
+                                        n.z("error", "Raven transport failed to send: ", r),
+                                        r.request && n.oa(r.request),
+                                        n.$("failure", {
+                                            data: e,
+                                            src: a
+                                        }),
+                                        r = r || new Error("Raven send failed (no additional details provided)"),
+                                        t && t(r)
+                                    }
+                                })
+                            }
+                        },
+                        _makeRequest: function(e) {
+                            var t = e.url + "?" + S(e.auth)
+                              , n = null
+                              , r = {};
+                            if (e.options.headers && (n = this.sa(e.options.headers)),
+                            e.options.fetchParameters && (r = this.sa(e.options.fetchParameters)),
+                            O()) {
+                                r.body = s(e.data);
+                                var i = k({}, this.l)
+                                  , o = k(i, r);
+                                return n && (o.headers = n),
+                                B.fetch(t, o).then((function(t) {
+                                    if (t.ok)
+                                        e.onSuccess && e.onSuccess();
+                                    else {
+                                        var n = new Error("Sentry error code: " + t.status);
+                                        n.request = t,
+                                        e.onError && e.onError(n)
+                                    }
+                                }
+                                ))["catch"]((function() {
+                                    e.onError && e.onError(new Error("Sentry error code: network unavailable"))
+                                }
+                                ))
+                            }
+                            var a = B.XMLHttpRequest && new B.XMLHttpRequest;
+                            a && (("withCredentials"in a || "undefined" != typeof XDomainRequest) && ("withCredentials"in a ? a.onreadystatechange = function() {
+                                if (4 === a.readyState)
+                                    if (200 === a.status)
+                                        e.onSuccess && e.onSuccess();
+                                    else if (e.onError) {
+                                        var t = new Error("Sentry error code: " + a.status);
+                                        t.request = a,
+                                        e.onError(t)
+                                    }
+                            }
+                            : (a = new XDomainRequest,
+                            t = t.replace(/^https?:/, ""),
+                            e.onSuccess && (a.onload = e.onSuccess),
+                            e.onError && (a.onerror = function() {
+                                var t = new Error("Sentry error code: XDomainRequest");
+                                t.request = a,
+                                e.onError(t)
+                            }
+                            )),
+                            a.open("POST", t),
+                            n && _(n, (function(e, t) {
+                                a.setRequestHeader(e, t)
+                            }
+                            )),
+                            a.send(s(e.data))))
+                        },
+                        sa: function(e) {
+                            var t = {};
+                            for (var n in e)
+                                if (e.hasOwnProperty(n)) {
+                                    var r = e[n];
+                                    t[n] = "function" == typeof r ? r() : r
+                                }
+                            return t
+                        },
+                        z: function(e) {
+                            this.q[e] && (this.debug || this.k.debug) && Function.prototype.apply.call(this.q[e], this.p, [].slice.call(arguments, 1))
+                        },
+                        Z: function(e, t) {
+                            y(t) ? delete this.j[e] : this.j[e] = k(this.j[e] || {}, t)
+                        }
+                    },
+                    o.prototype.setUser = o.prototype.setUserContext,
+                    o.prototype.setReleaseContext = o.prototype.setRelease,
+                    t.exports = o
+                }
+                ).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {})
+            }
+            , {
+                1: 1,
+                2: 2,
+                5: 5,
+                6: 6,
+                7: 7,
+                8: 8
+            }],
+            4: [function(e, t, n) {
+                (function(n) {
+                    var r = e(3)
+                      , i = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}
+                      , o = i.Raven
+                      , a = new r;
+                    a.noConflict = function() {
+                        return i.Raven = o,
+                        a
+                    }
+                    ,
+                    a.afterLoad(),
+                    t.exports = a,
+                    t.exports.Client = r
+                }
+                ).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {})
+            }
+            , {
+                3: 3
+            }],
+            5: [function(e, t, n) {
+                (function(n) {
+                    function r(e) {
+                        switch (Object.prototype.toString.call(e)) {
+                        case "[object Error]":
+                        case "[object Exception]":
+                        case "[object DOMException]":
+                            return !0;
+                        default:
+                            return e instanceof Error
+                        }
+                    }
+                    function i(e) {
+                        return "[object DOMError]" === Object.prototype.toString.call(e)
+                    }
+                    function o(e) {
+                        return void 0 === e
+                    }
+                    function a(e) {
+                        return "[object Object]" === Object.prototype.toString.call(e)
+                    }
+                    function s(e) {
+                        return "[object String]" === Object.prototype.toString.call(e)
+                    }
+                    function c(e) {
+                        return "[object Array]" === Object.prototype.toString.call(e)
+                    }
+                    function l() {
+                        if (!("fetch"in V))
+                            return !1;
+                        try {
+                            return new Headers,
+                            new Request(""),
+                            new Response,
+                            !0
+                        } catch (e) {
+                            return !1
+                        }
+                    }
+                    function u(e, t) {
+                        var n, r;
+                        if (o(e.length))
+                            for (n in e)
+                                p(e, n) && t.call(null, n, e[n]);
+                        else if (r = e.length)
+                            for (n = 0; n < r; n++)
+                                t.call(null, n, e[n])
+                    }
+                    function h(e, t) {
+                        if ("number" != typeof t)
+                            throw new Error("2nd argument to `truncate` function should be a number");
+                        return "string" != typeof e || 0 === t || e.length <= t ? e : e.substr(0, t) + "…"
+                    }
+                    function p(e, t) {
+                        return Object.prototype.hasOwnProperty.call(e, t)
+                    }
+                    function d(e) {
+                        for (var t, n = [], r = 0, i = e.length; r < i; r++)
+                            s(t = e[r]) ? n.push(t.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1")) : t && t.source && n.push(t.source);
+                        return new RegExp(n.join("|"),"i")
+                    }
+                    function f(e) {
+                        var t, n, r, i, o, a = [];
+                        if (!e || !e.tagName)
+                            return "";
+                        if (a.push(e.tagName.toLowerCase()),
+                        e.id && a.push("#" + e.id),
+                        (t = e.className) && s(t))
+                            for (n = t.split(/\s+/),
+                            o = 0; o < n.length; o++)
+                                a.push("." + n[o]);
+                        var c = ["type", "name", "title", "alt"];
+                        for (o = 0; o < c.length; o++)
+                            r = c[o],
+                            (i = e.getAttribute(r)) && a.push("[" + r + '="' + i + '"]');
+                        return a.join("")
+                    }
+                    function m(e, t) {
+                        return !!(!!e ^ !!t)
+                    }
+                    function g(e, t) {
+                        if (m(e, t))
+                            return !1;
+                        var n = e.frames
+                          , r = t.frames;
+                        if (void 0 === n || void 0 === r)
+                            return !1;
+                        if (n.length !== r.length)
+                            return !1;
+                        for (var i, o, a = 0; a < n.length; a++)
+                            if (i = n[a],
+                            o = r[a],
+                            i.filename !== o.filename || i.lineno !== o.lineno || i.colno !== o.colno || i["function"] !== o["function"])
+                                return !1;
+                        return !0
+                    }
+                    function y(e) {
+                        return function(e) {
+                            return ~-encodeURI(e).split(/%..|./).length
+                        }(JSON.stringify(e))
+                    }
+                    function v(e) {
+                        if ("string" == typeof e) {
+                            return h(e, 40)
+                        }
+                        if ("number" == typeof e || "boolean" == typeof e || void 0 === e)
+                            return e;
+                        var t = Object.prototype.toString.call(e);
+                        return "[object Object]" === t ? "[Object]" : "[object Array]" === t ? "[Array]" : "[object Function]" === t ? e.name ? "[Function: " + e.name + "]" : "[Function]" : e
+                    }
+                    function w(e, t) {
+                        return 0 === t ? v(e) : a(e) ? Object.keys(e).reduce((function(n, r) {
+                            return n[r] = w(e[r], t - 1),
+                            n
+                        }
+                        ), {}) : Array.isArray(e) ? e.map((function(e) {
+                            return w(e, t - 1)
+                        }
+                        )) : v(e)
+                    }
+                    var b = e(7)
+                      , V = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}
+                      , _ = 3
+                      , k = 51200
+                      , E = 40;
+                    t.exports = {
+                        isObject: function(e) {
+                            return "object" == typeof e && null !== e
+                        },
+                        isError: r,
+                        isErrorEvent: function(e) {
+                            return "[object ErrorEvent]" === Object.prototype.toString.call(e)
+                        },
+                        isDOMError: i,
+                        isDOMException: function(e) {
+                            return "[object DOMException]" === Object.prototype.toString.call(e)
+                        },
+                        isUndefined: o,
+                        isFunction: function(e) {
+                            return "function" == typeof e
+                        },
+                        isPlainObject: a,
+                        isString: s,
+                        isArray: c,
+                        isEmptyObject: function(e) {
+                            if (!a(e))
+                                return !1;
+                            for (var t in e)
+                                if (e.hasOwnProperty(t))
+                                    return !1;
+                            return !0
+                        },
+                        supportsErrorEvent: function() {
+                            try {
+                                return new ErrorEvent(""),
+                                !0
+                            } catch (e) {
+                                return !1
+                            }
+                        },
+                        supportsDOMError: function() {
+                            try {
+                                return new DOMError(""),
+                                !0
+                            } catch (e) {
+                                return !1
+                            }
+                        },
+                        supportsDOMException: function() {
+                            try {
+                                return new DOMException(""),
+                                !0
+                            } catch (e) {
+                                return !1
+                            }
+                        },
+                        supportsFetch: l,
+                        supportsReferrerPolicy: function() {
+                            if (!l())
+                                return !1;
+                            try {
+                                return new Request("pickleRick",{
+                                    referrerPolicy: "origin"
+                                }),
+                                !0
+                            } catch (e) {
+                                return !1
+                            }
+                        },
+                        supportsPromiseRejectionEvent: function() {
+                            return "function" == typeof PromiseRejectionEvent
+                        },
+                        wrappedCallback: function(e) {
+                            return function(t, n) {
+                                var r = e(t) || t;
+                                return n && n(r) || r
+                            }
+                        },
+                        each: u,
+                        objectMerge: function(e, t) {
+                            return t ? (u(t, (function(t, n) {
+                                e[t] = n
+                            }
+                            )),
+                            e) : e
+                        },
+                        truncate: h,
+                        objectFrozen: function(e) {
+                            return !!Object.isFrozen && Object.isFrozen(e)
+                        },
+                        hasKey: p,
+                        joinRegExp: d,
+                        urlencode: function(e) {
+                            var t = [];
+                            return u(e, (function(e, n) {
+                                t.push(encodeURIComponent(e) + "=" + encodeURIComponent(n))
+                            }
+                            )),
+                            t.join("&")
+                        },
+                        uuid4: function() {
+                            var e = V.crypto || V.msCrypto;
+                            if (!o(e) && e.getRandomValues) {
+                                var t = new Uint16Array(8);
+                                e.getRandomValues(t),
+                                t[3] = 4095 & t[3] | 16384,
+                                t[4] = 16383 & t[4] | 32768;
+                                var n = function(e) {
+                                    for (var t = e.toString(16); t.length < 4; )
+                                        t = "0" + t;
+                                    return t
+                                };
+                                return n(t[0]) + n(t[1]) + n(t[2]) + n(t[3]) + n(t[4]) + n(t[5]) + n(t[6]) + n(t[7])
+                            }
+                            return "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, (function(e) {
+                                var t = 16 * Math.random() | 0;
+                                return ("x" === e ? t : 3 & t | 8).toString(16)
+                            }
+                            ))
+                        },
+                        htmlTreeAsString: function(e) {
+                            for (var t, n = [], r = 0, i = 0, o = " > ".length; e && r++ < 5 && !("html" === (t = f(e)) || r > 1 && i + n.length * o + t.length >= 80); )
+                                n.push(t),
+                                i += t.length,
+                                e = e.parentNode;
+                            return n.reverse().join(" > ")
+                        },
+                        htmlElementAsString: f,
+                        isSameException: function(e, t) {
+                            return !m(e, t) && (e = e.values[0],
+                            t = t.values[0],
+                            e.type === t.type && e.value === t.value && !function(e, t) {
+                                return o(e) && o(t)
+                            }(e.stacktrace, t.stacktrace) && g(e.stacktrace, t.stacktrace))
+                        },
+                        isSameStacktrace: g,
+                        parseUrl: function(e) {
+                            if ("string" != typeof e)
+                                return {};
+                            var t = e.match(/^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/)
+                              , n = t[6] || ""
+                              , r = t[8] || "";
+                            return {
+                                protocol: t[2],
+                                host: t[4],
+                                path: t[5],
+                                relative: t[5] + n + r
+                            }
+                        },
+                        fill: function(e, t, n, r) {
+                            if (null != e) {
+                                var i = e[t];
+                                e[t] = n(i),
+                                e[t].M = !0,
+                                e[t].O = i,
+                                r && r.push([e, t, i])
+                            }
+                        },
+                        safeJoin: function(e, t) {
+                            if (!c(e))
+                                return "";
+                            for (var n = [], i = 0; i < e.length; i++)
+                                try {
+                                    n.push(String(e[i]))
+                                } catch (r) {
+                                    n.push("[value cannot be serialized]")
+                                }
+                            return n.join(t)
+                        },
+                        serializeException: function R(e, t, n) {
+                            if (!a(e))
+                                return e;
+                            n = "number" != typeof (t = "number" != typeof t ? _ : t) ? k : n;
+                            var r = w(e, t);
+                            return y(b(r)) > n ? R(e, t - 1) : r
+                        },
+                        serializeKeysForMessage: function(e, t) {
+                            if ("number" == typeof e || "string" == typeof e)
+                                return e.toString();
+                            if (!Array.isArray(e))
+                                return "";
+                            if (0 === (e = e.filter((function(e) {
+                                return "string" == typeof e
+                            }
+                            ))).length)
+                                return "[object has no keys]";
+                            if (t = "number" != typeof t ? E : t,
+                            e[0].length >= t)
+                                return e[0];
+                            for (var n = e.length; n > 0; n--) {
+                                var r = e.slice(0, n).join(", ");
+                                if (!(r.length > t))
+                                    return n === e.length ? r : r + "…"
+                            }
+                            return ""
+                        },
+                        sanitize: function(e, t) {
+                            if (!c(t) || c(t) && 0 === t.length)
+                                return e;
+                            var n, r = d(t), o = "********";
+                            try {
+                                n = JSON.parse(b(e))
+                            } catch (i) {
+                                return e
+                            }
+                            return function s(e) {
+                                return c(e) ? e.map((function(e) {
+                                    return s(e)
+                                }
+                                )) : a(e) ? Object.keys(e).reduce((function(t, n) {
+                                    return t[n] = r.test(n) ? o : s(e[n]),
+                                    t
+                                }
+                                ), {}) : e
+                            }(n)
+                        }
+                    }
+                }
+                ).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {})
+            }
+            , {
+                7: 7
+            }],
+            6: [function(e, t, n) {
+                (function(n) {
+                    function r() {
+                        return "undefined" == typeof document || null == document.location ? "" : document.location.href
+                    }
+                    var i = e(5)
+                      , o = {
+                        collectWindowErrors: !0,
+                        debug: !1
+                    }
+                      , a = "undefined" != typeof window ? window : void 0 !== n ? n : "undefined" != typeof self ? self : {}
+                      , s = [].slice
+                      , c = "?"
+                      , l = /^(?:[Uu]ncaught (?:exception: )?)?(?:((?:Eval|Internal|Range|Reference|Syntax|Type|URI|)Error): )?(.*)$/;
+                    o.report = function() {
+                        function e(t, n) {
+                            var r = null;
+                            if (!n || o.collectWindowErrors) {
+                                for (var i in d)
+                                    if (d.hasOwnProperty(i))
+                                        try {
+                                            d[i].apply(null, [t].concat(s.call(arguments, 2)))
+                                        } catch (e) {
+                                            r = e
+                                        }
+                                if (r)
+                                    throw r
+                            }
+                        }
+                        function t(t, a, s, u, p) {
+                            var d = i.isErrorEvent(p) ? p.error : p
+                              , f = i.isErrorEvent(t) ? t.message : t;
+                            if (g)
+                                o.computeStackTrace.augmentStackTraceWithInitialElement(g, a, s, f),
+                                n();
+                            else if (d && i.isError(d))
+                                e(o.computeStackTrace(d), !0);
+                            else {
+                                var m, y = {
+                                    url: a,
+                                    line: s,
+                                    column: u
+                                }, v = void 0;
+                                if ("[object String]" === {}.toString.call(f))
+                                    (m = f.match(l)) && (v = m[1],
+                                    f = m[2]);
+                                y.func = c,
+                                e({
+                                    name: v,
+                                    message: f,
+                                    url: r(),
+                                    stack: [y]
+                                }, !0)
+                            }
+                            return !!h && h.apply(this, arguments)
+                        }
+                        function n() {
+                            var t = g
+                              , n = f;
+                            f = null,
+                            g = null,
+                            m = null,
+                            e.apply(null, [t, !1].concat(n))
+                        }
+                        function u(e, t) {
+                            var r = s.call(arguments, 1);
+                            if (g) {
+                                if (m === e)
+                                    return;
+                                n()
+                            }
+                            var i = o.computeStackTrace(e);
+                            if (g = i,
+                            m = e,
+                            f = r,
+                            setTimeout((function() {
+                                m === e && n()
+                            }
+                            ), i.incomplete ? 2e3 : 0),
+                            !1 !== t)
+                                throw e
+                        }
+                        var h, p, d = [], f = null, m = null, g = null;
+                        return u.subscribe = function(e) {
+                            p || (h = a.onerror,
+                            a.onerror = t,
+                            p = !0),
+                            d.push(e)
+                        }
+                        ,
+                        u.unsubscribe = function(e) {
+                            for (var t = d.length - 1; t >= 0; --t)
+                                d[t] === e && d.splice(t, 1)
+                        }
+                        ,
+                        u.uninstall = function() {
+                            p && (a.onerror = h,
+                            p = !1,
+                            h = void 0),
+                            d = []
+                        }
+                        ,
+                        u
+                    }(),
+                    o.computeStackTrace = function() {
+                        function e(e) {
+                            if ("undefined" != typeof e.stack && e.stack) {
+                                for (var t, n, i, o = /^\s*at (?:(.*?) ?\()?((?:file|https?|blob|chrome-extension|native|eval|webpack|<anonymous>|[a-z]:|\/).*?)(?::(\d+))?(?::(\d+))?\)?\s*$/i, a = /^\s*at (?:((?:\[object object\])?.+) )?\(?((?:file|ms-appx(?:-web)|https?|webpack|blob):.*?):(\d+)(?::(\d+))?\)?\s*$/i, s = /^\s*(.*?)(?:\((.*?)\))?(?:^|@)((?:file|https?|blob|chrome|webpack|resource|moz-extension).*?:\/.*?|\[native code\]|[^@]*(?:bundle|\d+\.js))(?::(\d+))?(?::(\d+))?\s*$/i, l = /(\S+) line (\d+)(?: > eval line \d+)* > eval/i, u = /\((\S*)(?::(\d+))(?::(\d+))\)/, h = e.stack.split("\n"), p = [], d = (/^(.*) is undefined$/.exec(e.message),
+                                0), f = h.length; d < f; ++d) {
+                                    if (n = o.exec(h[d])) {
+                                        var m = n[2] && 0 === n[2].indexOf("native");
+                                        n[2] && 0 === n[2].indexOf("eval") && (t = u.exec(n[2])) && (n[2] = t[1],
+                                        n[3] = t[2],
+                                        n[4] = t[3]),
+                                        i = {
+                                            url: m ? null : n[2],
+                                            func: n[1] || c,
+                                            args: m ? [n[2]] : [],
+                                            line: n[3] ? +n[3] : null,
+                                            column: n[4] ? +n[4] : null
+                                        }
+                                    } else if (n = a.exec(h[d]))
+                                        i = {
+                                            url: n[2],
+                                            func: n[1] || c,
+                                            args: [],
+                                            line: +n[3],
+                                            column: n[4] ? +n[4] : null
+                                        };
+                                    else {
+                                        if (!(n = s.exec(h[d])))
+                                            continue;
+                                        n[3] && n[3].indexOf(" > eval") > -1 && (t = l.exec(n[3])) ? (n[3] = t[1],
+                                        n[4] = t[2],
+                                        n[5] = null) : 0 !== d || n[5] || "undefined" == typeof e.columnNumber || (p[0].column = e.columnNumber + 1),
+                                        i = {
+                                            url: n[3],
+                                            func: n[1] || c,
+                                            args: n[2] ? n[2].split(",") : [],
+                                            line: n[4] ? +n[4] : null,
+                                            column: n[5] ? +n[5] : null
+                                        }
+                                    }
+                                    if (!i.func && i.line && (i.func = c),
+                                    i.url && "blob:" === i.url.substr(0, 5)) {
+                                        var g = new XMLHttpRequest;
+                                        if (g.open("GET", i.url, !1),
+                                        g.send(null),
+                                        200 === g.status) {
+                                            var y = g.responseText || ""
+                                              , v = (y = y.slice(-300)).match(/\/\/# sourceMappingURL=(.*)$/);
+                                            if (v) {
+                                                var w = v[1];
+                                                "~" === w.charAt(0) && (w = ("undefined" == typeof document || null == document.location ? "" : document.location.origin ? document.location.origin : document.location.protocol + "//" + document.location.hostname + (document.location.port ? ":" + document.location.port : "")) + w.slice(1)),
+                                                i.url = w.slice(0, -4)
+                                            }
+                                        }
+                                    }
+                                    p.push(i)
+                                }
+                                return p.length ? {
+                                    name: e.name,
+                                    message: e.message,
+                                    url: r(),
+                                    stack: p
+                                } : null
+                            }
+                        }
+                        function t(e, t, n, r) {
+                            var i = {
+                                url: t,
+                                line: n
+                            };
+                            if (i.url && i.line) {
+                                if (e.incomplete = !1,
+                                i.func || (i.func = c),
+                                e.stack.length > 0 && e.stack[0].url === i.url) {
+                                    if (e.stack[0].line === i.line)
+                                        return !1;
+                                    if (!e.stack[0].line && e.stack[0].func === i.func)
+                                        return e.stack[0].line = i.line,
+                                        !1
+                                }
+                                return e.stack.unshift(i),
+                                e.partial = !0,
+                                !0
+                            }
+                            return e.incomplete = !0,
+                            !1
+                        }
+                        function n(e, a) {
+                            for (var s, l, u = /function\s+([_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*)?\s*\(/i, h = [], p = {}, d = !1, f = n.caller; f && !d; f = f.caller)
+                                if (f !== i && f !== o.report) {
+                                    if (l = {
+                                        url: null,
+                                        func: c,
+                                        line: null,
+                                        column: null
+                                    },
+                                    f.name ? l.func = f.name : (s = u.exec(f.toString())) && (l.func = s[1]),
+                                    "undefined" == typeof l.func)
+                                        try {
+                                            l.func = s.input.substring(0, s.input.indexOf("{"))
+                                        } catch (g) {}
+                                    p["" + f] ? d = !0 : p["" + f] = !0,
+                                    h.push(l)
+                                }
+                            a && h.splice(0, a);
+                            var m = {
+                                name: e.name,
+                                message: e.message,
+                                url: r(),
+                                stack: h
+                            };
+                            return t(m, e.sourceURL || e.fileName, e.line || e.lineNumber, e.message || e.description),
+                            m
+                        }
+                        function i(t, i) {
+                            var s = null;
+                            i = null == i ? 0 : +i;
+                            try {
+                                if (s = e(t))
+                                    return s
+                            } catch (a) {
+                                if (o.debug)
+                                    throw a
+                            }
+                            try {
+                                if (s = n(t, i + 1))
+                                    return s
+                            } catch (a) {
+                                if (o.debug)
+                                    throw a
+                            }
+                            return {
+                                name: t.name,
+                                message: t.message,
+                                url: r()
+                            }
+                        }
+                        return i.augmentStackTraceWithInitialElement = t,
+                        i.computeStackTraceFromStackProp = e,
+                        i
+                    }(),
+                    t.exports = o
+                }
+                ).call(this, "undefined" != typeof global ? global : "undefined" != typeof self ? self : "undefined" != typeof window ? window : {})
+            }
+            , {
+                5: 5
+            }],
+            7: [function(e, t, n) {
+                function r(e, t) {
+                    for (var n = 0; n < e.length; ++n)
+                        if (e[n] === t)
+                            return n;
+                    return -1
+                }
+                function i(e, t) {
+                    var n = []
+                      , i = [];
+                    return null == t && (t = function(e, t) {
+                        return n[0] === t ? "[Circular ~]" : "[Circular ~." + i.slice(0, r(n, t)).join(".") + "]"
+                    }
+                    ),
+                    function(o, a) {
+                        if (n.length > 0) {
+                            var s = r(n, this);
+                            ~s ? n.splice(s + 1) : n.push(this),
+                            ~s ? i.splice(s, 1 / 0, o) : i.push(o),
+                            ~r(n, a) && (a = t.call(this, o, a))
+                        } else
+                            n.push(a);
+                        return null == e ? a instanceof Error ? function(e) {
+                            var t = {
+                                stack: e.stack,
+                                message: e.message,
+                                name: e.name
+                            };
+                            for (var n in e)
+                                Object.prototype.hasOwnProperty.call(e, n) && (t[n] = e[n]);
+                            return t
+                        }(a) : a : e.call(this, o, a)
+                    }
+                }
+                n = t.exports = function(e, t, n, r) {
+                    return JSON.stringify(e, i(t, r), n)
+                }
+                ,
+                n.getSerialize = i
+            }
+            , {}],
+            8: [function(e, t, n) {
+                function r(e, t) {
+                    var n = (65535 & e) + (65535 & t);
+                    return (e >> 16) + (t >> 16) + (n >> 16) << 16 | 65535 & n
+                }
+                function i(e, t, n, i, o, a) {
+                    return r(function(e, t) {
+                        return e << t | e >>> 32 - t
+                    }(r(r(t, e), r(i, a)), o), n)
+                }
+                function o(e, t, n, r, o, a, s) {
+                    return i(t & n | ~t & r, e, t, o, a, s)
+                }
+                function a(e, t, n, r, o, a, s) {
+                    return i(t & r | n & ~r, e, t, o, a, s)
+                }
+                function s(e, t, n, r, o, a, s) {
+                    return i(t ^ n ^ r, e, t, o, a, s)
+                }
+                function c(e, t, n, r, o, a, s) {
+                    return i(n ^ (t | ~r), e, t, o, a, s)
+                }
+                function l(e, t) {
+                    e[t >> 5] |= 128 << t % 32,
+                    e[14 + (t + 64 >>> 9 << 4)] = t;
+                    var n, i, l, u, h, p = 1732584193, d = -271733879, f = -1732584194, m = 271733878;
+                    for (n = 0; n < e.length; n += 16)
+                        i = p,
+                        l = d,
+                        u = f,
+                        h = m,
+                        p = o(p, d, f, m, e[n], 7, -680876936),
+                        m = o(m, p, d, f, e[n + 1], 12, -389564586),
+                        f = o(f, m, p, d, e[n + 2], 17, 606105819),
+                        d = o(d, f, m, p, e[n + 3], 22, -1044525330),
+                        p = o(p, d, f, m, e[n + 4], 7, -176418897),
+                        m = o(m, p, d, f, e[n + 5], 12, 1200080426),
+                        f = o(f, m, p, d, e[n + 6], 17, -1473231341),
+                        d = o(d, f, m, p, e[n + 7], 22, -45705983),
+                        p = o(p, d, f, m, e[n + 8], 7, 1770035416),
+                        m = o(m, p, d, f, e[n + 9], 12, -1958414417),
+                        f = o(f, m, p, d, e[n + 10], 17, -42063),
+                        d = o(d, f, m, p, e[n + 11], 22, -1990404162),
+                        p = o(p, d, f, m, e[n + 12], 7, 1804603682),
+                        m = o(m, p, d, f, e[n + 13], 12, -40341101),
+                        f = o(f, m, p, d, e[n + 14], 17, -1502002290),
+                        p = a(p, d = o(d, f, m, p, e[n + 15], 22, 1236535329), f, m, e[n + 1], 5, -165796510),
+                        m = a(m, p, d, f, e[n + 6], 9, -1069501632),
+                        f = a(f, m, p, d, e[n + 11], 14, 643717713),
+                        d = a(d, f, m, p, e[n], 20, -373897302),
+                        p = a(p, d, f, m, e[n + 5], 5, -701558691),
+                        m = a(m, p, d, f, e[n + 10], 9, 38016083),
+                        f = a(f, m, p, d, e[n + 15], 14, -660478335),
+                        d = a(d, f, m, p, e[n + 4], 20, -405537848),
+                        p = a(p, d, f, m, e[n + 9], 5, 568446438),
+                        m = a(m, p, d, f, e[n + 14], 9, -1019803690),
+                        f = a(f, m, p, d, e[n + 3], 14, -187363961),
+                        d = a(d, f, m, p, e[n + 8], 20, 1163531501),
+                        p = a(p, d, f, m, e[n + 13], 5, -1444681467),
+                        m = a(m, p, d, f, e[n + 2], 9, -51403784),
+                        f = a(f, m, p, d, e[n + 7], 14, 1735328473),
+                        p = s(p, d = a(d, f, m, p, e[n + 12], 20, -1926607734), f, m, e[n + 5], 4, -378558),
+                        m = s(m, p, d, f, e[n + 8], 11, -2022574463),
+                        f = s(f, m, p, d, e[n + 11], 16, 1839030562),
+                        d = s(d, f, m, p, e[n + 14], 23, -35309556),
+                        p = s(p, d, f, m, e[n + 1], 4, -1530992060),
+                        m = s(m, p, d, f, e[n + 4], 11, 1272893353),
+                        f = s(f, m, p, d, e[n + 7], 16, -155497632),
+                        d = s(d, f, m, p, e[n + 10], 23, -1094730640),
+                        p = s(p, d, f, m, e[n + 13], 4, 681279174),
+                        m = s(m, p, d, f, e[n], 11, -358537222),
+                        f = s(f, m, p, d, e[n + 3], 16, -722521979),
+                        d = s(d, f, m, p, e[n + 6], 23, 76029189),
+                        p = s(p, d, f, m, e[n + 9], 4, -640364487),
+                        m = s(m, p, d, f, e[n + 12], 11, -421815835),
+                        f = s(f, m, p, d, e[n + 15], 16, 530742520),
+                        p = c(p, d = s(d, f, m, p, e[n + 2], 23, -995338651), f, m, e[n], 6, -198630844),
+                        m = c(m, p, d, f, e[n + 7], 10, 1126891415),
+                        f = c(f, m, p, d, e[n + 14], 15, -1416354905),
+                        d = c(d, f, m, p, e[n + 5], 21, -57434055),
+                        p = c(p, d, f, m, e[n + 12], 6, 1700485571),
+                        m = c(m, p, d, f, e[n + 3], 10, -1894986606),
+                        f = c(f, m, p, d, e[n + 10], 15, -1051523),
+                        d = c(d, f, m, p, e[n + 1], 21, -2054922799),
+                        p = c(p, d, f, m, e[n + 8], 6, 1873313359),
+                        m = c(m, p, d, f, e[n + 15], 10, -30611744),
+                        f = c(f, m, p, d, e[n + 6], 15, -1560198380),
+                        d = c(d, f, m, p, e[n + 13], 21, 1309151649),
+                        p = c(p, d, f, m, e[n + 4], 6, -145523070),
+                        m = c(m, p, d, f, e[n + 11], 10, -1120210379),
+                        f = c(f, m, p, d, e[n + 2], 15, 718787259),
+                        d = c(d, f, m, p, e[n + 9], 21, -343485551),
+                        p = r(p, i),
+                        d = r(d, l),
+                        f = r(f, u),
+                        m = r(m, h);
+                    return [p, d, f, m]
+                }
+                function u(e) {
+                    var t, n = "", r = 32 * e.length;
+                    for (t = 0; t < r; t += 8)
+                        n += String.fromCharCode(e[t >> 5] >>> t % 32 & 255);
+                    return n
+                }
+                function h(e) {
+                    var t, n = [];
+                    for (n[(e.length >> 2) - 1] = void 0,
+                    t = 0; t < n.length; t += 1)
+                        n[t] = 0;
+                    var r = 8 * e.length;
+                    for (t = 0; t < r; t += 8)
+                        n[t >> 5] |= (255 & e.charCodeAt(t / 8)) << t % 32;
+                    return n
+                }
+                function p(e) {
+                    var t, n, r = "0123456789abcdef", i = "";
+                    for (n = 0; n < e.length; n += 1)
+                        t = e.charCodeAt(n),
+                        i += r.charAt(t >>> 4 & 15) + r.charAt(15 & t);
+                    return i
+                }
+                function d(e) {
+                    return unescape(encodeURIComponent(e))
+                }
+                function f(e) {
+                    return function(e) {
+                        return u(l(h(e), 8 * e.length))
+                    }(d(e))
+                }
+                function m(e, t) {
+                    return function(e, t) {
+                        var n, r, i = h(e), o = [], a = [];
+                        for (o[15] = a[15] = void 0,
+                        i.length > 16 && (i = l(i, 8 * e.length)),
+                        n = 0; n < 16; n += 1)
+                            o[n] = 909522486 ^ i[n],
+                            a[n] = 1549556828 ^ i[n];
+                        return r = l(o.concat(h(t)), 512 + 8 * t.length),
+                        u(l(a.concat(r), 640))
+                    }(d(e), d(t))
+                }
+                t.exports = function(e, t, n) {
+                    return t ? n ? m(t, e) : function(e, t) {
+                        return p(m(e, t))
+                    }(t, e) : n ? f(e) : function(e) {
+                        return p(f(e))
+                    }(e)
+                }
+            }
+            , {}]
+        }, {}, [4])(4)
+    }
+    ));
+    var B = [{
+        family: "UC Browser",
+        patterns: ["(UC? ?Browser|UCWEB|U3)[ /]?(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        family: "Opera",
+        name_replace: "Opera Mobile",
+        patterns: ["(Opera)/.+Opera Mobi.+Version/(\\d+)\\.(\\d+)", "(Opera)/(\\d+)\\.(\\d+).+Opera Mobi", "Opera Mobi.+(Opera)(?:/|\\s+)(\\d+)\\.(\\d+)", "Opera Mobi", "(?:Mobile Safari).*(OPR)/(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        family: "Opera",
+        name_replace: "Opera Mini",
+        patterns: ["(Opera Mini)(?:/att|)/?(\\d+|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)", "(OPiOS)/(\\d+).(\\d+).(\\d+)"]
+    }, {
+        family: "Opera",
+        name_replace: "Opera Neon",
+        patterns: ["Chrome/.+( MMS)/(\\d+).(\\d+).(\\d+)"]
+    }, {
+        name_replace: "Opera",
+        patterns: ["(Opera)/9.80.*Version/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(?:Chrome).*(OPR)/(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        family: "Firefox",
+        name_replace: "Firefox Mobile",
+        patterns: ["(Fennec)/(\\d+)\\.(\\d+)\\.?([ab]?\\d+[a-z]*)", "(Fennec)/(\\d+)\\.(\\d+)(pre)", "(Fennec)/(\\d+)\\.(\\d+)", "(?:Mobile|Tablet);.*(Firefox)/(\\d+)\\.(\\d+)", "(FxiOS)/(\\d+)\\.(\\d+)(\\.(\\d+)|)(\\.(\\d+)|)"]
+    }, {
+        name_replace: "Coc Coc",
+        patterns: ["(coc_coc_browser)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"]
+    }, {
+        family: "QQ",
+        name_replace: "QQ Mini",
+        patterns: ["(MQQBrowser/Mini)(?:(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"]
+    }, {
+        family: "QQ",
+        name_replace: "QQ Mobile",
+        patterns: ["(MQQBrowser)(?:/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"]
+    }, {
+        name_replace: "QQ",
+        patterns: ["(QQBrowser)(?:/(\\d+)(?:\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)|)"]
+    }, {
+        family: "Edge",
+        name: "Edge Mobile",
+        patterns: ["Windows Phone .*(Edge)/(\\d+)\\.(\\d+)", "(EdgiOS|EdgA)/(\\d+)\\.(\\d+).(\\d+).(\\d+)"]
+    }, {
+        name_replace: "Edge",
+        patterns: ["(Edge|Edg)/(\\d+)(?:\\.(\\d+)|)"]
+    }, {
+        patterns: ["(Puffin)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"]
+    }, {
+        family: "Chrome",
+        name_replace: "Chrome Mobile",
+        patterns: ["Version/.+(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "; wv\\).+(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(CriOS)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(CrMo)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)", "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+) Mobile(?:[ /]|$)", " Mobile .*(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        family: "Yandex",
+        name_replace: "Yandex Mobile",
+        patterns: ["(YaBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+).*Mobile"]
+    }, {
+        name_replace: "Yandex",
+        patterns: ["(YaBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        patterns: ["(Vivaldi)/(\\d+)\\.(\\d+)", "(Vivaldi)/(\\d+)\\.(\\d+)\\.(\\d+)"]
+    }, {
+        name_replace: "Brave",
+        patterns: ["(brave)/(\\d+)\\.(\\d+)\\.(\\d+) Chrome"]
+    }, {
+        family: "Chrome",
+        patterns: ["(Chromium|Chrome)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"]
+    }, {
+        name_replace: "Internet Explorer Mobile",
+        patterns: ["(IEMobile)[ /](\\d+)\\.(\\d+)"]
+    }, {
+        family: "Safari",
+        name_replace: "Safari Mobile",
+        patterns: ["(iPod|iPhone|iPad).+Version/(d+).(d+)(?:.(d+)|).*[ +]Safari", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).* AppleNews\\/\\d+\\.\\d+\\.\\d+?", "(iPod|iPhone|iPad).+Version/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).*Mobile.*[ +]Safari", "(iPod|iPod touch|iPhone|iPad);.*CPU.*OS[ +](\\d+)_(\\d+)(?:_(\\d+)|).*Mobile", "(iPod|iPod touch|iPhone|iPad).* Safari", "(iPod|iPod touch|iPhone|iPad)"]
+    }, {
+        name_replace: "Safari",
+        patterns: ["(Version)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|).*Safari/"]
+    }, {
+        name_replace: "Internet Explorer",
+        patterns: ["(Trident)/(7|8).(0)"],
+        major_replace: "11"
+    }, {
+        name_replace: "Internet Explorer",
+        patterns: ["(Trident)/(6)\\.(0)"],
+        major_replace: "10"
+    }, {
+        name_replace: "Internet Explorer",
+        patterns: ["(Trident)/(5)\\.(0)"],
+        major_replace: "9"
+    }, {
+        name_replace: "Internet Explorer",
+        patterns: ["(Trident)/(4)\\.(0)"],
+        major_replace: "8"
+    }, {
+        family: "Firefox",
+        patterns: ["(Firefox)/(\\d+)\\.(\\d+)\\.(\\d+)", "(Firefox)/(\\d+)\\.(\\d+)(pre|[ab]\\d+[a-z]*|)"]
+    }]
+      , D = [{
+        family: "Windows",
+        name_replace: "Windows Phone",
+        patterns: ["(Windows Phone) (?:OS[ /])?(\\d+)\\.(\\d+)", "^UCWEB.*; (wds) (\\d+)\\.(d+)(?:\\.(\\d+)|);", "^UCWEB.*; (wds) (\\d+)\\.(\\d+)(?:\\.(\\d+)|);"]
+    }, {
+        family: "Windows",
+        name_replace: "Windows Mobile",
+        patterns: ["(Windows ?Mobile)"]
+    }, {
+        name_replace: "Android",
+        patterns: ["(Android)[ \\-/](\\d+)(?:\\.(\\d+)|)(?:[.\\-]([a-z0-9]+)|)", "(Android) (d+);", "^UCWEB.*; (Adr) (\\d+)\\.(\\d+)(?:[.\\-]([a-z0-9]+)|);", "^(JUC).*; ?U; ?(?:Android|)(\\d+)\\.(\\d+)(?:[\\.\\-]([a-z0-9]+)|)", "(android)\\s(?:mobile\\/)(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)", "(Silk-Accelerated=[a-z]{4,5})", "Puffin/[\\d\\.]+AT", "Puffin/[\\d\\.]+AP"]
+    }, {
+        name_replace: "Chrome OS",
+        patterns: ["(x86_64|aarch64)\\ (\\d+)\\.(\\d+)\\.(\\d+).*Chrome.*(?:CitrixChromeApp)$", "(CrOS) [a-z0-9_]+ (\\d+)\\.(\\d+)(?:\\.(\\d+)|)"]
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows 10)", "(Windows NT 6\\.4)", "(Windows NT 10\\.0)"],
+        major_replace: "10"
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows NT 6\\.3; ARM;)", "(Windows NT 6.3)"],
+        major_replace: "8",
+        minor_replace: "1"
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows NT 6\\.2)"],
+        major_replace: "8"
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows NT 6\\.1)"],
+        major_replace: "7"
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows NT 6\\.0)"],
+        major_replace: "Vista"
+    }, {
+        name_replace: "Windows",
+        patterns: ["(Windows (?:NT 5\\.2|NT 5\\.1))"],
+        major_replace: "XP"
+    }, {
+        name_replace: "Mac OS X",
+        patterns: ["((?:Mac[ +]?|; )OS[ +]X)[\\s+/](?:(\\d+)[_.](\\d+)(?:[_.](\\d+)|)|Mach-O)", "\\w+\\s+Mac OS X\\s+\\w+\\s+(\\d+).(\\d+).(\\d+).*", "(?:PPC|Intel) (Mac OS X)"]
+    }, {
+        name_replace: "Mac OS X",
+        patterns: [" (Dar)(win)/(10).(d+).*((?:i386|x86_64))"],
+        major_replace: "10",
+        minor_replace: "6"
+    }, {
+        name_replace: "Mac OS X",
+        patterns: [" (Dar)(win)/(11).(\\d+).*\\((?:i386|x86_64)\\)"],
+        major_replace: "10",
+        minor_replace: "7"
+    }, {
+        name_replace: "Mac OS X",
+        patterns: [" (Dar)(win)/(12).(\\d+).*\\((?:i386|x86_64)\\)"],
+        major_replace: "10",
+        minor_replace: "8"
+    }, {
+        name_replace: "Mac OS X",
+        patterns: [" (Dar)(win)/(13).(\\d+).*\\((?:i386|x86_64)\\)"],
+        major_replace: "10",
+        minor_replace: "9"
+    }, {
+        name_replace: "iOS",
+        patterns: ["^UCWEB.*; (iPad|iPh|iPd) OS (\\d+)_(\\d+)(?:_(\\d+)|);", "(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS)[ +]+(\\d+)[_\\.](\\d+)(?:[_\\.](\\d+)|)", "(iPhone|iPad|iPod); Opera", "(iPhone|iPad|iPod).*Mac OS X.*Version/(\\d+)\\.(\\d+)", "\\b(iOS[ /]|iOS; |iPhone(?:/| v|[ _]OS[/,]|; | OS : |\\d,\\d/|\\d,\\d; )|iPad/)(\\d{1,2})[_\\.](\\d{1,2})(?:[_\\.](\\d+)|)", "\\((iOS);", "(iPod|iPhone|iPad)", "Puffin/[\\d\\.]+IT", "Puffin/[\\d\\.]+IP"]
+    }, {
+        family: "Chrome",
+        name_replace: "Chromecast",
+        patterns: ["(CrKey -)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "(CrKey[ +]armv7l)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)"]
+    }, {
+        name_replace: "Debian",
+        patterns: ["([Dd]ebian)"]
+    }, {
+        family: "Linux",
+        name_replace: "Linux",
+        patterns: ["(Linux Mint)(?:/(\\d+)|)"]
+    }, {
+        family: "Linux",
+        patterns: ["(Ubuntu|Kubuntu|Arch Linux|CentOS|Slackware|Gentoo|openSUSE|SUSE|Red Hat|Fedora|PCLinuxOS|Mageia|(?:Free|Open|Net|\\b)BSD)", "(Mandriva)(?: Linux|)/(?:[\\d.-]+m[a-z]{2}(\\d+).(\\d)|)", "(Linux)(?:[ /](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)", "\\(linux-gnu\\)"]
+    }, {
+        family: "BlackBerry",
+        name_replace: "BlackBerry OS",
+        patterns: ["(BB10);.+Version/(\\d+)\\.(\\d+)\\.(\\d+)", "(Black[Bb]erry)[0-9a-z]+/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(Black[Bb]erry).+Version/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)", "(Black[Bb]erry)"]
+    }, {
+        patterns: ["(Fedora|Red Hat|PCLinuxOS|Puppy|Ubuntu|Kindle|Bada|Sailfish|Lubuntu|BackTrack|Slackware|(?:Free|Open|Net|\\b)BSD)[/ ](\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"]
+    }]
+      , I = navigator.userAgent
+      , Q = function() {
+        return I
+    }
+      , J = function(e) {
+        return K(e || I, B)
+    }
+      , X = function(e) {
+        return K(e || I, D)
+    };
+    function G(e, t) {
+        try {
+            var n = new RegExp(t).exec(e);
+            return n ? {
+                name: n[1] || "Other",
+                major: n[2] || "0",
+                minor: n[3] || "0",
+                patch: n[4] || "0"
+            } : null
+        } catch (pr) {
+            return null
+        }
+    }
+    function K(e, t) {
+        for (var n = null, r = null, i = -1, o = !1; ++i < t.length && !o; ) {
+            n = t[i];
+            for (var a = -1; ++a < n.patterns.length && !o; )
+                o = null !== (r = G(e, n.patterns[a]))
+        }
+        return o ? (r.family = n.family || n.name_replace || r.name,
+        n.name_replace && (r.name = n.name_replace),
+        n.major_replace && (r.major = n.major_replace),
+        n.minor_replace && (r.minor = n.minor_replace),
+        n.patch_replace && (r.minor = n.patch_replace),
+        r) : {
+            family: "Other",
+            name: "Other",
+            major: "0",
+            minor: "0",
+            patch: "0"
+        }
+    }
+    function Y() {
+        var e = this
+          , t = J()
+          , n = Q();
+        this.agent = n.toLowerCase(),
+        this.language = window.navigator.userLanguage || window.navigator.language,
+        this.isCSS1 = "CSS1Compat" === (document.compatMode || ""),
+        this.width = function() {
+            return window.innerWidth && window.document.documentElement.clientWidth ? Math.min(window.innerWidth, document.documentElement.clientWidth) : window.innerWidth || window.document.documentElement.clientWidth || document.body.clientWidth
+        }
+        ,
+        this.height = function() {
+            return window.innerHeight || window.document.documentElement.clientHeight || document.body.clientHeight
+        }
+        ,
+        this.scrollX = function() {
+            return window.pageXOffset !== undefined ? window.pageXOffset : e.isCSS1 ? document.documentElement.scrollLeft : document.body.scrollLeft
+        }
+        ,
+        this.scrollY = function() {
+            return window.pageYOffset !== undefined ? window.pageYOffset : e.isCSS1 ? document.documentElement.scrollTop : document.body.scrollTop
+        }
+        ,
+        this.type = "Edge" === t.family ? "edge" : "Internet Explorer" === t.family ? "ie" : "Chrome" === t.family ? "chrome" : "Safari" === t.family ? "safari" : "Firefox" === t.family ? "firefox" : t.family.toLowerCase(),
+        this.version = 1 * (t.major + "." + t.minor) || 0,
+        this.hasPostMessage = !!window.postMessage
+    }
+    Y.prototype.hasEvent = function(e, t) {
+        return "on" + e in (t || document.createElement("div"))
+    }
+    ,
+    Y.prototype.getScreenDimensions = function() {
+        var e = {};
+        for (var t in window.screen)
+            e[t] = window.screen[t];
+        return delete e.orientation,
+        e
+    }
+    ,
+    Y.prototype.getOrientation = function() {
+        return "function" == typeof matchMedia ? matchMedia("(orientation: landscape)").matches ? "landscape" : "portrait" : window.screen.orientation ? screen.orientation.type.startsWith("landscape") ? "landscape" : "portrait" : this.width() > this.height() ? "landscape" : "portrait"
+    }
+    ,
+    Y.prototype.getWindowDimensions = function() {
+        return [this.width(), this.height()]
+    }
+    ,
+    Y.prototype.interrogateNavigator = function() {
+        var e = {};
+        for (var t in window.navigator)
+            if ("webkitPersistentStorage" !== t)
+                try {
+                    e[t] = window.navigator[t]
+                } catch (hr) {}
+        if (delete e.plugins,
+        delete e.mimeTypes,
+        e.plugins = [],
+        window.navigator.plugins)
+            for (var n = 0; n < window.navigator.plugins.length; n++)
+                e.plugins[n] = window.navigator.plugins[n].filename;
+        return e
+    }
+    ,
+    Y.prototype.supportsPST = function() {
+        return !(document.hasPrivateToken === undefined || !document.featurePolicy || !document.featurePolicy.allowsFeature) && document.featurePolicy.allowsFeature("private-state-token-redemption")
+    }
+    ,
+    Y.prototype.supportsCanvas = function() {
+        var e = document.createElement("canvas");
+        return !(!e.getContext || !e.getContext("2d"))
+    }
+    ,
+    Y.prototype.supportsWebAssembly = function() {
+        try {
+            if ("object" == typeof WebAssembly && "function" == typeof WebAssembly.instantiate) {
+                var e = new WebAssembly.Module(Uint8Array.of(0, 97, 115, 109, 1, 0, 0, 0));
+                if (e instanceof WebAssembly.Module)
+                    return new WebAssembly.Instance(e)instanceof WebAssembly.Instance
+            }
+        } catch (pr) {
+            return !1
+        }
+    }
+    ;
+    var $ = new Y
+      , q = new function() {
+        var e, t, n = X(), r = Q();
+        this.mobile = (e = !!("ontouchstart"in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0),
+        t = !1,
+        n && (t = ["iOS", "Windows Phone", "Windows Mobile", "Android", "BlackBerry OS"].indexOf(n.name) >= 0),
+        e && t),
+        this.dpr = function() {
+            return window.devicePixelRatio || 1
+        }
+        ,
+        this.mobile && n && "Windows" === n.family && r.indexOf("touch") < 0 && (this.mobile = !1),
+        this.os = "iOS" === n.family ? "ios" : "Android" === n.family ? "android" : "Mac OS X" === n.family ? "mac" : "Windows" === n.family ? "windows" : "Linux" === n.family ? "linux" : n.family.toLowerCase(),
+        this.version = function() {
+            if (!n)
+                return "unknown";
+            var e = n.major;
+            return n.minor && (e += "." + n.minor),
+            n.patch && (e += "." + n.patch),
+            e
+        }()
+    }
+      , ee = {
+        Browser: $,
+        System: q,
+        supportsPAT: function() {
+            return ("mac" === q.os || "ios" === q.os) && "safari" === $.type && $.version >= 16.2
+        }
+    }
+      , te = "challenge-passed"
+      , ne = "challenge-escaped"
+      , re = "challenge-closed"
+      , ie = "challenge-expired"
+      , oe = "invalid-data"
+      , ae = "bundle-error"
+      , se = "rate-limited"
+      , ce = "network-error"
+      , le = "challenge-error"
+      , ue = "incomplete-answer"
+      , he = "missing-captcha"
+      , pe = "missing-sitekey"
+      , de = "invalid-captcha-id"
+      , fe = "https://api.hcaptcha.com"
+      , me = "https://api2.hcaptcha.com"
+      , ge = "auto"
+      , ye = {
+        host: null,
+        file: null,
+        sitekey: null,
+        a11y_tfe: null,
+        pingdom: "safari" === ee.Browser.type && "windows" !== ee.System.os && "mac" !== ee.System.os && "ios" !== ee.System.os && "android" !== ee.System.os,
+        assetDomain: "https://newassets.hcaptcha.com",
+        assetUrl: "https://newassets.hcaptcha.com/captcha/v1/2e2f9feae51e15dd4676ba8e3d761ec72f41b826/static",
+        width: null,
+        height: null,
+        mobile: null,
+        orientation: "portrait",
+        challenge_type: null,
+        mfaData: {},
+        prevSmsinEkey: null
+    }
+      , ve = {
+        se: null,
+        custom: !1,
+        tplinks: "on",
+        language: null,
+        reportapi: "https://accounts.hcaptcha.com",
+        endpoint: fe,
+        pstIssuer: "https://pst-issuer.hcaptcha.com",
+        isSecure: !1,
+        size: "normal",
+        theme: "light",
+        mode: undefined,
+        assethost: null,
+        imghost: null,
+        recaptchacompat: "true",
+        pat: "on",
+        andint: "off",
+        confirmNav: !1
+    }
+      , we = "https://30910f52569b4c17b1081ead2dae43b4@sentry.hcaptcha.com/6"
+      , be = "2e2f9feae51e15dd4676ba8e3d761ec72f41b826"
+      , Ve = "prod";
+    function _e(e, t) {
+        try {
+            e.style.width = "302px",
+            e.style.height = "76px",
+            e.style.backgroundColor = "#f9e5e5",
+            e.style.position = "relative",
+            e.innerHTML = "";
+            var n = document.createElement("div");
+            n.style.width = "284px",
+            n.style.position = "absolute",
+            n.style.top = "12px",
+            n.style.left = "10px",
+            n.style.color = "#7c0a06",
+            n.style.fontSize = "14px",
+            n.style.fontWeight = "normal",
+            n.style.lineHeight = "18px",
+            n.innerHTML = t || "Please <a style='color:inherit;text-decoration:underline; font: inherit' target='_blank' href='https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto'>upgrade your browser</a> to complete this captcha.",
+            e.appendChild(n)
+        } catch (r) {
+            console.error("[hCaptcha] Error while rendering in the provided container.", {
+                container: e
+            }, r)
+        }
+    }
+    function ke(e) {
+        for (var t = document.getElementsByClassName("h-captcha"), n = [], r = 0; r < t.length; r++)
+            n.push(t[r]);
+        var i = [];
+        if ("off" !== ve.recaptchacompat)
+            for (var o = document.getElementsByClassName("g-recaptcha"), a = 0; a < o.length; a++)
+                i.push(o[a]);
+        for (var s = [].concat(n, i), c = 0; c < s.length; c++)
+            e(s[c])
+    }
+    var Ee = "The captcha failed to load."
+      , Re = []
+      , Te = /(https?|wasm):\/\//
+      , xe = /^at\s/
+      , Se = /:\d+:\d+/g
+      , Ue = ["Rate limited or network error. Please retry.", "Unreachable code should not be executed", "Out of bounds memory access"];
+    function We(e) {
+        return Te.test(e) ? null : e.trim().replace(xe, "").replace(Se, "")
+    }
+    function Me(e) {
+        for (var t = [], n = 0, r = e.length; n < r; n++) {
+            var i = We(e[n]);
+            null !== i && t.push(i)
+        }
+        return t.join("\n").trim()
+    }
+    function Ae(e) {
+        if (e && "string" == typeof e && -1 === Re.indexOf(e) && !(Re.length >= 10)) {
+            var t = Me(e.trim().split("\n").slice(0, 2));
+            Re.push(t)
+        }
+    }
+    function Ne(e) {
+        try {
+            e && "object" == typeof e || (e = {
+                name: "error",
+                message: "",
+                stack: ""
+            });
+            var t = {
+                message: e.name + ": " + e.message
+            };
+            e.stack && (t.stack_trace = {
+                trace: e.stack
+            }),
+            ze("report error", "internal", "debug", t),
+            Pe(e.message || "internal error", "error", ye.file, e)
+        } catch (n) {}
+    }
+    function He(e) {
+        return function() {
+            try {
+                return e.apply(this, arguments)
+            } catch (hr) {
+                throw Ne(hr),
+                ke((function(e) {
+                    _e(e, Ee)
+                }
+                )),
+                hr
+            }
+        }
+    }
+    function Oe(e) {
+        return -1 !== e.indexOf("hsw.js") || -1 !== e.indexOf("/1/api.js") || -1 !== e.indexOf("newassets.hcaptcha.com") || -1 !== e.indexOf("hcaptcha.html")
+    }
+    function Ce(e) {
+        return "string" == typeof e && (-1 !== e.indexOf("chrome-extension://") || -1 !== e.indexOf("safari-extension://") || -1 !== e.indexOf("moz-extension://") || -1 !== e.indexOf("chrome://internal-") || -1 !== e.indexOf("/hammerhead.js") || -1 !== e.indexOf("eval at buildCode") || -1 !== e.indexOf("u.c.b.r.o.w.s.e.r/ucbrowser_script.js"))
+    }
+    function Fe(e, t) {
+        if (void 0 === t && (t = !0),
+        ve.sentry)
+            try {
+                if (window.Raven && Raven.config(we, {
+                    release: be,
+                    environment: Ve,
+                    autoBreadcrumbs: {
+                        xhr: !0,
+                        dom: !0,
+                        sentry: !0
+                    },
+                    tags: {
+                        "site-host": ye.host,
+                        "site-key": ye.sitekey,
+                        "endpoint-url": ve.endpoint,
+                        "asset-url": ye.assetUrl
+                    },
+                    sampleRate: .01,
+                    ignoreErrors: ["Cannot set properties of undefined (setting 'data')", "canvas.contentDocument", "Can't find variable: ZiteReader", "Cannot redefine property: hcaptcha", "Cannot redefine property: BetterJsPop", "grecaptcha is not defined", "jQuery is not defined", "$ is not defined", "Script is not a function"]
+                }),
+                window.Raven && Raven.setUserContext({
+                    "Browser-Agent": ee.Browser.agent,
+                    "Browser-Type": ee.Browser.type,
+                    "Browser-Version": ee.Browser.version,
+                    "System-OS": ee.System.os,
+                    "System-Version": ee.System.version,
+                    "Is-Mobile": ee.System.mobile
+                }),
+                ze(ye.file + "_internal", "setup", "info"),
+                e) {
+                    var n = function(e, n, r, i, o, a) {
+                        o && "object" == typeof o || (o = {});
+                        var s = o.name || "Error"
+                          , c = o.stack || "";
+                        (Oe(c) || t) && (He(Ae)(c),
+                        Ce(c) || Ce(n) || (ze(e, "global", "debug", {
+                            crossOrigin: a,
+                            name: s,
+                            url: n,
+                            line: r,
+                            column: i,
+                            stack: c
+                        }),
+                        je("global", o, {
+                            message: e
+                        })))
+                    }
+                      , r = function(e) {
+                        var t = e.reason;
+                        null == t && e.detail && e.detail.reason && (t = (e = e.detail).reason);
+                        var n = "";
+                        if (e.reason && "undefined" != typeof e.reason.stack && (n = e.reason.stack),
+                        Oe(n) && e.reason instanceof Error) {
+                            He(Ae)(n);
+                            var r = t.url || "";
+                            Ce(n) || Ce(r) || (ze(t.message, "global-rejection", "debug", {
+                                promise: e.promise,
+                                name: t.name,
+                                url: r,
+                                line: t.lineno,
+                                column: t.columnno,
+                                stack: n
+                            }),
+                            je("global-rejection", t, {
+                                promise: e.promise,
+                                message: t.message
+                            }))
+                        }
+                    };
+                    "function" == typeof window.addEventListener ? (window.addEventListener("error", (function(e) {
+                        n(e.message, e.filename, e.lineno, e.colno, e.error, function(e) {
+                            try {
+                                return !("Script error." !== e.message || "" !== e.filename && null != e.filename || 0 !== e.lineno && null != e.lineno || 0 !== e.colno && null != e.colno || null != e.error)
+                            } catch (pr) {
+                                return !1
+                            }
+                        }(e))
+                    }
+                    ), !0),
+                    window.addEventListener("unhandledrejection", r, !0)) : t && (window.onerror = n,
+                    window.onunhandledrejection = r)
+                }
+            } catch (i) {}
+    }
+    function Pe(e, t, n, r) {
+        try {
+            if (t = t || "error",
+            "string" == typeof e) {
+                for (var i = Ue.length; i--; )
+                    if (e.indexOf(Ue[i]) >= 0) {
+                        e = Ue[i];
+                        break
+                    }
+                /^self\.\w* is not a function$/.test(e) ? e = "self.X is not a function" : /^\w\._.*\[t\] is not a function/.test(e) && (e = "x._y[t] is not a function")
+            }
+            if (ve.sentry) {
+                var o = "warn" === t ? "warning" : t;
+                window.Raven && Raven.captureMessage(e, {
+                    level: o,
+                    logger: n,
+                    extra: r
+                })
+            }
+        } catch (a) {}
+    }
+    function je(e, t, n) {
+        try {
+            return (n = n || {}).error = t,
+            Pe(e + ":" + (("string" == typeof t ? t : t && t.message) || n.message || "missing-error"), "error", e, n)
+        } catch (r) {}
+    }
+    function ze(e, t, n, r) {
+        try {
+            ve.sentry && window.Raven && Raven.captureBreadcrumb({
+                message: e,
+                category: t,
+                level: n,
+                data: r
+            })
+        } catch (i) {}
+    }
+    var Ze = {
+        __proto__: null,
+        _stackTraceSet: Re,
+        refineLine: We,
+        toRefinedString: Me,
+        reportError: Ne,
+        errorWrapper: He,
+        initSentry: Fe,
+        sentryMessage: Pe,
+        sentryError: je,
+        sentryBreadcrumb: ze
+    };
+    function Le() {
+        var e = []
+          , t = null
+          , n = !1
+          , r = []
+          , i = function(t) {
+            try {
+                if (e.length >= 10)
+                    return;
+                var n = t.stack;
+                if ("string" != typeof n)
+                    return;
+                var r = n.trim().split("\n");
+                "Error" === r[0] && (r = r.slice(1));
+                for (var i = /extension/, o = r.length - 1, a = [], s = 0; o >= 0 && a.length < 6; ) {
+                    var c = r[o]
+                      , l = We(c);
+                    if (null !== l) {
+                        if (i.test(c)) {
+                            a = [l];
+                            break
+                        }
+                        if (a.unshift(l),
+                        s = Math.max(s, l.length),
+                        a.length >= 2 && s >= 30)
+                            break;
+                        o--
+                    } else
+                        o--
+                }
+                var u = a.join("\n").trim();
+                u && -1 === e.indexOf(u) && e.push(u)
+            } catch (t) {
+                return
+            }
+        }
+          , o = function() {
+            if (n)
+                try {
+                    for (var e = 0, o = r.length; e < o; e++)
+                        r[e]();
+                    null !== t && clearTimeout(t)
+                } catch (a) {
+                    i(a)
+                } finally {
+                    r = [],
+                    t = null,
+                    n = !1
+                }
+        }
+          , a = function(t, a) {
+            var s = Object.getOwnPropertyDescriptor(t, a);
+            if (!(s && !1 === s.writable)) {
+                var c, l = Object.prototype.hasOwnProperty.call(t, a), u = t[a];
+                c = "undefined" != typeof Proxy && "undefined" != typeof Reflect ? new Proxy(u,{
+                    apply: function(t, r, a) {
+                        return n && (e.length >= 10 && o(),
+                        i(new Error)),
+                        Reflect.apply(t, r, a)
+                    }
+                }) : function() {
+                    return n && (e.length >= 10 && o(),
+                    i(new Error)),
+                    u.apply(this, arguments)
+                }
+                ,
+                Object.defineProperty(t, a, {
+                    configurable: !0,
+                    enumerable: !s || s.enumerable,
+                    writable: !0,
+                    value: c
+                }),
+                r.push((function() {
+                    l ? Object.defineProperty(t, a, {
+                        configurable: !0,
+                        enumerable: !s || s.enumerable,
+                        writable: !0,
+                        value: u
+                    }) : delete t[a]
+                }
+                ))
+            }
+        };
+        return {
+            run: function(e) {
+                var r = (e = e || {}).timeout
+                  , s = !0 === e.topLevel && e.topLevel;
+                if (!n) {
+                    n = !0,
+                    "number" == typeof r && isFinite(r) && (t = setTimeout((function() {
+                        o()
+                    }
+                    ), r));
+                    try {
+                        a(Document.prototype, "getElementsByClassName"),
+                        a(Document.prototype, "getElementById"),
+                        a(Document.prototype, "getElementsByTagName"),
+                        a(Document.prototype, "querySelector"),
+                        a(Document.prototype, "querySelectorAll"),
+                        a(Element.prototype, "getElementsByClassName"),
+                        a(Element.prototype, "getElementsByTagName"),
+                        a(Element.prototype, "querySelector"),
+                        a(Element.prototype, "querySelectorAll"),
+                        a(HTMLElement.prototype, "click"),
+                        a(HTMLElement.prototype, "getElementsByClassName"),
+                        a(HTMLElement.prototype, "getElementsByTagName"),
+                        a(HTMLElement.prototype, "querySelector"),
+                        a(HTMLElement.prototype, "querySelectorAll"),
+                        s || a(console, "log")
+                    } catch (c) {
+                        o(),
+                        i(c)
+                    }
+                }
+            },
+            collect: function() {
+                return e.concat(Re)
+            }
+        }
+    }
+    var Be = {
+        getCookie: function(e) {
+            var t = document.cookie.replace(/ /g, "").split(";");
+            try {
+                for (var n = "", r = t.length; r-- && !n; )
+                    t[r].indexOf(e) >= 0 && (n = t[r]);
+                return n
+            } catch (pr) {
+                return ""
+            }
+        },
+        hasCookie: function(e) {
+            return !!Be.getCookie(e)
+        },
+        supportsAPI: function() {
+            try {
+                return "hasStorageAccess"in document && "requestStorageAccess"in document
+            } catch (pr) {
+                return !1
+            }
+        },
+        hasAccess: function() {
+            return new Promise((function(e) {
+                document.hasStorageAccess().then((function() {
+                    e(!0)
+                }
+                ))["catch"]((function() {
+                    e(!1)
+                }
+                ))
+            }
+            ))
+        },
+        requestAccess: function() {
+            try {
+                return document.requestStorageAccess()
+            } catch (pr) {
+                return Promise.resolve()
+            }
+        }
+    }
+      , De = {
+        array: function(e) {
+            if (0 === e.length)
+                return e;
+            for (var t, n, r = e.length; --r > -1; )
+                n = Math.floor(Math.random() * (r + 1)),
+                t = e[r],
+                e[r] = e[n],
+                e[n] = t;
+            return e
+        }
+    };
+    function Ie(e) {
+        this.r = 255,
+        this.g = 255,
+        this.b = 255,
+        this.a = 1,
+        this.h = 1,
+        this.s = 1,
+        this.l = 1,
+        this.parseString(e)
+    }
+    function Qe(e, t, n) {
+        return n < 0 && (n += 1),
+        n > 1 && (n -= 1),
+        n < 1 / 6 ? e + 6 * (t - e) * n : n < .5 ? t : n < 2 / 3 ? e + (t - e) * (2 / 3 - n) * 6 : e
+    }
+    Ie.hasAlpha = function(e) {
+        return "string" == typeof e && (-1 !== e.indexOf("rgba") || 9 === e.length && "#" === e[0])
+    }
+    ,
+    Ie.prototype.parseString = function(e) {
+        e && (0 === e.indexOf("#") ? this.fromHex(e) : 0 === e.indexOf("rgb") && this.fromRGBA(e))
+    }
+    ,
+    Ie.prototype.fromHex = function(e) {
+        var t = 1;
+        9 === e.length && (t = parseInt(e.substr(7, 2), 16) / 255);
+        var n = (e = e.substr(1, 6)).replace(/^([a-f\d])([a-f\d])([a-f\d])?$/i, (function(e, t, n, r) {
+            return t + t + n + n + r + r
+        }
+        ))
+          , r = parseInt(n, 16)
+          , i = r >> 16
+          , o = r >> 8 & 255
+          , a = 255 & r;
+        this.setRGBA(i, o, a, t)
+    }
+    ,
+    Ie.prototype.fromRGBA = function(e) {
+        var t = e.indexOf("rgba")
+          , n = e.substr(t).replace(/rgba?\(/, "").replace(/\)/, "").replace(/[\s+]/g, "").split(",")
+          , r = Math.floor(parseInt(n[0]))
+          , i = Math.floor(parseInt(n[1]))
+          , o = Math.floor(parseInt(n[2]))
+          , a = parseFloat(n[3]);
+        this.setRGBA(r, i, o, a)
+    }
+    ,
+    Ie.prototype.setRGB = function(e, t, n) {
+        this.setRGBA(e, t, n, 1)
+    }
+    ,
+    Ie.prototype.setRGBA = function(e, t, n, r) {
+        this.r = e,
+        this.g = t,
+        this.b = n,
+        this.a = isNaN(r) ? this.a : r,
+        this.updateHSL()
+    }
+    ,
+    Ie.prototype.hsl2rgb = function(e, t, n) {
+        if (0 === t) {
+            var r = Math.round(255 * n);
+            return this.setRGB(r, r, r),
+            this
+        }
+        var i = n <= .5 ? n * (1 + t) : n + t - n * t
+          , o = 2 * n - i;
+        return this.r = Math.round(255 * Qe(o, i, e + 1 / 3)),
+        this.g = Math.round(255 * Qe(o, i, e)),
+        this.b = Math.round(255 * Qe(o, i, e - 1 / 3)),
+        this.h = e,
+        this.s = t,
+        this.l = n,
+        this
+    }
+    ,
+    Ie.prototype.updateHSL = function() {
+        var e, t = this.r / 255, n = this.g / 255, r = this.b / 255, i = Math.max(t, n, r), o = Math.min(t, n, r), a = null, s = (i + o) / 2;
+        if (i === o)
+            a = e = 0;
+        else {
+            var c = i - o;
+            switch (e = s > .5 ? c / (2 - i - o) : c / (i + o),
+            i) {
+            case t:
+                a = (n - r) / c + (n < r ? 6 : 0);
+                break;
+            case n:
+                a = (r - t) / c + 2;
+                break;
+            case r:
+                a = (t - n) / c + 4
+            }
+            a /= 6
+        }
+        return this.h = a,
+        this.s = e,
+        this.l = s,
+        this
+    }
+    ,
+    Ie.prototype.getHex = function() {
+        return "#" + ((1 << 24) + (this.r << 16) + (this.g << 8) + this.b).toString(16).slice(1)
+    }
+    ,
+    Ie.prototype.getRGBA = function() {
+        return "rgba(" + this.r + "," + this.g + "," + this.b + "," + this.a + ")"
+    }
+    ,
+    Ie.prototype.clone = function() {
+        var e = new Ie;
+        return e.setRGBA(this.r, this.g, this.b, this.a),
+        e
+    }
+    ,
+    Ie.prototype.mix = function(e, t) {
+        e instanceof Ie || (e = new Ie(e));
+        var n = new Ie
+          , r = Math.round(this.r + t * (e.r - this.r))
+          , i = Math.round(this.g + t * (e.g - this.g))
+          , o = Math.round(this.b + t * (e.b - this.b));
+        return n.setRGB(r, i, o),
+        n
+    }
+    ,
+    Ie.prototype.blend = function(e, t) {
+        var n;
+        e instanceof Ie || (e = new Ie(e));
+        for (var r = [], i = 0; i < t; i++)
+            n = this.mix.call(this, e, i / t),
+            r.push(n);
+        return r
+    }
+    ,
+    Ie.prototype.lightness = function(e) {
+        return e > 1 && (e /= 100),
+        this.hsl2rgb(this.h, this.s, e),
+        this
+    }
+    ,
+    Ie.prototype.saturation = function(e) {
+        return e > 1 && (e /= 100),
+        this.hsl2rgb(this.h, e, this.l),
+        this
+    }
+    ,
+    Ie.prototype.hue = function(e) {
+        return this.hsl2rgb(e / 360, this.s, this.l),
+        this
+    }
+    ;
+    var Je = {
+        decode: function(e) {
+            try {
+                var t = e.split(".");
+                return {
+                    header: JSON.parse(atob(t[0])),
+                    payload: JSON.parse(atob(t[1])),
+                    signature: atob(t[2].replace(/_/g, "/").replace(/-/g, "+")),
+                    raw: {
+                        header: t[0],
+                        payload: t[1],
+                        signature: t[2]
+                    }
+                }
+            } catch (pr) {
+                throw new Error("Token is invalid.")
+            }
+        },
+        checkExpiration: function(e) {
+            if (new Date(1e3 * e) <= new Date(Date.now()))
+                throw new Error("Token is expired.");
+            return !0
+        }
+    }
+      , Xe = {
+        _setup: !1,
+        _af: null,
+        _fps: 60,
+        _singleFrame: 1 / 60,
+        _lagThreshold: 500,
+        _adjustedLag: 1 / 60 * 2,
+        _startTime: 0,
+        _lastTime: 0,
+        _nextTime: 1 / 60,
+        _elapsed: 0,
+        _difference: 0,
+        _renders: [],
+        _paused: !1,
+        _running: !1,
+        _tick: !1,
+        frame: 0,
+        time: 0,
+        requestFrame: null,
+        cancelFrame: null,
+        _init: function() {
+            for (var e, t = window.requestAnimationFrame, n = window.cancelAnimationFrame, r = ["ms", "moz", "webkit", "o"], i = r.length; --i > -1 && !t; )
+                t = window[r[i] + "RequestAnimationFrame"],
+                n = window[r[i] + "CancelAnimationFrame"] || window[r[i] + "CancelRequestAnimationFrame"];
+            t ? (Xe.requestFrame = t.bind(window),
+            Xe.cancelFrame = n.bind(window)) : (Xe.requestFrame = (e = Date.now(),
+            function(t) {
+                window.setTimeout((function() {
+                    t(Date.now() - e)
+                }
+                ), 1e3 * Xe._singleFrame)
+            }
+            ),
+            Xe.cancelFrame = function(e) {
+                return clearTimeout(e),
+                null
+            }
+            ),
+            Xe._setup = !0,
+            Xe._startTime = Xe._lastTime = Date.now()
+        },
+        add: function(e, t) {
+            Xe._renders.push({
+                callback: e,
+                paused: !1 == !t || !1
+            }),
+            !1 == !t && Xe.start()
+        },
+        remove: function(e) {
+            for (var t = Xe._renders.length; --t > -1; )
+                Xe._renders[t].callback === e && (Xe._renders[t].paused = !0,
+                Xe._renders.splice(t, 1))
+        },
+        start: function(e) {
+            if (!1 === Xe._setup && Xe._init(),
+            e)
+                for (var t = Xe._renders.length; --t > -1; )
+                    Xe._renders[t].callback === e && (Xe._renders[t].paused = !1);
+            !0 !== Xe._running && (Xe._paused = !1,
+            Xe._running = !0,
+            Xe._af = Xe.requestFrame(Xe._update))
+        },
+        stop: function(e) {
+            if (e)
+                for (var t = Xe._renders.length; --t > -1; )
+                    Xe._renders[t].callback === e && (Xe._renders[t].paused = !0);
+            else
+                !1 !== Xe._running && (Xe._af = Xe.cancelFrame(Xe._af),
+                Xe._paused = !0,
+                Xe._running = !1)
+        },
+        elapsed: function() {
+            return Date.now() - Xe._startTime
+        },
+        fps: function(e) {
+            return arguments.length ? (Xe._fps = e,
+            Xe._singleFrame = 1 / (Xe._fps || 60),
+            Xe._adjustedLag = 2 * Xe._singleFrame,
+            Xe._nextTime = Xe.time + Xe._singleFrame,
+            Xe._fps) : Xe._fps
+        },
+        isRunning: function() {
+            return Xe._running
+        },
+        _update: function() {
+            if (!Xe._paused && (Xe._elapsed = Date.now() - Xe._lastTime,
+            Xe._tick = !1,
+            Xe._elapsed > Xe._lagThreshold && (Xe._startTime += Xe._elapsed - Xe._adjustedLag),
+            Xe._lastTime += Xe._elapsed,
+            Xe.time = (Xe._lastTime - Xe._startTime) / 1e3,
+            Xe._difference = Xe.time - Xe._nextTime,
+            Xe._difference > 0 && (Xe.frame++,
+            Xe._nextTime += Xe._difference + (Xe._difference >= Xe._singleFrame ? Xe._singleFrame / 4 : Xe._singleFrame - Xe._difference),
+            Xe._tick = !0),
+            Xe._af = Xe.requestFrame(Xe._update),
+            !0 === Xe._tick && Xe._renders.length > 0))
+                for (var e = Xe._renders.length; --e > -1; )
+                    Xe._renders[e] && !1 === Xe._renders[e].paused && Xe._renders[e].callback(Xe.time)
+        }
+    };
+    var Ge = function(e) {
+        for (var t, n, r, i = {}, o = e ? e.indexOf("&") >= 0 ? e.split("&") : [e] : [], a = 0; a < o.length; a++)
+            if (o[a].indexOf("=") >= 0) {
+                if (t = o[a].split("="),
+                n = decodeURIComponent(t[0]),
+                "false" !== (r = decodeURIComponent(t[1])) && "true" !== r || (r = "true" === r),
+                "theme" === n || "themeConfig" === n)
+                    try {
+                        r = JSON.parse(r)
+                    } catch (pr) {}
+                i[n] = r
+            }
+        return i
+    }
+      , Ke = function(e) {
+        var t = [];
+        for (var n in e) {
+            var r = e[n];
+            r = "object" == typeof r ? JSON.stringify(r) : r,
+            t.push([encodeURIComponent(n), encodeURIComponent(r)].join("="))
+        }
+        return t.join("&")
+    }
+      , Ye = {
+        __proto__: null,
+        Decode: Ge,
+        Encode: Ke
+    };
+    function $e(e, t, n) {
+        return Math.min(Math.max(e, t), n)
+    }
+    var qe = {
+        __proto__: null,
+        clamp: $e,
+        range: function(e, t, n, r, i, o) {
+            var a = (e - t) * (i - r) / (n - t) + r;
+            return !1 === o ? a : $e(a, Math.min(r, i), Math.max(r, i))
+        },
+        toRadians: function(e) {
+            return e * (Math.PI / 180)
+        },
+        toDegrees: function(e) {
+            return 180 * e / Math.PI
+        },
+        lerp: function(e, t, n) {
+            return e + (t - e) * n
+        }
+    };
+    function et(e, t, n, r) {
+        this._period = e,
+        this._interval = t,
+        this._date = [],
+        this._data = [],
+        this._prevTimestamp = 0,
+        this._meanPeriod = 0,
+        this._medianPeriod = 0,
+        this._medianMaxHeapSize = 32,
+        this._medianMinHeap = [],
+        this._medianMaxHeap = [],
+        this._meanCounter = 0,
+        this._baseTime = n || 0,
+        this._maxEventsPerWindow = r || 128
+    }
+    function tt(e) {
+        return new Promise((function(t, n) {
+            e(t, n, (function r() {
+                e(t, n, r)
+            }
+            ))
+        }
+        ))
+    }
+    function nt(e, t) {
+        var n = "attempts"in (t = t || {}) ? t.attempts : 1
+          , r = t.delay || 0
+          , i = t.onFail;
+        return tt((function(t, o, a) {
+            e().then(t, (function(e) {
+                var t = n-- > 0;
+                if (i) {
+                    var s = i(e, n);
+                    s && (t = !1 !== s.retry && t,
+                    r = s.delay)
+                }
+                t ? setTimeout(a, r || 0) : o(e)
+            }
+            ))
+        }
+        ))
+    }
+    function rt(e, t) {
+        var n = "attempts"in (t = t || {}) ? t.attempts : 1
+          , r = t.delay || 0
+          , i = t.onFail
+          , o = null
+          , a = !1
+          , s = tt((function(t, s, c) {
+            a ? s(new Error("Request cancelled")) : e().then(t, (function(e) {
+                if (a)
+                    s(new Error("Request cancelled"));
+                else {
+                    var t = n-- > 0;
+                    if (i) {
+                        var l = i(e, n);
+                        l && (t = !1 !== l.retry && t,
+                        r = l.delay)
+                    }
+                    t ? o = setTimeout(c, r || 0) : s(e)
+                }
+            }
+            ))
+        }
+        ));
+        return s.cancel = function() {
+            a = !0,
+            o && (clearTimeout(o),
+            o = null)
+        }
+        ,
+        s
+    }
+    function it(e, t) {
+        return new Promise((function(n, r) {
+            var i = setTimeout((function() {
+                r(new Error("timeout"))
+            }
+            ), t);
+            e.then((function(e) {
+                clearTimeout(i),
+                n(e)
+            }
+            ))["catch"]((function(e) {
+                clearTimeout(i),
+                r(e)
+            }
+            ))
+        }
+        ))
+    }
+    function ot(e) {
+        return e && e.split(/[?#]/)[0].split(".").pop() || ""
+    }
+    function at(e, t) {
+        var n = (new TextEncoder).encode(e);
+        return crypto.subtle.digest(t, n)
+    }
+    function st(e, t) {
+        return at(e, t).then((function(e) {
+            for (var t = new Uint8Array(e), n = "", r = 0; r < t.length; r++) {
+                var i = t[r].toString(16);
+                1 === i.length && (i = "0" + i),
+                n += i
+            }
+            return n
+        }
+        ))
+    }
+    function ct(e, t) {
+        for (var n = 0, r = 0; r < e.length; r++)
+            n = (16 * n + parseInt(e.charAt(r), 16)) % t;
+        return n
+    }
+    function lt(e) {
+        var t = [].slice.call(arguments, 1);
+        "string" == typeof e ? window[e] ? "function" == typeof window[e] ? window[e].apply(null, t) : console.log("[hCaptcha] Callback '" + e + "' is not a function.") : console.log("[hCaptcha] Callback '" + e + "' is not defined.") : "function" == typeof e ? e.apply(null, t) : console.log("[hcaptcha] Invalid callback '" + e + "'.")
+    }
+    function ut() {
+        try {
+            lt.apply(null, arguments)
+        } catch (hr) {
+            console.error("[hCaptcha] There was an error in your callback."),
+            console.error(hr)
+        }
+    }
+    function ht(e, t) {
+        for (var n = ["hl", "custom", "andint", "tplinks", "sitekey", "theme", "type", "size", "tabindex", "callback", "expired-callback", "chalexpired-callback", "error-callback", "open-callback", "close-callback", "endpoint", "challenge-container", "confirm-nav", "orientation", "mode"], r = {}, i = 0; i < n.length; i++) {
+            var o = n[i]
+              , a = t && t[o];
+            a || (a = e.getAttribute("data-" + o)),
+            a && (r[o] = a)
+        }
+        return r
+    }
+    et.prototype.getMeanPeriod = function() {
+        return this._meanPeriod
+    }
+    ,
+    et.prototype.getMedianPeriod = function() {
+        return this._medianPeriod
+    }
+    ,
+    et.prototype.getData = function() {
+        return this._cleanStaleData(),
+        this._data
+    }
+    ,
+    et.prototype.push = function(e, t) {
+        this._cleanStaleData();
+        var n = 0 === this._date.length;
+        if (e - (this._date[this._date.length - 1] || 0) >= this._period && (this._date.push(e),
+        this._data.push(t),
+        this._data.length > this._maxEventsPerWindow && (this._date.shift(),
+        this._data.shift())),
+        !n) {
+            var r = e - this._prevTimestamp;
+            this._meanPeriod = (this._meanPeriod * this._meanCounter + r) / (this._meanCounter + 1),
+            this._meanCounter++,
+            this._medianPeriod = this._calculateMedianPeriod(r)
+        }
+        this._prevTimestamp = e
+    }
+    ,
+    et.prototype._calculateMedianPeriod = function(e) {
+        this._medianMaxHeap || (this._medianMaxHeap = []),
+        this._medianMinHeap || (this._medianMinHeap = []);
+        var t = this._fetchMedianPeriod();
+        return 0 === this._medianMaxHeap.length && 0 === this._medianMinHeap.length ? this._medianMaxHeap.push(e) : e <= t ? (this._medianMaxHeap.push(e),
+        this._medianMaxHeap.sort((function(e, t) {
+            return t - e
+        }
+        ))) : (this._medianMinHeap.push(e),
+        this._medianMinHeap.sort((function(e, t) {
+            return e - t
+        }
+        ))),
+        this._rebalanceHeaps(),
+        this._fetchMedianPeriod()
+    }
+    ,
+    et.prototype._rebalanceHeaps = function() {
+        var e = null;
+        this._medianMaxHeap.length > this._medianMinHeap.length + 1 ? (e = this._medianMaxHeap.shift(),
+        this._medianMinHeap.push(e),
+        this._medianMinHeap.sort((function(e, t) {
+            return e - t
+        }
+        ))) : this._medianMinHeap.length > this._medianMaxHeap.length + 1 && (e = this._medianMinHeap.shift(),
+        this._medianMaxHeap.push(e),
+        this._medianMaxHeap.sort((function(e, t) {
+            return t - e
+        }
+        ))),
+        this._medianMinHeap.length == this._medianMaxHeap.length && this._medianMaxHeap.length > this._medianMaxHeapSize && (this._medianMinHeap.pop(),
+        this._medianMaxHeap.pop())
+    }
+    ,
+    et.prototype._fetchMedianPeriod = function() {
+        return this._medianMaxHeap.length > this._medianMinHeap.length ? this._medianMaxHeap[0] : this._medianMinHeap.length > this._medianMaxHeap.length ? this._medianMinHeap[0] : 0 !== this._medianMaxHeap.length && 0 !== this._medianMinHeap.length ? (this._medianMaxHeap[0] + this._medianMinHeap[0]) / 2 : -1
+    }
+    ,
+    et.prototype._cleanStaleData = function() {
+        for (var e = Date.now() - this._baseTime, t = this._date.length - 1; t >= 0; t--) {
+            if (e - this._date[t] >= this._interval) {
+                this._date.splice(0, t + 1),
+                this._data.splice(0, t + 1);
+                break
+            }
+        }
+    }
+    ;
+    var pt, dt = {
+        UUID: function(e) {
+            return /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i.test(e) || !1
+        },
+        UUIDv4: function(e) {
+            return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(e) || !1
+        },
+        URL: function(e) {
+            var t = new RegExp("^(http|https)://")
+              , n = new RegExp("^((?!(data|javascript):).)*$");
+            return t.test(e) && n.test(e) && -1 === e.indexOf("#")
+        },
+        IMAGE: function(e) {
+            return (0 === e.indexOf("https://") || 0 === e.indexOf("/")) && e.endsWith(".png")
+        }
+    };
+    function ft(e) {
+        var t, n, r = "string" == typeof e ? e : JSON.stringify(e), i = -1;
+        for (pt = pt || function() {
+            var e, t, n, r = [];
+            for (t = 0; t < 256; t++) {
+                for (e = t,
+                n = 0; n < 8; n++)
+                    e = 1 & e ? 3988292384 ^ e >>> 1 : e >>> 1;
+                r[t] = e
+            }
+            return r
+        }(),
+        t = 0,
+        n = r.length; t < n; t += 1)
+            i = i >>> 8 ^ pt[255 & (i ^ r.charCodeAt(t))];
+        return (-1 ^ i) >>> 0
+    }
+    var mt = {
+        __proto__: null,
+        createErrorsAggregator: Le,
+        uuid: function() {
+            return Math.random().toString(36).substr(2)
+        },
+        Render: Xe,
+        JWT: Je,
+        Color: Ie,
+        Shuffle: De,
+        MathUtil: qe,
+        Storage: Be,
+        Query: Ye,
+        TimeBuffer: et,
+        PromiseUtil: {
+            __proto__: null,
+            promiseRecursive: tt,
+            promiseRetry: nt,
+            promiseRetryWithCancel: rt,
+            withTimeout: it
+        },
+        ErrorUtil: Ze,
+        UrlUtil: {
+            __proto__: null,
+            getFileExtension: ot
+        },
+        HashUtil: {
+            __proto__: null,
+            generate: at,
+            generateHex: st,
+            hexModulo: ct
+        },
+        _stackTraceSet: Re,
+        refineLine: We,
+        toRefinedString: Me,
+        reportError: Ne,
+        errorWrapper: He,
+        initSentry: Fe,
+        sentryMessage: Pe,
+        sentryError: je,
+        sentryBreadcrumb: ze,
+        renderFallback: _e,
+        forEachCaptchaNode: ke,
+        callUserFunction: ut,
+        composeParams: ht,
+        is: dt,
+        promiseRecursive: tt,
+        promiseRetry: nt,
+        promiseRetryWithCancel: rt,
+        withTimeout: it,
+        crc32: ft,
+        TaskContext: {
+            container: {},
+            set: function(e, t) {
+                this.container[e] = t
+            },
+            clear: function() {
+                this.container = {}
+            }
+        },
+        getFileExtension: ot,
+        generate: at,
+        generateHex: st,
+        hexModulo: ct
+    };
+    function gt(e) {
+        try {
+            if (!e)
+                throw new Error("Event object is required");
+            if (e.touches || e.changedTouches) {
+                var t = e.touches && e.touches.length >= 1 ? e.touches : e.changedTouches;
+                if (t && t[0])
+                    return t[0].x = t[0].clientX,
+                    t[0].y = t[0].clientY,
+                    t[0]
+            }
+            var n = "number" == typeof e.pageX && "number" == typeof e.pageY
+              , r = "number" == typeof e.clientX && "number" == typeof e.clientY;
+            return n ? {
+                x: e.pageX,
+                y: e.pageY
+            } : r ? {
+                x: e.clientX,
+                y: e.clientY
+            } : null
+        } catch (hr) {
+            return Pe("DomEvent Coords Error", "error", "core", {
+                error: hr,
+                event: e
+            }),
+            null
+        }
+    }
+    function yt(e, t) {
+        var n = e;
+        "down" === e || "up" === e || "move" === e || "over" === e || "out" === e ? n = !(ee.System.mobile && "desktop" !== t || "mobile" === t) || "down" !== e && "up" !== e && "move" !== e ? "mouse" + e : "down" === e ? "touchstart" : "up" === e ? "touchend" : "touchmove" : "enter" === e && (n = "keydown");
+        return n
+    }
+    function vt(e, t, n, r) {
+        var i = yt(t)
+          , o = t
+          , a = 0
+          , s = 0
+          , c = t.indexOf("swipe") >= 0
+          , l = 0;
+        function u(e) {
+            var t = gt(e);
+            t && (a = t.pageX,
+            s = t.pageY,
+            l = Date.now())
+        }
+        function h(t) {
+            var r = gt(t);
+            if (r) {
+                var o, c, u = r.pageX - a, h = r.pageY - s, p = Date.now() - l;
+                if (!(p > 300) && (u <= -25 ? o = "swipeleft" : u >= 25 && (o = "swiperight"),
+                h <= -25 ? c = "swipeup" : h >= 25 && (c = "swipedown"),
+                i === o || i === c)) {
+                    var d = o === i ? o : c;
+                    t.action = d,
+                    t.targetElement = e,
+                    t.swipeSpeed = Math.sqrt(u * u + h * h) / p,
+                    t.deltaX = u,
+                    t.deltaY = h,
+                    n(t)
+                }
+            }
+        }
+        function p(r) {
+            try {
+                var i = function(e) {
+                    var t = e ? e.type : "";
+                    return "touchstart" === t || "mousedown" === t ? t = "down" : "touchmove" === t || "mousemove" === t ? t = "move" : "touchend" === t || "mouseup" === t ? t = "up" : "mouseover" === t ? t = "over" : "mouseout" === t && (t = "out"),
+                    t
+                }(r);
+                if ((r = r || window.event) && "object" == typeof r || ze("DomEvent Missing.", "core", "info", r = {}),
+                "down" === i || "move" === i || "up" === i || "over" === i || "out" === i || "click" === i) {
+                    var o = gt(r);
+                    if (!o)
+                        return;
+                    var a = e.getBoundingClientRect();
+                    r.windowX = o.x,
+                    r.windowY = o.y,
+                    r.elementX = r.windowX - (a.x || a.left),
+                    r.elementY = r.windowY - (a.y || a.top)
+                }
+                if (r.keyNum = r.which || r.keyCode || 0,
+                "enter" === t && 13 !== r.keyNum && 32 !== r.keyNum)
+                    return;
+                r.action = i,
+                r.targetElement = e,
+                n(r)
+            } catch (hr) {
+                Pe("DomEvent Error", "error", "core", {
+                    error: hr,
+                    event: r
+                })
+            }
+        }
+        return r || (r = {}),
+        c ? function() {
+            if (!("addEventListener"in e))
+                return;
+            e.addEventListener("mousedown", u, r),
+            e.addEventListener("mouseup", h, r),
+            e.addEventListener("touchstart", u, r),
+            e.addEventListener("touchend", h, r)
+        }() : function() {
+            if (!("addEventListener"in e))
+                return void e.attachEvent("on" + i, p);
+            e.addEventListener(i, p, r)
+        }(),
+        {
+            event: i,
+            rawEvent: o,
+            callback: n,
+            remove: function() {
+                c ? (e.removeEventListener("mousedown", u, r),
+                e.removeEventListener("mouseup", h, r),
+                e.removeEventListener("touchstart", u, r),
+                e.removeEventListener("touchend", h, r)) : "removeEventListener"in e ? e.removeEventListener(i, p, r) : e.detachEvent("on" + i, p)
+            }
+        }
+    }
+    var wt = ["Webkit", "Moz", "ms"]
+      , bt = document.createElement("div").style
+      , Vt = {};
+    function _t(e) {
+        var t = Vt[e];
+        return t || (e in bt ? e : Vt[e] = function(e) {
+            for (var t = e[0].toUpperCase() + e.slice(1), n = wt.length; n--; )
+                if ((e = wt[n] + t)in bt)
+                    return e
+        }(e) || e)
+    }
+    function kt(e, t, n) {
+        if (this.dom = null,
+        this._clss = [],
+        this._nodes = [],
+        this._listeners = [],
+        this._frag = null,
+        e && "object" == typeof e) {
+            this.dom = e;
+            var r = []
+              , i = [];
+            "string" == typeof e.className && (i = e.className.split(" "));
+            for (var o = 0; o < i.length; o++)
+                "" !== i[o] && " " !== i[o] && r.push(i[o]);
+            this._clss = r
+        } else
+            n !== undefined && null !== n || (n = !0),
+            (!e || "string" == typeof e && (e.indexOf("#") >= 0 || e.indexOf(".") >= 0)) && (e && (t = e),
+            e = "div"),
+            this.dom = document.createElement(e),
+            t && (t.indexOf("#") >= 0 ? this.dom.id = t.split("#")[1] : (t.indexOf(".") >= 0 && (t = t.split(".")[1]),
+            this.addClass.call(this, t)));
+        !0 === n && (this._frag = document.createDocumentFragment(),
+        this._frag.appendChild(this.dom))
+    }
+    kt.prototype.cloneNode = function(e) {
+        try {
+            return this.dom.cloneNode(e)
+        } catch (pr) {
+            return je("element", pr),
+            null
+        }
+    }
+    ,
+    kt.prototype.createElement = function(e, t) {
+        try {
+            var n = new kt(e,t,!1);
+            return this.appendElement.call(this, n),
+            this._nodes.push(n),
+            n
+        } catch (pr) {
+            return je("element", pr),
+            null
+        }
+    }
+    ,
+    kt.prototype.appendElement = function(e) {
+        if (e === undefined)
+            return Ne({
+                name: "DomElement Add Child",
+                message: "Child Element is undefined"
+            });
+        var t;
+        t = e._frag !== undefined && null !== e._frag ? e._frag : e.dom !== undefined ? e.dom : e;
+        try {
+            e instanceof kt && (e._parent = this),
+            this.dom.appendChild(t)
+        } catch (pr) {
+            Ne({
+                name: "DomElement Add Child",
+                message: "Failed to append child."
+            })
+        }
+        return this
+    }
+    ,
+    kt.prototype.removeElement = function(e) {
+        try {
+            var t;
+            if (e._nodes)
+                for (t = e._nodes.length; t--; )
+                    e.removeElement(e._nodes[t]);
+            for (t = this._nodes.length; --t > -1; )
+                this._nodes[t] === e && this._nodes.splice(t, 1);
+            var n = e instanceof kt ? e.dom : e
+              , r = n.parentNode === this.dom ? this.dom : n.parentNode;
+            if (r.removeChild && r.removeChild(n),
+            !r)
+                throw new Error("Child component does not have correct setup");
+            e.__destroy && e.__destroy()
+        } catch (pr) {
+            Ne({
+                name: "DomElement Remove Child",
+                message: pr.message || "Failed to remove child."
+            })
+        }
+    }
+    ,
+    kt.prototype.addClass = function(e) {
+        return !1 === this.hasClass.call(this, e) && (this._clss.push(e),
+        this.dom.className = this._clss.join(" ")),
+        this
+    }
+    ,
+    kt.prototype.hasClass = function(e) {
+        for (var t = -1 !== this.dom.className.split(" ").indexOf(e), n = this._clss.length; n-- && !t; )
+            t = this._clss[n] === e;
+        return t
+    }
+    ,
+    kt.prototype.removeClass = function(e) {
+        for (var t = this._clss.length; --t > -1; )
+            this._clss[t] === e && this._clss.splice(t, 1);
+        return this.dom.className = this._clss.join(" "),
+        this
+    }
+    ,
+    kt.prototype.text = function(e) {
+        if (this && this.dom) {
+            if (!e)
+                return this.dom.textContent;
+            for (var t, n, r, i, o = /&(.*?);/g, a = /<[a-z][\s\S]*>/i; null !== (t = o.exec(e)); ) {
+                !1 === a.test(t[0]) ? (r = t[0],
+                i = void 0,
+                (i = document.createElement("div")).innerHTML = r,
+                n = i.textContent,
+                e = e.replace(new RegExp(t[0],"g"), n)) : e = e.replace(t[0], "")
+            }
+            return this.dom.textContent = e,
+            this
+        }
+    }
+    ,
+    kt.prototype.content = kt.prototype.text,
+    kt.prototype.css = function(e) {
+        var t, n = "ie" === ee.Browser.type && 8 === ee.Browser.version, r = "safari" === ee.Browser.type && 12 === Math.floor(ee.Browser.version);
+        for (var i in e) {
+            t = e[i];
+            try {
+                if ("transition" === i && r)
+                    continue;
+                "opacity" !== i && "zIndex" !== i && "fontWeight" !== i && isFinite(t) && parseFloat(t) === t && (t += "px");
+                var o = _t(i);
+                n && "opacity" === i ? this.dom.style.filter = "alpha(opacity=" + 100 * t + ")" : n && Ie.hasAlpha(t) ? this.dom.style[o] = new Ie(t).getHex() : this.dom.style[o] = t
+            } catch (hr) {}
+        }
+        return this
+    }
+    ,
+    kt.prototype.backgroundImage = function(e, t, n, r) {
+        var i = t !== undefined && n !== undefined
+          , o = {
+            "-ms-high-contrast-adjust": "none"
+        };
+        if ("object" == typeof t && (r = t),
+        r === undefined && (r = {}),
+        i) {
+            var a = e.width / e.height
+              , s = t
+              , c = s / a;
+            r.cover && c < n && (s = (c = n) * a),
+            r.contain && c > n && (s = (c = n) * a),
+            o.width = s,
+            o.height = c,
+            r.center && (o.marginLeft = -s / 2,
+            o.marginTop = -c / 2,
+            o.position = "absolute",
+            o.left = "50%",
+            o.top = "50%"),
+            (r.left || r.right) && (o.left = r.left || 0,
+            o.top = r.top || 0)
+        }
+        "ie" === ee.Browser.type && 8 === ee.Browser.version ? o.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + e.src + "',sizingMethod='scale')" : (o.background = "url(" + e.src + ")",
+        o.backgroundPosition = "50% 50%",
+        o.backgroundRepeat = "no-repeat",
+        o.backgroundSize = i ? s + "px " + c + "px" : r.cover ? "cover" : r.contain ? "contain" : "100%"),
+        this.css.call(this, o)
+    }
+    ,
+    kt.prototype.setAttribute = function(e, t) {
+        var n;
+        if ("object" == typeof e)
+            for (var r in e)
+                n = e[r],
+                this.dom.setAttribute(r, n);
+        else
+            this.dom.setAttribute(e, t)
+    }
+    ,
+    kt.prototype.removeAttribute = function(e, t) {
+        var n;
+        if ("object" == typeof e)
+            for (var r in e)
+                n = e[r],
+                this.dom.removeAttribute(r, n);
+        else
+            this.dom.removeAttribute(e, t)
+    }
+    ,
+    kt.prototype.addEventListener = function(e, t, n) {
+        var r = new vt(this.dom,e,t,n);
+        if (this._listeners.push(r),
+        e !== r.event && (r.event.indexOf("mouse") >= 0 || r.event.indexOf("touch") >= 0)) {
+            var i = yt(e, r.event.indexOf("touch") >= 0 ? "desktop" : "mobile");
+            if (i === r.event)
+                return;
+            this.addEventListener.call(this, i, t, n)
+        }
+    }
+    ,
+    kt.prototype.removeEventListener = function(e, t, n) {
+        for (var r, i = this._listeners.length, o = yt(e); --i > -1; )
+            (r = this._listeners[i]).event === o && r.callback === t && (this._listeners.splice(i, 1),
+            r.remove())
+    }
+    ,
+    kt.prototype.focus = function() {
+        this.dom.focus()
+    }
+    ,
+    kt.prototype.blur = function() {
+        this.dom.blur()
+    }
+    ,
+    kt.prototype.html = function(e) {
+        return e && (this.dom.innerHTML = e),
+        this.dom.innerHTML
+    }
+    ,
+    kt.prototype.__destroy = function() {
+        for (var e, t = this._listeners.length; --t > -1; )
+            e = this._listeners[t],
+            this._listeners.splice(t, 1),
+            this.dom.removeEventListener ? this.dom.removeEventListener(e.event, e.handler) : this.dom.detachEvent("on" + e.event, e.handler);
+        return this.dom = null,
+        this._clss = [],
+        this._nodes = [],
+        this._listeners = [],
+        this._frag = null,
+        e = null,
+        null
+    }
+    ,
+    kt.prototype.isConnected = function() {
+        return !!this.dom && ("isConnected"in this.dom ? this.dom.isConnected : !(this.dom.ownerDocument && this.dom.ownerDocument.compareDocumentPosition(this.dom) & this.dom.DOCUMENT_POSITION_DISCONNECTED))
+    }
+    ;
+    var Et = {
+        eventName: function(e, t) {
+            var n = e;
+            "down" === e || "up" === e || "move" === e || "over" === e || "out" === e ? n = !(ee.System.mobile && "desktop" !== t || "mobile" === t) || "down" !== e && "up" !== e && "move" !== e ? "mouse" + e : "down" === e ? "touchstart" : "up" === e ? "touchend" : "touchmove" : "enter" === e && (n = "keydown");
+            return n
+        },
+        actionName: function(e) {
+            var t = e;
+            return "touchstart" === t || "mousedown" === t ? t = "down" : "touchmove" === t || "mousemove" === t ? t = "move" : "touchend" === t || "mouseup" === t ? t = "up" : "mouseover" === t ? t = "over" : "mouseout" === t && (t = "out"),
+            t
+        },
+        eventCallback: function(e, t, n) {
+            var r = Et.actionName(e);
+            return function(i) {
+                try {
+                    if (i = i || window.event,
+                    "down" === r || "move" === r || "up" === r || "over" === r || "out" === r || "click" === r) {
+                        var o = Et.eventCoords(i);
+                        if (!o)
+                            return;
+                        var a = n.getBoundingClientRect();
+                        i.windowX = o.x,
+                        i.windowY = o.y,
+                        i.elementX = i.windowX - (a.x || a.left),
+                        i.elementY = i.windowY - (a.y || a.top)
+                    }
+                    if (i.keyNum = i.which || i.keyCode || 0,
+                    "enter" === e && 13 !== i.keyNum && 32 !== i.keyNum)
+                        return;
+                    i.action = r,
+                    i.targetElement = n,
+                    t(i)
+                } catch (hr) {
+                    Pe("Normalize Error", "error", "core", {
+                        error: hr
+                    })
+                }
+            }
+        },
+        eventCoords: function(e) {
+            try {
+                if (!e)
+                    throw new Error("Event object is required");
+                var t = e;
+                if (e.touches || e.changedTouches) {
+                    var n = e.touches && e.touches.length >= 1 ? e.touches : e.changedTouches;
+                    n && n[0] && (t = n[0])
+                }
+                return "number" == typeof t.pageX && "number" == typeof t.pageY ? {
+                    x: t.pageX,
+                    y: t.pageY
+                } : "number" == typeof t.clientX && "number" == typeof t.clientY ? {
+                    x: t.clientX,
+                    y: t.clientY
+                } : null
+            } catch (hr) {
+                return Pe("Normalize Coords Error", "error", "core", {
+                    error: hr,
+                    event: e
+                }),
+                null
+            }
+        }
+    };
+    function Rt(e) {
+        if (null === e)
+            return "";
+        var t = [];
+        return Tt(e, t),
+        t.join("&")
+    }
+    function Tt(e, t) {
+        var n, r;
+        if ("object" == typeof e)
+            for (r in e)
+                !0 === xt(n = e[r]) ? Tt(n, t) : t[t.length] = St(r, n);
+        else if (!0 === Array.isArray(e))
+            for (var i = 0; i < e.length; i++)
+                !0 === xt(n = e[i]) ? Tt(e, t) : t[t.length] = St(r, n);
+        else
+            t[t.length] = St(e)
+    }
+    function xt(e) {
+        return !0 === Array.isArray(e) || "object" == typeof e
+    }
+    function St(e, t) {
+        return encodeURIComponent(e) + "=" + encodeURIComponent(null === t ? "" : t)
+    }
+    var Ut = {
+        af: "Afrikaans",
+        sq: "Albanian",
+        am: "Amharic",
+        ar: "Arabic",
+        hy: "Armenian",
+        az: "Azerbaijani",
+        eu: "Basque",
+        be: "Belarusian",
+        bn: "Bengali",
+        bg: "Bulgarian",
+        bs: "Bosnian",
+        my: "Burmese",
+        ca: "Catalan",
+        ceb: "Cebuano",
+        zh: "Chinese",
+        "zh-CN": "Chinese Simplified",
+        "zh-TW": "Chinese Traditional",
+        co: "Corsican",
+        hr: "Croatian",
+        cs: "Czech",
+        da: "Danish",
+        nl: "Dutch",
+        en: "English",
+        eo: "Esperanto",
+        et: "Estonian",
+        fi: "Finnish",
+        fr: "French",
+        fy: "Frisian",
+        gd: "Gaelic",
+        gl: "Galacian",
+        ka: "Georgian",
+        de: "German",
+        el: "Greek",
+        gu: "Gujurati",
+        ht: "Haitian",
+        ha: "Hausa",
+        haw: "Hawaiian",
+        he: "Hebrew",
+        hi: "Hindi",
+        hmn: "Hmong",
+        hu: "Hungarian",
+        is: "Icelandic",
+        ig: "Igbo",
+        id: "Indonesian",
+        ga: "Irish",
+        it: "Italian",
+        ja: "Japanese",
+        jw: "Javanese",
+        kn: "Kannada",
+        kk: "Kazakh",
+        km: "Khmer",
+        rw: "Kinyarwanda",
+        ky: "Kirghiz",
+        ko: "Korean",
+        ku: "Kurdish",
+        lo: "Lao",
+        la: "Latin",
+        lv: "Latvian",
+        lt: "Lithuanian",
+        lb: "Luxembourgish",
+        mk: "Macedonian",
+        mg: "Malagasy",
+        ms: "Malay",
+        ml: "Malayalam",
+        mt: "Maltese",
+        mi: "Maori",
+        mr: "Marathi",
+        mn: "Mongolian",
+        ne: "Nepali",
+        no: "Norwegian",
+        ny: "Nyanja",
+        or: "Oriya",
+        fa: "Persian",
+        pl: "Polish",
+        "pt-BR": "Portuguese (Brazil)",
+        pt: "Portuguese (Portugal)",
+        ps: "Pashto",
+        pa: "Punjabi",
+        ro: "Romanian",
+        ru: "Russian",
+        sm: "Samoan",
+        sn: "Shona",
+        sd: "Sindhi",
+        si: "Sinhalese",
+        sr: "Serbian",
+        sk: "Slovak",
+        sl: "Slovenian",
+        so: "Somali",
+        st: "Southern Sotho",
+        es: "Spanish",
+        su: "Sundanese",
+        sw: "Swahili",
+        sv: "Swedish",
+        tl: "Tagalog",
+        tg: "Tajik",
+        ta: "Tamil",
+        tt: "Tatar",
+        te: "Teluga",
+        th: "Thai",
+        tr: "Turkish",
+        tk: "Turkmen",
+        ug: "Uyghur",
+        uk: "Ukrainian",
+        ur: "Urdu",
+        uz: "Uzbek",
+        vi: "Vietnamese",
+        cy: "Welsh",
+        xh: "Xhosa",
+        yi: "Yiddish",
+        yo: "Yoruba",
+        zu: "Zulu"
+    }
+      , Wt = {
+        zh: {
+            "I am human": "我是真实访客"
+        },
+        ar: {
+            "I am human": "أنا الإنسان"
+        },
+        af: {
+            "I am human": "Ek is menslike"
+        },
+        am: {
+            "I am human": "እኔ ሰው ነኝ"
+        },
+        hy: {
+            "I am human": "Ես մարդ եմ"
+        },
+        az: {
+            "I am human": "Mən insanam"
+        },
+        eu: {
+            "I am human": "Gizakia naiz"
+        },
+        bn: {
+            "I am human": "আমি মানব নই"
+        },
+        bg: {
+            "I am human": "Аз съм човек"
+        },
+        ca: {
+            "I am human": "Sóc humà"
+        },
+        hr: {
+            "I am human": "Ja sam čovjek"
+        },
+        cs: {
+            "I am human": "Jsem člověk"
+        },
+        da: {
+            "I am human": "Jeg er et menneske"
+        },
+        nl: {
+            "I am human": "Ik ben een mens"
+        },
+        et: {
+            "I am human": "Ma olen inimeste"
+        },
+        fi: {
+            "I am human": "Olen ihminen"
+        },
+        fr: {
+            "I am human": "Je suis humain"
+        },
+        gl: {
+            "I am human": "Eu son humano"
+        },
+        ka: {
+            "I am human": "მე ვარ ადამიანი"
+        },
+        de: {
+            "I am human": "Ich bin ein Mensch"
+        },
+        el: {
+            "I am human": "Είμαι άνθρωπος"
+        },
+        gu: {
+            "I am human": "હું માનવ છું"
+        },
+        iw: {
+            "I am human": ". אני אנושי"
+        },
+        hi: {
+            "I am human": "मैं मानव हूं"
+        },
+        hu: {
+            "I am human": "Nem vagyok robot"
+        },
+        is: {
+            "I am human": "Ég er manneskja"
+        },
+        id: {
+            "I am human": "Aku manusia"
+        },
+        it: {
+            "I am human": "Sono un essere umano"
+        },
+        ja: {
+            "I am human": "私は人間です"
+        },
+        kn: {
+            "I am human": "ನಾನು ಮಾನವನು"
+        },
+        ko: {
+            "I am human": "사람입니다"
+        },
+        lo: {
+            "I am human": "ຂ້ອຍເປັນມະນຸດ"
+        },
+        lv: {
+            "I am human": "Es esmu cilvēks"
+        },
+        lt: {
+            "I am human": "Aš esu žmogaus"
+        },
+        ms: {
+            "I am human": "Saya manusia"
+        },
+        ml: {
+            "I am human": "ഞാൻ മനുഷ്യനാണ്"
+        },
+        mr: {
+            "I am human": "मी मानवी आहे"
+        },
+        mn: {
+            "I am human": "Би бол хүн"
+        },
+        no: {
+            "I am human": "Jeg er et menneske"
+        },
+        fa: {
+            "I am human": "من انسانی هستم"
+        },
+        pl: {
+            "I am human": "Jestem człowiekiem"
+        },
+        pt: {
+            "I am human": "Sou humano"
+        },
+        ro: {
+            "I am human": "Eu sunt om"
+        },
+        ru: {
+            "I am human": "Я человек"
+        },
+        sr: {
+            "I am human": "Ja sam ljudski"
+        },
+        si: {
+            "I am human": "මම මිනිස්සු"
+        },
+        sk: {
+            "I am human": "Ja som človek"
+        },
+        sl: {
+            "I am human": "Jaz sem človeški"
+        },
+        es: {
+            "I am human": "Soy humano"
+        },
+        sw: {
+            "I am human": "Mimi ni binadamu"
+        },
+        sv: {
+            "I am human": "Jag är människa"
+        },
+        ta: {
+            "I am human": "நான் மனித"
+        },
+        te: {
+            "I am human": "నేను మనిషిని"
+        },
+        th: {
+            "I am human": "ผมมนุษย์"
+        },
+        tr: {
+            "I am human": "Ben bir insanım"
+        },
+        uk: {
+            "I am human": "Я людини"
+        },
+        ur: {
+            "I am human": "میں انسان ہوں"
+        },
+        vi: {
+            "I am human": "Tôi là con người"
+        },
+        zu: {
+            "I am human": "Ngingumuntu"
+        }
+    }
+      , Mt = null
+      , At = "ltr"
+      , Nt = {
+        translate: function(e, t) {
+            var n = Nt.getBestTrans(Wt)
+              , r = n && n[e];
+            if (r = r || e,
+            t)
+                for (var i = Object.keys(t), o = i.length; o--; )
+                    r = r.replace(new RegExp("{{" + i[o] + "}}","g"), t[i[o]]);
+            return r
+        },
+        getBestTrans: function(e) {
+            var t = Nt.getLocale();
+            return t in e ? e[t] : Nt.getShortLocale(t)in e ? e[Nt.getShortLocale(t)] : "en"in e ? e.en : null
+        },
+        resolveLocale: function(e) {
+            var t = Nt.getShortLocale(e);
+            return "in" === t && (e = "id"),
+            "iw" === t && (e = "he"),
+            "nb" === t && (e = "no"),
+            "ji" === t && (e = "yi"),
+            "zh-CN" === e && (e = "zh"),
+            "jv" === t && (e = "jw"),
+            "me" === t && (e = "bs"),
+            Ut[e] ? e : Ut[t] ? t : "en"
+        },
+        getLocale: function() {
+            return Nt.resolveLocale(Mt || window.navigator.userLanguage || window.navigator.language)
+        },
+        setLocale: function(e) {
+            "zh-Hans" === e ? e = "zh-CN" : "zh-Hant" === e && (e = "zh-TW"),
+            Mt = e
+        },
+        getShortLocale: function(e) {
+            return e.indexOf("-") >= 0 ? e.substring(0, e.indexOf("-")) : e
+        },
+        getLangName: function(e) {
+            return Ut[e]
+        },
+        isShortLocale: function(e) {
+            return 2 === e.length || 3 === e.length
+        },
+        addTable: function(e, t) {
+            if (t || (t = Object.create(null)),
+            Wt[e]) {
+                var n = Wt[e];
+                for (var r in t)
+                    n[r] = t[r]
+            } else
+                Wt[e] = t;
+            return Wt[e]
+        },
+        getTable: function(e) {
+            return Wt[e]
+        },
+        addTables: function(e) {
+            for (var t in e)
+                Nt.addTable(t, e[t]);
+            return Wt
+        },
+        getTables: function() {
+            return Wt
+        },
+        getDirection: function() {
+            return At || "ltr"
+        },
+        isRTL: function() {
+            return "rtl" === At
+        },
+        setDirection: function(e, t) {
+            var n = t.split("-")[0];
+            At = -1 !== ["ar", "he", "fa", "ur", "ps", "dv", "yi"].indexOf(n) ? "rtl" : "ltr",
+            e.setAttribute("dir", At || "ltr"),
+            "ltr" === At ? e.css({
+                direction: "ltr",
+                textAlign: "left"
+            }) : e.css({
+                direction: "rtl",
+                textAlign: "right"
+            })
+        }
+    }
+      , Ht = {
+        400: "Rate limited or network error. Please retry.",
+        429: "Your computer or network has sent too many requests.",
+        500: "Cannot contact hCaptcha. Check your connection and try again."
+    }
+      , Ot = function(e) {
+        try {
+            return Nt.translate(Ht[e])
+        } catch (pr) {
+            return !1
+        }
+    }
+      , Ct = "undefined" != typeof XDomainRequest && !("withCredentials"in XMLHttpRequest.prototype);
+    function Ft(e, t, n) {
+        n = n || {};
+        var r = {
+            url: t,
+            method: e.toUpperCase(),
+            responseType: n.responseType || "string",
+            dataType: n.dataType || null,
+            withCredentials: n.withCredentials || !1,
+            headers: n.headers || null,
+            data: n.data || null,
+            timeout: n.timeout || null,
+            pst: n.pst || null
+        };
+        r.legacy = r.withCredentials && Ct;
+        var i = "fetch"in window && r.pst ? jt : Pt;
+        return n.retry ? (n.retry.cancellable || !1 ? rt : nt)((function() {
+            return n.data && (r.data = "function" == typeof n.data ? n.data() : n.data,
+            "json" === r.dataType && "object" == typeof r.data ? r.data = JSON.stringify(r.data) : "query" === r.dataType && (r.data = Rt(r.data))),
+            i(r)
+        }
+        ), n.retry) : (n.data && (r.data = "function" == typeof n.data ? n.data() : n.data,
+        "json" === r.dataType && "object" == typeof r.data ? r.data = JSON.stringify(r.data) : "query" === r.dataType && (r.data = Rt(r.data))),
+        i(r))
+    }
+    function Pt(e) {
+        var t = e.legacy ? new XDomainRequest : new XMLHttpRequest
+          , n = "function" == typeof e.url ? e.url() : e.url;
+        return new Promise((function(r, i) {
+            var o, a = function(o) {
+                return function() {
+                    var a = t.response
+                      , s = t.statusText || ""
+                      , c = t.status
+                      , l = t.readyState;
+                    if (a || "" !== t.responseType && "text" !== t.responseType || (a = t.responseText),
+                    4 === l || e.legacy) {
+                        try {
+                            if (a) {
+                                var u = t.contentType;
+                                t.getResponseHeader && (u = t.getResponseHeader("content-type"));
+                                var h = -1 !== (u = u ? u.toLowerCase() : "").indexOf("application/json");
+                                if ("ArrayBuffer"in window && a instanceof ArrayBuffer && h && (a = (new TextDecoder).decode(new Uint8Array(a))),
+                                "string" == typeof a)
+                                    try {
+                                        a = JSON.parse(a)
+                                    } catch (p) {
+                                        h && je("http", p, {
+                                            url: n,
+                                            config: e,
+                                            responseType: t.responseType,
+                                            contentType: u,
+                                            response: a
+                                        })
+                                    }
+                            }
+                        } catch (p) {
+                            return je("http", p, {
+                                contentType: u
+                            }),
+                            void i({
+                                event: ce,
+                                endpoint: n,
+                                response: a,
+                                state: l,
+                                status: c,
+                                message: Ot(c || 400) || s
+                            })
+                        }
+                        if ("error" === o || c >= 400 && c <= 511)
+                            return void i({
+                                event: ce,
+                                endpoint: n,
+                                response: a,
+                                state: l,
+                                status: c,
+                                message: 409 === c && a.error || Ot(c || 400) || s
+                            });
+                        r({
+                            state: l,
+                            status: c,
+                            body: a,
+                            message: s
+                        })
+                    }
+                }
+            };
+            if ((t.onload = a("complete"),
+            t.onerror = t.ontimeout = a("error"),
+            t.open(e.method, n),
+            "arraybuffer" === e.responseType && (!e.legacy && "TextDecoder"in window && "ArrayBuffer"in window ? t.responseType = "arraybuffer" : (e.responseType = "json",
+            e.headers.accept = "application/json")),
+            e.timeout && (t.timeout = "function" == typeof e.timeout ? e.timeout(n) : e.timeout),
+            !e.legacy) && (t.withCredentials = e.withCredentials,
+            e.headers))
+                for (var s in e.headers)
+                    o = e.headers[s],
+                    t.setRequestHeader(s, o);
+            setTimeout((function() {
+                t.send(e.data)
+            }
+            ), 0)
+        }
+        ))
+    }
+    function jt(e) {
+        var t, n = "function" == typeof e.url ? e.url() : e.url, r = new Headers;
+        if ("json" === e.responseType && r.set("content-type", "application/json"),
+        e.headers)
+            for (var i in e.headers)
+                t = e.headers[i],
+                r.set(i, t);
+        var o = {
+            method: e.method,
+            credentials: "include",
+            body: e.data,
+            headers: r
+        };
+        if (e.pst) {
+            var a = {};
+            "token-request" === e.pst ? a = {
+                version: 1,
+                operation: "token-request"
+            } : "token-redemption" === e.pst ? a = {
+                version: 1,
+                operation: "token-redemption",
+                refreshPolicy: "refresh"
+            } : "send-redemption-record" === e.pst && (a = {
+                version: 1,
+                operation: "send-redemption-record",
+                issuers: [ve.pstIssuer]
+            }),
+            o.privateToken = a
+        }
+        return new Promise((function(t, r) {
+            fetch(n, o).then((function(i) {
+                return 200 !== i.status ? r({
+                    event: ce,
+                    endpoint: n,
+                    response: i,
+                    state: 4,
+                    status: i.status,
+                    message: Ot(i.status || 400)
+                }) : ("arraybuffer" === e.responseType ? i.arrayBuffer() : "json" === e.responseType ? i.json() : i.text()).then((function(e) {
+                    t({
+                        state: 4,
+                        status: i.status,
+                        body: e,
+                        message: Ot(i.status || 400)
+                    })
+                }
+                ))
+            }
+            ))["catch"]((function(e) {
+                r({
+                    event: ce,
+                    endpoint: n,
+                    response: e.error,
+                    state: 4,
+                    status: 400,
+                    message: Ot(400)
+                })
+            }
+            ))
+        }
+        ))
+    }
+    var zt = function(e, t) {
+        if ("object" == typeof e && t === undefined && (e = (t = e).url),
+        null === e)
+            throw new Error("Url missing");
+        return Ft("GET", e, t)
+    }
+      , Zt = ["svg", "gif", "png"];
+    function Lt(e, t) {
+        t = t || {};
+        var n, r = e;
+        if (0 === r.indexOf("data:image"))
+            for (var i = !1, o = Zt.length, a = -1; a++ < o && !i; )
+                (i = r.indexOf(Zt[a]) >= 0) && (n = Zt[a]);
+        else
+            n = r.substr(r.lastIndexOf(".") + 1, r.length);
+        !!(!document.createElementNS || !document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect) && t.fallback && (t.fallback.indexOf(".") >= 0 ? n = (r = t.fallback).substr(r.lastIndexOf(".") + 1, r.length) : (r = e.substr(0, e.indexOf(n)) + t.fallback,
+        n = t.fallback)),
+        t.prefix && (r = t.prefix + "/" + r),
+        this.attribs = {
+            crossOrigin: t.crossOrigin || null
+        },
+        this.id = r,
+        this.src = function(e) {
+            if (ve.assethost && 0 === e.indexOf(ye.assetDomain))
+                return ve.assethost + e.replace(ye.assetDomain, "");
+            if (ve.imghost && e.indexOf("imgs") >= 0) {
+                var t = e.indexOf(".ai") >= 0 ? e.indexOf(".ai") + 3 : e.indexOf(".com") + 4;
+                return ve.imghost + e.substr(t, e.length)
+            }
+            return e
+        }(r),
+        this.ext = n,
+        this.width = 0,
+        this.height = 0,
+        this.aspect = 0,
+        this.loaded = !1,
+        this.error = !1,
+        this.element = null,
+        this.cb = {
+            load: [],
+            error: []
+        }
+    }
+    function Bt(e, t, n) {
+        for (var r = e[t], i = r.length, o = null; --i > -1; )
+            o = r[i],
+            r.splice(i, 1),
+            o(n);
+        "error" === t ? e.load = [] : e.error = []
+    }
+    function Dt(e, t) {
+        var n = e;
+        t || (t = {}),
+        t.prefix && (n = t.prefix + "/" + e),
+        this.attribs = {
+            defer: t.defer || null,
+            async: t.async || null,
+            crossOrigin: t.crossOrigin || null,
+            integrity: t.integrity || null
+        },
+        this.id = n,
+        this.src = function(e) {
+            if (ve.assethost && 0 === e.indexOf(ye.assetDomain))
+                return ve.assethost + e.replace(ye.assetDomain, "");
+            return e
+        }(n),
+        this.loaded = !1,
+        this.error = !1,
+        this.element = null,
+        this.cb = {
+            load: [],
+            error: []
+        }
+    }
+    function It(e, t, n) {
+        for (var r = e[t], i = r.length, o = null; --i > -1; )
+            o = r[i],
+            r.splice(i, 1),
+            o(n);
+        "error" === t ? e.load = [] : e.error = []
+    }
+    function Qt(e, t) {
+        var n = e;
+        t || (t = {}),
+        t.prefix && (n = t.prefix + "/" + e),
+        this.responseType = t.responseType,
+        this.id = n,
+        this.src = function(e) {
+            if (ve.assethost && 0 === e.indexOf(ye.assetDomain))
+                return ve.assethost + e.replace(ye.assetDomain, "");
+            return e
+        }(n),
+        this.loaded = !1,
+        this.error = !1,
+        this.cb = {
+            load: [],
+            error: []
+        },
+        this.data = null
+    }
+    function Jt(e, t, n) {
+        for (var r = e[t], i = r.length, o = null; --i > -1; )
+            o = r[i],
+            r.splice(i, 1),
+            o(n);
+        "error" === t ? e.load = [] : e.error = []
+    }
+    function Xt(e, t) {
+        t = t || {},
+        this._videoElement = document.createElement("video"),
+        this.attribs = {
+            crossOrigin: t.crossOrigin || null
+        };
+        var n, r = e;
+        n = "probably" === this._videoElement.canPlayType('video/webm; codecs="vp9, opus"') || "probably" === this._videoElement.canPlayType('video/webm; codecs="vp8, vorbis"') ? "webm" : "mp4",
+        t.prefix && (r = t.prefix + "/" + r),
+        this.id = r,
+        this.src = function(e) {
+            if (ve.assethost && 0 === e.indexOf(ye.assetDomain))
+                return ve.assethost + e.replace(ye.assetDomain, "");
+            if (ve.imghost && e.indexOf("imgs") >= 0) {
+                var t = e.indexOf(".ai") >= 0 ? e.indexOf(".ai") + 3 : e.indexOf(".com") + 4;
+                return ve.imghost + e.substr(t, e.length)
+            }
+            return e
+        }(r),
+        this.ext = n,
+        this.width = 0,
+        this.height = 0,
+        this.aspect = 0,
+        this.loaded = !1,
+        this.error = !1,
+        this.element = null,
+        this.callbacks = {
+            load: [],
+            error: []
+        }
+    }
+    function Gt(e, t, n) {
+        for (var r = e[t], i = r.length, o = null; --i > -1; )
+            o = r[i],
+            r.splice(i, 1),
+            o(n);
+        "error" === t ? e.load = [] : e.error = []
+    }
+    Lt.prototype.load = function() {
+        return ("svg" === this.ext ? this._loadSvg() : this._loadImg())["catch"]((function(e) {
+            throw Pe("Asset failed", "error", "assets", {
+                error: e
+            }),
+            e
+        }
+        ))
+    }
+    ,
+    Lt.prototype._loadSvg = function() {
+        var e, t = this, n = this.src, r = this.id;
+        if (0 === n.indexOf("data:image/svg+xml")) {
+            var i = n.slice("data:image/svg+xml,".length);
+            e = Promise.resolve(decodeURIComponent(i))
+        } else
+            e = zt(n).then((function(e) {
+                return e.body
+            }
+            ));
+        return e.then((function(e) {
+            var n = (new DOMParser).parseFromString(e, "image/svg+xml").documentElement
+              , r = parseInt(n.getAttribute("width"))
+              , i = parseInt(n.getAttribute("height"));
+            return t._imgLoaded(n, r, i),
+            t
+        }
+        ))["catch"]((function(e) {
+            t.error = !0;
+            var n = (e && e.message ? e.message : e || "Loading Error") + ": " + r;
+            throw Bt(t.cb, "error", n),
+            n
+        }
+        ))
+    }
+    ,
+    Lt.prototype._loadImg = function() {
+        var e = this
+          , t = this.attribs
+          , n = this.src
+          , r = this.id;
+        return new Promise((function(i, o) {
+            function a() {
+                e.loaded || (e._imgLoaded(s, s.width, s.height),
+                s.onload = s.onerror = null,
+                i(e))
+            }
+            var s = new Image;
+            t.crossOrigin && (s.crossOrigin = t.crossOrigin),
+            s.onerror = function() {
+                e.error = !0,
+                s.onload = s.onerror = null;
+                var t = "Loading Error: " + r;
+                Bt(e.cb, "error", t),
+                o(t)
+            }
+            ,
+            s.onload = a,
+            s.src = n,
+            s.complete && a()
+        }
+        ))
+    }
+    ,
+    Lt.prototype._imgLoaded = function(e, t, n) {
+        this.element = new kt(e),
+        this.width = t,
+        this.height = n,
+        this.aspect = t / n,
+        this.loaded = !0,
+        Bt(this.cb, "load", this)
+    }
+    ,
+    Lt.prototype.onload = function(e) {
+        this.error || (this.loaded ? e(this) : this.cb.load.push(e))
+    }
+    ,
+    Lt.prototype.onerror = function(e) {
+        this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e))
+    }
+    ,
+    Dt.prototype.load = function() {
+        var e = this
+          , t = this.attribs
+          , n = this.src
+          , r = this.id;
+        return new Promise((function(i, o) {
+            var a = document.createElement("script");
+            e.element = a,
+            a.onerror = function() {
+                e.error = !0,
+                a.onload = a.onreadystatechange = a.onerror = null;
+                var t = new Error("Loading Error: " + r);
+                It(e.cb, "error", t),
+                o(t)
+            }
+            ,
+            a.onload = a.onreadystatechange = function() {
+                this.loaded || a.readyState && "loaded" !== a.readyState && "complete" !== a.readyState || (e.loaded = !0,
+                a.onload = a.onreadystatechange = a.onerror = null,
+                document.body.removeChild(a),
+                It(e.cb, "load", e),
+                i(e))
+            }
+            ,
+            a.type = "text/javascript",
+            a.src = n,
+            t.crossOrigin && (a.crossorigin = t.crossOrigin),
+            t.async && (a.async = !0),
+            t.defer && (a.defer = !0),
+            t.integrity && (a.integrity = t.integrity),
+            document.body.appendChild(a),
+            a.complete && a.onload()
+        }
+        ))
+    }
+    ,
+    Dt.prototype.onload = function(e) {
+        this.error || (this.loaded ? e(this) : this.cb.load.push(e))
+    }
+    ,
+    Dt.prototype.onerror = function(e) {
+        this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e))
+    }
+    ,
+    Qt.prototype.load = function() {
+        var e = this
+          , t = this.src
+          , n = this.id;
+        return new Promise((function(r, i) {
+            var o = {};
+            "arraybuffer" === e.responseType ? o.responseType = "arraybuffer" : t.indexOf("json") >= 0 && (o.responseType = "json"),
+            zt(t, o).then((function(t) {
+                e.loaded = !0,
+                e.data = t.body,
+                Jt(e.cb, "load", e),
+                r(e)
+            }
+            ))["catch"]((function(t) {
+                e.error = !0;
+                var r = (t && t.message ? t.message : "Loading Error") + ": " + n;
+                Jt(e.cb, "error", r),
+                i(r)
+            }
+            ))
+        }
+        ))
+    }
+    ,
+    Qt.prototype.onload = function(e) {
+        this.error || (this.loaded ? e(this) : this.cb.load.push(e))
+    }
+    ,
+    Qt.prototype.onerror = function(e) {
+        this.loaded && !this.error || (this.error ? e(this) : this.cb.error.push(e))
+    }
+    ,
+    Xt.prototype.load = function() {
+        var e = this
+          , t = this.attribs
+          , n = this.src
+          , r = this.id;
+        return new Promise((function(i, o) {
+            var a = e._videoElement;
+            t.crossOrigin && (a.crossOrigin = t.crossOrigin),
+            a.playsInline = !0,
+            a.preload = "metadata",
+            "ios" === ee.System.os && a.setAttribute("webkit-playsinline", ""),
+            a.src = n + "." + e.ext,
+            a.onerror = function() {
+                e.error = !0,
+                a.onloadedmetadata = a.onerror = null;
+                var t = "Loading Error: " + r;
+                Gt(e.callbacks, "error", t),
+                o(t)
+            }
+            ,
+            a.onloadedmetadata = function() {
+                if (!e.loaded) {
+                    var t = a.videoWidth
+                      , n = a.videoHeight;
+                    e.element = new kt(a),
+                    e.width = t,
+                    e.height = n,
+                    e.aspect = t / n,
+                    e.loaded = !0,
+                    a.onloadedmetadata = a.onerror = null,
+                    Gt(e.callbacks, "load", e),
+                    i(e)
+                }
+            }
+            ,
+            a.load()
+        }
+        ))["catch"]((function(e) {
+            throw Pe("Asset failed", "error", "assets", {
+                error: e
+            }),
+            e
+        }
+        ))
+    }
+    ,
+    Xt.prototype.onload = function(e) {
+        this.error || (this.loaded ? e(this) : this.callbacks.load.push(e))
+    }
+    ,
+    Xt.prototype.onerror = function(e) {
+        this.loaded && !this.error || (this.error ? e(this) : this.callbacks.error.push(e))
+    }
+    ;
+    var Kt = []
+      , Yt = function(e, t) {
+        var n = new Qt(e,t);
+        return Kt.push(n),
+        n.load()
+    }
+      , $t = function(e) {
+        return new Promise((function(t, n) {
+            for (var r = Kt.length, i = !1, o = null; --r > -1 && !i; )
+                i = (o = Kt[r]).id === e || -1 !== o.id.indexOf("/" === e[0] ? "" : "/" + e);
+            if (!i)
+                return t(null);
+            o.onload(t),
+            o.onerror(n)
+        }
+        ))
+    }
+      , qt = []
+      , en = !1
+      , tn = !1;
+    function nn() {
+        document.addEventListener ? (document.addEventListener("DOMContentLoaded", on),
+        window.addEventListener("load", on)) : (document.attachEvent("onreadystatechange", rn),
+        window.attachEvent("onload", on)),
+        en = !0
+    }
+    function rn() {
+        "interactive" !== document.readyState && "loaded" !== document.readyState && "complete" !== document.readyState || on()
+    }
+    function on() {
+        if (!1 === tn) {
+            for (var e = 0; e < qt.length; e++)
+                qt[e].fn.apply(null, qt[e].args);
+            qt = []
+        }
+        tn = !0,
+        document.removeEventListener ? (document.removeEventListener("DOMContentLoaded", on),
+        window.removeEventListener("load", on)) : (document.detachEvent("onreadystatechange", rn),
+        window.detachEvent("onload", on))
+    }
+    new kt(document);
+    var an = new kt(window)
+      , sn = {
+        touchstart: "ts",
+        touchend: "te",
+        touchmove: "tm",
+        touchcancel: "tc"
+    }
+      , cn = {
+        mousedown: "md",
+        mouseup: "mu",
+        mousemove: "mm"
+    }
+      , ln = {
+        pointermove: "pm"
+    }
+      , un = {
+        keydown: "kd",
+        keyup: "ku"
+    }
+      , hn = {
+        devicemotion: "dm"
+    }
+      , pn = function(e, t) {
+        var n = cn[e]
+          , r = null;
+        return function(e) {
+            r = function(e) {
+                return [e.windowX, e.windowY, Date.now()]
+            }(e),
+            t(n, r)
+        }
+    }
+      , dn = function(e, t) {
+        var n = ln[e]
+          , r = null;
+        return function(e) {
+            r = function(e) {
+                var t = []
+                  , n = [];
+                e.getCoalescedEvents && (n = e.getCoalescedEvents());
+                for (var r = 0; r < n.length; r++) {
+                    var i = n[r];
+                    t.push([i.x, i.y, Date.now()])
+                }
+                return t
+            }(e);
+            for (var i = 0; i < r.length; i++)
+                t(n, r[i])
+        }
+    }
+      , fn = function(e, t) {
+        var n = sn[e]
+          , r = null;
+        return function(e) {
+            r = function(e) {
+                var t = [];
+                try {
+                    var n, r;
+                    if (e.touches && e.touches.length >= 1 ? n = e.touches : e.changedTouches && e.changedTouches.length >= 1 && (n = e.changedTouches),
+                    n) {
+                        for (var i = 0; i < n.length; i++)
+                            (r = Et.eventCoords(n[i])) && t.push([n[i].identifier, r.x, r.y]);
+                        t.push(Date.now())
+                    }
+                    return t
+                } catch (pr) {
+                    return t
+                }
+            }(e),
+            t(n, r)
+        }
+    }
+      , mn = function(e, t) {
+        var n = un[e]
+          , r = null;
+        return function(e) {
+            r = function(e) {
+                return [e.keyNum, Date.now()]
+            }(e),
+            t(n, r)
+        }
+    }
+      , gn = function(e, t) {
+        var n = hn[e]
+          , r = null
+          , i = [];
+        return function(e) {
+            r = function(e, t) {
+                (e.acceleration === undefined || e.acceleration && e.acceleration.x === undefined) && (e.acceleration = {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                });
+                (e.rotationRate === undefined || e.rotationRate && e.rotationRate.alpha === undefined) && (e.rotationRate = {
+                    alpha: 0,
+                    beta: 0,
+                    gamma: 0
+                });
+                var n = [e.acceleration.x, e.acceleration.y, e.acceleration.z, e.rotationRate.alpha, e.rotationRate.beta, e.rotationRate.gamma, Date.now()]
+                  , r = [];
+                if (0 === t.length)
+                    t = n,
+                    r = n;
+                else {
+                    for (var i, o = 0, a = 0; a < 6; a++)
+                        i = t[a] - n[a],
+                        r.push(n[a]),
+                        o += Math.abs(i);
+                    if (r.push(Date.now()),
+                    t = n,
+                    o <= 0)
+                        return null
+                }
+                return {
+                    motion: r,
+                    prevmotion: t
+                }
+            }(e, i),
+            null !== r && (i = r.prevmotion,
+            r = r.motion,
+            t(n, r))
+        }
+    };
+    function yn() {
+        this._manifest = {},
+        this.state = {
+            timeBuffers: {},
+            loadTime: Date.now(),
+            recording: !1,
+            initRecord: !1,
+            record: {
+                mouse: !0,
+                touch: !0,
+                keys: !1,
+                motion: !1
+            }
+        },
+        this._recordEvent = this._recordEvent.bind(this)
+    }
+    yn.prototype.record = function(e, t, n, r) {
+        if (this._manifest.st = Date.now(),
+        this.state.record.mouse = e === undefined ? this.state.record.mouse : e,
+        this.state.record.touch = n === undefined ? this.state.record.touch : n,
+        this.state.record.keys = t === undefined ? this.state.record.keys : t,
+        this.state.record.motion = r === undefined ? this.state.record.motion : r,
+        !1 === this.state.initRecord) {
+            var i = new kt(document.body);
+            this.state.record.mouse && (i.addEventListener("mousedown", pn("mousedown", this._recordEvent), !0),
+            i.addEventListener("mousemove", pn("mousemove", this._recordEvent), !0),
+            i.addEventListener("mouseup", pn("mouseup", this._recordEvent), !0),
+            i.addEventListener("pointermove", dn("pointermove", this._recordEvent), !0)),
+            !0 === this.state.record.keys && (i.addEventListener("keyup", mn("keyup", this._recordEvent), !0),
+            i.addEventListener("keydown", mn("keydown", this._recordEvent), !0)),
+            this.state.record.touch && !0 === ee.Browser.hasEvent("touchstart", document.body) && (i.addEventListener("touchstart", fn("touchstart", this._recordEvent), !0),
+            i.addEventListener("touchmove", fn("touchmove", this._recordEvent), !0),
+            i.addEventListener("touchend", fn("touchend", this._recordEvent), !0)),
+            this.state.record.motion && !0 === ee.Browser.hasEvent("devicemotion", window) && i.addEventListener("devicemotion", gn("devicemotion", this._recordEvent), !0),
+            this.state.initRecord = !0
+        }
+        this.state.recording = !0
+    }
+    ,
+    yn.prototype.stop = function() {
+        this.state.recording = !1
+    }
+    ,
+    yn.prototype.time = function() {
+        return this.state.loadTime
+    }
+    ,
+    yn.prototype.getData = function() {
+        for (var e in this.state.timeBuffers)
+            this._manifest[e] = this.state.timeBuffers[e].getData(),
+            this._manifest[e + "-mp"] = this.state.timeBuffers[e].getMeanPeriod();
+        return this._manifest
+    }
+    ,
+    yn.prototype.setData = function(e, t) {
+        this._manifest[e] = t
+    }
+    ,
+    yn.prototype.resetData = function() {
+        this._manifest = {},
+        this.state.timeBuffers = {}
+    }
+    ,
+    yn.prototype.circBuffPush = function(e, t) {
+        this._recordEvent(e, t)
+    }
+    ,
+    yn.prototype._recordEvent = function(e, t) {
+        if (!1 !== this.state.recording)
+            try {
+                var n = t[t.length - 1];
+                if (!this.state.timeBuffers[e]) {
+                    var r = "mm" === e || "pm" === e ? 256 : 128;
+                    this.state.timeBuffers[e] = new et(16,15e3,0,r)
+                }
+                this.state.timeBuffers[e].push(n, t)
+            } catch (hr) {
+                je("motion", hr)
+            }
+    }
+    ;
+    var vn, wn, bn, Vn, _n, kn, En = new yn;
+    try {
+        vn = function() {
+            var e = {
+                _5SmNk5I0AL: 0,
+                _fhDfce048u: 0,
+                _zHAQ20HMu: [],
+                _LQsiXfkWc: [],
+                _L1NCG6R6: [],
+                _Ro95Za: {},
+                _c8QcjLCv5: window,
+                _Cg2JEn: [function(e) {
+                    e._zHAQ20HMu.push(sentryError)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n & t)
+                }
+                , function() {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++];
+                    e._L1NCG6R6[n] ? e._LQsiXfkWc = e._L1NCG6R6[n] : (e._LQsiXfkWc = t,
+                    e._L1NCG6R6[n] = t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = -1 == n ? e._LQsiXfkWc : e._L1NCG6R6[n];
+                    e._zHAQ20HMu.push(i[r] |= t)
+                }
+                , function(e) {
+                    e._5SmNk5I0AL = e._zHAQ20HMu.splice(e._zHAQ20HMu.length - 4, 1)[0],
+                    e._c8QcjLCv5 = e._zHAQ20HMu.splice(e._zHAQ20HMu.length - 3, 1)[0],
+                    e._LQsiXfkWc = e._zHAQ20HMu.splice(e._zHAQ20HMu.length - 2, 1)[0]
+                }
+                , function(e) {
+                    for (var t = e._jygLDw4[e._5SmNk5I0AL++], n = [], r = 0; r < t; r++)
+                        n.push(e._zHAQ20HMu.pop());
+                    e._zHAQ20HMu.push(n)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.pop()
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = -1 == n ? e._LQsiXfkWc : e._L1NCG6R6[n];
+                    e._zHAQ20HMu.push(i[r] = t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(window[t])
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n instanceof t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(!t)
+                }
+                , function() {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++];
+                    e._LQsiXfkWc = t,
+                    e._L1NCG6R6[n] = t
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(typeof t)
+                }
+                , function(e) {
+                    var n = e._zHAQ20HMu.pop()
+                      , r = function() {
+                        var i = !1
+                          , o = Array.prototype.slice.call(arguments);
+                        o.length > 0 && o[0] && o[0]._l ? o = o.splice(1, o.length - 1) : i = !0;
+                        var a = e._c8QcjLCv5
+                          , s = e._fhDfce048u
+                          , c = e._L1NCG6R6;
+                        if (e._zHAQ20HMu.push(e._5SmNk5I0AL),
+                        e._zHAQ20HMu.push(e._c8QcjLCv5),
+                        e._zHAQ20HMu.push(e._LQsiXfkWc),
+                        e._zHAQ20HMu.push(o),
+                        e._zHAQ20HMu.push(r),
+                        e._fhDfce048u = e._5SmNk5I0AL,
+                        e._5SmNk5I0AL = n,
+                        e._c8QcjLCv5 = this,
+                        e._L1NCG6R6 = r._r,
+                        t(e),
+                        e._c8QcjLCv5 = a,
+                        e._fhDfce048u = s,
+                        e._L1NCG6R6 = c,
+                        i)
+                            return e._zHAQ20HMu.pop()
+                    };
+                    r._l = {},
+                    r._r = Array.prototype.slice.call(e._L1NCG6R6),
+                    e._zHAQ20HMu.push(r)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++];
+                    e._LQsiXfkWc[r] = t;
+                    for (var i = 0; i < n; i++)
+                        e._LQsiXfkWc[e._jygLDw4[e._5SmNk5I0AL++]] = t[i]
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(e._zHAQ20HMu[e._zHAQ20HMu.length - 1])
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n ^ t)
+                }
+                , function(e) {
+                    var t = e._jygLDw4[e._5SmNk5I0AL++]
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = -1 == t ? e._LQsiXfkWc : e._L1NCG6R6[t];
+                    r ? e._zHAQ20HMu.push(++i[n]) : e._zHAQ20HMu.push(i[n]++)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = -1 == n ? e._LQsiXfkWc : e._L1NCG6R6[n];
+                    e._zHAQ20HMu.push(i[r] += t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    if (t && t._l !== undefined)
+                        n.splice(0, 0, {
+                            _l: {}
+                        }),
+                        t.apply(e._c8QcjLCv5, n);
+                    else {
+                        var r = t.apply(e._c8QcjLCv5, n);
+                        e._zHAQ20HMu.push(r)
+                    }
+                }
+                , function(e) {
+                    for (var t = e._jygLDw4[e._5SmNk5I0AL++], n = e._jygLDw4[e._5SmNk5I0AL++], r = e._jygLDw4[e._5SmNk5I0AL++], i = decodeURIComponent(atob(e._LsyU85w.slice(t, t + n))), o = "", a = 0; a < i.length; a++)
+                        o += String.fromCharCode((256 + i.charCodeAt(a) + r) % 256);
+                    e._zHAQ20HMu.push(o)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop()
+                      , r = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n[t] = r)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n <= t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(mt)
+                }
+                , function(e) {
+                    var t = e._jygLDw4[e._5SmNk5I0AL++]
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = -1 == t ? e._LQsiXfkWc : e._L1NCG6R6[t];
+                    e._zHAQ20HMu.push(r[n])
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n * t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(Pe)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(delete n[t])
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(-t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n - t)
+                }
+                , function(e) {
+                    for (var t = e._jygLDw4[e._5SmNk5I0AL++], n = {}, r = 0; r < t; r++) {
+                        var i = e._zHAQ20HMu.pop();
+                        n[e._zHAQ20HMu.pop()] = i
+                    }
+                    e._zHAQ20HMu.push(n)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(null)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n + t)
+                }
+                , function(e) {
+                    var t = e._jygLDw4[e._5SmNk5I0AL++];
+                    e._fhDfce048u = t
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n < t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n !== t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++];
+                    (-1 == n ? e._LQsiXfkWc : e._L1NCG6R6[n])[r] = t
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop()
+                      , r = n[t];
+                    "function" == typeof r && Object.getPrototypeOf(n) !== Object.prototype && (r = r.bind(n)),
+                    e._zHAQ20HMu.push(r)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(!!e._jygLDw4[e._5SmNk5I0AL++])
+                }
+                , function(e) {
+                    var n = e._fhDfce048u
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = e._zHAQ20HMu.length;
+                    try {
+                        t(e)
+                    } catch (o) {
+                        e._zHAQ20HMu.length = i,
+                        e._zHAQ20HMu.push(o),
+                        e._5SmNk5I0AL = r,
+                        t(e)
+                    }
+                    e._fhDfce048u = n
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(e._jygLDw4[e._5SmNk5I0AL++])
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(ft)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(mt)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n / t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.pop(),
+                    e._zHAQ20HMu.push(void 0)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(+t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(e._c8QcjLCv5)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n === t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(kt)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++]
+                      , r = e._jygLDw4[e._5SmNk5I0AL++]
+                      , i = -1 == n ? e._LQsiXfkWc : e._L1NCG6R6[n];
+                    e._zHAQ20HMu.push(i[r] ^= t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n | t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n != t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop()
+                      , r = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n[t] += r)
+                }
+                , function() {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop()
+                      , r = !1;
+                    t._l !== undefined && (r = !0,
+                    n.splice(0, 0, {
+                        _l: {}
+                    }));
+                    var i = new (Function.prototype.bind.apply(t, [null].concat(n)));
+                    r && e._zHAQ20HMu.pop(),
+                    e._zHAQ20HMu.push(i)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n > t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n >= t)
+                }
+                , function(e) {
+                    e._Ro95Za[e._zHAQ20HMu[e._zHAQ20HMu.length - 1]] = e._zHAQ20HMu[e._zHAQ20HMu.length - 2]
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n << t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(undefined)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(mt)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n == t)
+                }
+                , function(e) {
+                    e._zHAQ20HMu.push(Et)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n in t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._zHAQ20HMu.pop();
+                    e._zHAQ20HMu.push(n >>> t)
+                }
+                , function(e) {
+                    var t = e._zHAQ20HMu.pop()
+                      , n = e._jygLDw4[e._5SmNk5I0AL++];
+                    t || (e._5SmNk5I0AL = n)
+                }
+                ],
+                _jygLDw4: [5, 0, 2, 0, 40, 14, 13, 36, -1, 0, 38, 0, 64, 113, 5, 0, 11, 1, 6, 14, 1, 0, 1, 24, -1, 1, 20, 8528, 28, 20, 47, 64, 44, 24, 0, 99, 38, 0, 64, 112, 38, 0, 64, 54, 24, -1, 1, 20, 7672, 16, 21, 47, 64, 65, 24, 0, 100, 38, 0, 64, 112, 38, 0, 64, 75, 24, -1, 1, 20, 4240, 24, -10, 47, 64, 86, 24, 0, 101, 38, 0, 64, 112, 38, 0, 64, 90, 38, 0, 64, 99, 31, 38, 0, 64, 112, 38, 0, 64, 103, 38, 0, 64, 90, 20, 7336, 12, -4, 8, 38, 0, 64, 112, 4, 40, 123, 13, 36, -1, 1, 38, 0, 64, 222, 5, 0, 11, 2, 6, 14, 1, 0, 1, 24, -1, 1, 20, 2288, 60, -20, 47, 64, 153, 24, 0, 102, 38, 0, 64, 221, 38, 0, 64, 163, 24, -1, 1, 20, 7760, 16, 17, 47, 64, 174, 24, 0, 103, 38, 0, 64, 221, 38, 0, 64, 184, 24, -1, 1, 20, 2752, 60, -21, 47, 64, 195, 24, 0, 104, 38, 0, 64, 221, 38, 0, 64, 199, 38, 0, 64, 208, 31, 38, 0, 64, 221, 38, 0, 64, 212, 38, 0, 64, 199, 20, 7336, 12, -4, 8, 38, 0, 64, 221, 4, 40, 232, 13, 36, -1, 2, 38, 0, 64, 310, 5, 0, 11, 3, 6, 14, 1, 0, 1, 24, -1, 1, 20, 7780, 40, -18, 47, 64, 262, 24, 0, 106, 38, 0, 64, 309, 38, 0, 64, 272, 24, -1, 1, 20, 3900, 12, 9, 47, 64, 283, 24, 0, 107, 38, 0, 64, 309, 38, 0, 64, 287, 38, 0, 64, 296, 31, 38, 0, 64, 309, 38, 0, 64, 300, 38, 0, 64, 287, 20, 7336, 12, -4, 8, 38, 0, 64, 309, 4, 40, 320, 13, 36, -1, 3, 38, 0, 64, 377, 5, 0, 11, 4, 6, 14, 1, 0, 1, 24, -1, 1, 20, 3060, 20, 21, 47, 64, 350, 24, 0, 108, 38, 0, 64, 376, 38, 0, 64, 354, 38, 0, 64, 363, 31, 38, 0, 64, 376, 38, 0, 64, 367, 38, 0, 64, 354, 20, 7336, 12, -4, 8, 38, 0, 64, 376, 4, 40, 387, 13, 36, -1, 4, 38, 0, 64, 427, 5, 0, 11, 5, 6, 14, 1, 0, 1, 24, -1, 1, 20, 412, 24, 13, 47, 64, 417, 24, 0, 114, 38, 0, 64, 426, 38, 0, 64, 417, 20, 7336, 12, -4, 8, 38, 0, 64, 426, 4, 40, 437, 13, 36, -1, 5, 38, 0, 64, 788, 5, 0, 11, 6, 6, 14, 1, 0, 1, 24, -1, 1, 20, 7104, 8, -7, 47, 64, 467, 24, 0, 111, 38, 0, 64, 787, 38, 0, 64, 477, 24, -1, 1, 20, 6980, 4, -10, 47, 64, 488, 24, 0, 112, 38, 0, 64, 787, 38, 0, 64, 498, 24, -1, 1, 20, 7776, 4, -6, 47, 64, 509, 24, 0, 113, 38, 0, 64, 787, 38, 0, 64, 519, 24, -1, 1, 20, 408, 4, 8, 47, 64, 530, 24, 0, 110, 38, 0, 64, 787, 38, 0, 64, 540, 24, -1, 1, 20, 7640, 8, 15, 47, 64, 551, 24, 0, 119, 38, 0, 64, 787, 38, 0, 64, 561, 24, -1, 1, 20, 7416, 20, -20, 47, 64, 572, 24, 0, 120, 38, 0, 64, 787, 38, 0, 64, 582, 24, -1, 1, 20, 5844, 8, 11, 47, 64, 593, 24, 0, 121, 38, 0, 64, 787, 38, 0, 64, 603, 24, -1, 1, 20, 168, 12, -7, 47, 64, 614, 24, 0, 122, 38, 0, 64, 787, 38, 0, 64, 624, 24, -1, 1, 20, 1276, 8, 19, 47, 64, 635, 24, 0, 123, 38, 0, 64, 787, 38, 0, 64, 645, 24, -1, 1, 20, 3192, 8, -9, 47, 64, 656, 24, 0, 116, 38, 0, 64, 787, 38, 0, 64, 666, 24, -1, 1, 20, 5820, 4, 2, 47, 64, 677, 24, 0, 117, 38, 0, 64, 787, 38, 0, 64, 687, 24, -1, 1, 20, 5776, 12, -9, 47, 64, 698, 24, 0, 118, 38, 0, 64, 787, 38, 0, 64, 708, 24, -1, 1, 20, 6708, 12, -15, 47, 64, 719, 24, 0, 115, 38, 0, 64, 787, 38, 0, 64, 729, 24, -1, 1, 20, 2996, 8, -15, 47, 64, 740, 24, 0, 124, 38, 0, 64, 787, 38, 0, 64, 750, 24, -1, 1, 20, 3308, 4, -6, 47, 64, 761, 24, 0, 125, 38, 0, 64, 787, 38, 0, 64, 765, 38, 0, 64, 774, 31, 38, 0, 64, 787, 38, 0, 64, 778, 38, 0, 64, 765, 20, 7336, 12, -4, 8, 38, 0, 64, 787, 4, 40, 798, 13, 36, -1, 6, 38, 0, 64, 884, 5, 0, 11, 7, 6, 14, 2, 0, 1, 2, 40, 815, 13, 38, 0, 64, 879, 5, 0, 11, 8, 36, -1, 0, 14, 2, 1, 2, 3, 40, 834, 13, 38, 0, 64, 874, 5, 0, 11, 9, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 24, 7, 2, 19, 24, 8, 2, 5, 1, 24, 7, 1, 19, 5, 2, 24, 8, 3, 19, 38, 0, 64, 873, 4, 38, 0, 64, 878, 4, 38, 0, 64, 883, 4, 40, 894, 13, 36, -1, 7, 38, 0, 64, 1034, 5, 0, 11, 10, 6, 14, 2, 0, 1, 2, 40, 911, 13, 38, 0, 64, 1029, 5, 0, 11, 11, 36, -1, 0, 14, 2, 1, 2, 3, 40, 930, 13, 38, 0, 64, 1024, 5, 0, 11, 12, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 24, 10, 2, 19, 36, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 1014, 24, -1, 3, 24, -1, 5, 37, 24, 11, 2, 5, 1, 24, 10, 1, 19, 5, 2, 24, 11, 3, 19, 38, 0, 64, 1023, 40, 1, 18, -1, 5, 6, 38, 0, 64, 969, 20, 7336, 12, -4, 8, 38, 0, 64, 1023, 4, 38, 0, 64, 1028, 4, 38, 0, 64, 1033, 4, 40, 1044, 13, 36, -1, 8, 38, 0, 64, 1161, 5, 0, 11, 13, 6, 14, 1, 0, 1, 24, -1, 1, 20, 4096, 16, -21, 37, 24, -1, 1, 20, 4736, 12, 11, 37, 60, 15, 64, 1091, 6, 24, -1, 1, 20, 1884, 8, 14, 37, 24, -1, 1, 20, 5920, 12, 4, 37, 60, 36, -1, 2, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 2, 64, 1118, 40, 1, 38, 0, 64, 1120, 40, 0, 24, -1, 1, 20, 6856, 48, -17, 37, 64, 1136, 40, 1, 38, 0, 64, 1138, 40, 0, 24, -1, 1, 20, 708, 12, -1, 37, 24, -1, 1, 20, 8328, 12, 21, 37, 5, 5, 38, 0, 64, 1160, 4, 40, 1171, 13, 36, -1, 9, 38, 0, 64, 1330, 5, 0, 11, 14, 6, 14, 1, 0, 1, 5, 0, 36, -1, 2, 5, 0, 36, -1, 3, 24, -1, 1, 20, 3496, 28, 1, 37, 64, 1215, 5, 0, 24, -1, 1, 20, 3496, 28, 1, 37, 19, 7, -1, 3, 6, 40, 0, 36, -1, 4, 24, -1, 4, 24, -1, 3, 20, 5700, 12, 13, 37, 34, 64, 1322, 24, -1, 3, 24, -1, 4, 37, 36, -1, 5, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 5, 20, 1572, 4, 11, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 24, -1, 5, 20, 6760, 4, 13, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 5, 3, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 4, 0, 6, 38, 0, 64, 1220, 24, -1, 2, 38, 0, 64, 1329, 4, 40, 1340, 13, 36, -1, 10, 38, 0, 64, 1371, 5, 0, 11, 15, 6, 14, 1, 0, 1, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 40, 0, 5, 2, 38, 0, 64, 1370, 4, 40, 1381, 13, 36, -1, 11, 38, 0, 64, 1669, 5, 0, 11, 16, 6, 14, 1, 0, 1, 5, 0, 36, -1, 2, 39, 1649, 24, -1, 1, 20, 7820, 12, -1, 37, 15, 64, 1425, 6, 24, -1, 1, 20, 7820, 12, -1, 37, 20, 5700, 12, 13, 37, 40, 1, 55, 64, 1443, 24, -1, 1, 20, 7820, 12, -1, 37, 7, -1, 3, 6, 38, 0, 64, 1485, 24, -1, 1, 20, 4436, 20, -5, 37, 15, 64, 1471, 6, 24, -1, 1, 20, 4436, 20, -5, 37, 20, 5700, 12, 13, 37, 40, 1, 55, 64, 1485, 24, -1, 1, 20, 4436, 20, -5, 37, 7, -1, 3, 6, 24, -1, 3, 64, 1636, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 3, 20, 5700, 12, 13, 37, 34, 64, 1611, 24, -1, 3, 24, -1, 5, 37, 5, 1, 61, 20, 3748, 64, -20, 37, 19, 7, -1, 4, 6, 24, -1, 4, 64, 1602, 24, -1, 4, 20, 1572, 4, 11, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 24, -1, 4, 20, 6760, 4, 13, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 24, -1, 3, 24, -1, 5, 37, 20, 1300, 16, 21, 37, 5, 3, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 5, 0, 6, 38, 0, 64, 1495, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 2, 38, 0, 64, 1668, 33, 1645, 38, 0, 64, 1659, 36, -1, 6, 24, -1, 2, 38, 0, 64, 1668, 20, 7336, 12, -4, 8, 38, 0, 64, 1668, 4, 40, 1679, 13, 36, -1, 12, 38, 0, 64, 1962, 5, 0, 11, 17, 6, 14, 1, 0, 1, 24, -1, 1, 20, 5e3, 28, 6, 37, 40, 0, 44, 47, 15, 10, 64, 1734, 6, 24, -1, 1, 20, 5e3, 28, 6, 37, 15, 64, 1734, 6, 24, -1, 1, 20, 5e3, 28, 6, 37, 20, 6760, 4, 13, 37, 40, 0, 44, 47, 64, 1765, 20, 3972, 4, 12, 40, 0, 20, 1572, 4, 11, 40, 0, 20, 6760, 4, 13, 40, 0, 30, 3, 24, -1, 1, 20, 5e3, 28, 6, 21, 6, 24, -1, 1, 20, 636, 16, -2, 37, 40, 0, 44, 47, 15, 10, 64, 1811, 6, 24, -1, 1, 20, 636, 16, -2, 37, 15, 64, 1811, 6, 24, -1, 1, 20, 636, 16, -2, 37, 20, 3668, 12, 16, 37, 40, 0, 44, 47, 64, 1842, 20, 1200, 8, 21, 40, 0, 20, 3440, 8, -11, 40, 0, 20, 3668, 12, 16, 40, 0, 30, 3, 24, -1, 1, 20, 636, 16, -2, 21, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 3416, 24, -12, 37, 15, 10, 64, 1871, 6, 40, 2, 28, 24, -1, 1, 20, 636, 16, -2, 37, 20, 1200, 8, 21, 37, 24, -1, 1, 20, 636, 16, -2, 37, 20, 3440, 8, -11, 37, 24, -1, 1, 20, 636, 16, -2, 37, 20, 3668, 12, 16, 37, 24, -1, 1, 20, 5e3, 28, 6, 37, 20, 3972, 4, 12, 37, 24, -1, 1, 20, 5e3, 28, 6, 37, 20, 1572, 4, 11, 37, 24, -1, 1, 20, 5e3, 28, 6, 37, 20, 6760, 4, 13, 37, 5, 8, 36, -1, 2, 24, -1, 2, 38, 0, 64, 1961, 4, 40, 1972, 13, 36, -1, 13, 38, 0, 64, 2187, 5, 0, 11, 18, 6, 14, 0, 0, 30, 0, 46, 20, 4064, 20, -9, 21, 6, 20, 4584, 24, -5, 5, 0, 20, 7224, 24, -14, 20, 1728, 8, -2, 38, 1, 20, 8108, 24, -18, 38, 1, 20, 3344, 12, 10, 38, 1, 20, 7536, 36, -19, 38, 1, 30, 4, 20, 5472, 48, -20, 38, 0, 20, 4356, 44, -21, 38, 0, 20, 7308, 16, -9, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 20, 8500, 20, 3, 30, 0, 30, 6, 46, 20, 4940, 28, -19, 21, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 135, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 136, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 137, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 138, 21, 6, 46, 5, 1, 46, 20, 2212, 16, -3, 37, 20, 5828, 16, -18, 37, 19, 46, 20, 2212, 16, -3, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 2186, 4, 40, 2197, 13, 36, -1, 14, 38, 0, 64, 2446, 5, 0, 11, 19, 6, 14, 1, 0, 1, 24, 0, 142, 64, 2244, 24, -1, 1, 5, 1, 24, 0, 142, 20, 7856, 4, 4, 37, 19, 36, -1, 2, 24, -1, 2, 40, 0, 44, 35, 64, 2244, 24, -1, 2, 38, 0, 64, 2445, 5, 0, 24, -1, 1, 20, 824, 28, -20, 37, 20, 5184, 20, 1, 37, 19, 36, -1, 3, 24, -1, 1, 20, 3040, 4, -8, 37, 15, 10, 64, 2280, 6, 20, 8328, 0, -18, 36, -1, 4, 24, -1, 1, 20, 1040, 8, -1, 37, 15, 10, 64, 2300, 6, 20, 8328, 0, -18, 36, -1, 5, 24, -1, 1, 20, 4608, 8, 4, 37, 15, 10, 64, 2320, 6, 20, 8328, 0, -18, 36, -1, 6, 24, -1, 1, 20, 5064, 20, -10, 37, 15, 10, 64, 2340, 6, 20, 8328, 0, -18, 36, -1, 7, 24, -1, 1, 20, 1048, 16, -7, 37, 15, 10, 64, 2360, 6, 20, 8328, 0, -18, 36, -1, 8, 24, -1, 1, 5, 1, 24, 0, 15, 19, 36, -1, 9, 24, -1, 3, 24, -1, 4, 32, 24, -1, 5, 32, 24, -1, 6, 32, 24, -1, 7, 32, 24, -1, 8, 32, 24, -1, 9, 32, 36, -1, 10, 24, -1, 10, 5, 1, 41, 19, 36, -1, 11, 24, 0, 142, 64, 2438, 24, -1, 11, 24, -1, 1, 5, 2, 24, 0, 142, 20, 1940, 4, -1, 37, 19, 6, 24, -1, 11, 38, 0, 64, 2445, 4, 40, 2456, 13, 36, -1, 15, 38, 0, 64, 2873, 5, 0, 11, 20, 6, 14, 1, 0, 1, 24, -1, 1, 20, 3040, 4, -8, 37, 20, 8328, 0, -18, 35, 64, 2502, 20, 5248, 28, 13, 24, -1, 1, 20, 3040, 4, -8, 37, 32, 20, 628, 8, 7, 32, 38, 0, 64, 2872, 24, -1, 1, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 47, 64, 2526, 20, 4780, 24, 19, 38, 0, 64, 2872, 20, 8328, 0, -18, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 1, 20, 4636, 16, 13, 37, 64, 2865, 24, -1, 3, 24, 0, 140, 54, 64, 2561, 38, 0, 64, 2865, 40, 0, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 1, 20, 4636, 16, 13, 37, 20, 436, 20, 5, 37, 20, 5700, 12, 13, 37, 36, -1, 6, 24, 0, 141, 24, -1, 6, 5, 2, 20, 6964, 8, 10, 8, 20, 5084, 8, 15, 37, 19, 36, -1, 7, 40, 0, 36, -1, 8, 24, -1, 8, 24, -1, 7, 34, 64, 2700, 24, -1, 1, 20, 4636, 16, 13, 37, 20, 436, 20, 5, 37, 24, -1, 8, 37, 36, -1, 9, 24, -1, 9, 20, 4132, 12, -9, 37, 24, -1, 1, 20, 4132, 12, -9, 37, 47, 64, 2691, 24, -1, 9, 24, -1, 1, 47, 64, 2686, 24, -1, 4, 40, 1, 32, 7, -1, 5, 6, 17, -1, 4, 0, 6, 17, -1, 8, 0, 6, 38, 0, 64, 2619, 20, 1040, 8, -1, 5, 1, 24, -1, 1, 20, 4560, 24, 12, 37, 19, 15, 64, 2739, 6, 20, 1040, 8, -1, 5, 1, 24, -1, 1, 20, 2620, 16, -2, 37, 19, 20, 8328, 0, -18, 35, 64, 2800, 20, 6252, 4, -3, 5, 0, 24, -1, 1, 20, 4132, 12, -9, 37, 20, 5184, 20, 1, 37, 19, 32, 20, 5276, 16, 11, 32, 20, 1040, 8, -1, 5, 1, 24, -1, 1, 20, 2620, 16, -2, 37, 19, 32, 20, 628, 8, 7, 32, 24, -1, 2, 32, 7, -1, 2, 6, 38, 0, 64, 2843, 20, 6252, 4, -3, 5, 0, 24, -1, 1, 20, 4132, 12, -9, 37, 20, 5184, 20, 1, 37, 19, 32, 20, 492, 4, 12, 32, 24, -1, 5, 32, 20, 5400, 4, 6, 32, 24, -1, 2, 32, 7, -1, 2, 6, 24, -1, 1, 20, 4636, 16, 13, 37, 7, -1, 1, 6, 40, 1, 18, -1, 3, 6, 38, 0, 64, 2538, 24, -1, 2, 38, 0, 64, 2872, 4, 40, 2883, 13, 36, -1, 16, 38, 0, 64, 2905, 5, 0, 11, 21, 6, 14, 2, 0, 1, 2, 24, -1, 1, 24, -1, 2, 50, 38, 0, 64, 2904, 4, 40, 2915, 13, 36, -1, 17, 38, 0, 64, 3095, 5, 0, 11, 22, 6, 14, 1, 0, 1, 24, -1, 1, 5, 1, 24, 0, 14, 19, 36, -1, 2, 24, -1, 2, 5, 1, 24, 0, 154, 20, 7856, 4, 4, 37, 19, 36, -1, 3, 24, -1, 3, 64, 2965, 24, -1, 3, 38, 0, 64, 3094, 24, -1, 1, 20, 7604, 8, 1, 37, 64, 2981, 40, 1, 38, 0, 64, 2983, 40, 0, 24, -1, 1, 20, 5204, 16, 8, 37, 64, 2999, 40, 1, 38, 0, 64, 3001, 40, 0, 24, -1, 1, 20, 5364, 16, 15, 37, 64, 3017, 40, 1, 38, 0, 64, 3019, 40, 0, 24, -1, 1, 20, 108, 16, 13, 37, 64, 3035, 40, 1, 38, 0, 64, 3037, 40, 0, 24, -1, 1, 5, 1, 24, 0, 20, 19, 24, -1, 1, 5, 1, 24, 0, 19, 19, 24, -1, 1, 5, 1, 24, 0, 18, 19, 5, 7, 36, -1, 4, 24, -1, 4, 24, -1, 2, 5, 2, 24, 0, 154, 20, 1940, 4, -1, 37, 19, 6, 24, -1, 4, 38, 0, 64, 3094, 4, 40, 3105, 13, 36, -1, 18, 38, 0, 64, 3674, 5, 0, 11, 23, 6, 14, 1, 0, 1, 24, -1, 1, 20, 8176, 12, -3, 37, 20, 6752, 8, -4, 37, 64, 3136, 24, 0, 153, 38, 0, 64, 3673, 24, -1, 1, 20, 6764, 16, -19, 37, 64, 3153, 24, 0, 151, 38, 0, 64, 3673, 5, 0, 24, -1, 1, 20, 824, 28, -20, 37, 20, 5184, 20, 1, 37, 19, 36, -1, 2, 24, -1, 2, 20, 2684, 40, -21, 47, 64, 3189, 24, 0, 145, 38, 0, 64, 3673, 24, -1, 1, 20, 4608, 8, 4, 37, 64, 3219, 5, 0, 24, -1, 1, 20, 4608, 8, 4, 37, 20, 5184, 20, 1, 37, 19, 38, 0, 64, 3223, 20, 8328, 0, -18, 36, -1, 3, 24, -1, 2, 20, 6268, 8, 10, 47, 15, 10, 64, 3247, 6, 24, -1, 3, 20, 6268, 8, 10, 47, 64, 3256, 24, 0, 152, 38, 0, 64, 3673, 24, -1, 3, 20, 6012, 8, 22, 47, 64, 3277, 24, 0, 143, 38, 0, 64, 3673, 38, 0, 64, 3287, 24, -1, 3, 20, 8252, 20, -8, 47, 64, 3298, 24, 0, 144, 38, 0, 64, 3673, 38, 0, 64, 3308, 24, -1, 3, 20, 5612, 12, -9, 47, 64, 3319, 24, 0, 146, 38, 0, 64, 3673, 38, 0, 64, 3329, 24, -1, 3, 20, 7600, 4, 3, 47, 64, 3340, 24, 0, 148, 38, 0, 64, 3673, 38, 0, 64, 3350, 24, -1, 3, 20, 2828, 20, -18, 47, 64, 3361, 24, 0, 149, 38, 0, 64, 3673, 38, 0, 64, 3371, 24, -1, 3, 20, 8216, 8, 0, 47, 64, 3382, 24, 0, 147, 38, 0, 64, 3673, 38, 0, 64, 3386, 38, 0, 64, 3660, 24, -1, 1, 20, 1040, 8, -1, 37, 15, 10, 64, 3403, 6, 20, 8328, 0, -18, 20, 144, 4, 17, 32, 24, -1, 1, 20, 3040, 4, -8, 37, 15, 10, 64, 3425, 6, 20, 8328, 0, -18, 32, 20, 144, 4, 17, 32, 24, -1, 1, 20, 1048, 16, -7, 37, 15, 10, 64, 3448, 6, 20, 8328, 0, -18, 32, 20, 144, 4, 17, 32, 24, -1, 1, 20, 5064, 20, -10, 37, 15, 10, 64, 3471, 6, 20, 8328, 0, -18, 32, 36, -1, 4, 5, 0, 24, -1, 4, 20, 5184, 20, 1, 37, 19, 36, -1, 5, 24, 0, 148, 20, 4084, 12, 15, 5, 2, 24, 0, 144, 20, 8252, 20, -8, 5, 2, 24, 0, 143, 20, 6012, 8, 22, 5, 2, 5, 3, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 6, 20, 5700, 12, 13, 37, 36, -1, 8, 24, -1, 7, 24, -1, 8, 34, 64, 3596, 24, -1, 6, 24, -1, 7, 37, 40, 0, 37, 5, 1, 24, -1, 5, 20, 2940, 12, 5, 37, 19, 40, 1, 28, 35, 64, 3587, 24, -1, 6, 24, -1, 7, 37, 40, 1, 37, 38, 0, 64, 3673, 17, -1, 7, 0, 6, 38, 0, 64, 3537, 24, -1, 4, 5, 1, 20, 4400, 4, 5, 20, 5764, 12, 3, 5, 2, 20, 8392, 20, -12, 8, 53, 20, 6752, 8, -4, 37, 19, 64, 3632, 24, 0, 148, 38, 0, 64, 3673, 24, -1, 3, 20, 2084, 12, -10, 47, 64, 3649, 24, 0, 145, 38, 0, 64, 3652, 24, 0, 150, 38, 0, 64, 3673, 38, 0, 64, 3664, 38, 0, 64, 3386, 20, 7336, 12, -4, 8, 38, 0, 64, 3673, 4, 40, 3684, 13, 36, -1, 19, 38, 0, 64, 3830, 5, 0, 11, 24, 6, 14, 1, 0, 1, 20, 4228, 12, -15, 20, 1976, 8, -8, 20, 1048, 16, -7, 20, 212, 24, -16, 20, 1040, 8, -1, 20, 3040, 4, -8, 5, 6, 36, -1, 2, 5, 0, 36, -1, 3, 24, -1, 2, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 3822, 24, -1, 2, 24, -1, 5, 37, 36, -1, 6, 24, -1, 6, 5, 1, 24, -1, 1, 20, 4560, 24, 12, 37, 19, 64, 3800, 24, -1, 6, 5, 1, 24, -1, 1, 20, 2620, 16, -2, 37, 19, 5, 1, 41, 19, 38, 0, 64, 3801, 31, 5, 1, 24, -1, 3, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 5, 0, 6, 38, 0, 64, 3743, 24, -1, 3, 38, 0, 64, 3829, 4, 40, 3840, 13, 36, -1, 20, 38, 0, 64, 4311, 5, 0, 11, 25, 6, 14, 1, 0, 1, 39, 4292, 38, 1, 64, 3861, 5, 0, 38, 0, 64, 4310, 24, -1, 1, 20, 2568, 20, 4, 37, 36, -1, 2, 24, -1, 2, 20, 5700, 12, 13, 37, 36, -1, 3, 5, 0, 36, -1, 4, 5, 0, 36, -1, 5, 40, 5, 36, -1, 6, 40, 0, 36, -1, 7, 40, 0, 36, -1, 8, 24, -1, 8, 24, -1, 3, 34, 64, 4067, 24, -1, 7, 24, -1, 6, 55, 15, 10, 64, 3941, 6, 24, -1, 5, 20, 5700, 12, 13, 37, 24, -1, 6, 55, 64, 3947, 38, 0, 64, 4067, 24, -1, 2, 24, -1, 8, 37, 36, -1, 9, 24, -1, 9, 20, 1040, 8, -1, 37, 36, -1, 10, 20, 3028, 12, 6, 5, 1, 24, -1, 10, 20, 2940, 12, 5, 37, 19, 40, 0, 47, 64, 4022, 24, -1, 9, 20, 1040, 8, -1, 37, 5, 1, 41, 19, 5, 1, 24, -1, 4, 20, 2924, 16, -11, 37, 19, 6, 40, 1, 18, -1, 7, 6, 38, 0, 64, 4057, 20, 4928, 12, -2, 5, 1, 24, -1, 10, 20, 2940, 12, 5, 37, 19, 40, 0, 47, 64, 4057, 24, -1, 9, 5, 1, 24, -1, 5, 20, 2924, 16, -11, 37, 19, 6, 40, 1, 18, -1, 8, 6, 38, 0, 64, 3908, 24, -1, 5, 20, 5700, 12, 13, 37, 36, -1, 11, 40, 0, 36, -1, 12, 24, -1, 12, 24, -1, 11, 34, 64, 4149, 24, -1, 7, 24, -1, 6, 55, 64, 4105, 38, 0, 64, 4149, 24, -1, 5, 24, -1, 12, 37, 20, 1040, 8, -1, 37, 5, 1, 41, 19, 5, 1, 24, -1, 4, 20, 2924, 16, -11, 37, 19, 6, 40, 1, 18, -1, 7, 6, 40, 1, 18, -1, 12, 6, 38, 0, 64, 4083, 40, 0, 36, -1, 13, 24, -1, 13, 24, -1, 3, 34, 64, 4279, 24, -1, 7, 24, -1, 6, 55, 64, 4176, 38, 0, 64, 4279, 24, -1, 2, 24, -1, 13, 37, 7, -1, 9, 6, 20, 3028, 12, 6, 5, 1, 24, -1, 9, 20, 1040, 8, -1, 37, 20, 2940, 12, 5, 37, 19, 40, 0, 35, 15, 64, 4237, 6, 20, 4928, 12, -2, 5, 1, 24, -1, 9, 20, 1040, 8, -1, 37, 20, 2940, 12, 5, 37, 19, 40, 0, 35, 64, 4269, 24, -1, 9, 20, 1040, 8, -1, 37, 5, 1, 41, 19, 5, 1, 24, -1, 4, 20, 2924, 16, -11, 37, 19, 6, 40, 1, 18, -1, 7, 6, 40, 1, 18, -1, 13, 6, 38, 0, 64, 4154, 24, -1, 4, 38, 0, 64, 4310, 33, 4288, 38, 0, 64, 4301, 36, -1, 14, 5, 0, 38, 0, 64, 4310, 20, 7336, 12, -4, 8, 38, 0, 64, 4310, 4, 40, 4321, 13, 36, -1, 21, 38, 0, 64, 4441, 5, 0, 11, 26, 6, 14, 1, 0, 1, 24, -1, 1, 20, 8528, 28, 20, 47, 64, 4351, 24, 0, 155, 38, 0, 64, 4440, 38, 0, 64, 4361, 24, -1, 1, 20, 7672, 16, 21, 47, 64, 4372, 24, 0, 156, 38, 0, 64, 4440, 38, 0, 64, 4382, 24, -1, 1, 20, 4240, 24, -10, 47, 64, 4393, 24, 0, 157, 38, 0, 64, 4440, 38, 0, 64, 4403, 24, -1, 1, 20, 524, 20, -10, 47, 64, 4414, 24, 0, 158, 38, 0, 64, 4440, 38, 0, 64, 4418, 38, 0, 64, 4427, 31, 38, 0, 64, 4440, 38, 0, 64, 4431, 38, 0, 64, 4418, 20, 7336, 12, -4, 8, 38, 0, 64, 4440, 4, 40, 4451, 13, 36, -1, 22, 38, 0, 64, 4571, 5, 0, 11, 27, 6, 14, 1, 0, 1, 24, -1, 1, 20, 2288, 60, -20, 47, 64, 4481, 24, 0, 159, 38, 0, 64, 4570, 38, 0, 64, 4491, 24, -1, 1, 20, 7760, 16, 17, 47, 64, 4502, 24, 0, 160, 38, 0, 64, 4570, 38, 0, 64, 4512, 24, -1, 1, 20, 2752, 60, -21, 47, 64, 4523, 24, 0, 161, 38, 0, 64, 4570, 38, 0, 64, 4533, 24, -1, 1, 20, 5236, 12, -2, 47, 64, 4544, 24, 0, 162, 38, 0, 64, 4570, 38, 0, 64, 4548, 38, 0, 64, 4557, 31, 38, 0, 64, 4570, 38, 0, 64, 4561, 38, 0, 64, 4548, 20, 7336, 12, -4, 8, 38, 0, 64, 4570, 4, 40, 4581, 13, 36, -1, 23, 38, 0, 64, 4659, 5, 0, 11, 28, 6, 14, 1, 0, 1, 24, -1, 1, 20, 7780, 40, -18, 47, 64, 4611, 24, 0, 163, 38, 0, 64, 4658, 38, 0, 64, 4621, 24, -1, 1, 20, 3900, 12, 9, 47, 64, 4632, 24, 0, 164, 38, 0, 64, 4658, 38, 0, 64, 4636, 38, 0, 64, 4645, 31, 38, 0, 64, 4658, 38, 0, 64, 4649, 38, 0, 64, 4636, 20, 7336, 12, -4, 8, 38, 0, 64, 4658, 4, 40, 4669, 13, 36, -1, 24, 38, 0, 64, 4701, 5, 0, 11, 29, 6, 14, 1, 0, 1, 24, -1, 1, 20, 3004, 8, -3, 47, 64, 4695, 24, 0, 165, 38, 0, 64, 4700, 31, 38, 0, 64, 4700, 4, 40, 4711, 13, 36, -1, 25, 38, 0, 64, 4789, 5, 0, 11, 30, 6, 14, 1, 0, 1, 24, -1, 1, 20, 4804, 8, 10, 47, 64, 4741, 24, 0, 166, 38, 0, 64, 4788, 38, 0, 64, 4751, 24, -1, 1, 20, 5808, 12, 10, 47, 64, 4762, 24, 0, 167, 38, 0, 64, 4788, 38, 0, 64, 4766, 38, 0, 64, 4775, 31, 38, 0, 64, 4788, 38, 0, 64, 4779, 38, 0, 64, 4766, 20, 7336, 12, -4, 8, 38, 0, 64, 4788, 4, 40, 4799, 13, 36, -1, 26, 38, 0, 64, 4919, 5, 0, 11, 31, 6, 14, 1, 0, 1, 24, -1, 1, 20, 8132, 8, 16, 47, 64, 4829, 24, 0, 168, 38, 0, 64, 4918, 38, 0, 64, 4839, 24, -1, 1, 20, 4532, 8, 14, 47, 64, 4850, 24, 0, 169, 38, 0, 64, 4918, 38, 0, 64, 4860, 24, -1, 1, 20, 4420, 16, 12, 47, 64, 4871, 24, 0, 170, 38, 0, 64, 4918, 38, 0, 64, 4881, 24, -1, 1, 20, 3952, 20, 19, 47, 64, 4892, 24, 0, 171, 38, 0, 64, 4918, 38, 0, 64, 4896, 38, 0, 64, 4905, 31, 38, 0, 64, 4918, 38, 0, 64, 4909, 38, 0, 64, 4896, 20, 7336, 12, -4, 8, 38, 0, 64, 4918, 4, 40, 4929, 13, 36, -1, 27, 38, 0, 64, 5028, 5, 0, 11, 32, 6, 14, 1, 0, 1, 24, -1, 1, 20, 5900, 20, 10, 47, 64, 4959, 24, 0, 172, 38, 0, 64, 5027, 38, 0, 64, 4969, 24, -1, 1, 20, 1828, 40, -13, 47, 64, 4980, 24, 0, 173, 38, 0, 64, 5027, 38, 0, 64, 4990, 24, -1, 1, 20, 3060, 20, 21, 47, 64, 5001, 24, 0, 174, 38, 0, 64, 5027, 38, 0, 64, 5005, 38, 0, 64, 5014, 31, 38, 0, 64, 5027, 38, 0, 64, 5018, 38, 0, 64, 5005, 20, 7336, 12, -4, 8, 38, 0, 64, 5027, 4, 40, 5038, 13, 36, -1, 28, 38, 0, 64, 5124, 5, 0, 11, 33, 6, 14, 2, 0, 1, 2, 40, 5055, 13, 38, 0, 64, 5119, 5, 0, 11, 34, 36, -1, 0, 14, 2, 1, 2, 3, 40, 5074, 13, 38, 0, 64, 5114, 5, 0, 11, 35, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 24, 33, 2, 19, 24, 34, 2, 5, 1, 24, 33, 1, 19, 5, 2, 24, 34, 3, 19, 38, 0, 64, 5113, 4, 38, 0, 64, 5118, 4, 38, 0, 64, 5123, 4, 40, 5134, 13, 36, -1, 29, 38, 0, 64, 5237, 5, 0, 11, 36, 6, 14, 1, 0, 1, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 1, 20, 708, 12, -1, 37, 64, 5192, 24, -1, 1, 20, 708, 12, -1, 37, 38, 0, 64, 5200, 24, -1, 1, 20, 4004, 16, -7, 37, 24, -1, 1, 20, 8328, 12, 21, 37, 64, 5222, 24, -1, 1, 20, 8328, 12, 21, 37, 38, 0, 64, 5230, 24, -1, 1, 20, 6676, 12, 6, 37, 5, 4, 38, 0, 64, 5236, 4, 40, 5247, 13, 36, -1, 30, 38, 0, 64, 5358, 5, 0, 11, 37, 6, 14, 1, 0, 1, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 1, 20, 6268, 8, 10, 37, 24, -1, 1, 20, 708, 12, -1, 37, 64, 5313, 24, -1, 1, 20, 708, 12, -1, 37, 38, 0, 64, 5321, 24, -1, 1, 20, 4004, 16, -7, 37, 24, -1, 1, 20, 8328, 12, 21, 37, 64, 5343, 24, -1, 1, 20, 8328, 12, 21, 37, 38, 0, 64, 5351, 24, -1, 1, 20, 6676, 12, 6, 37, 5, 5, 38, 0, 64, 5357, 4, 40, 5368, 13, 36, -1, 31, 38, 0, 64, 5631, 5, 0, 11, 38, 6, 14, 1, 0, 1, 40, 0, 36, -1, 2, 20, 8364, 28, -18, 24, 0, 196, 20, 2060, 24, -13, 24, 0, 195, 20, 7688, 16, 14, 24, 0, 194, 20, 8304, 24, -11, 24, 0, 193, 30, 4, 36, -1, 3, 20, 4540, 8, -2, 24, 0, 201, 20, 3356, 16, -9, 24, 0, 200, 20, 7612, 28, -18, 24, 0, 199, 20, 3612, 20, -17, 24, 0, 198, 20, 700, 8, -12, 24, 0, 197, 30, 5, 36, -1, 4, 24, -1, 3, 5, 1, 20, 760, 20, -15, 8, 20, 8108, 24, -18, 37, 19, 36, -1, 5, 24, -1, 5, 20, 5700, 12, 13, 37, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 7, 24, -1, 6, 34, 64, 5547, 24, -1, 5, 24, -1, 7, 37, 36, -1, 8, 24, -1, 1, 24, -1, 8, 37, 64, 5538, 24, -1, 3, 24, -1, 8, 37, 24, -1, 2, 5, 2, 24, 0, 16, 19, 7, -1, 2, 6, 17, -1, 7, 0, 6, 38, 0, 64, 5490, 24, -1, 4, 24, -1, 1, 20, 3328, 16, -16, 37, 37, 64, 5586, 24, -1, 4, 24, -1, 1, 20, 3328, 16, -16, 37, 37, 24, -1, 2, 5, 2, 24, 0, 16, 19, 7, -1, 2, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 2, 24, -1, 1, 20, 5932, 12, -5, 37, 5, 4, 38, 0, 64, 5630, 4, 40, 5641, 13, 36, -1, 32, 38, 0, 64, 5983, 5, 0, 11, 39, 6, 14, 1, 0, 1, 5, 0, 36, -1, 2, 39, 5963, 24, -1, 1, 20, 7820, 12, -1, 37, 15, 64, 5685, 6, 24, -1, 1, 20, 7820, 12, -1, 37, 20, 5700, 12, 13, 37, 40, 1, 55, 64, 5703, 24, -1, 1, 20, 7820, 12, -1, 37, 7, -1, 3, 6, 38, 0, 64, 5745, 24, -1, 1, 20, 4436, 20, -5, 37, 15, 64, 5731, 6, 24, -1, 1, 20, 4436, 20, -5, 37, 20, 5700, 12, 13, 37, 40, 1, 55, 64, 5745, 24, -1, 1, 20, 4436, 20, -5, 37, 7, -1, 3, 6, 24, -1, 3, 64, 5950, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 5, 40, 0, 36, -1, 6, 24, -1, 6, 24, -1, 5, 34, 64, 5899, 24, -1, 3, 24, -1, 6, 37, 5, 1, 61, 20, 3748, 64, -20, 37, 19, 7, -1, 4, 6, 24, -1, 4, 64, 5890, 24, -1, 3, 24, -1, 6, 37, 20, 1300, 16, 21, 37, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 4, 20, 6760, 4, 13, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 4, 20, 1572, 4, 11, 37, 5, 1, 20, 6964, 8, 10, 8, 20, 4500, 8, 2, 37, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 6, 0, 6, 38, 0, 64, 5766, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 2, 38, 0, 64, 5982, 33, 5959, 38, 0, 64, 5973, 36, -1, 7, 24, -1, 2, 38, 0, 64, 5982, 20, 7336, 12, -4, 8, 38, 0, 64, 5982, 4, 40, 5993, 13, 36, -1, 33, 38, 0, 64, 6036, 5, 0, 11, 40, 6, 14, 1, 0, 1, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 5, 2, 38, 0, 64, 6035, 4, 40, 6046, 13, 36, -1, 34, 38, 0, 64, 6370, 5, 0, 11, 41, 6, 14, 1, 0, 1, 24, -1, 1, 20, 6956, 8, -1, 37, 36, -1, 2, 24, -1, 1, 20, 4608, 8, 4, 37, 20, 4804, 8, 10, 47, 64, 6088, 24, 0, 202, 38, 0, 64, 6091, 24, 0, 203, 36, -1, 3, 24, -1, 2, 20, 2640, 28, -21, 37, 15, 10, 64, 6111, 6, 20, 8328, 0, -18, 36, -1, 4, 24, -1, 1, 20, 4208, 20, -10, 37, 15, 10, 64, 6128, 6, 31, 36, -1, 5, 24, -1, 5, 15, 64, 6146, 6, 24, -1, 5, 20, 4616, 16, -8, 37, 64, 6167, 20, 2084, 12, -10, 5, 1, 24, -1, 5, 20, 4616, 16, -8, 37, 19, 38, 0, 64, 6171, 20, 8328, 0, -18, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 3, 24, 0, 203, 47, 64, 6264, 24, -1, 2, 20, 6552, 24, 11, 37, 40, 0, 5, 2, 24, -1, 4, 20, 7404, 12, 9, 37, 19, 24, -1, 6, 32, 24, -1, 2, 20, 1248, 16, -4, 37, 5, 1, 24, -1, 4, 20, 7404, 12, 9, 37, 19, 32, 36, -1, 8, 24, -1, 6, 20, 5700, 12, 13, 37, 24, -1, 8, 20, 5700, 12, 13, 37, 43, 40, 100, 25, 7, -1, 7, 6, 38, 0, 64, 6318, 24, -1, 2, 20, 1248, 16, -4, 37, 24, -1, 2, 20, 6552, 24, 11, 37, 5, 2, 24, -1, 4, 20, 7404, 12, 9, 37, 19, 36, -1, 9, 24, -1, 9, 20, 5700, 12, 13, 37, 24, -1, 4, 20, 5700, 12, 13, 37, 43, 40, 100, 25, 7, -1, 7, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 2, 5, 1, 24, 0, 14, 19, 24, -1, 3, 24, 0, 203, 47, 64, 6356, 40, 1, 28, 38, 0, 64, 6357, 31, 24, -1, 7, 24, -1, 3, 5, 5, 38, 0, 64, 6369, 4, 40, 6380, 13, 36, -1, 35, 38, 0, 64, 6597, 5, 0, 11, 42, 6, 14, 1, 0, 1, 40, 0, 36, -1, 2, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 6116, 52, -14, 8, 9, 15, 10, 64, 6427, 6, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 4456, 32, 4, 8, 9, 64, 6455, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 2640, 28, -21, 37, 20, 5700, 12, 13, 37, 7, -1, 2, 6, 38, 0, 64, 6510, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 1072, 48, -20, 8, 9, 15, 64, 6486, 6, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 236, 36, 20, 37, 64, 6510, 24, -1, 1, 20, 6956, 8, -1, 37, 20, 156, 12, 1, 37, 20, 5700, 12, 13, 37, 7, -1, 2, 6, 24, -1, 1, 20, 7580, 8, -10, 37, 64, 6537, 24, -1, 1, 20, 7580, 8, -10, 37, 20, 5700, 12, 13, 37, 38, 0, 64, 6540, 40, 1, 28, 36, -1, 3, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 17, 19, 24, -1, 3, 24, -1, 2, 5, 5, 38, 0, 64, 6596, 4, 40, 6607, 13, 36, -1, 36, 38, 0, 64, 6859, 5, 0, 11, 43, 6, 14, 1, 0, 1, 24, -1, 1, 20, 4608, 8, 4, 37, 20, 3060, 20, 21, 47, 15, 64, 6641, 6, 24, -1, 1, 20, 3496, 28, 1, 37, 64, 6776, 5, 0, 24, -1, 1, 20, 3496, 28, 1, 37, 19, 36, -1, 2, 5, 0, 40, 6666, 13, 38, 0, 64, 6751, 5, 0, 11, 44, 36, -1, 0, 14, 1, 1, 2, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 2, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 2, 20, 276, 12, 6, 37, 24, -1, 2, 20, 1008, 16, 5, 37, 24, -1, 2, 20, 2600, 20, 15, 37, 24, -1, 2, 20, 4004, 16, -7, 37, 24, -1, 2, 20, 6676, 12, 6, 37, 5, 7, 38, 0, 64, 6750, 4, 5, 1, 24, -1, 2, 20, 1576, 8, 17, 37, 19, 20, 6536, 8, -2, 37, 19, 38, 0, 64, 6858, 38, 0, 64, 6849, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 24, -1, 1, 20, 6956, 8, -1, 37, 5, 1, 24, 0, 14, 19, 24, -1, 1, 20, 276, 12, 6, 37, 24, -1, 1, 20, 1008, 16, 5, 37, 24, -1, 1, 20, 2600, 20, 15, 37, 24, -1, 1, 20, 4004, 16, -7, 37, 24, -1, 1, 20, 6676, 12, 6, 37, 5, 7, 38, 0, 64, 6858, 20, 7336, 12, -4, 8, 38, 0, 64, 6858, 4, 40, 6869, 13, 36, -1, 37, 38, 0, 64, 6981, 5, 0, 11, 45, 6, 14, 0, 0, 20, 4992, 8, 21, 8, 20, 1484, 8, 10, 37, 10, 15, 10, 64, 6909, 6, 20, 4992, 8, 21, 8, 20, 1484, 8, 10, 37, 20, 8452, 12, 15, 37, 10, 64, 6917, 38, 0, 38, 0, 64, 6980, 20, 4992, 8, 21, 8, 20, 2180, 20, 4, 37, 10, 64, 6936, 38, 0, 38, 0, 64, 6980, 20, 4992, 8, 21, 8, 20, 5652, 48, -19, 37, 10, 64, 6955, 38, 0, 38, 0, 64, 6980, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 10, 64, 6974, 38, 0, 38, 0, 64, 6980, 38, 1, 38, 0, 64, 6980, 4, 40, 6991, 13, 36, -1, 38, 38, 0, 64, 7219, 5, 0, 11, 46, 6, 14, 1, 0, 1, 5, 0, 24, 0, 37, 19, 10, 46, 20, 1364, 72, -17, 21, 6, 46, 20, 1364, 72, -17, 37, 64, 7027, 58, 38, 0, 64, 7218, 31, 46, 20, 2560, 8, 1, 21, 6, 5, 0, 46, 20, 2228, 12, 22, 21, 6, 24, -1, 1, 46, 20, 7472, 20, 11, 21, 6, 5, 0, 46, 20, 852, 8, 0, 37, 19, 46, 20, 6780, 8, -5, 21, 6, 31, 46, 20, 6804, 28, 9, 21, 6, 5, 0, 46, 20, 1136, 56, -16, 21, 6, 38, 0, 46, 20, 720, 40, 22, 21, 6, 46, 36, -1, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 64, 7209, 40, 7119, 13, 38, 0, 64, 7191, 5, 0, 11, 47, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 20, 3328, 16, -16, 37, 24, 46, 2, 20, 7472, 20, 11, 37, 47, 15, 64, 7159, 6, 24, -1, 2, 20, 1620, 16, 19, 37, 64, 7181, 24, -1, 2, 20, 1620, 16, 19, 37, 5, 1, 24, 46, 2, 20, 860, 40, -10, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 7190, 4, 20, 812, 12, -3, 5, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 7218, 4, 40, 7229, 13, 36, -1, 39, 38, 0, 64, 7727, 5, 0, 11, 48, 6, 14, 3, 0, 1, 2, 3, 24, -1, 3, 31, 60, 64, 7253, 40, 100, 7, -1, 3, 6, 24, -1, 2, 5, 1, 20, 8044, 16, 18, 8, 20, 7944, 12, 15, 37, 19, 10, 64, 7279, 24, 0, 207, 7, -1, 2, 6, 5, 0, 36, -1, 8, 30, 0, 36, -1, 9, 24, -1, 2, 20, 5700, 12, 13, 37, 36, -1, 10, 40, 0, 7, -1, 4, 6, 24, -1, 4, 24, -1, 10, 34, 64, 7349, 24, -1, 4, 24, -1, 9, 24, -1, 2, 24, -1, 4, 37, 21, 6, 5, 0, 24, -1, 8, 24, -1, 4, 21, 6, 17, -1, 4, 0, 6, 38, 0, 64, 7306, 24, -1, 1, 20, 5700, 12, 13, 37, 36, -1, 11, 40, 0, 7, -1, 4, 6, 24, -1, 4, 24, -1, 11, 34, 64, 7466, 24, -1, 1, 24, -1, 4, 37, 7, -1, 7, 6, 24, -1, 7, 40, 0, 37, 7, -1, 5, 6, 24, -1, 9, 24, -1, 5, 37, 40, 0, 44, 35, 64, 7457, 24, -1, 9, 24, -1, 5, 37, 7, -1, 6, 6, 20, 4632, 4, 21, 24, -1, 4, 20, 6972, 8, 21, 24, -1, 7, 30, 2, 24, -1, 8, 24, -1, 6, 37, 24, -1, 8, 24, -1, 6, 37, 20, 5700, 12, 13, 37, 21, 6, 17, -1, 4, 0, 6, 38, 0, 64, 7366, 24, -1, 8, 20, 5700, 12, 13, 37, 36, -1, 12, 5, 0, 36, -1, 13, 40, 0, 7, -1, 4, 6, 24, -1, 4, 24, -1, 12, 34, 64, 7606, 24, -1, 8, 24, -1, 4, 37, 36, -1, 14, 24, -1, 14, 20, 5700, 12, 13, 37, 36, -1, 15, 40, 0, 36, -1, 16, 24, -1, 16, 24, -1, 15, 34, 64, 7579, 24, -1, 14, 24, -1, 16, 37, 24, -1, 13, 24, -1, 13, 20, 5700, 12, 13, 37, 21, 6, 24, -1, 13, 20, 5700, 12, 13, 37, 24, -1, 3, 55, 64, 7570, 38, 0, 64, 7579, 17, -1, 16, 0, 6, 38, 0, 64, 7523, 24, -1, 13, 20, 5700, 12, 13, 37, 24, -1, 3, 55, 64, 7597, 38, 0, 64, 7606, 17, -1, 4, 0, 6, 38, 0, 64, 7488, 40, 7613, 13, 38, 0, 64, 7647, 5, 0, 11, 49, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 2, 20, 4632, 4, 21, 37, 24, -1, 3, 20, 4632, 4, 21, 37, 29, 38, 0, 64, 7646, 4, 5, 1, 24, -1, 13, 20, 8464, 8, 9, 37, 19, 6, 24, -1, 13, 20, 5700, 12, 13, 37, 36, -1, 17, 5, 0, 36, -1, 18, 40, 0, 7, -1, 4, 6, 24, -1, 4, 24, -1, 17, 34, 64, 7719, 24, -1, 13, 24, -1, 4, 37, 20, 6972, 8, 21, 37, 24, -1, 18, 24, -1, 4, 21, 6, 17, -1, 4, 0, 6, 38, 0, 64, 7681, 24, -1, 18, 38, 0, 64, 7726, 4, 40, 7737, 13, 36, -1, 40, 38, 0, 64, 7779, 5, 0, 11, 50, 6, 14, 0, 0, 5, 0, 20, 6964, 8, 10, 8, 20, 1660, 8, 0, 37, 19, 40, 100, 25, 5, 1, 20, 6964, 8, 10, 8, 20, 2988, 8, -6, 37, 19, 38, 0, 64, 7778, 4, 40, 7789, 13, 36, -1, 41, 38, 0, 64, 7873, 5, 0, 11, 51, 6, 14, 0, 0, 40, 15, 40, 2, 5, 2, 40, 36, 5, 1, 5, 0, 20, 6964, 8, 10, 8, 20, 1660, 8, 0, 37, 19, 20, 1024, 16, -7, 37, 19, 20, 7180, 12, -3, 37, 19, 40, 15, 40, 2, 5, 2, 40, 36, 5, 1, 5, 0, 20, 6964, 8, 10, 8, 20, 1660, 8, 0, 37, 19, 20, 1024, 16, -7, 37, 19, 20, 7180, 12, -3, 37, 19, 32, 38, 0, 64, 7872, 4, 40, 7883, 13, 36, -1, 42, 38, 0, 64, 7942, 5, 0, 11, 52, 6, 14, 0, 0, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 8020, 16, 13, 37, 20, 7648, 4, -17, 5, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 1668, 8, 19, 37, 20, 6544, 8, 2, 37, 19, 40, 0, 37, 32, 38, 0, 64, 7941, 4, 40, 7952, 13, 36, -1, 43, 38, 0, 64, 8074, 5, 0, 11, 53, 6, 14, 1, 0, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 6764, 16, -19, 37, 36, -1, 2, 24, -1, 2, 15, 64, 7989, 6, 24, -1, 1, 64, 8067, 38, 0, 36, -1, 3, 40, 0, 36, -1, 4, 24, -1, 4, 24, -1, 1, 20, 5700, 12, 13, 37, 34, 64, 8060, 24, -1, 1, 24, -1, 4, 37, 36, -1, 5, 24, -1, 2, 5, 1, 24, -1, 5, 20, 6752, 8, -4, 37, 19, 64, 8051, 38, 1, 7, -1, 3, 6, 38, 0, 64, 8060, 17, -1, 4, 0, 6, 38, 0, 64, 8001, 24, -1, 3, 38, 0, 64, 8073, 38, 0, 38, 0, 64, 8073, 4, 40, 8084, 13, 36, -1, 44, 38, 0, 64, 8168, 5, 0, 11, 54, 6, 14, 1, 0, 1, 24, -1, 1, 10, 15, 10, 64, 8113, 6, 24, -1, 1, 20, 5700, 12, 13, 37, 40, 0, 47, 64, 8122, 24, -1, 1, 38, 0, 64, 8167, 24, -1, 1, 20, 5700, 12, 13, 37, 40, 4, 22, 64, 8143, 20, 1588, 8, -12, 38, 0, 64, 8167, 24, -1, 1, 20, 5700, 12, 13, 37, 5, 1, 20, 1132, 4, -2, 20, 8e3, 8, 2, 37, 19, 38, 0, 64, 8167, 4, 40, 8178, 13, 36, -1, 45, 38, 0, 64, 8354, 5, 0, 11, 55, 6, 14, 1, 0, 1, 24, -1, 1, 40, 0, 37, 36, -1, 2, 24, -1, 2, 24, 0, 209, 47, 64, 8224, 24, -1, 1, 40, 1, 37, 15, 10, 64, 8220, 6, 20, 8328, 0, -18, 38, 0, 64, 8353, 24, -1, 2, 24, 0, 208, 47, 64, 8345, 24, -1, 1, 40, 3, 37, 36, -1, 3, 24, -1, 3, 64, 8266, 24, -1, 1, 40, 2, 37, 15, 10, 64, 8262, 6, 20, 8328, 0, -18, 38, 0, 64, 8353, 24, -1, 1, 40, 4, 37, 36, -1, 4, 20, 8328, 0, -18, 36, -1, 5, 24, -1, 4, 64, 8338, 24, -1, 4, 20, 5700, 12, 13, 37, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 7, 24, -1, 6, 34, 64, 8338, 24, -1, 4, 24, -1, 7, 37, 5, 1, 24, 0, 45, 19, 18, -1, 5, 6, 17, -1, 7, 0, 6, 38, 0, 64, 8303, 24, -1, 5, 38, 0, 64, 8353, 20, 8328, 0, -18, 38, 0, 64, 8353, 4, 40, 8364, 13, 36, -1, 46, 38, 0, 64, 8857, 5, 0, 11, 56, 6, 14, 2, 0, 1, 2, 40, 8384, 13, 36, -1, 3, 38, 0, 64, 8803, 5, 0, 11, 57, 6, 14, 1, 0, 1, 24, -1, 1, 10, 15, 10, 64, 8412, 6, 24, -1, 1, 20, 1868, 16, 6, 37, 31, 60, 64, 8430, 31, 38, 0, 20, 8328, 0, -18, 24, 0, 210, 5, 4, 38, 0, 64, 8802, 24, -1, 1, 20, 1868, 16, 6, 37, 36, -1, 2, 38, 0, 36, -1, 3, 24, -1, 2, 40, 3, 47, 64, 8536, 24, -1, 1, 20, 7832, 20, -7, 37, 15, 10, 64, 8471, 6, 20, 8328, 0, -18, 36, -1, 4, 24, -1, 4, 24, -1, 1, 5, 2, 24, 56, 2, 19, 7, -1, 3, 6, 24, -1, 3, 64, 8508, 24, -1, 4, 5, 1, 24, 0, 44, 19, 38, 0, 64, 8511, 24, -1, 4, 36, -1, 5, 24, -1, 1, 24, -1, 3, 24, -1, 5, 24, 0, 209, 5, 4, 38, 0, 64, 8802, 38, 0, 64, 8784, 24, -1, 2, 40, 1, 47, 64, 8784, 24, -1, 1, 36, -1, 6, 5, 0, 36, -1, 7, 24, -1, 6, 20, 436, 20, 5, 37, 36, -1, 8, 20, 8328, 0, -18, 36, -1, 9, 24, -1, 8, 20, 5700, 12, 13, 37, 36, -1, 10, 40, 0, 36, -1, 11, 24, -1, 11, 24, -1, 10, 34, 64, 8651, 24, -1, 8, 24, -1, 11, 37, 5, 1, 24, 56, 3, 19, 36, -1, 12, 24, -1, 12, 5, 1, 24, -1, 7, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 12, 5, 1, 24, 0, 45, 19, 18, -1, 9, 6, 17, -1, 11, 0, 6, 38, 0, 64, 8589, 24, -1, 6, 20, 824, 28, -20, 37, 64, 8681, 5, 0, 24, -1, 6, 20, 824, 28, -20, 37, 20, 5184, 20, 1, 37, 19, 38, 0, 64, 8685, 20, 8328, 0, -18, 36, -1, 13, 24, -1, 13, 20, 3004, 8, -3, 47, 15, 10, 64, 8709, 6, 24, -1, 13, 20, 2684, 40, -21, 47, 36, -1, 14, 24, -1, 14, 15, 10, 64, 8732, 6, 24, -1, 9, 24, -1, 6, 5, 2, 24, 56, 2, 19, 7, -1, 3, 6, 24, -1, 3, 64, 8754, 24, -1, 9, 5, 1, 24, 0, 44, 19, 38, 0, 64, 8757, 24, -1, 9, 36, -1, 15, 24, -1, 6, 24, -1, 7, 24, -1, 3, 24, -1, 15, 24, -1, 13, 24, 0, 208, 5, 6, 38, 0, 64, 8802, 24, -1, 1, 38, 0, 20, 8328, 0, -18, 24, 0, 210, 5, 4, 38, 0, 64, 8802, 4, 24, -1, 1, 10, 15, 10, 64, 8821, 6, 24, -1, 2, 12, 20, 5220, 16, 16, 35, 64, 8831, 20, 8328, 0, -18, 38, 0, 64, 8856, 24, -1, 1, 5, 1, 24, -1, 3, 19, 36, -1, 4, 24, -1, 4, 5, 1, 24, 0, 45, 19, 38, 0, 64, 8856, 4, 40, 8867, 13, 36, -1, 47, 38, 0, 64, 8982, 5, 0, 11, 58, 6, 14, 0, 0, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 31, 60, 64, 8895, 38, 0, 38, 0, 64, 8981, 39, 8963, 20, 188, 24, -12, 36, -1, 1, 24, -1, 1, 24, -1, 1, 5, 2, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 20, 3524, 32, -17, 37, 19, 6, 24, -1, 1, 5, 1, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 20, 5380, 20, 16, 37, 19, 6, 38, 1, 38, 0, 64, 8981, 33, 8959, 38, 0, 64, 8972, 36, -1, 2, 38, 0, 38, 0, 64, 8981, 20, 7336, 12, -4, 8, 38, 0, 64, 8981, 4, 40, 8992, 13, 36, -1, 48, 38, 0, 64, 9183, 5, 0, 11, 59, 6, 14, 2, 0, 1, 2, 24, 0, 211, 10, 15, 10, 64, 9015, 6, 24, -1, 1, 10, 64, 9022, 58, 38, 0, 64, 9182, 24, -1, 2, 5, 1, 24, 0, 49, 19, 46, 20, 664, 24, -3, 21, 6, 46, 5, 1, 46, 20, 2e3, 60, -22, 37, 20, 5828, 16, -18, 37, 19, 46, 20, 2348, 32, 13, 21, 6, 20, 8228, 16, 11, 5, 1, 24, 0, 38, 53, 46, 20, 1912, 28, 18, 21, 6, 5, 0, 24, 0, 40, 19, 46, 20, 6168, 16, -14, 21, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 46, 20, 2276, 12, 0, 21, 6, 40, 9117, 13, 38, 0, 64, 9138, 5, 0, 11, 60, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 9137, 4, 5, 1, 46, 20, 2276, 12, 0, 37, 5, 0, 24, 0, 42, 19, 5, 2, 24, 0, 175, 5, 2, 46, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 9182, 4, 40, 9193, 13, 36, -1, 49, 38, 0, 64, 9533, 5, 0, 11, 61, 6, 14, 1, 0, 1, 5, 0, 36, -1, 2, 24, -1, 1, 20, 2200, 12, -4, 37, 24, -1, 2, 24, 0, 212, 21, 6, 24, -1, 1, 20, 2724, 20, -10, 37, 24, -1, 2, 24, 0, 215, 21, 6, 24, -1, 1, 20, 5092, 36, -13, 37, 24, -1, 2, 24, 0, 217, 21, 6, 40, 0, 44, 24, -1, 2, 24, 0, 213, 21, 6, 40, 0, 44, 24, -1, 2, 24, 0, 214, 21, 6, 24, -1, 1, 20, 2516, 24, 6, 37, 24, -1, 2, 24, 0, 216, 21, 6, 24, -1, 1, 20, 5092, 36, -13, 37, 24, -1, 2, 24, 0, 217, 21, 6, 24, -1, 1, 20, 5128, 24, 20, 37, 64, 9395, 40, 9326, 13, 38, 0, 64, 9371, 5, 0, 11, 62, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 12, 20, 7956, 28, -16, 47, 64, 9363, 24, -1, 2, 5, 1, 20, 8392, 20, -12, 8, 53, 38, 0, 64, 9370, 24, -1, 2, 38, 0, 64, 9370, 4, 5, 1, 24, -1, 1, 20, 5128, 24, 20, 37, 20, 1576, 8, 17, 37, 19, 24, -1, 2, 24, 0, 213, 21, 6, 24, -1, 1, 20, 2252, 24, 3, 37, 64, 9481, 40, 9412, 13, 38, 0, 64, 9457, 5, 0, 11, 63, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 12, 20, 7956, 28, -16, 47, 64, 9449, 24, -1, 2, 5, 1, 20, 8392, 20, -12, 8, 53, 38, 0, 64, 9456, 24, -1, 2, 38, 0, 64, 9456, 4, 5, 1, 24, -1, 1, 20, 2252, 24, 3, 37, 20, 1576, 8, 17, 37, 19, 24, -1, 2, 24, 0, 214, 21, 6, 20, 1584, 4, -9, 5, 1, 24, -1, 1, 20, 2724, 20, -10, 37, 20, 1316, 12, -13, 37, 19, 24, -1, 2, 24, 0, 216, 21, 6, 24, -1, 1, 20, 5092, 36, -13, 37, 24, -1, 2, 24, 0, 217, 21, 6, 24, -1, 2, 38, 0, 64, 9532, 4, 40, 9543, 13, 36, -1, 50, 38, 0, 64, 9765, 5, 0, 11, 64, 6, 14, 3, 0, 1, 2, 3, 24, -1, 1, 10, 64, 9565, 31, 38, 0, 64, 9764, 24, -1, 3, 12, 20, 5612, 12, -9, 47, 64, 9583, 24, -1, 3, 38, 0, 64, 9585, 40, 2, 36, -1, 4, 24, -1, 1, 36, -1, 5, 40, 0, 36, -1, 6, 20, 4040, 24, -15, 8, 20, 1984, 16, 9, 37, 36, -1, 7, 24, -1, 7, 20, 5028, 12, 9, 37, 12, 20, 5220, 16, 16, 47, 64, 9636, 20, 5028, 12, 9, 38, 0, 64, 9685, 24, -1, 7, 20, 376, 32, 6, 37, 12, 20, 5220, 16, 16, 47, 64, 9660, 20, 376, 32, 6, 38, 0, 64, 9685, 24, -1, 7, 20, 7264, 44, 20, 37, 12, 20, 5220, 16, 16, 47, 64, 9684, 20, 7264, 44, 20, 38, 0, 64, 9685, 31, 36, -1, 8, 24, -1, 5, 15, 64, 9702, 6, 24, -1, 6, 24, -1, 4, 22, 64, 9759, 24, -1, 8, 10, 64, 9715, 31, 38, 0, 64, 9764, 24, -1, 2, 5, 1, 24, -1, 5, 24, -1, 8, 37, 19, 64, 9737, 24, -1, 5, 38, 0, 64, 9764, 24, -1, 5, 20, 1956, 20, 12, 37, 7, -1, 5, 6, 40, 1, 18, -1, 6, 6, 38, 0, 64, 9688, 31, 38, 0, 64, 9764, 4, 40, 9775, 13, 36, -1, 51, 38, 0, 64, 10014, 5, 0, 11, 65, 6, 14, 0, 0, 30, 0, 46, 20, 4064, 20, -9, 21, 6, 20, 4584, 24, -5, 5, 0, 20, 7308, 16, -9, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 20, 600, 28, 4, 40, 0, 20, 3312, 16, 0, 30, 0, 20, 6592, 8, -15, 30, 0, 20, 8500, 20, 3, 30, 0, 20, 5472, 48, -20, 38, 0, 20, 4356, 44, -21, 38, 0, 30, 8, 46, 20, 4940, 28, -19, 21, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 222, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 223, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 224, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 225, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 226, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 227, 21, 6, 46, 5, 1, 46, 20, 2212, 16, -3, 37, 20, 5828, 16, -18, 37, 19, 46, 20, 2212, 16, -3, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 10013, 4, 40, 10024, 13, 36, -1, 52, 38, 0, 64, 10052, 5, 0, 11, 66, 6, 14, 0, 0, 40, 0, 44, 46, 20, 3372, 44, -20, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 10051, 4, 40, 10062, 13, 36, -1, 53, 38, 0, 64, 10199, 5, 0, 11, 67, 6, 14, 0, 0, 20, 4992, 8, 21, 8, 20, 5040, 24, -18, 37, 36, -1, 1, 24, -1, 1, 10, 64, 10095, 40, 0, 38, 0, 64, 10198, 20, 8328, 0, -18, 36, -1, 2, 24, -1, 1, 5, 1, 20, 760, 20, -15, 8, 20, 8108, 24, -18, 37, 19, 36, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 10185, 24, -1, 3, 24, -1, 5, 37, 36, -1, 6, 24, -1, 6, 20, 5876, 4, -11, 32, 24, -1, 1, 24, -1, 6, 37, 32, 18, -1, 2, 6, 17, -1, 5, 0, 6, 38, 0, 64, 10137, 24, -1, 2, 5, 1, 24, 0, 235, 19, 38, 0, 64, 10198, 4, 40, 10209, 13, 36, -1, 54, 38, 0, 64, 10302, 5, 0, 11, 68, 6, 14, 0, 0, 39, 10284, 20, 2848, 56, -22, 5, 1, 20, 6788, 16, 12, 8, 20, 7872, 72, -17, 37, 19, 36, -1, 1, 24, -1, 1, 20, 5700, 12, 13, 37, 40, 0, 54, 64, 10271, 24, -1, 1, 40, 0, 37, 20, 5540, 16, -8, 37, 38, 0, 64, 10301, 38, 0, 64, 10278, 40, 1, 28, 38, 0, 64, 10301, 33, 10280, 38, 0, 64, 10292, 36, -1, 2, 31, 38, 0, 64, 10301, 20, 7336, 12, -4, 8, 38, 0, 64, 10301, 4, 40, 10312, 13, 36, -1, 55, 38, 0, 64, 10377, 5, 0, 11, 69, 6, 14, 0, 0, 39, 10359, 40, 150, 40, 0, 5, 2, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 6764, 16, -19, 37, 20, 7404, 12, 9, 37, 19, 38, 0, 64, 10376, 33, 10355, 38, 0, 64, 10367, 36, -1, 1, 31, 38, 0, 64, 10376, 20, 7336, 12, -4, 8, 38, 0, 64, 10376, 4, 40, 10387, 13, 36, -1, 56, 38, 0, 64, 10436, 5, 0, 11, 70, 6, 14, 0, 0, 39, 10418, 5, 0, 24, 0, 234, 20, 4616, 16, -8, 37, 19, 38, 0, 64, 10435, 33, 10414, 38, 0, 64, 10426, 36, -1, 1, 31, 38, 0, 64, 10435, 20, 7336, 12, -4, 8, 38, 0, 64, 10435, 4, 40, 10446, 13, 36, -1, 57, 38, 0, 64, 10511, 5, 0, 11, 71, 6, 14, 0, 0, 39, 10493, 40, 150, 40, 0, 5, 2, 20, 6576, 16, 9, 8, 20, 5932, 12, -5, 37, 20, 6764, 16, -19, 37, 20, 7404, 12, 9, 37, 19, 38, 0, 64, 10510, 33, 10489, 38, 0, 64, 10501, 36, -1, 1, 31, 38, 0, 64, 10510, 20, 7336, 12, -4, 8, 38, 0, 64, 10510, 4, 40, 10521, 13, 36, -1, 58, 38, 0, 64, 10570, 5, 0, 11, 72, 6, 14, 0, 0, 39, 10552, 5, 0, 24, 0, 139, 20, 4616, 16, -8, 37, 19, 38, 0, 64, 10569, 33, 10548, 38, 0, 64, 10560, 36, -1, 1, 31, 38, 0, 64, 10569, 20, 7336, 12, -4, 8, 38, 0, 64, 10569, 4, 40, 10580, 13, 36, -1, 59, 38, 0, 64, 10624, 5, 0, 11, 73, 6, 14, 0, 0, 39, 10606, 5, 0, 24, 0, 53, 19, 38, 0, 64, 10623, 33, 10602, 38, 0, 64, 10614, 36, -1, 1, 31, 38, 0, 64, 10623, 20, 7336, 12, -4, 8, 38, 0, 64, 10623, 4, 40, 10634, 13, 36, -1, 60, 38, 0, 64, 10683, 5, 0, 11, 74, 6, 14, 0, 0, 39, 10665, 5, 0, 24, 0, 232, 20, 4616, 16, -8, 37, 19, 38, 0, 64, 10682, 33, 10661, 38, 0, 64, 10673, 36, -1, 1, 31, 38, 0, 64, 10682, 20, 7336, 12, -4, 8, 38, 0, 64, 10682, 4, 40, 10693, 13, 36, -1, 61, 38, 0, 64, 10716, 5, 0, 11, 75, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 4264, 28, 18, 37, 38, 0, 64, 10715, 4, 40, 10726, 13, 36, -1, 62, 38, 0, 64, 10749, 5, 0, 11, 76, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 7436, 36, 17, 37, 38, 0, 64, 10748, 4, 40, 10759, 13, 36, -1, 63, 38, 0, 64, 10782, 5, 0, 11, 77, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 6068, 16, 3, 37, 38, 0, 64, 10781, 4, 40, 10792, 13, 36, -1, 64, 38, 0, 64, 10815, 5, 0, 11, 78, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 2480, 16, -7, 37, 38, 0, 64, 10814, 4, 40, 10825, 13, 36, -1, 65, 38, 0, 64, 10848, 5, 0, 11, 79, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 2240, 12, 2, 37, 38, 0, 64, 10847, 4, 40, 10858, 13, 36, -1, 66, 38, 0, 64, 10881, 5, 0, 11, 80, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 7324, 12, 7, 37, 38, 0, 64, 10880, 4, 40, 10891, 13, 36, -1, 67, 38, 0, 64, 10914, 5, 0, 11, 81, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 7712, 24, -22, 37, 38, 0, 64, 10913, 4, 40, 10924, 13, 36, -1, 68, 38, 0, 64, 10947, 5, 0, 11, 82, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 2140, 16, 17, 37, 38, 0, 64, 10946, 4, 40, 10957, 13, 36, -1, 69, 38, 0, 64, 10980, 5, 0, 11, 83, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 3632, 20, -6, 37, 38, 0, 64, 10979, 4, 40, 10990, 13, 36, -1, 70, 38, 0, 64, 11013, 5, 0, 11, 84, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 20, 56, -20, 37, 38, 0, 64, 11012, 4, 40, 11023, 13, 36, -1, 71, 38, 0, 64, 11046, 5, 0, 11, 85, 6, 14, 0, 0, 20, 4912, 16, -10, 8, 20, 1776, 24, -8, 37, 38, 0, 64, 11045, 4, 40, 11056, 13, 36, -1, 72, 38, 0, 64, 11074, 5, 0, 11, 86, 6, 14, 0, 0, 20, 1636, 24, 1, 8, 38, 0, 64, 11073, 4, 40, 11084, 13, 36, -1, 73, 38, 0, 64, 11153, 5, 0, 11, 87, 6, 14, 0, 0, 38, 0, 36, -1, 1, 39, 11142, 20, 6656, 20, 11, 5, 1, 20, 6576, 16, 9, 8, 20, 1596, 20, -5, 37, 19, 10, 10, 15, 64, 11132, 6, 20, 88, 20, 4, 20, 4992, 8, 21, 8, 62, 7, -1, 1, 6, 33, 11138, 38, 0, 64, 11145, 36, -1, 2, 24, -1, 1, 38, 0, 64, 11152, 4, 40, 11163, 13, 36, -1, 74, 38, 0, 64, 11186, 5, 0, 11, 88, 6, 14, 0, 0, 20, 8008, 12, -3, 8, 20, 8340, 24, -5, 37, 38, 0, 64, 11185, 4, 40, 11196, 13, 36, -1, 75, 38, 0, 64, 11330, 5, 0, 11, 89, 6, 14, 0, 0, 20, 136, 8, -10, 8, 12, 20, 7336, 12, -4, 47, 15, 10, 64, 11231, 6, 20, 136, 8, -10, 8, 20, 976, 32, -9, 37, 10, 64, 11238, 31, 38, 0, 64, 11329, 5, 0, 20, 136, 8, -10, 8, 20, 976, 32, -9, 37, 19, 36, -1, 1, 24, -1, 1, 20, 5852, 24, 11, 37, 12, 20, 5220, 16, 16, 35, 64, 11275, 31, 38, 0, 64, 11329, 5, 0, 24, -1, 1, 20, 5852, 24, 11, 37, 19, 36, -1, 2, 24, -1, 2, 15, 64, 11310, 6, 24, -1, 2, 20, 3824, 28, -17, 37, 12, 20, 7956, 28, -16, 47, 64, 11324, 24, -1, 2, 20, 3824, 28, -17, 37, 38, 0, 64, 11325, 31, 38, 0, 64, 11329, 4, 40, 11340, 13, 36, -1, 76, 38, 0, 64, 11474, 5, 0, 11, 90, 6, 14, 0, 0, 20, 136, 8, -10, 8, 12, 20, 7336, 12, -4, 47, 15, 10, 64, 11375, 6, 20, 136, 8, -10, 8, 20, 976, 32, -9, 37, 10, 64, 11382, 31, 38, 0, 64, 11473, 5, 0, 20, 136, 8, -10, 8, 20, 976, 32, -9, 37, 19, 36, -1, 1, 24, -1, 1, 20, 5852, 24, 11, 37, 12, 20, 5220, 16, 16, 35, 64, 11419, 31, 38, 0, 64, 11473, 5, 0, 24, -1, 1, 20, 5852, 24, 11, 37, 19, 36, -1, 2, 24, -1, 2, 15, 64, 11454, 6, 24, -1, 2, 20, 5168, 16, 17, 37, 12, 20, 7956, 28, -16, 47, 64, 11468, 24, -1, 2, 20, 5168, 16, 17, 37, 38, 0, 64, 11469, 31, 38, 0, 64, 11473, 4, 40, 11484, 13, 36, -1, 77, 38, 0, 64, 11523, 5, 0, 11, 91, 6, 14, 0, 0, 20, 3580, 32, 17, 5, 1, 20, 1264, 12, 6, 8, 53, 36, -1, 1, 5, 0, 24, -1, 1, 20, 900, 76, -20, 37, 19, 38, 0, 64, 11522, 4, 40, 11533, 13, 36, -1, 78, 38, 0, 64, 11774, 5, 0, 11, 92, 6, 14, 0, 0, 39, 11756, 20, 3580, 32, 17, 5, 1, 20, 1264, 12, 6, 8, 53, 36, -1, 1, 20, 4908, 4, -10, 5, 1, 40, 11, 40, 1, 5, 2, 24, -1, 1, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 20, 7404, 12, 9, 37, 19, 20, 6544, 8, 2, 37, 19, 36, -1, 2, 24, -1, 2, 40, 0, 37, 36, -1, 3, 24, -1, 2, 40, 1, 37, 36, -1, 4, 24, -1, 2, 40, 2, 37, 36, -1, 5, 20, 8328, 0, -18, 24, -1, 4, 32, 20, 6252, 4, -3, 32, 24, -1, 5, 32, 20, 6252, 4, -3, 32, 24, -1, 3, 32, 36, -1, 6, 20, 8328, 0, -18, 24, -1, 3, 32, 20, 4908, 4, -10, 32, 24, -1, 4, 32, 20, 4908, 4, -10, 32, 24, -1, 5, 32, 36, -1, 7, 24, -1, 6, 5, 1, 20, 1264, 12, 6, 8, 53, 45, 36, -1, 8, 24, -1, 7, 5, 1, 20, 1264, 12, 6, 8, 53, 45, 36, -1, 9, 24, -1, 8, 24, -1, 9, 29, 40, 6e4, 43, 45, 36, -1, 10, 24, -1, 10, 5, 1, 20, 6964, 8, 10, 8, 20, 2988, 8, -6, 37, 19, 38, 0, 64, 11773, 33, 11752, 38, 0, 64, 11764, 36, -1, 11, 31, 38, 0, 64, 11773, 20, 7336, 12, -4, 8, 38, 0, 64, 11773, 4, 40, 11784, 13, 36, -1, 79, 38, 0, 64, 11880, 5, 0, 11, 93, 6, 14, 0, 0, 40, 2018, 40, 1976, 40, 1952, 40, 1921, 40, 1879, 5, 5, 36, -1, 1, 40, 0, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, -1, 1, 20, 5700, 12, 13, 37, 34, 64, 11872, 20, 2588, 12, 3, 24, -1, 1, 24, -1, 3, 37, 32, 5, 1, 20, 1264, 12, 6, 8, 53, 5, 1, 20, 5624, 16, -12, 8, 19, 18, -1, 2, 6, 17, -1, 3, 0, 6, 38, 0, 64, 11817, 24, -1, 2, 38, 0, 64, 11879, 4, 40, 11890, 13, 36, -1, 80, 38, 0, 64, 11969, 5, 0, 11, 94, 6, 14, 0, 0, 20, 3580, 32, 17, 5, 1, 20, 1264, 12, 6, 8, 53, 5, 1, 20, 6832, 12, 7, 8, 19, 5, 1, 20, 8328, 0, -18, 20, 7e3, 12, -10, 5, 2, 20, 8392, 20, -12, 8, 53, 20, 7640, 8, 15, 37, 19, 36, -1, 1, 24, -1, 1, 64, 11960, 24, -1, 1, 40, 1, 37, 38, 0, 64, 11964, 20, 8328, 0, -18, 38, 0, 64, 11968, 4, 40, 11979, 13, 36, -1, 81, 38, 0, 64, 12006, 5, 0, 11, 95, 6, 14, 0, 0, 40, 4, 46, 20, 3232, 28, 20, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 12005, 4, 40, 12016, 13, 36, -1, 82, 38, 0, 64, 12226, 5, 0, 11, 96, 6, 14, 2, 0, 1, 2, 20, 3280, 12, 16, 5, 1, 20, 6576, 16, 9, 8, 20, 2096, 44, -9, 37, 19, 36, -1, 3, 20, 6084, 20, 9, 24, -1, 2, 32, 7, -1, 7, 6, 20, 3200, 8, 11, 24, -1, 1, 32, 7, -1, 8, 6, 40, 0, 7, -1, 4, 6, 24, -1, 4, 24, -1, 3, 20, 5700, 12, 13, 37, 34, 64, 12220, 24, -1, 3, 24, -1, 4, 37, 7, -1, 5, 6, 24, -1, 5, 20, 2620, 16, -2, 37, 64, 12130, 20, 2636, 4, 9, 5, 1, 24, -1, 5, 20, 2620, 16, -2, 37, 19, 38, 0, 64, 12131, 31, 7, -1, 6, 6, 24, -1, 6, 10, 64, 12162, 24, -1, 5, 20, 2636, 4, 9, 37, 15, 10, 64, 12158, 6, 20, 8328, 0, -18, 7, -1, 6, 6, 24, -1, 7, 5, 1, 24, -1, 6, 20, 2940, 12, 5, 37, 19, 40, 1, 28, 35, 15, 64, 12202, 6, 24, -1, 8, 5, 1, 24, -1, 6, 20, 2940, 12, 5, 37, 19, 40, 1, 28, 35, 64, 12211, 24, -1, 5, 38, 0, 64, 12225, 17, -1, 4, 0, 6, 38, 0, 64, 12076, 31, 38, 0, 64, 12225, 4, 40, 12236, 13, 36, -1, 83, 38, 0, 64, 12729, 5, 0, 11, 97, 6, 14, 1, 0, 1, 39, 12685, 20, 6984, 16, 19, 36, -1, 2, 31, 36, -1, 3, 24, -1, 1, 20, 7580, 8, -10, 37, 36, -1, 4, 24, -1, 4, 40, 0, 44, 35, 15, 64, 12292, 6, 24, -1, 4, 20, 6020, 4, -2, 37, 40, 0, 44, 35, 64, 12679, 24, -1, 4, 20, 6020, 4, -2, 37, 20, 7128, 4, -10, 47, 64, 12448, 24, -1, 1, 20, 7704, 8, -3, 37, 20, 4992, 8, 21, 8, 47, 64, 12411, 24, -1, 4, 20, 4556, 4, -14, 37, 40, 2, 47, 64, 12346, 20, 5152, 12, -10, 7, -1, 2, 6, 24, -1, 2, 24, -1, 4, 20, 4400, 4, 5, 37, 5, 2, 24, 0, 82, 19, 7, -1, 3, 6, 24, -1, 3, 31, 51, 64, 12407, 24, -1, 3, 20, 2636, 4, 9, 37, 24, -1, 3, 20, 6628, 28, 8, 37, 5, 2, 5, 1, 24, 0, 244, 40, 0, 37, 20, 2924, 16, -11, 37, 19, 6, 38, 0, 64, 12444, 24, -1, 1, 20, 3012, 16, -13, 37, 24, -1, 1, 20, 7704, 8, -3, 37, 5, 2, 5, 1, 24, 0, 244, 40, 0, 37, 20, 2924, 16, -11, 37, 19, 6, 38, 0, 64, 12679, 24, -1, 4, 20, 6020, 4, -2, 37, 20, 696, 4, 6, 47, 64, 12586, 24, -1, 1, 20, 7704, 8, -3, 37, 20, 4992, 8, 21, 8, 47, 64, 12557, 24, -1, 4, 20, 4556, 4, -14, 37, 40, 2, 47, 64, 12500, 20, 5152, 12, -10, 7, -1, 2, 6, 24, -1, 2, 24, -1, 4, 20, 4400, 4, 5, 37, 5, 2, 24, 0, 82, 19, 7, -1, 3, 6, 24, -1, 3, 31, 51, 64, 12553, 24, -1, 3, 20, 2636, 4, 9, 37, 24, -1, 3, 20, 6628, 28, 8, 37, 5, 2, 24, 0, 244, 40, 1, 21, 6, 38, 0, 64, 12582, 24, -1, 1, 20, 3012, 16, -13, 37, 24, -1, 1, 20, 7704, 8, -3, 37, 5, 2, 24, 0, 244, 40, 1, 21, 6, 38, 0, 64, 12679, 24, -1, 4, 20, 6020, 4, -2, 37, 20, 8188, 4, 20, 47, 64, 12679, 24, -1, 4, 20, 5164, 4, 14, 37, 31, 60, 64, 12618, 58, 38, 0, 64, 12728, 24, 0, 244, 40, 2, 37, 24, -1, 4, 20, 5164, 4, 14, 37, 37, 31, 51, 64, 12679, 24, -1, 4, 20, 7128, 4, -10, 37, 24, -1, 4, 20, 2920, 4, 11, 37, 5, 2, 5, 1, 24, 0, 244, 40, 2, 37, 24, -1, 4, 20, 5164, 4, 14, 37, 37, 20, 2924, 16, -11, 37, 19, 6, 33, 12681, 38, 0, 64, 12719, 36, -1, 5, 20, 5460, 12, -4, 24, -1, 5, 20, 5460, 12, -4, 37, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 4652, 84, -18, 5, 4, 26, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 12728, 4, 40, 12739, 13, 36, -1, 84, 38, 0, 64, 13077, 5, 0, 11, 98, 6, 14, 3, 0, 1, 2, 3, 39, 13033, 24, -1, 1, 20, 7580, 8, -10, 37, 36, -1, 4, 24, -1, 4, 40, 0, 44, 35, 15, 64, 12786, 6, 24, -1, 4, 20, 6020, 4, -2, 37, 40, 0, 44, 35, 64, 13027, 24, -1, 4, 20, 6020, 4, -2, 37, 20, 3740, 8, -13, 47, 64, 13027, 24, -1, 4, 20, 4400, 4, 5, 37, 31, 51, 15, 64, 12829, 6, 24, -1, 4, 20, 4400, 4, 5, 37, 24, -1, 3, 35, 64, 12836, 58, 38, 0, 64, 13076, 40, 12843, 13, 38, 0, 64, 12893, 5, 0, 11, 99, 6, 14, 1, 0, 1, 20, 5460, 12, -4, 24, -1, 1, 20, 5460, 12, -4, 37, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 7192, 32, -14, 5, 4, 26, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 12892, 4, 5, 1, 40, 12902, 13, 38, 0, 64, 13006, 5, 0, 11, 100, 6, 14, 0, 0, 20, 1132, 4, -2, 20, 5164, 4, 14, 24, 98, 4, 20, 5164, 4, 14, 37, 20, 7128, 4, -10, 24, 0, 236, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 1, 24, 0, 86, 19, 20, 2920, 4, 11, 24, 98, 2, 20, 6020, 4, -2, 20, 8188, 4, 20, 20, 7704, 8, -3, 20, 5040, 24, -18, 30, 5, 5, 2, 20, 4992, 8, 21, 8, 20, 8036, 8, 0, 37, 20, 6228, 24, 5, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13005, 4, 5, 1, 5, 0, 24, 0, 85, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 6, 33, 13029, 38, 0, 64, 13067, 36, -1, 5, 20, 5460, 12, -4, 24, -1, 5, 20, 5460, 12, -4, 37, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 5292, 40, -10, 5, 4, 26, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13076, 4, 40, 13087, 13, 36, -1, 85, 38, 0, 64, 13451, 5, 0, 11, 101, 6, 14, 0, 0, 40, 13105, 13, 36, -1, 1, 38, 0, 64, 13354, 5, 0, 11, 102, 6, 14, 2, 0, 1, 2, 40, 13122, 13, 38, 0, 64, 13187, 5, 0, 11, 103, 6, 14, 2, 0, 1, 2, 40, 25, 40, 13141, 13, 38, 0, 64, 13168, 5, 0, 11, 104, 6, 14, 0, 0, 20, 8520, 8, -4, 5, 1, 20, 7652, 8, -6, 8, 53, 5, 1, 24, 103, 2, 19, 4, 5, 2, 20, 3560, 20, 19, 8, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13186, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 36, -1, 3, 40, 13205, 13, 38, 0, 64, 13257, 5, 0, 11, 105, 36, -1, 0, 14, 1, 1, 2, 20, 5460, 12, -4, 24, -1, 2, 20, 5460, 12, -4, 37, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 2904, 16, 1, 5, 4, 26, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13256, 4, 5, 1, 40, 13266, 13, 38, 0, 64, 13298, 5, 0, 11, 106, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 24, 0, 236, 24, 102, 2, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13297, 4, 5, 1, 24, -1, 3, 5, 0, 24, -1, 1, 19, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 5, 2, 5, 1, 20, 2668, 16, 15, 8, 20, 6184, 8, 4, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 13353, 4, 5, 0, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, 0, 237, 20, 5700, 12, 13, 37, 34, 64, 13430, 24, 0, 237, 24, -1, 3, 37, 12, 20, 5220, 16, 16, 47, 64, 13421, 24, -1, 3, 24, 0, 237, 24, -1, 3, 37, 5, 2, 24, -1, 1, 19, 5, 1, 24, -1, 2, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 3, 0, 6, 38, 0, 64, 13364, 24, -1, 2, 5, 1, 20, 2668, 16, 15, 8, 20, 1552, 20, -21, 37, 19, 38, 0, 64, 13450, 4, 40, 13461, 13, 36, -1, 86, 38, 0, 64, 13478, 5, 0, 11, 107, 6, 14, 1, 0, 1, 24, -1, 1, 38, 0, 64, 13477, 4, 40, 13488, 13, 36, -1, 87, 38, 0, 64, 13630, 5, 0, 11, 108, 6, 14, 2, 0, 1, 2, 40, 13505, 13, 38, 0, 64, 13571, 5, 0, 11, 109, 6, 14, 2, 0, 1, 2, 24, 108, 2, 40, 13525, 13, 38, 0, 64, 13552, 5, 0, 11, 110, 6, 14, 0, 0, 20, 372, 4, 9, 5, 1, 20, 7652, 8, -6, 8, 53, 5, 1, 24, 109, 2, 19, 4, 5, 2, 20, 3560, 20, 19, 8, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13570, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 36, -1, 3, 5, 0, 24, -1, 1, 19, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 36, -1, 4, 24, -1, 3, 24, -1, 4, 5, 2, 5, 1, 20, 2668, 16, 15, 8, 20, 6184, 8, 4, 37, 19, 38, 0, 64, 13629, 4, 40, 13640, 13, 36, -1, 88, 38, 0, 64, 13977, 5, 0, 11, 111, 6, 14, 4, 0, 1, 2, 3, 4, 20, 1064, 8, 11, 7, 0, 245, 6, 24, -1, 1, 12, 20, 5612, 12, -9, 35, 15, 10, 64, 13680, 6, 24, -1, 1, 40, 2, 54, 64, 13688, 40, 0, 7, -1, 1, 6, 24, -1, 4, 64, 13703, 24, -1, 1, 40, 1, 32, 38, 0, 64, 13705, 40, 1, 36, -1, 5, 40, 13715, 13, 38, 0, 64, 13964, 5, 0, 11, 112, 36, -1, 0, 14, 2, 1, 2, 3, 40, 13737, 13, 36, -1, 4, 38, 0, 64, 13951, 5, 0, 11, 113, 6, 14, 1, 0, 1, 20, 7572, 8, -11, 24, -1, 1, 32, 7, 0, 245, 6, 39, 13928, 24, 0, 244, 40, 2, 37, 24, 111, 3, 37, 36, -1, 2, 24, -1, 2, 20, 5700, 12, 13, 37, 24, 111, 5, 35, 36, -1, 3, 24, -1, 2, 40, 0, 44, 47, 15, 10, 64, 13803, 6, 24, -1, 3, 36, -1, 4, 24, -1, 4, 15, 64, 13819, 6, 24, -1, 1, 40, 30, 34, 64, 13891, 24, -1, 1, 40, 10, 34, 64, 13835, 40, 1, 38, 0, 64, 13837, 40, 3, 36, -1, 5, 24, -1, 5, 40, 13850, 13, 38, 0, 64, 13878, 5, 0, 11, 114, 36, -1, 0, 14, 0, 1, 24, 113, 1, 24, 113, 5, 32, 5, 1, 24, 112, 4, 19, 38, 0, 64, 13877, 4, 5, 2, 20, 3560, 20, 19, 8, 19, 6, 38, 0, 64, 13922, 20, 288, 12, -9, 7, 0, 245, 6, 24, -1, 2, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 1, 24, 112, 2, 19, 6, 33, 13924, 38, 0, 64, 13941, 36, -1, 6, 24, -1, 6, 5, 1, 24, 112, 3, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 13950, 4, 40, 0, 5, 1, 24, -1, 4, 19, 38, 0, 64, 13963, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 38, 0, 64, 13976, 4, 40, 13987, 13, 36, -1, 90, 38, 0, 64, 14131, 5, 0, 11, 115, 6, 14, 2, 0, 1, 2, 40, 0, 36, -1, 3, 40, 0, 36, -1, 4, 24, -1, 4, 24, 0, 244, 40, 0, 37, 20, 5700, 12, 13, 37, 34, 64, 14123, 24, 0, 244, 40, 0, 37, 24, -1, 4, 37, 40, 0, 37, 31, 51, 64, 14114, 24, 0, 244, 40, 0, 37, 24, -1, 4, 37, 40, 1, 37, 20, 5164, 4, 14, 24, -1, 2, 20, 4400, 4, 5, 24, -1, 1, 20, 6020, 4, -2, 20, 3740, 8, -13, 20, 7704, 8, -3, 20, 5040, 24, -18, 30, 4, 5, 2, 24, 0, 244, 40, 0, 37, 24, -1, 4, 37, 40, 0, 37, 20, 6228, 24, 5, 37, 19, 6, 40, 1, 18, -1, 3, 6, 17, -1, 4, 0, 6, 38, 0, 64, 14007, 24, -1, 3, 38, 0, 64, 14130, 4, 40, 14141, 13, 36, -1, 91, 38, 0, 64, 14528, 5, 0, 11, 116, 6, 14, 4, 0, 1, 2, 3, 4, 24, -1, 2, 31, 60, 64, 14165, 58, 38, 0, 64, 14527, 39, 14437, 40, 0, 36, -1, 5, 24, -1, 3, 15, 64, 14183, 6, 24, -1, 4, 10, 64, 14201, 24, -1, 2, 24, -1, 1, 5, 2, 24, 0, 90, 19, 7, -1, 5, 6, 20, 3556, 4, 4, 7, 0, 245, 6, 5, 0, 24, 0, 85, 19, 36, -1, 6, 40, 14225, 13, 38, 0, 64, 14270, 5, 0, 11, 117, 6, 14, 1, 0, 1, 20, 8556, 12, 7, 24, -1, 1, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 4748, 32, 19, 5, 4, 26, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 14269, 4, 5, 1, 40, 14279, 13, 38, 0, 64, 14410, 5, 0, 11, 118, 36, -1, 0, 14, 0, 1, 20, 4404, 4, -19, 7, 0, 245, 6, 24, 0, 236, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 1, 24, 0, 86, 19, 40, 0, 5, 2, 5, 1, 24, 0, 244, 40, 2, 37, 24, 116, 2, 37, 20, 2924, 16, -11, 37, 19, 6, 24, 116, 4, 64, 14387, 24, 0, 244, 40, 2, 37, 24, 116, 2, 37, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 14409, 24, 116, 3, 24, 116, 2, 24, 116, 1, 24, 116, 5, 5, 4, 24, 0, 88, 19, 38, 0, 64, 14409, 4, 5, 1, 24, -1, 6, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 14527, 33, 14433, 38, 0, 64, 14518, 36, -1, 7, 20, 5460, 12, -4, 24, -1, 7, 20, 5460, 12, -4, 37, 30, 1, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 8272, 32, 11, 5, 4, 26, 19, 6, 40, 14478, 13, 38, 0, 64, 14506, 5, 0, 11, 119, 36, -1, 0, 14, 1, 1, 2, 5, 0, 24, -1, 2, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 14505, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 38, 0, 64, 14527, 20, 7336, 12, -4, 8, 38, 0, 64, 14527, 4, 40, 14538, 13, 36, -1, 92, 38, 0, 64, 14586, 5, 0, 11, 120, 6, 14, 0, 0, 40, 15, 40, 2, 5, 2, 40, 36, 5, 1, 5, 0, 20, 6964, 8, 10, 8, 20, 1660, 8, 0, 37, 19, 20, 1024, 16, -7, 37, 19, 20, 7180, 12, -3, 37, 19, 38, 0, 64, 14585, 4, 40, 14596, 13, 36, -1, 93, 38, 0, 64, 14680, 5, 0, 11, 121, 6, 14, 0, 0, 20, 2668, 16, 15, 8, 12, 20, 7336, 12, -4, 35, 15, 64, 14635, 6, 20, 2668, 16, 15, 8, 20, 6184, 8, 4, 37, 12, 20, 5220, 16, 16, 47, 15, 64, 14655, 6, 20, 2668, 16, 15, 8, 20, 1552, 20, -21, 37, 12, 20, 5220, 16, 16, 47, 15, 64, 14675, 6, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 12, 20, 5220, 16, 16, 47, 38, 0, 64, 14679, 4, 40, 14690, 13, 36, -1, 94, 38, 0, 64, 14989, 5, 0, 11, 122, 6, 14, 4, 0, 1, 2, 3, 4, 5, 0, 24, 0, 93, 19, 10, 64, 14716, 31, 38, 0, 64, 14988, 24, -1, 4, 40, 0, 44, 35, 15, 64, 14736, 6, 24, -1, 4, 5, 1, 24, 0, 95, 19, 64, 14743, 31, 38, 0, 64, 14988, 24, -1, 3, 12, 20, 300, 12, -3, 35, 64, 14760, 38, 0, 7, -1, 3, 6, 24, -1, 2, 12, 20, 300, 12, -3, 35, 64, 14777, 38, 1, 7, -1, 2, 6, 5, 0, 24, 0, 92, 19, 36, -1, 5, 5, 0, 24, 0, 244, 40, 2, 37, 24, -1, 5, 21, 6, 40, 14806, 13, 38, 0, 64, 14886, 5, 0, 11, 123, 36, -1, 0, 14, 1, 1, 2, 20, 3556, 4, 4, 7, 0, 245, 6, 20, 7660, 12, -15, 24, 0, 245, 20, 2996, 8, -15, 24, 122, 2, 20, 8556, 12, 7, 24, -1, 2, 30, 3, 20, 8224, 4, -7, 20, 8556, 12, 7, 20, 4820, 88, -21, 5, 4, 26, 19, 6, 24, 0, 244, 40, 2, 37, 24, 122, 5, 27, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 14885, 4, 5, 1, 40, 14895, 13, 38, 0, 64, 14925, 5, 0, 11, 124, 36, -1, 0, 14, 1, 1, 2, 24, 0, 244, 40, 2, 37, 24, 122, 5, 27, 6, 24, -1, 2, 38, 0, 64, 14924, 4, 5, 1, 40, 90, 40, 14936, 13, 38, 0, 64, 14966, 5, 0, 11, 125, 36, -1, 0, 14, 0, 1, 24, 122, 2, 24, 122, 5, 24, 122, 1, 5, 3, 24, 0, 91, 19, 38, 0, 64, 14965, 4, 5, 2, 24, 0, 87, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 14988, 4, 40, 14999, 13, 36, -1, 95, 38, 0, 64, 15106, 5, 0, 11, 126, 6, 14, 1, 0, 1, 24, -1, 1, 31, 60, 64, 15034, 20, 496, 28, -20, 20, 4968, 16, -4, 5, 2, 26, 19, 6, 38, 0, 38, 0, 64, 15105, 24, 0, 246, 20, 5700, 12, 13, 37, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, -1, 2, 34, 64, 15099, 40, 8, 40, 0, 5, 2, 24, -1, 1, 20, 7404, 12, 9, 37, 19, 24, 0, 246, 24, -1, 3, 37, 47, 64, 15090, 38, 1, 38, 0, 64, 15105, 17, -1, 3, 0, 6, 38, 0, 64, 15050, 38, 0, 38, 0, 64, 15105, 4, 40, 15116, 13, 36, -1, 96, 38, 0, 64, 15198, 5, 0, 11, 127, 6, 14, 1, 0, 1, 24, -1, 1, 40, 0, 47, 64, 15158, 24, 0, 83, 20, 5460, 12, -4, 5, 2, 20, 4992, 8, 21, 8, 20, 4172, 36, 19, 37, 19, 6, 38, 0, 64, 15188, 24, 0, 248, 40, 0, 44, 35, 64, 15188, 24, 0, 248, 20, 5460, 12, -4, 5, 2, 20, 4992, 8, 21, 8, 20, 4172, 36, 19, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 15197, 4, 40, 15208, 13, 36, -1, 97, 38, 0, 64, 15488, 5, 0, 11, 128, 6, 14, 2, 0, 1, 2, 24, -1, 1, 5, 1, 24, 0, 247, 20, 2940, 12, 5, 37, 19, 40, 1, 28, 35, 64, 15243, 58, 38, 0, 64, 15487, 24, -1, 1, 5, 1, 24, 0, 247, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 1, 40, 0, 47, 64, 15291, 24, 0, 83, 20, 5460, 12, -4, 5, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 19, 6, 38, 0, 64, 15478, 40, 15298, 13, 38, 0, 64, 15335, 5, 0, 11, 129, 36, -1, 0, 14, 1, 1, 2, 24, 128, 2, 24, 128, 1, 24, -1, 2, 5, 3, 24, 0, 84, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 15334, 4, 7, 0, 248, 6, 24, 0, 248, 20, 5460, 12, -4, 5, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 1132, 4, -2, 20, 4400, 4, 5, 24, -1, 2, 20, 4556, 4, -14, 24, -1, 1, 20, 6020, 4, -2, 20, 7128, 4, -10, 20, 7704, 8, -3, 20, 5040, 24, -18, 30, 4, 5, 2, 20, 4992, 8, 21, 8, 20, 8036, 8, 0, 37, 20, 6228, 24, 5, 37, 19, 6, 24, -1, 1, 40, 2, 47, 64, 15478, 20, 1132, 4, -2, 20, 4400, 4, 5, 24, -1, 2, 20, 4556, 4, -14, 24, -1, 1, 20, 6020, 4, -2, 20, 696, 4, 6, 20, 7704, 8, -3, 20, 5040, 24, -18, 30, 4, 5, 2, 20, 4992, 8, 21, 8, 20, 8036, 8, 0, 37, 20, 6228, 24, 5, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 15487, 4, 40, 100, 36, -1, 99, 40, 101, 36, -1, 100, 40, 102, 36, -1, 101, 40, 110, 36, -1, 102, 40, 111, 36, -1, 103, 40, 112, 36, -1, 104, 40, 113, 36, -1, 105, 40, 120, 36, -1, 106, 40, 121, 36, -1, 107, 40, 130, 36, -1, 108, 40, 131, 36, -1, 109, 40, 140, 36, -1, 110, 40, 150, 36, -1, 111, 40, 151, 36, -1, 112, 40, 152, 36, -1, 113, 40, 160, 36, -1, 114, 40, 161, 36, -1, 115, 40, 162, 36, -1, 116, 40, 164, 36, -1, 117, 40, 165, 36, -1, 118, 40, 170, 36, -1, 119, 40, 171, 36, -1, 120, 40, 172, 36, -1, 121, 40, 173, 36, -1, 122, 40, 174, 36, -1, 123, 40, 180, 36, -1, 124, 40, 181, 36, -1, 125, 24, -1, 11, 24, -1, 0, 5, 2, 24, -1, 6, 19, 36, -1, 126, 24, -1, 8, 24, -1, 1, 5, 2, 24, -1, 6, 19, 36, -1, 127, 24, -1, 10, 24, -1, 2, 5, 2, 24, -1, 6, 19, 36, -1, 128, 24, -1, 9, 24, -1, 3, 5, 2, 24, -1, 7, 19, 36, -1, 129, 24, -1, 12, 24, -1, 4, 5, 2, 24, -1, 6, 19, 36, -1, 130, 40, 16, 36, -1, 131, 40, 15, 40, 1e3, 25, 36, -1, 132, 40, 12, 36, -1, 133, 40, 256, 36, -1, 134, 40, 1, 36, -1, 135, 40, 2, 36, -1, 136, 40, 3, 36, -1, 137, 40, 4, 36, -1, 138, 40, 15748, 13, 38, 0, 64, 16284, 5, 0, 11, 130, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 15, 10, 64, 15769, 6, 30, 0, 7, -1, 2, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 21, 6, 24, -1, 2, 24, 0, 135, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 135, 21, 6, 24, -1, 2, 24, 0, 136, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 136, 21, 6, 24, -1, 2, 24, 0, 137, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 137, 21, 6, 24, -1, 2, 24, 0, 138, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 138, 21, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 46, 20, 4064, 20, -9, 37, 24, 0, 111, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 5472, 48, -20, 37, 38, 0, 47, 64, 16260, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 5, 1, 48, 53, 36, -1, 3, 24, 0, 130, 20, 412, 24, 13, 24, 0, 138, 5, 3, 24, 0, 126, 20, 7672, 16, 21, 24, 0, 137, 5, 3, 24, 0, 126, 20, 4240, 24, -10, 24, 0, 137, 5, 3, 24, 0, 126, 20, 8528, 28, 20, 24, 0, 137, 5, 3, 24, 0, 128, 20, 7780, 40, -18, 24, 0, 136, 5, 3, 24, 0, 128, 20, 3900, 12, 9, 24, 0, 136, 5, 3, 24, 0, 129, 20, 3060, 20, 21, 24, 0, 135, 5, 3, 24, 0, 127, 20, 2752, 60, -21, 24, 0, 135, 5, 3, 24, 0, 127, 20, 7760, 16, 17, 24, 0, 135, 5, 3, 24, 0, 127, 20, 2288, 60, -20, 24, 0, 135, 5, 3, 5, 10, 36, -1, 4, 24, -1, 4, 20, 5700, 12, 13, 37, 36, -1, 5, 40, 0, 36, -1, 6, 24, -1, 6, 24, -1, 5, 34, 64, 16246, 24, -1, 4, 24, -1, 6, 37, 36, -1, 7, 24, -1, 7, 40, 1, 37, 36, -1, 8, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, -1, 7, 40, 0, 37, 37, 38, 1, 47, 64, 16237, 46, 20, 2212, 16, -3, 37, 24, -1, 8, 5, 2, 24, -1, 7, 40, 2, 37, 19, 36, -1, 9, 38, 1, 24, -1, 9, 24, -1, 8, 5, 3, 24, -1, 3, 20, 1736, 40, 7, 37, 19, 6, 38, 1, 24, -1, 9, 24, -1, 8, 24, -1, 3, 5, 4, 5, 1, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 6, 0, 6, 38, 0, 64, 16112, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 5472, 48, -20, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 16283, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 7224, 24, -14, 21, 6, 40, 16305, 13, 38, 0, 64, 16481, 5, 0, 11, 131, 36, -1, 0, 14, 0, 1, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 64, 16457, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, -1, 2, 20, 5700, 12, 13, 37, 34, 64, 16443, 24, -1, 2, 24, -1, 3, 37, 40, 0, 37, 36, -1, 4, 24, -1, 2, 24, -1, 3, 37, 40, 1, 37, 36, -1, 5, 24, -1, 2, 24, -1, 3, 37, 40, 2, 37, 36, -1, 6, 24, -1, 2, 24, -1, 3, 37, 40, 3, 37, 36, -1, 7, 24, -1, 7, 24, -1, 6, 24, -1, 5, 5, 3, 24, -1, 4, 20, 4172, 36, 19, 37, 19, 6, 17, -1, 3, 0, 6, 38, 0, 64, 16347, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 21, 6, 38, 0, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 16480, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 3652, 16, 20, 21, 6, 40, 16502, 13, 38, 0, 64, 16528, 5, 0, 11, 132, 36, -1, 0, 14, 0, 1, 46, 20, 4940, 28, -19, 37, 20, 7308, 16, -9, 37, 38, 0, 64, 16527, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 2744, 8, 4, 21, 6, 40, 16549, 13, 38, 0, 64, 16783, 5, 0, 11, 133, 36, -1, 0, 14, 0, 1, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 5, 1, 20, 760, 20, -15, 8, 20, 8108, 24, -18, 37, 19, 36, -1, 2, 24, -1, 2, 20, 5700, 12, 13, 37, 36, -1, 3, 40, 0, 36, -1, 4, 24, -1, 4, 24, -1, 3, 34, 64, 16772, 24, -1, 2, 24, -1, 4, 37, 36, -1, 5, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 5, 37, 20, 4616, 16, -8, 37, 19, 46, 20, 4064, 20, -9, 37, 24, -1, 5, 21, 6, 24, -1, 5, 24, 0, 104, 60, 64, 16698, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 5, 37, 20, 7132, 48, -18, 37, 19, 46, 20, 4064, 20, -9, 37, 24, 0, 105, 21, 6, 24, -1, 5, 24, 0, 108, 60, 64, 16741, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 5, 37, 20, 7132, 48, -18, 37, 19, 46, 20, 4064, 20, -9, 37, 24, 0, 109, 21, 6, 24, -1, 5, 24, 0, 108, 60, 64, 16763, 5, 0, 46, 20, 4064, 20, -9, 37, 24, 0, 108, 21, 6, 17, -1, 4, 0, 6, 38, 0, 64, 16602, 46, 20, 4064, 20, -9, 37, 38, 0, 64, 16782, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 4616, 16, -8, 21, 6, 40, 16804, 13, 38, 0, 64, 16866, 5, 0, 11, 134, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 2, 5, 1, 20, 8096, 12, 1, 8, 19, 64, 16842, 24, -1, 2, 5, 1, 24, 0, 5, 19, 7, -1, 2, 6, 24, -1, 3, 46, 20, 4064, 20, -9, 37, 24, -1, 2, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 16865, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 3448, 16, 21, 21, 6, 40, 16887, 13, 38, 0, 64, 16930, 5, 0, 11, 135, 36, -1, 0, 14, 0, 1, 30, 0, 46, 20, 4064, 20, -9, 21, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 16929, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 7248, 16, 19, 21, 6, 40, 16951, 13, 38, 0, 64, 16989, 5, 0, 11, 136, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 3, 24, -1, 2, 5, 2, 46, 20, 2212, 16, -3, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 16988, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 7012, 52, -22, 21, 6, 40, 17010, 13, 38, 0, 64, 17330, 5, 0, 11, 137, 36, -1, 0, 14, 2, 1, 2, 3, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 37, 38, 0, 47, 64, 17043, 58, 38, 0, 64, 17329, 39, 17300, 24, -1, 2, 5, 1, 20, 8096, 12, 1, 8, 19, 64, 17071, 24, -1, 2, 5, 1, 24, 0, 5, 19, 7, -1, 2, 6, 40, 10, 24, -1, 2, 5, 2, 20, 7588, 12, 2, 8, 19, 7, -1, 2, 6, 24, -1, 3, 20, 5700, 12, 13, 37, 40, 1, 29, 36, -1, 4, 24, -1, 3, 24, -1, 4, 37, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 29, 36, -1, 5, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 37, 10, 64, 17237, 24, -1, 2, 24, 0, 104, 47, 15, 10, 64, 17161, 6, 24, -1, 2, 24, 0, 108, 47, 64, 17169, 38, 1, 38, 0, 64, 17171, 38, 0, 36, -1, 6, 24, -1, 6, 64, 17186, 24, 0, 134, 38, 0, 64, 17189, 24, 0, 133, 36, -1, 7, 24, -1, 7, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 24, 0, 132, 24, 0, 131, 5, 4, 59, 20, 3464, 24, -12, 37, 53, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 21, 6, 24, -1, 3, 24, -1, 4, 37, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 29, 24, -1, 3, 24, -1, 4, 21, 6, 24, -1, 3, 24, -1, 5, 5, 2, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 37, 20, 2924, 16, -11, 37, 19, 6, 33, 17296, 38, 0, 64, 17320, 36, -1, 8, 24, -1, 8, 20, 1728, 8, -2, 5, 2, 59, 20, 1284, 16, 3, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 17329, 4, 24, -1, 13, 20, 1984, 16, 9, 37, 20, 2212, 16, -3, 21, 6, 5, 0, 24, -1, 13, 53, 36, -1, 139, 40, 1, 36, -1, 140, 40, 2, 36, -1, 141, 20, 4488, 12, 0, 8, 12, 20, 7336, 12, -4, 35, 64, 17388, 5, 0, 20, 4488, 12, 0, 8, 53, 38, 0, 64, 17389, 31, 36, -1, 142, 40, 0, 36, -1, 143, 40, 1, 36, -1, 144, 40, 2, 36, -1, 145, 40, 3, 36, -1, 146, 40, 4, 36, -1, 147, 40, 5, 36, -1, 148, 40, 6, 36, -1, 149, 40, 7, 36, -1, 150, 40, 8, 36, -1, 151, 40, 9, 36, -1, 152, 40, 10, 36, -1, 153, 5, 0, 40, 17456, 13, 38, 0, 64, 17556, 5, 0, 11, 138, 36, -1, 0, 14, 0, 1, 30, 0, 36, -1, 2, 20, 1940, 4, -1, 40, 17482, 13, 38, 0, 64, 17515, 5, 0, 11, 139, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 3, 24, 138, 2, 24, -1, 2, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 17514, 4, 20, 7856, 4, 4, 40, 17526, 13, 38, 0, 64, 17549, 5, 0, 11, 140, 36, -1, 0, 14, 1, 1, 2, 24, 138, 2, 24, -1, 2, 37, 38, 0, 64, 17548, 4, 30, 2, 38, 0, 64, 17555, 4, 19, 36, -1, 154, 40, 0, 36, -1, 155, 40, 1, 36, -1, 156, 40, 2, 36, -1, 157, 40, 3, 36, -1, 158, 40, 10, 36, -1, 159, 40, 11, 36, -1, 160, 40, 12, 36, -1, 161, 40, 13, 36, -1, 162, 40, 20, 36, -1, 163, 40, 21, 36, -1, 164, 40, 30, 36, -1, 165, 40, 40, 36, -1, 166, 40, 41, 36, -1, 167, 40, 50, 36, -1, 168, 40, 51, 36, -1, 169, 40, 52, 36, -1, 170, 40, 53, 36, -1, 171, 40, 60, 36, -1, 172, 40, 61, 36, -1, 173, 40, 62, 36, -1, 174, 40, 70, 36, -1, 175, 40, 71, 36, -1, 176, 40, 72, 36, -1, 177, 40, 73, 36, -1, 178, 40, 74, 36, -1, 179, 40, 75, 36, -1, 180, 40, 76, 36, -1, 181, 40, 77, 36, -1, 182, 40, 78, 36, -1, 183, 40, 89, 36, -1, 184, 24, -1, 29, 24, -1, 22, 5, 2, 24, -1, 28, 19, 36, -1, 185, 24, -1, 30, 24, -1, 22, 5, 2, 24, -1, 28, 19, 36, -1, 186, 24, -1, 32, 24, -1, 21, 5, 2, 24, -1, 28, 19, 36, -1, 187, 24, -1, 31, 24, -1, 23, 5, 2, 24, -1, 28, 19, 36, -1, 188, 24, -1, 33, 24, -1, 26, 5, 2, 24, -1, 28, 19, 36, -1, 189, 24, -1, 34, 24, -1, 25, 5, 2, 24, -1, 28, 19, 36, -1, 190, 24, -1, 35, 24, -1, 24, 5, 2, 24, -1, 28, 19, 36, -1, 191, 24, -1, 36, 24, -1, 27, 5, 2, 24, -1, 28, 19, 36, -1, 192, 40, 1, 40, 0, 57, 36, -1, 193, 40, 1, 40, 1, 57, 36, -1, 194, 40, 1, 40, 2, 57, 36, -1, 195, 40, 1, 40, 3, 57, 36, -1, 196, 40, 1, 40, 4, 57, 36, -1, 197, 40, 1, 40, 5, 57, 36, -1, 198, 40, 1, 40, 6, 57, 36, -1, 199, 40, 1, 40, 7, 57, 36, -1, 200, 40, 1, 40, 8, 57, 36, -1, 201, 40, 0, 36, -1, 202, 40, 1, 36, -1, 203, 20, 4992, 8, 21, 8, 20, 7064, 40, 15, 37, 12, 20, 5220, 16, 16, 47, 64, 17944, 20, 4992, 8, 21, 8, 20, 7064, 40, 15, 37, 38, 0, 64, 17980, 40, 17951, 13, 38, 0, 64, 17980, 5, 0, 11, 141, 36, -1, 0, 14, 1, 1, 2, 40, 50, 24, -1, 2, 5, 2, 20, 3560, 20, 19, 8, 19, 38, 0, 64, 17979, 4, 36, -1, 204, 20, 4992, 8, 21, 8, 20, 3680, 44, 14, 37, 12, 20, 5220, 16, 16, 47, 64, 18015, 20, 4992, 8, 21, 8, 20, 3680, 44, 14, 37, 38, 0, 64, 18055, 40, 18022, 13, 38, 0, 64, 18055, 5, 0, 11, 142, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 20, 7984, 16, -3, 8, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 18054, 4, 36, -1, 205, 40, 212, 40, 81, 40, 127, 40, 16, 40, 59, 40, 17, 40, 231, 40, 255, 40, 172, 40, 102, 40, 136, 40, 155, 40, 103, 40, 126, 40, 36, 40, 6, 40, 52, 40, 69, 40, 137, 40, 139, 40, 158, 40, 214, 40, 78, 40, 237, 40, 128, 40, 162, 40, 26, 40, 135, 40, 42, 40, 253, 40, 125, 40, 205, 5, 32, 36, -1, 206, 40, 18134, 13, 38, 0, 64, 18222, 5, 0, 11, 143, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 40, 18155, 13, 38, 0, 64, 18194, 5, 0, 11, 144, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 24, 143, 2, 20, 2560, 8, 1, 21, 6, 5, 0, 24, 143, 2, 20, 7348, 8, 11, 37, 19, 38, 0, 64, 18193, 4, 5, 1, 46, 20, 5520, 20, -1, 37, 5, 1, 46, 20, 5556, 56, -21, 37, 19, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 18221, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 852, 8, 0, 21, 6, 40, 18243, 13, 38, 0, 64, 18313, 5, 0, 11, 145, 36, -1, 0, 14, 0, 1, 20, 2952, 36, -21, 20, 8192, 24, -11, 5, 2, 38, 0, 20, 1040, 8, -1, 20, 1436, 16, -14, 30, 1, 24, 0, 206, 5, 1, 20, 2180, 20, 4, 8, 53, 20, 2540, 20, -22, 5, 5, 20, 1484, 8, 10, 8, 20, 8452, 12, 15, 37, 20, 1944, 12, -1, 37, 19, 38, 0, 64, 18312, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 5556, 56, -21, 21, 6, 40, 18334, 13, 38, 0, 64, 18770, 5, 0, 11, 146, 36, -1, 0, 14, 1, 1, 2, 46, 36, -1, 3, 46, 20, 720, 40, 22, 37, 64, 18362, 58, 38, 0, 64, 18769, 38, 1, 46, 20, 720, 40, 22, 21, 6, 46, 20, 6804, 28, 9, 37, 31, 35, 64, 18402, 46, 20, 6804, 28, 9, 37, 5, 1, 24, 0, 205, 19, 6, 31, 46, 20, 6804, 28, 9, 21, 6, 40, 18409, 13, 38, 0, 64, 18739, 5, 0, 11, 147, 36, -1, 0, 14, 0, 1, 5, 0, 24, 146, 3, 20, 2228, 12, 22, 37, 20, 7404, 12, 9, 37, 19, 36, -1, 2, 40, 18445, 13, 38, 0, 64, 18479, 5, 0, 11, 148, 36, -1, 0, 14, 0, 1, 38, 0, 24, 146, 3, 20, 720, 40, 22, 21, 6, 24, 146, 3, 20, 2228, 12, 22, 37, 38, 0, 64, 18478, 4, 5, 1, 40, 18488, 13, 38, 0, 64, 18706, 5, 0, 11, 149, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 20, 8044, 16, 18, 8, 20, 7944, 12, 15, 37, 19, 10, 64, 18524, 5, 0, 7, -1, 2, 6, 24, 147, 2, 24, -1, 2, 5, 2, 24, 146, 3, 20, 3292, 16, -4, 37, 19, 36, -1, 3, 24, -1, 3, 24, 146, 3, 20, 2228, 12, 22, 21, 6, 24, 147, 2, 20, 5700, 12, 13, 37, 40, 0, 54, 64, 18682, 40, 18576, 13, 38, 0, 64, 18610, 5, 0, 11, 150, 36, -1, 0, 14, 0, 1, 38, 0, 24, 146, 3, 20, 720, 40, 22, 21, 6, 24, 146, 3, 20, 2228, 12, 22, 37, 38, 0, 64, 18609, 4, 5, 1, 40, 18619, 13, 38, 0, 64, 18653, 5, 0, 11, 151, 36, -1, 0, 14, 0, 1, 38, 0, 24, 146, 3, 20, 720, 40, 22, 21, 6, 24, 146, 3, 20, 2228, 12, 22, 37, 38, 0, 64, 18652, 4, 5, 1, 5, 0, 24, 146, 3, 20, 7356, 48, -13, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 18705, 38, 0, 24, 146, 3, 20, 720, 40, 22, 21, 6, 24, 146, 3, 20, 2228, 12, 22, 37, 38, 0, 64, 18705, 4, 5, 1, 24, 146, 2, 5, 1, 24, 146, 3, 20, 3044, 16, 1, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 18738, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 46, 20, 6780, 8, -5, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 18769, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 860, 40, -10, 21, 6, 40, 18791, 13, 38, 0, 64, 19037, 5, 0, 11, 152, 36, -1, 0, 14, 2, 1, 2, 3, 5, 0, 36, -1, 4, 30, 0, 36, -1, 5, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 7, 24, -1, 6, 34, 64, 18921, 24, -1, 3, 24, -1, 7, 37, 36, -1, 8, 24, -1, 8, 15, 64, 18863, 6, 24, -1, 8, 20, 3040, 4, -8, 37, 15, 64, 18880, 6, 24, -1, 5, 24, -1, 8, 20, 3040, 4, -8, 37, 37, 10, 64, 18912, 24, -1, 8, 5, 1, 24, -1, 4, 20, 2924, 16, -11, 37, 19, 6, 38, 1, 24, -1, 5, 24, -1, 8, 20, 3040, 4, -8, 37, 21, 6, 17, -1, 7, 0, 6, 38, 0, 64, 18829, 24, -1, 2, 20, 5700, 12, 13, 37, 36, -1, 9, 40, 0, 36, -1, 10, 24, -1, 10, 24, -1, 9, 34, 64, 19029, 24, -1, 2, 24, -1, 10, 37, 36, -1, 11, 24, -1, 11, 15, 64, 18971, 6, 24, -1, 11, 20, 3040, 4, -8, 37, 15, 64, 18988, 6, 24, -1, 5, 24, -1, 11, 20, 3040, 4, -8, 37, 37, 10, 64, 19020, 24, -1, 11, 5, 1, 24, -1, 4, 20, 2924, 16, -11, 37, 19, 6, 38, 1, 24, -1, 5, 24, -1, 11, 20, 3040, 4, -8, 37, 21, 6, 17, -1, 10, 0, 6, 38, 0, 64, 18937, 24, -1, 4, 38, 0, 64, 19036, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 3292, 16, -4, 21, 6, 40, 19058, 13, 38, 0, 64, 19352, 5, 0, 11, 153, 36, -1, 0, 14, 1, 1, 2, 39, 19319, 46, 36, -1, 3, 5, 0, 20, 5652, 48, -19, 8, 53, 36, -1, 4, 40, 12, 5, 1, 20, 2180, 20, 4, 8, 53, 5, 1, 20, 1484, 8, 10, 8, 20, 8472, 28, 12, 37, 19, 36, -1, 5, 24, -1, 2, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 1, 24, -1, 4, 20, 2432, 8, 12, 37, 19, 36, -1, 6, 40, 19149, 13, 38, 0, 64, 19255, 5, 0, 11, 154, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 20, 2180, 20, 4, 8, 53, 36, -1, 3, 24, 153, 5, 31, 5, 2, 20, 6832, 12, 7, 8, 20, 5404, 16, 2, 37, 20, 3888, 12, 18, 37, 19, 5, 1, 20, 4992, 8, 21, 8, 20, 4984, 8, -10, 37, 19, 20, 5712, 4, -6, 32, 24, -1, 3, 31, 5, 2, 20, 6832, 12, 7, 8, 20, 5404, 16, 2, 37, 20, 3888, 12, 18, 37, 19, 5, 1, 20, 4992, 8, 21, 8, 20, 4984, 8, -10, 37, 19, 32, 38, 0, 64, 19254, 4, 5, 1, 24, -1, 6, 24, -1, 3, 20, 2560, 8, 1, 37, 20, 8244, 8, 9, 24, -1, 5, 20, 1040, 8, -1, 20, 1436, 16, -14, 30, 2, 5, 3, 20, 1484, 8, 10, 8, 20, 8452, 12, 15, 37, 20, 8192, 24, -11, 37, 19, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 19351, 33, 19315, 38, 0, 64, 19342, 36, -1, 7, 24, -1, 7, 5, 1, 20, 2668, 16, 15, 8, 20, 3992, 12, 6, 37, 19, 38, 0, 64, 19351, 20, 7336, 12, -4, 8, 38, 0, 64, 19351, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 5888, 12, 15, 21, 6, 40, 19373, 13, 38, 0, 64, 19802, 5, 0, 11, 155, 36, -1, 0, 14, 1, 1, 2, 46, 36, -1, 3, 24, -1, 2, 10, 64, 19413, 5, 0, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 19801, 39, 19770, 20, 5712, 4, -6, 5, 1, 24, -1, 2, 20, 6544, 8, 2, 37, 19, 36, -1, 4, 40, 19440, 13, 38, 0, 64, 19469, 5, 0, 11, 156, 36, -1, 0, 14, 1, 1, 2, 40, 0, 5, 1, 24, -1, 2, 20, 2380, 28, 6, 37, 19, 38, 0, 64, 19468, 4, 5, 1, 20, 8328, 0, -18, 5, 1, 24, -1, 4, 40, 0, 37, 5, 1, 20, 4992, 8, 21, 8, 20, 3880, 8, 1, 37, 19, 20, 6544, 8, 2, 37, 19, 20, 1576, 8, 17, 37, 19, 5, 1, 20, 2180, 20, 4, 8, 53, 36, -1, 5, 40, 19526, 13, 38, 0, 64, 19555, 5, 0, 11, 157, 36, -1, 0, 14, 1, 1, 2, 40, 0, 5, 1, 24, -1, 2, 20, 2380, 28, 6, 37, 19, 38, 0, 64, 19554, 4, 5, 1, 20, 8328, 0, -18, 5, 1, 24, -1, 4, 40, 1, 37, 5, 1, 20, 4992, 8, 21, 8, 20, 3880, 8, 1, 37, 19, 20, 6544, 8, 2, 37, 19, 20, 1576, 8, 17, 37, 19, 5, 1, 20, 2180, 20, 4, 8, 53, 36, -1, 6, 40, 19612, 13, 38, 0, 64, 19629, 5, 0, 11, 158, 36, -1, 0, 14, 0, 1, 5, 0, 38, 0, 64, 19628, 4, 5, 1, 40, 19638, 13, 38, 0, 64, 19700, 5, 0, 11, 159, 36, -1, 0, 14, 1, 1, 2, 5, 0, 20, 1328, 36, -13, 8, 53, 36, -1, 3, 24, -1, 2, 5, 1, 20, 2180, 20, 4, 8, 53, 5, 1, 24, -1, 3, 20, 7112, 16, -21, 37, 19, 5, 1, 20, 5788, 8, 11, 8, 20, 5640, 12, 6, 37, 19, 38, 0, 64, 19699, 4, 5, 1, 24, -1, 6, 24, -1, 3, 20, 2560, 8, 1, 37, 20, 8244, 8, 9, 24, -1, 5, 20, 1040, 8, -1, 20, 1436, 16, -14, 30, 2, 5, 3, 20, 1484, 8, 10, 8, 20, 8452, 12, 15, 37, 20, 2952, 36, -21, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 19801, 33, 19766, 38, 0, 64, 19792, 36, -1, 7, 5, 0, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 19801, 20, 7336, 12, -4, 8, 38, 0, 64, 19801, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 3044, 16, 1, 21, 6, 40, 19823, 13, 38, 0, 64, 19939, 5, 0, 11, 160, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 46, 20, 7472, 20, 11, 37, 5, 1, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 20, 3852, 28, -15, 37, 19, 36, -1, 3, 40, 19871, 13, 38, 0, 64, 19914, 5, 0, 11, 161, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 15, 10, 64, 19892, 6, 5, 0, 24, 160, 2, 20, 2228, 12, 22, 21, 6, 24, 160, 2, 20, 2228, 12, 22, 37, 38, 0, 64, 19913, 4, 5, 1, 24, -1, 3, 5, 1, 46, 20, 3044, 16, 1, 37, 19, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 19938, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 7348, 8, 11, 21, 6, 40, 19960, 13, 38, 0, 64, 20528, 5, 0, 11, 162, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 46, 20, 1136, 56, -16, 37, 10, 64, 19992, 5, 0, 46, 20, 1136, 56, -16, 21, 6, 40, 19999, 13, 38, 0, 64, 20515, 5, 0, 11, 163, 36, -1, 0, 14, 2, 1, 2, 3, 20, 3992, 12, 6, 24, -1, 3, 20, 2440, 12, -3, 24, -1, 2, 30, 2, 5, 1, 24, 162, 2, 20, 1136, 56, -16, 37, 20, 2924, 16, -11, 37, 19, 6, 24, 162, 2, 20, 6804, 28, 9, 37, 31, 35, 64, 20081, 24, 162, 2, 20, 6804, 28, 9, 37, 5, 1, 24, 0, 205, 19, 6, 31, 24, 162, 2, 20, 6804, 28, 9, 21, 6, 40, 20088, 13, 38, 0, 64, 20490, 5, 0, 11, 164, 36, -1, 0, 14, 0, 1, 39, 20415, 31, 24, 162, 2, 20, 6804, 28, 9, 21, 6, 40, 100, 28, 5, 1, 24, 162, 2, 20, 2228, 12, 22, 37, 20, 7404, 12, 9, 37, 19, 24, 162, 2, 20, 2228, 12, 22, 21, 6, 40, 20145, 13, 38, 0, 64, 20242, 5, 0, 11, 165, 36, -1, 0, 14, 1, 1, 2, 24, 162, 2, 20, 1136, 56, -16, 37, 15, 10, 64, 20171, 6, 5, 0, 36, -1, 3, 5, 0, 24, 162, 2, 20, 1136, 56, -16, 21, 6, 40, 0, 36, -1, 4, 24, -1, 4, 24, -1, 3, 20, 5700, 12, 13, 37, 34, 64, 20232, 24, -1, 2, 5, 1, 24, -1, 3, 24, -1, 4, 37, 20, 3992, 12, 6, 37, 19, 6, 17, -1, 4, 0, 6, 38, 0, 64, 20190, 20, 7336, 12, -4, 8, 38, 0, 64, 20241, 4, 5, 1, 40, 20251, 13, 38, 0, 64, 20375, 5, 0, 11, 166, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 24, 162, 2, 20, 7472, 20, 11, 37, 5, 2, 20, 4992, 8, 21, 8, 20, 2156, 24, 4, 37, 20, 3524, 32, -17, 37, 19, 6, 24, 162, 2, 20, 1136, 56, -16, 37, 15, 10, 64, 20307, 6, 5, 0, 36, -1, 3, 5, 0, 24, 162, 2, 20, 1136, 56, -16, 21, 6, 40, 0, 36, -1, 4, 24, -1, 4, 24, -1, 3, 20, 5700, 12, 13, 37, 34, 64, 20365, 5, 0, 24, -1, 3, 24, -1, 4, 37, 20, 2440, 12, -3, 37, 19, 6, 17, -1, 4, 0, 6, 38, 0, 64, 20326, 20, 7336, 12, -4, 8, 38, 0, 64, 20374, 4, 5, 1, 24, 162, 2, 20, 2228, 12, 22, 37, 5, 1, 24, 162, 2, 20, 5888, 12, 15, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 6, 33, 20411, 38, 0, 64, 20480, 36, -1, 2, 24, -1, 2, 20, 7652, 8, -6, 8, 9, 15, 64, 20451, 6, 20, 3812, 12, 16, 5, 1, 24, -1, 2, 20, 5460, 12, -4, 37, 20, 3724, 16, -10, 37, 19, 64, 20468, 24, -1, 2, 5, 1, 24, 163, 3, 19, 6, 58, 38, 0, 64, 20489, 24, -1, 2, 20, 148, 8, 5, 5, 2, 0, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 20489, 4, 5, 1, 24, 0, 204, 19, 24, 162, 2, 20, 6804, 28, 9, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 20514, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 38, 0, 64, 20527, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 7356, 48, -13, 21, 6, 40, 20549, 13, 38, 0, 64, 20642, 5, 0, 11, 167, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 40, 20570, 13, 38, 0, 64, 20623, 5, 0, 11, 168, 36, -1, 0, 14, 0, 1, 24, 167, 2, 20, 720, 40, 22, 37, 64, 20607, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 20622, 5, 0, 24, 167, 2, 20, 7356, 48, -13, 37, 19, 38, 0, 64, 20622, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 20641, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 780, 12, -5, 21, 6, 40, 20663, 13, 38, 0, 64, 20936, 5, 0, 11, 169, 36, -1, 0, 14, 1, 1, 2, 46, 20, 1364, 72, -17, 37, 64, 20699, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 20935, 24, -1, 2, 31, 60, 15, 10, 64, 20719, 6, 24, -1, 2, 20, 3040, 4, -8, 37, 31, 60, 64, 20738, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 20935, 46, 36, -1, 3, 40, 20749, 13, 38, 0, 64, 20917, 5, 0, 11, 170, 36, -1, 0, 14, 0, 1, 39, 20884, 38, 0, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, 169, 3, 20, 2228, 12, 22, 37, 20, 5700, 12, 13, 37, 34, 64, 20837, 24, 169, 3, 20, 2228, 12, 22, 37, 24, -1, 3, 37, 20, 3040, 4, -8, 37, 24, 169, 2, 20, 3040, 4, -8, 37, 47, 64, 20828, 38, 1, 7, -1, 2, 6, 38, 0, 64, 20837, 17, -1, 3, 0, 6, 38, 0, 64, 20771, 24, -1, 2, 10, 64, 20878, 24, 169, 2, 5, 1, 24, 169, 3, 20, 2228, 12, 22, 37, 20, 2924, 16, -11, 37, 19, 6, 5, 0, 24, 169, 3, 20, 780, 12, -5, 37, 19, 38, 0, 64, 20916, 33, 20880, 38, 0, 64, 20907, 36, -1, 4, 24, -1, 4, 5, 1, 20, 2668, 16, 15, 8, 20, 3992, 12, 6, 37, 19, 38, 0, 64, 20916, 20, 7336, 12, -4, 8, 38, 0, 64, 20916, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 20935, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 660, 4, -5, 21, 6, 40, 20957, 13, 38, 0, 64, 21045, 5, 0, 11, 171, 36, -1, 0, 14, 0, 1, 46, 20, 1364, 72, -17, 37, 64, 20992, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 21044, 46, 36, -1, 2, 40, 21003, 13, 38, 0, 64, 21026, 5, 0, 11, 172, 36, -1, 0, 14, 0, 1, 24, 171, 2, 20, 2228, 12, 22, 37, 38, 0, 64, 21025, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 21044, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 1192, 8, -4, 21, 6, 40, 21066, 13, 38, 0, 64, 21170, 5, 0, 11, 173, 36, -1, 0, 14, 0, 1, 46, 20, 1364, 72, -17, 37, 64, 21101, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 21169, 46, 36, -1, 2, 40, 21112, 13, 38, 0, 64, 21138, 5, 0, 11, 174, 36, -1, 0, 14, 0, 1, 5, 0, 24, 173, 2, 20, 7348, 8, 11, 37, 19, 38, 0, 64, 21137, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 46, 20, 6780, 8, -5, 21, 6, 46, 20, 6780, 8, -5, 37, 38, 0, 64, 21169, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 6620, 8, -3, 21, 6, 40, 21191, 13, 38, 0, 64, 21293, 5, 0, 11, 175, 36, -1, 0, 14, 0, 1, 46, 20, 1364, 72, -17, 37, 64, 21226, 5, 0, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 21292, 46, 36, -1, 2, 40, 21237, 13, 38, 0, 64, 21274, 5, 0, 11, 176, 36, -1, 0, 14, 0, 1, 5, 0, 24, 175, 2, 20, 2228, 12, 22, 21, 6, 5, 0, 24, 175, 2, 20, 780, 12, -5, 37, 19, 38, 0, 64, 21273, 4, 5, 1, 46, 20, 6780, 8, -5, 37, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 21292, 4, 24, -1, 38, 20, 1984, 16, 9, 37, 20, 180, 8, 2, 21, 6, 24, -1, 176, 24, -1, 181, 24, -1, 183, 24, -1, 182, 24, -1, 180, 24, -1, 179, 24, -1, 177, 24, -1, 178, 24, -1, 184, 24, -1, 175, 5, 10, 36, -1, 207, 40, 0, 36, -1, 208, 40, 1, 36, -1, 209, 40, 2, 36, -1, 210, 5, 0, 24, -1, 47, 19, 36, -1, 211, 40, 0, 36, -1, 212, 40, 1, 36, -1, 213, 40, 2, 36, -1, 214, 40, 3, 36, -1, 215, 40, 4, 36, -1, 216, 40, 5, 36, -1, 217, 40, 6, 36, -1, 218, 40, 21408, 13, 38, 0, 64, 21510, 5, 0, 11, 177, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 24, 0, 49, 19, 46, 20, 664, 24, -3, 21, 6, 46, 20, 664, 24, -3, 37, 24, 0, 212, 37, 10, 64, 21476, 46, 20, 2348, 32, 13, 37, 20, 3488, 8, -1, 5, 2, 20, 6576, 16, 9, 8, 20, 4172, 36, 19, 37, 19, 6, 38, 0, 64, 21500, 46, 20, 2348, 32, 13, 37, 20, 3488, 8, -1, 5, 2, 20, 6576, 16, 9, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 21509, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 544, 44, 19, 21, 6, 40, 21531, 13, 38, 0, 64, 21600, 5, 0, 11, 178, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 24, 0, 228, 37, 64, 21561, 5, 0, 46, 20, 6024, 44, 6, 37, 19, 6, 24, -1, 2, 24, 0, 229, 37, 64, 21590, 5, 0, 46, 20, 3080, 112, -21, 37, 19, 6, 5, 0, 46, 20, 1452, 32, 2, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 21599, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 7224, 24, -14, 21, 6, 40, 21621, 13, 38, 0, 64, 21816, 5, 0, 11, 179, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 40, 21642, 13, 38, 0, 64, 21788, 5, 0, 11, 180, 36, -1, 0, 14, 0, 1, 20, 6576, 16, 9, 8, 20, 7604, 8, 1, 37, 64, 21723, 40, 21671, 13, 38, 0, 64, 21692, 5, 0, 11, 181, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 21691, 4, 5, 1, 40, 0, 5, 1, 24, 0, 183, 5, 2, 24, 179, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 38, 0, 64, 21778, 40, 21730, 13, 38, 0, 64, 21751, 5, 0, 11, 182, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 21750, 4, 5, 1, 40, 1, 5, 1, 24, 0, 183, 5, 2, 24, 179, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 21787, 4, 20, 5956, 56, -17, 5, 2, 20, 6576, 16, 9, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 21815, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 6024, 44, 6, 21, 6, 40, 21837, 13, 38, 0, 64, 22465, 5, 0, 11, 183, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 40, 21858, 13, 38, 0, 64, 21974, 5, 0, 11, 184, 36, -1, 0, 14, 1, 1, 2, 40, 21876, 13, 38, 0, 64, 21897, 5, 0, 11, 185, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 21896, 4, 5, 1, 40, 21906, 13, 38, 0, 64, 21927, 5, 0, 11, 186, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 21926, 4, 5, 1, 5, 0, 24, 0, 42, 19, 5, 1, 24, 0, 178, 5, 2, 24, 183, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 21973, 4, 20, 5344, 20, -9, 5, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 19, 6, 40, 21999, 13, 38, 0, 64, 22079, 5, 0, 11, 187, 36, -1, 0, 14, 1, 1, 2, 40, 22017, 13, 38, 0, 64, 22038, 5, 0, 11, 188, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 22037, 4, 5, 1, 5, 0, 24, 0, 42, 19, 5, 1, 24, 0, 177, 5, 2, 24, 183, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 22078, 4, 20, 8140, 16, 17, 5, 2, 20, 4992, 8, 21, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 2812, 16, 11, 8, 20, 4292, 48, -19, 37, 36, -1, 3, 20, 2812, 16, 11, 8, 20, 3208, 24, 6, 37, 36, -1, 4, 40, 22130, 13, 38, 0, 64, 22278, 5, 0, 11, 189, 36, -1, 0, 14, 3, 1, 2, 3, 4, 24, -1, 4, 24, -1, 3, 24, -1, 2, 20, 2812, 16, 11, 8, 5, 4, 24, 183, 3, 20, 8568, 12, -15, 37, 19, 6, 40, 22176, 13, 38, 0, 64, 22197, 5, 0, 11, 190, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 22196, 4, 5, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 8020, 16, 13, 37, 20, 7648, 4, -17, 5, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 1668, 8, 19, 37, 20, 6544, 8, 2, 37, 19, 40, 0, 37, 32, 5, 1, 24, 0, 179, 5, 2, 24, 183, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 22277, 4, 20, 2812, 16, 11, 8, 20, 4292, 48, -19, 21, 6, 40, 22296, 13, 38, 0, 64, 22444, 5, 0, 11, 191, 36, -1, 0, 14, 3, 1, 2, 3, 4, 24, -1, 4, 24, -1, 3, 24, -1, 2, 20, 2812, 16, 11, 8, 5, 4, 24, 183, 4, 20, 8568, 12, -15, 37, 19, 6, 40, 22342, 13, 38, 0, 64, 22363, 5, 0, 11, 192, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 22362, 4, 5, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 8020, 16, 13, 37, 20, 7648, 4, -17, 5, 1, 20, 4992, 8, 21, 8, 20, 5932, 12, -5, 37, 20, 1668, 8, 19, 37, 20, 6544, 8, 2, 37, 19, 40, 0, 37, 32, 5, 1, 24, 0, 180, 5, 2, 24, 183, 2, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 22443, 4, 20, 2812, 16, 11, 8, 20, 3208, 24, 6, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 22464, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 3080, 112, -21, 21, 6, 40, 22486, 13, 38, 0, 64, 23006, 5, 0, 11, 193, 36, -1, 0, 14, 1, 1, 2, 46, 36, -1, 3, 39, 22976, 24, -1, 3, 20, 664, 24, -3, 37, 36, -1, 4, 24, -1, 4, 24, 0, 212, 37, 10, 64, 22529, 58, 38, 0, 64, 23005, 24, -1, 4, 24, 0, 213, 37, 31, 51, 15, 64, 22556, 6, 24, -1, 4, 24, 0, 213, 37, 5, 1, 24, 0, 43, 19, 10, 64, 22563, 58, 38, 0, 64, 23005, 24, -1, 4, 24, 0, 214, 37, 31, 51, 15, 64, 22589, 6, 24, -1, 4, 24, 0, 214, 37, 5, 1, 24, 0, 43, 19, 64, 22596, 58, 38, 0, 64, 23005, 40, 2, 24, -1, 4, 24, 0, 216, 37, 24, -1, 2, 20, 6956, 8, -1, 37, 5, 3, 24, 0, 50, 19, 36, -1, 5, 24, -1, 5, 31, 60, 64, 22634, 58, 38, 0, 64, 23005, 40, 20, 40, 0, 5, 2, 20, 4608, 8, 4, 5, 1, 24, -1, 5, 20, 2620, 16, -2, 37, 19, 15, 10, 64, 22664, 6, 20, 8328, 0, -18, 20, 7404, 12, 9, 37, 19, 36, -1, 6, 40, 20, 40, 0, 5, 2, 20, 2496, 20, 21, 5, 1, 24, -1, 5, 20, 2620, 16, -2, 37, 19, 15, 10, 64, 22703, 6, 20, 8328, 0, -18, 20, 7404, 12, 9, 37, 19, 36, -1, 7, 40, 20, 40, 0, 5, 2, 20, 360, 12, 13, 5, 1, 24, -1, 5, 20, 2620, 16, -2, 37, 19, 15, 10, 64, 22742, 6, 20, 8328, 0, -18, 20, 7404, 12, 9, 37, 19, 36, -1, 8, 40, 20, 40, 0, 5, 2, 24, 0, 219, 5, 1, 24, -1, 5, 20, 2620, 16, -2, 37, 19, 15, 10, 64, 22780, 6, 20, 8328, 0, -18, 20, 7404, 12, 9, 37, 19, 36, -1, 9, 40, 50, 40, 0, 5, 2, 40, 22802, 13, 38, 0, 64, 22884, 5, 0, 11, 194, 36, -1, 0, 14, 2, 1, 2, 3, 24, 193, 3, 20, 664, 24, -3, 37, 24, 0, 217, 37, 64, 22838, 38, 1, 38, 0, 64, 22883, 38, 0, 64, 22877, 24, 193, 3, 20, 664, 24, -3, 37, 24, 0, 218, 37, 64, 22877, 24, -1, 3, 24, -1, 2, 5, 2, 24, 193, 3, 20, 664, 24, -3, 37, 24, 0, 218, 37, 19, 38, 0, 64, 22883, 38, 0, 38, 0, 64, 22883, 4, 24, -1, 5, 5, 2, 24, 0, 46, 19, 20, 7404, 12, 9, 37, 19, 36, -1, 10, 40, 22909, 13, 38, 0, 64, 22930, 5, 0, 11, 195, 36, -1, 0, 14, 1, 1, 2, 20, 7336, 12, -4, 8, 38, 0, 64, 22929, 4, 5, 1, 24, -1, 10, 24, -1, 9, 24, -1, 7, 24, -1, 8, 24, -1, 6, 5, 5, 24, 0, 184, 5, 2, 24, -1, 3, 20, 2212, 16, -3, 37, 19, 20, 588, 12, -8, 37, 19, 6, 33, 22972, 38, 0, 64, 22996, 36, -1, 11, 24, -1, 11, 5, 1, 20, 6256, 12, -2, 8, 20, 8556, 12, 7, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 23005, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 2e3, 60, -22, 21, 6, 20, 2452, 28, -9, 36, -1, 219, 40, 23034, 13, 38, 0, 64, 23096, 5, 0, 11, 196, 36, -1, 0, 14, 0, 1, 46, 20, 664, 24, -3, 37, 24, 0, 212, 37, 10, 64, 23062, 58, 38, 0, 64, 23095, 46, 20, 2348, 32, 13, 37, 20, 3488, 8, -1, 5, 2, 20, 6576, 16, 9, 8, 20, 1736, 40, 7, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 23095, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 1452, 32, 2, 21, 6, 40, 23117, 13, 38, 0, 64, 23204, 5, 0, 11, 197, 36, -1, 0, 14, 2, 1, 2, 3, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 46, 20, 2276, 12, 0, 37, 29, 36, -1, 4, 20, 2640, 28, -21, 24, -1, 4, 46, 20, 6168, 16, -14, 37, 24, -1, 3, 24, -1, 2, 5, 4, 20, 3040, 4, -8, 5, 0, 24, 0, 41, 19, 30, 2, 5, 1, 46, 20, 1912, 28, 18, 37, 20, 660, 4, -5, 37, 19, 38, 0, 64, 23203, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 2212, 16, -3, 21, 6, 40, 23225, 13, 38, 0, 64, 23666, 5, 0, 11, 198, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 40, 23246, 13, 38, 0, 64, 23639, 5, 0, 11, 199, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 31, 60, 64, 23287, 5, 0, 5, 0, 5, 2, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 23638, 40, 23294, 13, 38, 0, 64, 23318, 5, 0, 11, 200, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 20, 2640, 28, -21, 37, 38, 0, 64, 23317, 4, 5, 1, 24, -1, 2, 20, 1576, 8, 17, 37, 19, 36, -1, 3, 24, -1, 3, 5, 1, 24, 0, 39, 19, 36, -1, 4, 5, 0, 36, -1, 5, 30, 0, 36, -1, 6, 24, -1, 4, 20, 5700, 12, 13, 37, 36, -1, 7, 40, 0, 36, -1, 8, 24, -1, 8, 24, -1, 7, 34, 64, 23614, 24, -1, 4, 24, -1, 8, 37, 36, -1, 9, 24, -1, 9, 40, 1, 37, 5, 1, 20, 8044, 16, 18, 8, 20, 7944, 12, 15, 37, 19, 10, 64, 23415, 38, 0, 64, 23605, 24, -1, 9, 40, 1, 37, 36, -1, 10, 24, -1, 10, 20, 5700, 12, 13, 37, 36, -1, 11, 40, 0, 36, -1, 12, 24, -1, 12, 24, -1, 11, 34, 64, 23605, 24, -1, 10, 24, -1, 12, 37, 36, -1, 13, 24, -1, 13, 12, 20, 7956, 28, -16, 60, 15, 64, 23490, 6, 24, -1, 13, 5, 1, 24, -1, 5, 20, 2940, 12, 5, 37, 19, 40, 1, 28, 47, 64, 23543, 24, -1, 13, 5, 1, 24, -1, 5, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 13, 5, 1, 41, 19, 36, -1, 14, 24, -1, 14, 24, -1, 6, 24, -1, 13, 21, 6, 24, -1, 14, 24, -1, 10, 24, -1, 12, 21, 6, 38, 0, 64, 23596, 24, -1, 6, 24, -1, 13, 37, 7, -1, 14, 6, 24, -1, 14, 40, 0, 44, 47, 64, 23585, 24, -1, 13, 5, 1, 41, 19, 7, -1, 14, 6, 24, -1, 14, 24, -1, 6, 24, -1, 13, 21, 6, 24, -1, 14, 24, -1, 10, 24, -1, 12, 21, 6, 17, -1, 12, 0, 6, 38, 0, 64, 23440, 17, -1, 8, 0, 6, 38, 0, 64, 23370, 5, 0, 24, 198, 2, 20, 7248, 16, 19, 37, 19, 6, 24, -1, 5, 24, -1, 4, 5, 2, 38, 0, 64, 23638, 4, 5, 1, 5, 0, 46, 20, 1912, 28, 18, 37, 20, 1192, 8, -4, 37, 19, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 23665, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 4616, 16, -8, 21, 6, 40, 23687, 13, 38, 0, 64, 23716, 5, 0, 11, 201, 36, -1, 0, 14, 0, 1, 5, 0, 46, 20, 1912, 28, 18, 37, 20, 180, 8, 2, 37, 19, 38, 0, 64, 23715, 4, 24, -1, 48, 20, 1984, 16, 9, 37, 20, 7248, 16, 19, 21, 6, 40, 16, 36, -1, 220, 40, 150, 40, 1e3, 25, 36, -1, 221, 40, 1, 36, -1, 222, 40, 2, 36, -1, 223, 40, 3, 36, -1, 224, 40, 4, 36, -1, 225, 40, 5, 36, -1, 226, 40, 6, 36, -1, 227, 40, 7, 36, -1, 228, 40, 8, 36, -1, 229, 40, 64, 36, -1, 230, 40, 16, 36, -1, 231, 40, 23800, 13, 38, 0, 64, 24213, 5, 0, 11, 202, 36, -1, 0, 14, 0, 1, 46, 36, -1, 2, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 10, 15, 10, 64, 23846, 6, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 20, 1868, 16, 6, 37, 10, 64, 23853, 58, 38, 0, 64, 24212, 40, 23860, 13, 38, 0, 64, 24048, 5, 0, 11, 203, 36, -1, 0, 14, 1, 1, 2, 40, 23878, 13, 38, 0, 64, 24026, 5, 0, 11, 204, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 20, 4608, 8, 4, 37, 20, 6600, 20, 8, 47, 64, 24016, 24, -1, 2, 20, 1892, 20, 18, 37, 36, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 24, 0, 231, 54, 64, 23936, 24, 0, 231, 38, 0, 64, 23944, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 24016, 24, -1, 3, 24, -1, 5, 37, 36, -1, 6, 24, -1, 6, 20, 1868, 16, 6, 37, 20, 652, 8, 12, 8, 20, 4144, 28, 11, 37, 47, 64, 24007, 24, -1, 6, 5, 1, 24, 202, 2, 20, 5420, 40, -8, 37, 19, 6, 17, -1, 5, 0, 6, 38, 0, 64, 23952, 20, 7336, 12, -4, 8, 38, 0, 64, 24025, 4, 5, 1, 24, -1, 2, 20, 4408, 12, -9, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 24047, 4, 36, -1, 3, 20, 5332, 12, 12, 8, 12, 20, 4340, 16, 5, 47, 15, 64, 24082, 6, 20, 5332, 12, 12, 8, 20, 7860, 12, 9, 37, 12, 20, 5220, 16, 16, 47, 64, 24118, 24, -1, 3, 5, 1, 20, 3912, 36, 21, 8, 5, 2, 20, 5332, 12, 12, 8, 20, 7860, 12, 9, 37, 19, 46, 20, 3976, 16, -1, 21, 6, 38, 0, 64, 24136, 24, -1, 3, 5, 1, 20, 3912, 36, 21, 8, 53, 46, 20, 3976, 16, -1, 21, 6, 39, 24183, 20, 312, 20, -10, 38, 1, 20, 6600, 20, 8, 38, 1, 30, 2, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 5, 2, 46, 20, 3976, 16, -1, 37, 20, 7516, 20, 5, 37, 19, 6, 33, 24179, 38, 0, 64, 24203, 36, -1, 4, 24, -1, 4, 20, 5716, 48, -5, 5, 2, 23, 20, 1284, 16, 3, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 24212, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 8412, 40, 9, 21, 6, 40, 24234, 13, 38, 0, 64, 24386, 5, 0, 11, 205, 36, -1, 0, 14, 0, 1, 30, 0, 36, -1, 2, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 5, 1, 20, 760, 20, -15, 8, 20, 8108, 24, -18, 37, 19, 36, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 24378, 24, -1, 3, 24, -1, 5, 37, 36, -1, 6, 24, -1, 6, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 37, 62, 64, 24369, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 37, 24, -1, 6, 37, 36, -1, 7, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 24, -1, 6, 37, 24, -1, 2, 24, -1, 7, 21, 6, 17, -1, 5, 0, 6, 38, 0, 64, 24292, 24, -1, 2, 38, 0, 64, 24385, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 1208, 40, 14, 21, 6, 40, 24407, 13, 38, 0, 64, 24637, 5, 0, 11, 206, 36, -1, 0, 14, 1, 1, 2, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 10, 64, 24446, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 37, 10, 64, 24488, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 21, 6, 40, 0, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 37, 24, 0, 230, 55, 64, 24510, 58, 38, 0, 64, 24636, 24, -1, 2, 20, 7736, 24, 2, 37, 12, 20, 5220, 16, 16, 47, 64, 24549, 20, 8060, 36, -2, 5, 1, 24, -1, 2, 20, 7736, 24, 2, 37, 19, 7, -1, 3, 6, 38, 0, 64, 24555, 5, 0, 7, -1, 3, 6, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 24627, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 37, 24, 0, 230, 55, 64, 24601, 38, 0, 64, 24627, 24, -1, 3, 24, -1, 5, 37, 5, 1, 46, 20, 456, 24, 1, 37, 19, 6, 17, -1, 5, 0, 6, 38, 0, 64, 24571, 20, 7336, 12, -4, 8, 38, 0, 64, 24636, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 5420, 40, -8, 21, 6, 40, 24658, 13, 38, 0, 64, 24803, 5, 0, 11, 207, 36, -1, 0, 14, 1, 1, 2, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 37, 24, 0, 230, 55, 64, 24691, 58, 38, 0, 64, 24802, 24, -1, 2, 5, 1, 24, 0, 14, 19, 36, -1, 3, 24, -1, 3, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 62, 10, 64, 24793, 24, -1, 2, 5, 1, 24, 0, 17, 19, 36, -1, 4, 24, -1, 4, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 24, -1, 3, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 37, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 37, 24, -1, 3, 21, 6, 40, 1, 46, 20, 4940, 28, -19, 37, 20, 600, 28, 4, 52, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 24802, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 456, 24, 1, 21, 6, 40, 24824, 13, 38, 0, 64, 25705, 5, 0, 11, 208, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 2, 15, 10, 64, 24846, 6, 30, 0, 7, -1, 2, 6, 24, -1, 3, 31, 60, 64, 24883, 20, 2724, 20, -10, 20, 6224, 4, -19, 20, 6268, 8, 10, 5, 2, 20, 2200, 12, -4, 38, 1, 30, 2, 7, -1, 3, 6, 24, -1, 2, 24, 0, 229, 37, 38, 1, 47, 15, 64, 24907, 6, 46, 20, 2848, 56, -22, 37, 40, 0, 44, 47, 64, 24927, 24, -1, 3, 38, 1, 5, 2, 24, 0, 48, 53, 46, 20, 2848, 56, -22, 21, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 21, 6, 24, -1, 2, 24, 0, 222, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 222, 21, 6, 24, -1, 2, 24, 0, 223, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 223, 21, 6, 24, -1, 2, 24, 0, 224, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 224, 21, 6, 24, -1, 2, 24, 0, 225, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 225, 21, 6, 24, -1, 2, 24, 0, 226, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 226, 21, 6, 24, -1, 2, 24, 0, 227, 37, 38, 0, 35, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 227, 21, 6, 24, -1, 2, 24, 0, 228, 37, 5, 1, 20, 6104, 12, 13, 8, 19, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 228, 21, 6, 24, -1, 2, 24, 0, 229, 37, 5, 1, 20, 6104, 12, 13, 8, 19, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, 0, 229, 21, 6, 5, 0, 20, 1264, 12, 6, 8, 20, 6844, 4, -1, 37, 19, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 21, 6, 5, 0, 46, 20, 8412, 40, 9, 37, 19, 6, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 5, 1, 46, 20, 5420, 40, -8, 37, 19, 6, 46, 20, 4940, 28, -19, 37, 20, 5472, 48, -20, 37, 38, 0, 47, 64, 25644, 20, 6576, 16, 9, 8, 20, 4812, 8, 5, 37, 5, 1, 48, 53, 36, -1, 4, 24, 0, 190, 20, 5808, 12, 10, 24, 0, 227, 5, 3, 24, 0, 190, 20, 4804, 8, 10, 24, 0, 227, 5, 3, 24, 0, 191, 20, 3004, 8, -3, 24, 0, 226, 5, 3, 24, 0, 189, 20, 3952, 20, 19, 24, 0, 225, 5, 3, 24, 0, 189, 20, 4420, 16, 12, 24, 0, 225, 5, 3, 24, 0, 189, 20, 4532, 8, 14, 24, 0, 225, 5, 3, 24, 0, 189, 20, 8132, 8, 16, 24, 0, 225, 5, 3, 24, 0, 187, 20, 7672, 16, 21, 24, 0, 224, 5, 3, 24, 0, 187, 20, 4240, 24, -10, 24, 0, 224, 5, 3, 24, 0, 187, 20, 8528, 28, 20, 24, 0, 224, 5, 3, 24, 0, 188, 20, 7780, 40, -18, 24, 0, 223, 5, 3, 24, 0, 188, 20, 3900, 12, 9, 24, 0, 223, 5, 3, 24, 0, 186, 20, 5236, 12, -2, 24, 0, 222, 5, 3, 24, 0, 186, 20, 7760, 16, 17, 24, 0, 222, 5, 3, 24, 0, 185, 20, 2752, 60, -21, 24, 0, 222, 5, 3, 24, 0, 186, 20, 2288, 60, -20, 24, 0, 222, 5, 3, 24, 0, 192, 20, 1828, 40, -13, 24, 0, 222, 5, 3, 24, 0, 192, 20, 3060, 20, 21, 24, 0, 222, 5, 3, 24, 0, 192, 20, 5900, 20, 10, 24, 0, 222, 5, 3, 5, 19, 36, -1, 5, 24, -1, 5, 20, 5700, 12, 13, 37, 36, -1, 6, 40, 0, 36, -1, 7, 24, -1, 7, 24, -1, 6, 34, 64, 25630, 24, -1, 5, 24, -1, 7, 37, 36, -1, 8, 24, -1, 8, 40, 1, 37, 36, -1, 9, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 24, -1, 8, 40, 0, 37, 37, 38, 1, 47, 64, 25621, 46, 20, 2212, 16, -3, 37, 24, -1, 9, 5, 2, 24, -1, 8, 40, 2, 37, 19, 36, -1, 10, 38, 1, 24, -1, 10, 24, -1, 9, 5, 3, 24, -1, 4, 20, 1736, 40, 7, 37, 19, 6, 38, 1, 24, -1, 10, 24, -1, 9, 24, -1, 4, 5, 4, 5, 1, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 20, 2924, 16, -11, 37, 19, 6, 17, -1, 7, 0, 6, 38, 0, 64, 25496, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 5472, 48, -20, 21, 6, 38, 1, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 21, 6, 46, 20, 2848, 56, -22, 37, 64, 25695, 39, 25692, 24, -1, 2, 5, 1, 46, 20, 2848, 56, -22, 37, 20, 7224, 24, -14, 37, 19, 6, 33, 25688, 38, 0, 64, 25695, 36, -1, 11, 20, 7336, 12, -4, 8, 38, 0, 64, 25704, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 7224, 24, -14, 21, 6, 40, 25726, 13, 38, 0, 64, 25925, 5, 0, 11, 209, 36, -1, 0, 14, 0, 1, 46, 20, 3976, 16, -1, 37, 64, 25759, 5, 0, 46, 20, 3976, 16, -1, 37, 20, 1676, 52, -19, 37, 19, 6, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 64, 25901, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 37, 36, -1, 2, 40, 0, 36, -1, 3, 24, -1, 3, 24, -1, 2, 20, 5700, 12, 13, 37, 34, 64, 25887, 24, -1, 2, 24, -1, 3, 37, 40, 0, 37, 36, -1, 4, 24, -1, 2, 24, -1, 3, 37, 40, 1, 37, 36, -1, 5, 24, -1, 2, 24, -1, 3, 37, 40, 2, 37, 36, -1, 6, 24, -1, 2, 24, -1, 3, 37, 40, 3, 37, 36, -1, 7, 24, -1, 7, 24, -1, 6, 24, -1, 5, 5, 3, 24, -1, 4, 20, 4172, 36, 19, 37, 19, 6, 17, -1, 3, 0, 6, 38, 0, 64, 25791, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 4584, 24, -5, 21, 6, 38, 0, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 25924, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 3652, 16, 20, 21, 6, 40, 25946, 13, 38, 0, 64, 26262, 5, 0, 11, 210, 36, -1, 0, 14, 0, 1, 30, 0, 36, -1, 2, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 5, 1, 20, 760, 20, -15, 8, 20, 8108, 24, -18, 37, 19, 36, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, -1, 4, 34, 64, 26063, 24, -1, 3, 24, -1, 5, 37, 36, -1, 6, 5, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 6, 37, 20, 4616, 16, -8, 37, 19, 24, -1, 2, 24, -1, 6, 21, 6, 17, -1, 5, 0, 6, 38, 0, 64, 26004, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 5, 0, 46, 20, 1208, 40, 14, 37, 19, 24, -1, 2, 5, 0, 46, 20, 6904, 36, -10, 37, 19, 5, 4, 36, -1, 7, 46, 20, 2848, 56, -22, 37, 64, 26241, 39, 26238, 40, 26117, 13, 38, 0, 64, 26136, 5, 0, 11, 211, 36, -1, 0, 14, 1, 1, 2, 24, 210, 7, 38, 0, 64, 26135, 4, 5, 1, 40, 26145, 13, 38, 0, 64, 26200, 5, 0, 11, 212, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 40, 0, 37, 5, 1, 24, 210, 7, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 2, 40, 1, 37, 5, 1, 24, 210, 7, 20, 2924, 16, -11, 37, 19, 6, 24, 210, 7, 38, 0, 64, 26199, 4, 5, 1, 5, 0, 46, 20, 2848, 56, -22, 37, 20, 4616, 16, -8, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 38, 0, 64, 26261, 33, 26234, 38, 0, 64, 26241, 36, -1, 8, 24, -1, 7, 5, 1, 20, 2668, 16, 15, 8, 20, 2440, 12, -3, 37, 19, 38, 0, 64, 26261, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 4616, 16, -8, 21, 6, 40, 26283, 13, 38, 0, 64, 26319, 5, 0, 11, 213, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 3, 46, 20, 4064, 20, -9, 37, 24, -1, 2, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 26318, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 3448, 16, 21, 21, 6, 40, 26340, 13, 38, 0, 64, 26383, 5, 0, 11, 214, 36, -1, 0, 14, 0, 1, 30, 0, 46, 20, 4064, 20, -9, 21, 6, 30, 0, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 26382, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 7248, 16, 19, 21, 6, 40, 26404, 13, 38, 0, 64, 26851, 5, 0, 11, 215, 36, -1, 0, 14, 2, 1, 2, 3, 46, 20, 4940, 28, -19, 37, 20, 4356, 44, -21, 37, 38, 0, 47, 64, 26437, 58, 38, 0, 64, 26850, 39, 26821, 40, 10, 24, -1, 2, 5, 2, 20, 7588, 12, 2, 8, 19, 7, -1, 2, 6, 24, -1, 3, 20, 5700, 12, 13, 37, 40, 1, 29, 36, -1, 4, 24, -1, 3, 24, -1, 4, 37, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 29, 36, -1, 5, 24, -1, 3, 24, -1, 3, 20, 5700, 12, 13, 37, 40, 2, 29, 37, 36, -1, 6, 24, -1, 2, 24, 0, 165, 55, 15, 64, 26528, 6, 24, -1, 2, 24, 0, 166, 34, 64, 26588, 24, -1, 3, 40, 2, 37, 36, -1, 7, 24, -1, 7, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 24, -1, 6, 21, 6, 24, -1, 3, 40, 4, 37, 24, -1, 3, 40, 3, 37, 24, -1, 3, 40, 1, 37, 24, -1, 3, 40, 0, 37, 5, 4, 7, -1, 3, 6, 24, -1, 3, 20, 5700, 12, 13, 37, 40, 1, 29, 7, -1, 4, 6, 24, -1, 3, 24, -1, 4, 37, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 29, 24, -1, 3, 24, -1, 4, 21, 6, 24, -1, 3, 20, 5700, 12, 13, 37, 40, 2, 29, 36, -1, 8, 46, 20, 4940, 28, -19, 37, 20, 3312, 16, 0, 37, 24, -1, 6, 37, 36, -1, 9, 24, -1, 9, 24, -1, 3, 24, -1, 8, 21, 6, 46, 20, 4940, 28, -19, 37, 20, 6592, 8, -15, 37, 24, -1, 6, 37, 36, -1, 10, 24, -1, 10, 10, 64, 26702, 58, 38, 0, 64, 26850, 24, -1, 10, 40, 0, 37, 36, -1, 11, 24, -1, 11, 24, 0, 150, 47, 64, 26725, 58, 38, 0, 64, 26850, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 37, 10, 64, 26785, 46, 20, 4940, 28, -19, 37, 20, 4508, 24, -9, 37, 24, 0, 221, 24, 0, 220, 5, 3, 23, 20, 3464, 24, -12, 37, 53, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 21, 6, 24, -1, 3, 24, -1, 5, 5, 2, 46, 20, 4940, 28, -19, 37, 20, 8500, 20, 3, 37, 24, -1, 2, 37, 20, 2924, 16, -11, 37, 19, 6, 33, 26817, 38, 0, 64, 26841, 36, -1, 12, 24, -1, 12, 20, 124, 12, -5, 5, 2, 23, 20, 1284, 16, 3, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 26850, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 2212, 16, -3, 21, 6, 40, 26872, 13, 38, 0, 64, 26910, 5, 0, 11, 216, 36, -1, 0, 14, 2, 1, 2, 3, 24, -1, 3, 24, -1, 2, 5, 2, 46, 20, 2212, 16, -3, 37, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 26909, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 6940, 16, 14, 21, 6, 40, 26931, 13, 38, 0, 64, 27112, 5, 0, 11, 217, 36, -1, 0, 14, 0, 1, 40, 0, 36, -1, 2, 46, 20, 4940, 28, -19, 37, 20, 7224, 24, -14, 37, 36, -1, 3, 24, -1, 3, 24, 0, 222, 37, 64, 26978, 40, 1, 40, 0, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 223, 37, 64, 26996, 40, 1, 40, 1, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 224, 37, 64, 27014, 40, 1, 40, 2, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 225, 37, 64, 27032, 40, 1, 40, 3, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 226, 37, 64, 27050, 40, 1, 40, 4, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 227, 37, 64, 27068, 40, 1, 40, 5, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 228, 37, 64, 27086, 40, 1, 40, 6, 57, 3, -1, 2, 6, 24, -1, 3, 24, 0, 229, 37, 64, 27104, 40, 1, 40, 7, 57, 3, -1, 2, 6, 24, -1, 2, 38, 0, 64, 27111, 4, 24, -1, 51, 20, 1984, 16, 9, 37, 20, 6904, 36, -10, 21, 6, 5, 0, 24, -1, 51, 53, 36, -1, 232, 40, 27142, 13, 38, 0, 64, 27172, 5, 0, 11, 218, 36, -1, 0, 14, 0, 1, 40, 0, 44, 46, 20, 3372, 44, -20, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 27171, 4, 24, -1, 52, 20, 1984, 16, 9, 37, 20, 6192, 32, -21, 21, 6, 40, 27193, 13, 38, 0, 64, 27224, 5, 0, 11, 219, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 46, 20, 3372, 44, -20, 21, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 27223, 4, 24, -1, 52, 20, 1984, 16, 9, 37, 20, 6720, 32, -12, 21, 6, 40, 27245, 13, 38, 0, 64, 27266, 5, 0, 11, 220, 36, -1, 0, 14, 0, 1, 46, 20, 3372, 44, -20, 37, 38, 0, 64, 27265, 4, 24, -1, 52, 20, 1984, 16, 9, 37, 20, 4616, 16, -8, 21, 6, 24, -1, 52, 36, -1, 233, 5, 0, 24, -1, 233, 53, 36, -1, 234, 40, 27302, 13, 38, 0, 64, 27574, 5, 0, 11, 221, 6, 14, 2, 0, 1, 2, 24, -1, 2, 40, 0, 44, 47, 64, 27327, 40, 0, 7, -1, 2, 6, 40, 3735928559, 24, -1, 2, 16, 36, -1, 3, 40, 1103547991, 24, -1, 2, 16, 36, -1, 4, 20, 6964, 8, 10, 8, 20, 5880, 8, -1, 37, 36, -1, 5, 24, -1, 1, 5, 1, 24, -1, 1, 20, 2380, 28, 6, 37, 20, 5828, 16, -18, 37, 19, 36, -1, 6, 24, -1, 1, 20, 5700, 12, 13, 37, 36, -1, 7, 40, 0, 36, -1, 8, 24, -1, 8, 24, -1, 7, 34, 64, 27465, 24, -1, 8, 5, 1, 24, -1, 6, 19, 7, -1, 9, 6, 40, 2654435761, 24, -1, 3, 24, -1, 9, 16, 5, 2, 24, -1, 5, 19, 7, -1, 3, 6, 40, 1597334677, 24, -1, 4, 24, -1, 9, 16, 5, 2, 24, -1, 5, 19, 7, -1, 4, 6, 17, -1, 8, 0, 6, 38, 0, 64, 27396, 40, 2246822507, 24, -1, 3, 24, -1, 3, 40, 16, 63, 16, 5, 2, 24, -1, 5, 19, 7, -1, 3, 6, 40, 3266489909, 24, -1, 4, 24, -1, 4, 40, 13, 63, 16, 5, 2, 24, -1, 5, 19, 49, -1, 3, 6, 40, 2246822507, 24, -1, 4, 24, -1, 4, 40, 16, 63, 16, 5, 2, 24, -1, 5, 19, 7, -1, 4, 6, 40, 3266489909, 24, -1, 3, 24, -1, 3, 40, 13, 63, 16, 5, 2, 24, -1, 5, 19, 49, -1, 4, 6, 40, 4294967296, 40, 2097151, 24, -1, 4, 1, 25, 24, -1, 3, 40, 0, 63, 32, 38, 0, 64, 27573, 4, 36, -1, 235, 20, 6276, 260, 9, 40, 1, 28, 40, 1, 28, 40, 1, 28, 5, 0, 24, -1, 57, 19, 40, 1, 28, 5, 0, 24, -1, 55, 19, 5, 0, 24, -1, 54, 19, 5, 8, 36, -1, 236, 40, 27623, 13, 38, 0, 64, 27638, 5, 0, 11, 222, 6, 14, 0, 0, 5, 0, 24, 0, 60, 19, 4, 40, 27645, 13, 38, 0, 64, 27660, 5, 0, 11, 223, 6, 14, 0, 0, 5, 0, 24, 0, 59, 19, 4, 40, 27667, 13, 38, 0, 64, 27682, 5, 0, 11, 224, 6, 14, 0, 0, 5, 0, 24, 0, 58, 19, 4, 31, 40, 27690, 13, 38, 0, 64, 27705, 5, 0, 11, 225, 6, 14, 0, 0, 5, 0, 24, 0, 56, 19, 4, 31, 31, 5, 7, 36, -1, 237, 24, -1, 63, 24, -1, 65, 24, -1, 64, 24, -1, 62, 24, -1, 61, 5, 5, 36, -1, 238, 24, -1, 72, 24, -1, 74, 24, -1, 73, 24, -1, 71, 24, -1, 70, 24, -1, 69, 24, -1, 68, 24, -1, 67, 24, -1, 66, 5, 9, 36, -1, 239, 24, -1, 76, 24, -1, 80, 24, -1, 79, 24, -1, 77, 24, -1, 78, 24, -1, 75, 5, 6, 36, -1, 240, 24, -1, 240, 5, 1, 24, -1, 239, 5, 1, 24, -1, 238, 20, 4020, 20, -14, 37, 19, 20, 4020, 20, -14, 37, 19, 36, -1, 241, 40, 27822, 13, 38, 0, 64, 27960, 5, 0, 11, 226, 36, -1, 0, 14, 1, 1, 2, 5, 0, 36, -1, 3, 24, -1, 2, 20, 6848, 8, -8, 37, 36, -1, 4, 40, 0, 36, -1, 5, 24, -1, 5, 24, 0, 241, 20, 5700, 12, 13, 37, 34, 64, 27937, 39, 27916, 5, 0, 24, 0, 241, 24, -1, 5, 37, 19, 36, -1, 6, 24, -1, 6, 12, 20, 7336, 12, -4, 47, 64, 27899, 31, 38, 0, 64, 27902, 24, -1, 6, 24, -1, 3, 24, -1, 5, 21, 6, 33, 27912, 38, 0, 64, 27928, 36, -1, 7, 31, 24, -1, 3, 24, -1, 5, 21, 6, 17, -1, 5, 0, 6, 38, 0, 64, 27854, 24, -1, 4, 5, 1, 24, -1, 3, 20, 2924, 16, -11, 37, 19, 6, 24, -1, 3, 38, 0, 64, 27959, 4, 24, -1, 81, 20, 1984, 16, 9, 37, 20, 1492, 44, 9, 21, 6, 40, 27981, 13, 38, 0, 64, 28041, 5, 0, 11, 227, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 46, 20, 1492, 44, 9, 37, 19, 36, -1, 3, 20, 4112, 20, 16, 24, -1, 3, 5, 1, 20, 5788, 8, 11, 8, 20, 76, 12, 1, 37, 19, 5, 2, 42, 20, 0, 20, 3, 37, 19, 38, 0, 64, 28040, 4, 24, -1, 81, 20, 1984, 16, 9, 37, 20, 6688, 20, 11, 21, 6, 40, 28062, 13, 38, 0, 64, 28145, 5, 0, 11, 228, 36, -1, 0, 14, 1, 1, 2, 46, 36, -1, 3, 40, 28084, 13, 38, 0, 64, 28120, 5, 0, 11, 229, 36, -1, 0, 14, 1, 1, 2, 24, 228, 3, 20, 3232, 28, 20, 37, 24, -1, 2, 5, 2, 42, 20, 1120, 12, 22, 37, 19, 38, 0, 64, 28119, 4, 5, 1, 24, -1, 2, 5, 1, 46, 20, 6688, 20, 11, 37, 19, 20, 4548, 8, 12, 37, 19, 38, 0, 64, 28144, 4, 24, -1, 81, 20, 1984, 16, 9, 37, 20, 8156, 20, -4, 21, 6, 40, 28166, 13, 38, 0, 64, 28427, 5, 0, 11, 230, 36, -1, 0, 14, 1, 1, 2, 46, 36, -1, 3, 40, 28188, 13, 38, 0, 64, 28414, 5, 0, 11, 231, 36, -1, 0, 14, 2, 1, 2, 3, 39, 28391, 24, 230, 2, 20, 272, 4, 9, 37, 10, 64, 28226, 31, 5, 1, 24, -1, 2, 19, 6, 58, 38, 0, 64, 28413, 24, 230, 2, 20, 688, 8, 2, 37, 12, 20, 5612, 12, -9, 47, 64, 28262, 24, 230, 2, 20, 688, 8, 2, 37, 5, 1, 24, -1, 2, 19, 6, 58, 38, 0, 64, 28413, 40, 28269, 13, 38, 0, 64, 28316, 5, 0, 11, 232, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 20, 272, 4, 9, 5, 2, 42, 20, 1284, 16, 3, 37, 19, 6, 40, 0, 5, 1, 24, 231, 2, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 28315, 4, 5, 1, 40, 28325, 13, 38, 0, 64, 28356, 5, 0, 11, 233, 36, -1, 0, 14, 1, 1, 2, 24, -1, 2, 5, 1, 24, 231, 2, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 28355, 4, 5, 1, 24, 230, 2, 5, 1, 24, 230, 3, 20, 8156, 20, -4, 37, 19, 20, 4548, 8, 12, 37, 19, 20, 588, 12, -8, 37, 19, 6, 33, 28387, 38, 0, 64, 28404, 36, -1, 4, 24, -1, 4, 5, 1, 24, -1, 3, 19, 6, 20, 7336, 12, -4, 8, 38, 0, 64, 28413, 4, 5, 1, 20, 2668, 16, 15, 8, 53, 38, 0, 64, 28426, 4, 24, -1, 81, 20, 1984, 16, 9, 37, 20, 3260, 20, 14, 21, 6, 24, -1, 81, 36, -1, 242, 5, 0, 24, -1, 242, 53, 36, -1, 243, 30, 0, 40, 0, 44, 5, 0, 5, 3, 36, -1, 244, 31, 36, -1, 245, 20, 7492, 24, 16, 20, 5796, 12, 3, 20, 792, 20, 5, 20, 480, 12, -15, 20, 1800, 28, 20, 20, 8580, 12, -14, 20, 1536, 16, -5, 20, 2408, 24, 5, 5, 8, 36, -1, 246, 5, 0, 36, -1, 247, 24, -1, 234, 20, 6224, 4, -19, 56, 24, -1, 232, 20, 3948, 4, 14, 56, 24, -1, 94, 20, 332, 28, -8, 56, 24, -1, 243, 20, 272, 4, 9, 56, 24, -1, 95, 20, 5824, 4, 21, 56, 24, -1, 139, 20, 7852, 4, -11, 56, 24, -1, 94, 20, 1616, 4, 19, 56, 24, -1, 96, 20, 7104, 8, -7, 56, 24, -1, 97, 20, 5944, 12, 4, 56],
+                _LsyU85w: atob("WkdKclltOGxOVVZ4WWtWaWRRPT1keVZETWlVNE15VkRNaVU0TUNWRE1pVTRNeVZETWlVNE5saDVKVU15SlRnMEpVTXlKVGc0SlRkRGNuTnhhRzFtYUdWNGEycHdhM0ZmWkc5d0pUVkVibkE9WlZoa2FDVTFRMlZZVnc9PVIwNVNkSGx1ZEhNPVUzaCtkZz09SlRGQ1pGOW5KVFl3YUcxdFpIRlRaSGR6SlRkQ2IyeDBiQT09ZFdkdVl3PT1KVE5FYmlVelJpVXpSQ1V6UlhWdUpUTkdjeVUzUTNFbFF6SWxPRE1sUXpJbE9ETT1WVjhsTWtZbE5VSmFKVFl3VVZvbE5qQXhVRlVsTmpCTlRsaFJXbWs9YW14ZmJXMXZiRjg9SlRkREpUZERjZz09WlhKeWIyaGtjUT09SlRkRUpUZEdiSDRsTjBOdmJ3PT1hM2QwZEcxckpUZERKVFZGZFV4cEpUZERhUT09WnlVMVEyZGZXQT09Ym10bVoyMUhKVFZDYmlVMVJHSmZiVTFmWmw4bE5VUnVhV3c9Y0hFPVYxaHBKVFZEVmxnbE5qQmlaeVUxUTJKaEpUVkZZMlJuWDBscVh5VTJNRzQ9SlRZd1kyTkZibkZzUkd0a2JHUnRjdz09UkVWd1JVUnpSWEE9VHc9PUpVTXlKVGhDZFNWRE1pVTROaVZETWlVNE1nPT1mbmtsTjBadGNtMXJlRzF2ZGc9PVVGVk9KVFZDVkZJdVltRWxOVU13VGlVMVJHRmlYMUl3SlRWREpUVkNVMVpVYTJrbE4wTnJjQT09WW1rbE5VSmtKVFZFYjJRbE5VSmxhaVUyTUdGMEpURkNWZz09ZEhGMlkzWnJjWEJVWTNablFtTllXUT09Wm1scFltUjRkM0pHWkhOM2VIVm9Sbkp4YVd4cVlYQWxOVVJuYkdNPUpUWXdiVzQ9ZUdwdlpYQjRXZz09U1NVMVEwOVdXVXRPTTFnbE0wRWxOVU5aVVNVMVEwOGxOVVFsTlVRPUpUVkZjWGwwY2lWRE1pVTRNdz09WkhobUpUZENhZz09TXlVeVFqRWxOVVVsTWtOaFlTND1kbmR5ZFdScWFBPT1KVU15SlRnNGRTVTNRbUoxSlVNeUpUZ3hlUT09WDJsdWFYUT1hWEpyZUc1MmJ5VTFSSDU1SlRkRGEzRnZUeVZETWlVNE1HOTRmZz09SlRkQ2VTVkRNaVU0T0dnbE4wUWxReklsT0RGNUpVTXlKVGhGSlVNeUpUZ3pKVU15SlRneWVXTjZlaVZETWlVNE4za2xReklsT0RnPVRXb2xOMFJ1SlRWRWNuWnVUM2dsTjBKMmFpVTNSQT09YTJwa2FXOGxOakJ0UkY4PUpUZENkbG9sTjBKNWNIVnViMkp1Wmc9PWQzTm9hbXh2ZG5OcmJIaz1hQ1UxUlE9PUpUVkRhR0VsTmpCWkpVTXlKVGd3ZVNWRE1pVTRNWGtsUXpJbE9ESWxReklsT0RnPVVrOWlOMWxPWDFaWkpUSkRieVZETWlVNE1IVitkSGwrZHlVMk1DVkRNaVU0TWlVM1JpVTNSSGtsUXpJbE9ETjFKVU15SlRnemRtbGxhQT09VWt4WVdFdz1XVmRtT0Y5RlpsTm1WMGtsTlVKbVdpVXpRaVUyTUZZbE5VSlZWMlU9ZDJsd2FXZDRiWE55U1hKb0pUTkZKVFZDYmw4PVZpVTFRbU09Y0dKcmNXOTJRbTl2Ykc4PVZFOVFXVjlVVVZSUUpUVkVkeVUzUTNZbE4wST1ZWElsUXpJbE9EVWxReklsT0RGUmNuQWxOME54Y2lVM1JnPT1jQ1ZETWlVNE5pVTNSaVZETWlVNE5DVkRNaVU0TmlWRE1pVTRNU1ZETWlVNE1TVkRNaVU0TUNWRE1pVTRNeVZETWlVNE5YWjFUMU5oSlROQ1ZWRWxOVUk9SlRWRVlYQmpYM0pqUTNSamJISktaM0Z5WTJ4amNIRT1XV2h2Wm1wbFZpVTFSU1UxUTJzbE0wRmpKVFl3SlRWRFpXdEtKVFl3SlRWRlpWaGphZz09TnpscWFUVTFKVE5DT1E9PWRpVkRNaVU0TVNWRE1pVTRNUT09Ymc9PUpUVkRVRjg9TlNrPU5qWTJOZz09YUhkcVpubHFTaVUzUW1wemVRPT1KVFl3SlRWQ1VtUkRUbGxpVWc9PVkyUjFhR0prVDJoM1pHdFJKVFl3YzJodWNtRnVaRzl0VlU0bE5qQlZkeVUzUXlWRE1pVTRObllsUXpJbE9ESWxReklsT0RFbFF6SWxPREY0ZGlWRE1pVTROdz09YjNGMmEzRndXaVUxUkNVMVJDVXpSVzhsTlVWbmJVVmliRzBsTlVWbkpUVkZhdz09ZUhFbFF6SWxPREJ0ZEV4dGVDVTNRM0E9SlRJMUpUSTBKVEkwSlRGR1RpVXhSQ1V5TkU0PUpUZEVKVGREZGlVM1FpVkRNaVU0TVhJbE4wWWxReklsT0RJbE4wUT1hR2tsTlVWZlRuTnFYdz09WWxOWlYwbz1UMUpTVTFJbE0wTWxOVVJTVTJFPVRWTmtVeVUxUTJKaFFXSWxOVVFsTmpCUFZWTT1kR1oxYW01eGNITjFUR1o2WkZWbVdXSm9PU1UyTUZsaFdXSm9lbmQwYlE9PVoybG1hMlpyY0djbE5VTT1kWGtsUXpJbE9ESWxOMFo1SlVNeUpUZ3hKVFZGZHlWRE1pVTROSG9sUXpJbE9ESWxOMElsUXpJbE9EZz1ibmtsUXpJbE9ERlljaVZETWlVNE5nPT1mbThsUXpJbE9ESitjRzRsTjBST2RXNTJibmNsTjBRbE4wTkxKVU15SlRneUpUVkVhbkJYYW5adVVHVlFXQ1UxUWtaWVUyTlhhR3RmSlRWRWFFOXdhMjRsTlVSallRPT1VV1ZxY0RRbE0wUnViaVUxUkhVPWFYSmxabkJwYUE9PVluVm9abkoxWjBoNWFIRjNTVTVMSlRWRlN3PT1hbDlzWlhOZlpXTnhjbTlwSlROR2FXd2xOakJvU1dad2NRPT1jM1JoY25SVWFXMWxKVU15SlRneEpVTXlKVGd6SlVNeUpUZzVKVU15SlRnM2VYZ2xReklsT0RNbFF6SWxPRUlsUXpJbE9EST1VbFZpYUdGWE5sOGxOVU5XSlRWRkpUTkNWR0ZYWDFobEpUVkVZaVUxUW13bE0wUnBKVFZGWHlVelFtND1KVEpHTVM0bE5VUTBKVEpETWlVMk1BPT1XV0pYWTFoWmRXaDJjbTk1YUE9PWJXb2xOMFJxTm00bE4wWWxOMFIxYW10dWRRPT1jMmgxYmlVM1EyaHViQT09VENVMVJGUk1KVEU0VjB4TlVGYz1YMlpmWjE5b2JrMWZabDhsTlVSdWFXdz1KVU15SlRnNGR5VkRNaVU0UkE9PUpUVkZhbVI0SlRWRWNIQnVaU1UxUlhGd1lXOD1OQ1V5UXk0bE1rTT1ZU1UyTUZwZlpWWmpSV3BoVmc9PWFXZDJRM1oyZEd0a2QzWm5hbWxhSlVNeUpUaENkaVZETWlVNE1TVkRNaVU0UVhvPVFXTWxOakFsTlVWYVpGWT1KVU15SlRnNWVpVkRNaVU0UkNWRE1pVTRPWFlsUXpJbE9EZDZkZz09YjNadmQyOTRmbFp6SlRkRWZnPT1jR1ZwWVE9PUpVTXlKVGd5SlVNeUpUZzBKVU15SlRoQkpVTXlKVGc0ZWlWRE1pVTRNaVZETWlVNE5DVkRNaVU0UW5vPUpUVkVKVFZGYUdsa1oyND1KVU15SlRnM0pVTXlKVGcwZmc9PUpVTXlKVGcwZHlWRE1pVTRReVUzUmlVM1JIY2xReklsT0VFbE4wWWxReklsT0RVbFF6SWxPRFE9YzJ0MWJDVXlRMkpyWVE9PUpUVkNKVGRDSlVNeUpUZ3dmbk09WkdsZkpUWXdjMHBoZVhwNEpVTXlKVGczSlVNeUpUaEZKVU15SlRnMUpVTXlKVGc1YkhKMWRYZz1KVU15SlRnMWJIRnplSGM9SlRkREpUZEdkblIySlRkQ0pUVkNiR01sTlVJbmNXdz1KVFZGWTJSaWNYaHZjdz09SlRWQ1dsUlpYMUFsTlVSWVdtRlFkSGdsUXpJbE9EZDZkaVZETWlVNE9YcGpkaVZETWlVNFFuNGxOME4ySlVNeUpUZzVmaVZETWlVNE5DVkRNaVU0TTJGK0pVTXlKVGc0SlVNeUpUZzVlaVZETWlVNE0zb2xReklsT0RjbFF6SWxPRGc9SlRkRGJBPT1KVFZGV1RJPWJGOXFaaVUxUWlVMVJGOU5iaVUxUW01ZkpUUXdKVE5DSlRRd0xUaExOVGt0TXpFbE0wWT1ZbVJoVlZkbFpTVXpRbDlUV1ZjPVdWWmlVU1UxUkZVPVkzRnBkbXRwU0dWNFpRPT1lbWs9Wm0xZmFHRnphRjl0WVhBPUpUZENkU1ZETWlVNE9RPT1hbVZyV1NVMVJRPT1UR3A1SlRkRFZYaHNkQT09ZFNWRE1pVTRNaVZETWlVNE55VkRNaVU0UW5rbFF6SWxPRFlsUXpJbE9EYz1kWG9sUXpJbE9EQnhmaVZETWlVNE1tMTRiWEFsTjBac0pUVkZVRjhsTWtaTVgwdz1KVFl3ZFhseFRpVkRNaVU0TVhKeWNYND1aRzFxWkd3PVptUnpRbTRsTmpCclpISmlaR05FZFdSdGMzST1KVU15SlRnMGRpVkRNaVU0TlZvbFF6SWxPRFYyZmc9PUxRPT1KVFl3VW1GQlZscFNKVFZEWW1FPUpUSXdKVEZGSlRJd0pURkZKVEl3S0NVeU5pVXhSZz09VlhZbE4wUjJKVU15SlRnMWRnPT1aeVUzUTJkdmNrNXJiMjF1ZWc9PVh5VTJNQ1UxUWlVMVF3PT1VU1UxUXlVMk1GaFJWVk1sTmpCVlZ5VTFSU1V6UWxZbE5VVlhOVk1sTlVVbE5VVlVVMVVsTlVRPWMzaHRkaVUzUm01dkpUZEVKVGRHY0E9PWVTVkRNaVU0UVhrbFF6SWxPRElsUXpJbE9EaFhKVU15SlRnekpVTXlKVGd6SlVNeUpUZzJlQ1ZETWlVNE53PT1VMmxUSlRWRFdWTT1KVU15SlRnMWVuNTJheVZETWlVNE1DVTNSblk9ZG5RbFF6SWxPRE5ZSlVNeUpUZ3pkQ1UzUXc9PUpUWXdjMjVoVHlVMVJTVTFSVnBuWWlVMVEzQnNadz09T0NVMk1GOU1YMVJhV1NVelFVMGxOVVZRSlRWRVlWQWxOVVE9VkE9PVdpVTFRMklsTmpCU1dWSk9ZMUk9Ymc9PUpUWXdjR04wWm5OM1puTT1iRjlrWHlVMVJHND1hbk53YkhVbE4wSWxOakE9Y1NVM1JDVTNRM0Z2SlVNeUpUZ3lWQ1UzUW5RbE4wTjBKVGRFSlVNeUpUZ3phSFpxZDNKdmJpVTNReVUzUkE9PVlWa2xOakJmVmc9PUpVTXlKVGcxZGlVM1EzcHVRemd4SlRGRUpUSXlKVEkxSlRJMmQzaHRibGRxZG00PUpUTkJRU1V6UVVJbE0wRkRTVlJEUkRrbE0wRT1YMUphSlRWRFkxSXlZMUlsTlVKaE9WWWxOakJoVWlVMVFsSmZiWFp6ZW14NWF5VTNRMjVPYTM1ckpUZENjSEYwSlRkQ2Zua2xOMFp0Y25kNUpVTXlKVGd3Ync9PVVsTmtWMUZUSlROQ1V5VTFRaVUxUkNVMk1HYz1KVU15SlRnekpVTXlKVGc0SlVNeUpUZzJKVGRDWmlWRE1pVTROM1FsUXpJbE9EZDRhaVUxUkdVbE5qQWxOVVZ2SlVNeUpUZzNlbmdsUXpJbE9EUWxReklsT0RkNWZpVkRNaVU0TXlVM1F3PT1aQT09UlE9PWIzZ2xOMEpPYW14eFlXTnBaMWxaWW1oWlpnPT1hRzFtYzJ4cWFWbDBlbWh0YW5nPVJGQkpTRkJoZEhBbE0wUnVZU1UxUkVGb1lXbGhhbkE9VjJWaGEwMWhjQT09Y0cxemJHST1KVGRDYm14NEpUZENiU1UxUkhKMmJnPT1WQ1UxUldka1IzQjJaM1E9YUNVMVExbGlkSGM9SlRWRFZXYzFhR2htSlRWRVZtbG9XUT09YW5GcWNtcHplVkZ1ZUhscWMycDNlQT09Y0hWc1lRPT1iMjBsTjBOTWFTVTNRMms9V2xRPVkxUmxXR0ZuUVdKWFdBPT1KVU15SlRnMmZpVkRNaVU0T0NVM1JpVXpSaVZETWlVNE5IZDFKVU15SlRnNEpUTkdkeVZETWlVNE5DVkRNaVU0TkNWRE1pVTRNU1ZETWlVNE5BPT1hRmhuV2xwalRnPT1ZVmxqV2lVeFFVOVZKVFZFSlRGQlVsOWZKVFZEWHc9PUpURkRWV0ZhV1NVeFEwOGxOVU5SWmc9PVdXVm1idz09SlRWRWFsOTBKVU15SlRnNUpVTXlKVGd4SlVNeUpUaENKVU15SlRneVFpVkRNaVU0T0NWRE1pVTRRWGNsUXpJbE9ESitKVU15SlRnNVFpVkRNaVU0T1NWRE1pVTROQT09Tnc9PUpUZEViU1UzUTI5dmVBPT1abU4yWXlVeVJnPT1KVU15SlRnMkpVTXlKVGczZENWRE1pVTROM2c9ZUhCNmNURjNiekZ5ZVhCd2JINTVhdz09WWxSWlQxcGlKVFZDSlRWRUpUVkVYMlpmYkNVMVFtNWphV2c9WkZocldsOGxOVU5xZW5WekpVTXlKVGd5SlVNeUpUZzJkWHB6YlhackpUZEVKVGRFV0d0M2J3PT1KVFZGV2w4PWVtNGxReklsT0RCNFRubDVZWElsUXpJbE9EVWxReklsT0RFPVlTVTFSVmd0V0ZnbE5VSmpPRlZmSlRZd2JYSnJkblp2ZUhGdlZ3PT1KVFZDSlRWRlVsQWxOVUpVYzI1TGJuWmtjVUlsTmpCeVpBPT1haVUxUkZrbE5VTkhabVJ4Vm1VbE5VVlRaRmxmSlRWRlptUnVaVzVyWlcwPUpUSXlKVEl5SlRGRVRqTWxOVU5YTUNVeE5RPT1VRFZqVm1KYU1pVXhOdz09Zm5ZbFF6SWxPREIzTjIxNWRuWnZiWDQzYnlVM1F5VTNRM2tsTjBNPVJsbGFKVFl3V1Zkb2VYaDVKVGRESlRkRWFpVTNSRzQ9VlZwa1VsTWxOVVJXVlE9PVlsVWxOVVJmWmxVNVpGVWxOVVE9Vnc9PVpIQnRhMEZtWDNCQmJXSmplR2w2SlRkQ2JWWnRKVGRHVG5kNmRVMTBiWFZ0ZGlVM1F5VTNRZz09Y1dsM2QyVnJhUT09SlRkRUpVTXlKVGd5SlRkRUpVTXlKVGc0Wm5sM0pVTXlKVGd6SlVNeUpUZzJlQT09SlRZd2JHWjZUbUoxWm5OcVltMD1iQ1UzUkhwcEpUZERjWGQyZEg0bFF6SWxPRElsUXpJbE9EVWxReklsT0RRbFF6SWxPRGNsUXpJbE9Ea2xOakI2SlVNeUpUaEZkMzUyYTI0bE4wST1XaVZETWlVNE1YbHVjWDQ9YWlVMVFteHRYdz09WjNnbFF6SWxPRUlsUXpJbE9EZFlKVU15SlRneGRpVkRNaVU0TW5kNEpVTXlKVGcxWDFoaFdtY2xOVUk9SlRRd1IwNVNkSGx1ZEhNbE0wWWxNalZ1YzI1NVVucDVabmx1ZEhOVVozaHFkeVUzUW1wM1dWOXhZbWxaWHc9PUpVTXlKVGd3Y2c9PUpUTkdTRVJETFY4eVlUQXhNUzQ9WmxkcGFpVTFRZz09WW5BPVR3PT1kQ1UzUWlWRE1pVTRNSFk9YUNVMVJXOWFaMXBvWkdGcldsbEVaV2tsTlVWa1kyZz1KVEUxYW01MmJRPT1VRlpmVkdOcVlXVT1abVZmWkdvbE5VSm9XbVZ0WkE9PWIxOXVZV0ZxVkE9PWNYUm9abmx1ZEhNPWIzQWxOVVJ1Y0E9PUpVTXlKVGczZWlWRE1pVTROSHB6ZWlVM1JIb2xReklsT0RVbFF6SWxPRUYwZVhJbE4wWjRkZz09VDFkTFUxWT1kZz09V1NVMVJHeGZKVFZDYmw5UVkyMWpKVFZEWTJaamJuTkdZMjF1WDJoZmJHMD1iV2tsTlVWeFkyeHZhZz09SlRGQkpUVkVhVmhrSlRWRE5BPT1OV0ppWDFoVVlRPT1WbUlsTlVKYVZ5VTNRMzRsUXpJbE9ETWxReklsT0RKVGVuTWxOMEp6SlRkREpVTXlKVGd5YlNWRE1pVTRNbTl3VjNJPWJpVTFSRjloZUNWRE1pVTRNWHAySlVNeUpUZzNXWFlsUXpJbE9EbDJkQT09YTJwdWIwZ2xOakJ1YmlVMVEySWxOakE9TWc9PVpYRndkWEZ1Wnc9PVdHdHFhbVZrSlRJMmNTVXpRMTlySlRJeVkxOGxOVU1sTWtJbE0wWWxNalluU0NVeU5pVXlNbVFsTlVNbE0wWkNKVE5CT1VFbE5VTXRMVVJqWmtFbE0wRWxNa05CTFZvcU9WRWxOakJqSnlVelJpaE1VU1V5TW14a2NTVXlObXhyUW1FbE5VVkZZaTBwTGtrbE5VTkxZbkVsTWtad1JDVXpSbUlsTWtZbE1rSk5UeVV6UkRCRUtFNUZKVE5HV2tWdkpUVkZhU3BKYVd0TUtVWm5RekJQVEVzbE5VTnJTV1FuUkRCd0pUUXdKVFZFYjJkUkpUVkRiVkJZVDJWR0tpVTFRazlOUTBVcEtXZz1hRzVqZGc9PWNXNXFaM0k9YUZwaFdsaHBKVFZGWkdOSWFWWm5hUT09SlRWQ1pscHNaQ1UxUTJWcmRTVTNRdz09SlRWQ0pUWXdZV1FsTlVORVlXdHNkV2h2Y21SbkpUVkNaMlpzSlRWRVpteFBZV1lsTlVObmJ3PT1TV1JxV0NVMVJDVXpRV3RhWTJrPUpUVkVabU5mYUc1U1ZDVTFRMXBwSlRORVZtZ2xOVVE9ZmlWRE1pVTRNUT09SlRkR0pVTXlKVGd3SlRkQ2ZuRlFiU1ZETWlVNE1HMD1lR2wzZUE9PWF3PT1KVGRDSlVNeUpUZzFlSGs9WkhkcVptbCtaRmxtV21ObVlWVmlWMWs9Vm1wWWJTVTFReVV6UmxobEpUVkNZeVUxUXc9PVRHMXJZbWNsTmpBPWIzQjRhM3BuSlRkQ2VpVkRNaVU0TkdVbFF6SWxPRE1sUXpJbE9EWWxReklsT0RRbFF6SWxPRFYyZFE9PWFXOTRiWGx1YjAxNWVIQnpjU1UxUlhsTWMzNXdkbXR4SlRkRVltZGxXamRvVnlVMk1HWT1kV0p6YUdaMVExZHFKVFZGVUdGUVdWOD1ibTErVUZWU1VGaFBKVFZEWlE9PVpqSXlPRFV6WmpNPWVTVTNSaVZETWlVNE9IbFlKVU15SlRoQ0pUZERKVGREWmlWRE1pVTRRaVZETWlVNE9YND1ZMVppWmxaa1pTVXpRVlVsTlVSV05GSWxOVVFsTlVSVFVsUWxOVU09ZWlVM1FnPT1lWHA0SlVNeUpUZzBlWG89SlRkRGVYY2xReklsT0RaZmQzTWxReklsT0RCaWR5VkRNaVU0TkNVM1FpVkRNaVU0TVhZPWRuaGxkbmQxYkhGcUpVTXlKVGd5ZWlWRE1pVTROQ1UzUWlVelFuRjZjUT09SlVNeUpUZ3djM0VsTjBRbFF6SWxPREJ5WDFJbE5qQlNZVEZPWVU0PVkxRk9WMVVsTmpBNVRTVTJNRTlVVVY4bE0wWlJXRkZQSlRZd0pUVkNKVFZGZFhocWJTVTFSSEoyYmc9PWNHSWxOVVJ0WVE9PWVYSm9hV3B0Y21sb1ZHRmtWbGs9YkNWRE1pVTRNRzRsUXpJbE9ETnlVWFlsTjBaeWNDVkRNaVU0TVhrbFF6SWxPRFk9YW1NbE5qQmFKVFZESlVNeUpUZzBlU1ZETWlVNE1BPT1WMUJoVTJaUVlWUXlKVFZGSlRWRVVtUmhZVlFsTlVSU2FBPT1WR2hwWkdkV0pUVkRXaVUwTUZwdVVTVXlNQ1V5TUZZbkpUSXdKVEl3SlRJemFpVTFSRzRsTmpCdGNTVTJNQT09SlVNeUpUZ3dKVU15SlRneUpVTXlKVGc0SlVNeUpUZzJlQT09SlVNeUpUZ3libXQrYXc9PWJsOXdjV05IYkhJPWNXSnBaMmhqWTJSdFZITjFKVGRFSlVNeUpUZzFKVU15SlRneWMzVjNWbWxXVkE9PVVBPT1TM2g0ZFhnPWRDVkRNaVU0TWc9PVgxb2xOakJPVTFCWlR3PT1aVm9sTlVKWVppVXpSRmRyZG5KNGRXWm9maVUzUWlVM1JpVTNSSDRsUXpJbE9FRT1iM05qY0hkUlkycGpZWEp0Y0NVelJtcHFKVFZESlRWRlpHSlVaRjg9Y25aNkpUZEVkeVZETWlVNFFuWWxReklsT0RFbFF6SWxPRGtsUXpJbE9EQT1kWEIyWkdsbWRBPT1kWFpyYkNVMVJHaHpKVGREYkE9PWVBPT1ZMkZ3V21abGFtdHBiRnByZUhZbFF6SWxPRFZXSlRkR0pVTXlKVGcxSlVNeUpUZ3plbllsUXpJbE9EUlRKVU15SlRoQlpTVkRNaVU0UVNWRE1pVTRNWFk9V21ReVkyTlNhZz09SlVNeUpUZ3pKVU15SlRnMEpVTXlKVGd5ZVg1M1ptOW9aSFZYYkhCb2NuaDNjR051WTE5eWNXUjViR3BrZDNKMVkxUm5KVFZDWVZRbE5qQlljR0Z5Wlc1MEpUSkdKVFl3SlRZd1QyYz1hM0J5ZDNZdUpUSXlkV2R1WjJWMkxpVXlNblpuZW5aamRHZGphSEpOSlRZd1RRPT1KVGRFZHlWRE1pVTRRaVZETWlVNE5RPT1WbDlUWldNPVYxQmlWMUpYVUNVMVJGWlVZMnRwZUVkV1RYSm9hU1UzUXc9PVoyUjNaSFpvZHc9PVR3PT1jSGx1SlRkRUpVTXlKVGcwSlRkQ0pUZEdjMlZoY21Ob2FIZHdKVFZFV0ZabFZHcGZWRm89SlRZd2JRPT1lR2tsTjBJbE4wSWxOMFozZW13PWFXRnJZaVV5TW1ocVYySWxOVVZwSlRJeVdtZG5aR2M9YmlVM1JpVTNSSGRXY0NWRE1pVTROQT09WWxSWlQxcGlRdz09Y21ZbE4wUlpkSHBvYlZWMGJuTjVlQT09SlRkR2R5VkRNaVU0Tm5NbE5VUjNKVU15SlRoQ0pUVkZjWE5SSlVNeUpUZzBKVGRESlRZd1pTVTJNR3RFYkd0WWF5VTJNR1psUmxscUpUVkRhVzBsTlVOcFpHWlRaU1UxUkZZPWFtWnBhdz09SlRWQ1dXaEdWV0pZWTJGS1ZTVTJNR2xaWnc9PWNXWnFZaVV6Um5KalkySnZjQT09WnpGNGJYRnBKVFl3SlRWQ1lVOVVYeVUyTUUwbE5VVWxOakE9SlRWRmEydG9hdz09Y25BbE4wSWxOMEk9YzNGRVFVVkRRa1E9")
+            };
+            function t(e) {
+                for (; e._5SmNk5I0AL !== e._fhDfce048u; ) {
+                    var t = e._jygLDw4[e._5SmNk5I0AL++]
+                      , n = e._Cg2JEn[t];
+                    if ("function" != typeof n)
+                        return void Pe("ooga", "warn", "api", {
+                            c: e._5SmNk5I0AL,
+                            e: e._fhDfce048u
+                        });
+                    n(e)
+                }
+            }
+            return e._fhDfce048u = e._jygLDw4.length,
+            t(e),
+            e._Ro95Za
+        }(),
+        Vn = vn.s,
+        wn = vn.m,
+        bn = vn.b,
+        vn.a,
+        _n = vn.start,
+        vn.stop,
+        vn.j,
+        kn = vn.d,
+        vn.cr
+    } catch (fr) {
+        Pe("ob-error", "error", "api", {
+            message: fr.message
+        });
+        var Rn = function() {};
+        Rn,
+        kn = Rn,
+        Vn = function() {
+            return Promise.resolve(null)
+        }
+        ,
+        wn = {
+            record: Rn,
+            resetData: Rn,
+            setData: Rn,
+            getData: Rn,
+            stop: Rn,
+            circBuffPush: Rn
+        },
+        bn = {
+            record: Rn,
+            stop: Rn
+        },
+        {
+            storeData: Rn,
+            clearData: Rn,
+            getData: Rn
+        },
+        {},
+        {
+            processImage: function() {
+                return Promise.resolve()
+            },
+            getData: Rn
+        },
+        _n = Rn
+    }
+    function Tn(e, t) {
+        this.cause = e,
+        this.message = t
+    }
+    function xn(e) {
+        Tn.call(this, de, "Invalid hCaptcha id: " + e)
+    }
+    function Sn() {
+        Tn.call(this, he, "No hCaptcha exists.")
+    }
+    function Un() {
+        Tn.call(this, pe, "Missing sitekey - https://docs.hcaptcha.com/configuration#javascript-api")
+    }
+    Tn.prototype = Error.prototype;
+    var Wn = []
+      , Mn = []
+      , An = {
+        add: function(e) {
+            Wn.push(e)
+        },
+        remove: function(e) {
+            for (var t = !1, n = Wn.length; --n > -1 && !1 === t; )
+                Wn[n].id === e.id && (t = Wn[n],
+                Wn.splice(n, 1));
+            return t
+        },
+        each: function(e) {
+            for (var t = -1; ++t < Wn.length; )
+                e(Wn[t])
+        },
+        isValidId: function(e) {
+            for (var t = !1, n = -1; ++n < Wn.length && !1 === t; )
+                Wn[n].id === e && (t = !0);
+            return t
+        },
+        getByIndex: function(e) {
+            for (var t = !1, n = -1; ++n < Wn.length && !1 === t; )
+                n === e && (t = Wn[n]);
+            return t
+        },
+        getById: function(e) {
+            for (var t = !1, n = -1; ++n < Wn.length && !1 === t; )
+                Wn[n].id === e && (t = Wn[n]);
+            return t
+        },
+        getCaptchaIdList: function() {
+            var e = [];
+            return An.each((function(t) {
+                e.push(t.id)
+            }
+            )),
+            e
+        },
+        pushSession: function(e, t) {
+            Mn.push([e, t]),
+            Mn.length > 10 && Mn.splice(0, Mn.length - 10)
+        },
+        getSession: function() {
+            return Mn
+        }
+    };
+    function Nn(e, t) {
+        "object" != typeof e || t || (t = e,
+        e = null);
+        var n, r, i, o = !0 === (t = t || {}).async, a = new Promise((function(e, t) {
+            r = e,
+            i = t
+        }
+        ));
+        if (a.resolve = r,
+        a.reject = i,
+        n = e ? An.getById(e) : An.getByIndex(0)) {
+            ze("Execute called", "hCaptcha", "info");
+            try {
+                En.setData("exec", "api")
+            } catch (hr) {
+                Pe("Set MD Failed", "error", "execute", hr)
+            }
+            try {
+                kn(n.config.sitekey) ? (bn.stop(),
+                wn.stop()) : wn.setData("exec", "api")
+            } catch (hr) {
+                Pe("vm-err", "error", "execute", hr)
+            }
+            o && n.setPromise(a),
+            n.onReady(n.initChallenge, t)
+        } else if (e) {
+            if (!o)
+                throw new xn(e);
+            a.reject(de)
+        } else {
+            if (!o)
+                throw new Sn;
+            a.reject(he)
+        }
+        if (o)
+            return a
+    }
+    function Hn(e) {
+        var t = ""
+          , n = null;
+        n = e ? An.getById(e) : An.getByIndex(0);
+        try {
+            for (var r = An.getSession(), i = r.length, o = !1; --i > -1 && !o; )
+                (o = r[i][1] === n.id) && (t = r[i][0])
+        } catch (fr) {
+            t = ""
+        }
+        return t
+    }
+    function On(e, t, n) {
+        this.target = e,
+        this.setTargetOrigin(n),
+        this.id = t,
+        this.messages = [],
+        this.incoming = [],
+        this.waiting = [],
+        this.isReady = !0,
+        this.queue = []
+    }
+    On.prototype._sendMessage = function(e, t) {
+        var n = e instanceof HTMLIFrameElement;
+        try {
+            n ? e.contentWindow.postMessage(JSON.stringify(t), this.targetOrigin) : e.postMessage(JSON.stringify(t), this.targetOrigin)
+        } catch (hr) {
+            je("messaging", hr),
+            "*" !== this.targetOrigin && (this.setTargetOrigin("*"),
+            this._sendMessage(e, t))
+        }
+    }
+    ,
+    On.prototype.setReady = function(e) {
+        var t = this;
+        t.isReady = e,
+        t.isReady && t.queue.length && (t.queue.forEach((function(e) {
+            t._sendMessage.apply(t, e)
+        }
+        )),
+        t.clearQueue())
+    }
+    ,
+    On.prototype.clearQueue = function() {
+        this.queue = []
+    }
+    ,
+    On.prototype.setID = function(e) {
+        this.id = e
+    }
+    ,
+    On.prototype.setTargetOrigin = function(e) {
+        this.targetOrigin = "*"
+    }
+    ,
+    On.prototype.contact = function(e, t) {
+        if (!this.id)
+            throw new Error("Chat requires unique id to communicate between windows");
+        var n = this
+          , r = Math.random().toString(36).substr(2)
+          , i = {
+            source: "hcaptcha",
+            label: e,
+            id: this.id,
+            promise: "create",
+            lookup: r
+        };
+        if (t) {
+            if ("object" != typeof t)
+                throw new Error("Message must be an object.");
+            i.contents = t
+        }
+        return new Promise((function(t, o) {
+            n.waiting.push({
+                label: e,
+                reject: o,
+                resolve: t,
+                lookup: r
+            }),
+            n._addToQueue(n.target, i)
+        }
+        ))
+    }
+    ,
+    On.prototype.listen = function(e, t) {
+        if (!this.id)
+            throw new Error("Chat requires unique id to communicate between windows");
+        for (var n = this.messages.length, r = !1; --n > -1 && !1 === r; )
+            this.messages[n].label === e && (r = this.messages[n]);
+        !1 === r && (r = {
+            label: e,
+            listeners: []
+        },
+        this.messages.push(r)),
+        r.listeners.push(t)
+    }
+    ,
+    On.prototype.answer = function(e, t) {
+        if (!this.id)
+            throw new Error("Chat requires unique id to communicate between windows");
+        for (var n = this.incoming.length, r = !1; --n > -1 && !1 === r; )
+            this.incoming[n].label === e && (r = this.incoming[n]);
+        !1 === r && (r = {
+            label: e,
+            listeners: []
+        },
+        this.incoming.push(r)),
+        r.listeners.push(t)
+    }
+    ,
+    On.prototype.send = function(e, t) {
+        var n = this;
+        if (!n.id)
+            throw new Error("Chat requires unique id to communicate between windows");
+        var r = {
+            source: "hcaptcha",
+            label: e,
+            id: n.id
+        };
+        if (t) {
+            if ("object" != typeof t)
+                throw new Error("Message must be an object.");
+            r.contents = t
+        }
+        n._addToQueue(n.target, r)
+    }
+    ,
+    On.prototype.check = function(e, t) {
+        for (var n = [].concat.apply([], [this.messages, this.incoming, this.waiting]), r = [], i = -1; ++i < n.length; )
+            if (n[i].label === e) {
+                if (t && n[i].lookup && t !== n[i].lookup)
+                    continue;
+                r.push(n[i])
+            }
+        return r
+    }
+    ,
+    On.prototype.respond = function(e) {
+        for (var t, n, r = -1, i = 0, o = [].concat.apply([], [this.messages, this.incoming, this.waiting]); ++r < o.length; )
+            if (o[r].label === e.label) {
+                if (e.lookup && o[r].lookup && e.lookup !== o[r].lookup)
+                    continue;
+                var a = [];
+                if (t = o[r],
+                e.error && a.push(e.error),
+                e.contents && a.push(e.contents),
+                e.promise && "create" !== e.promise) {
+                    t[e.promise].apply(t[e.promise], a);
+                    for (var s = this.waiting.length, c = !1; --s > -1 && !1 === c; )
+                        this.waiting[s].label === t.label && this.waiting[s].lookup === t.lookup && (c = !0,
+                        this.waiting.splice(s, 1));
+                    continue
+                }
+                for (i = 0; i < t.listeners.length; i++) {
+                    if (n = t.listeners[i],
+                    "create" === e.promise) {
+                        var l = this._contactPromise(t.label, e.lookup);
+                        a.push(l)
+                    }
+                    try {
+                        n.apply(n, a)
+                    } catch (hr) {
+                        je("chat-cb", hr)
+                    }
+                }
+            }
+        o = null
+    }
+    ,
+    On.prototype.destroy = function() {
+        return this.clearQueue(),
+        this.messages = null,
+        this.incoming = null,
+        this.waiting = null,
+        this.isReady = !1,
+        null
+    }
+    ,
+    On.prototype._contactPromise = function(e, t) {
+        var n = this
+          , r = {}
+          , i = new Promise((function(e, t) {
+            r.resolve = e,
+            r.reject = t
+        }
+        ))
+          , o = {
+            source: "hcaptcha",
+            label: e,
+            id: n.id,
+            promise: null,
+            lookup: t
+        };
+        return i.then((function(e) {
+            o.promise = "resolve",
+            null !== e && (o.contents = e),
+            n._addToQueue(n.target, o)
+        }
+        ))["catch"]((function(e) {
+            o.promise = "reject",
+            null !== e && (o.error = e),
+            n._addToQueue(n.target, o)
+        }
+        )),
+        r
+    }
+    ,
+    On.prototype._addToQueue = function(e, t) {
+        this.isReady ? this._sendMessage(e, t) : this.queue.push([e, t])
+    }
+    ;
+    var Cn = {
+        chats: [],
+        messages: [],
+        globalEnabled: !1,
+        isSupported: function() {
+            return !!window.postMessage
+        },
+        createChat: function(e, t, n) {
+            var r = new On(e,t,n);
+            return Cn.chats.push(r),
+            r
+        },
+        addChat: function(e) {
+            Cn.chats.push(e)
+        },
+        removeChat: function(e) {
+            for (var t = !1, n = Cn.chats.length; --n > -1 && !1 === t; )
+                e.id === Cn.chats[n].id && e.target === Cn.chats[n].target && (t = Cn.chats[n],
+                Cn.chats.splice(n, 1));
+            return t
+        },
+        consumeMessages: function() {
+            var e = Cn.messages;
+            return Cn.messages = [],
+            e
+        },
+        handleGlobal: function(e) {
+            if (Cn.globalEnabled) {
+                var t = Cn.messages;
+                if (t.length >= 10)
+                    Cn.globalEnabled = !1;
+                else {
+                    var n = t.some((function(t) {
+                        return JSON.stringify(t.data) === JSON.stringify(e.data)
+                    }
+                    ));
+                    n || t.push(e)
+                }
+            }
+        },
+        handle: function(e) {
+            var t = e.data
+              , n = "string" == typeof t && t.indexOf("hcaptcha") >= 0 || "object" == typeof t && JSON.stringify(t).indexOf("hcaptcha") >= 0;
+            try {
+                if (!n)
+                    return void Cn.handleGlobal(e);
+                "string" == typeof t && (t = JSON.parse(t)),
+                "d" === t.t && Cn.messages.push(e);
+                for (var r, i = Cn.chats, o = -1; ++o < i.length; ) {
+                    var a = "*" === (r = i[o]).targetOrigin || e.origin === r.targetOrigin;
+                    r.id === t.id && a && r.respond(t)
+                }
+            } catch (hr) {
+                ze("postMessage handler error", "postMessage", "debug", {
+                    event: e,
+                    error: hr
+                })
+            }
+        }
+    };
+    function Fn(e) {
+        var t = e ? An.getById(e) : An.getByIndex(0);
+        if (!t)
+            throw e ? new xn(e) : new Sn;
+        An.remove(t),
+        t.destroy(),
+        t = null
+    }
+    function Pn() {
+        try {
+            return Object.keys(window).sort().join(",")
+        } catch (pr) {
+            return null
+        }
+    }
+    window.addEventListener ? window.addEventListener("message", Cn.handle) : window.attachEvent("onmessage", Cn.handle);
+    var jn = Le();
+    function zn(e, t) {
+        for (var n in t) {
+            var r = t[n];
+            switch (typeof r) {
+            case "string":
+                e[n] = r;
+                break;
+            case "object":
+                e[n] = e[n] || {},
+                zn(e[n], r);
+                break;
+            default:
+                throw new Error("Source theme contains invalid data types. Only string and object types are supported.")
+            }
+        }
+    }
+    function Zn(e, t) {
+        try {
+            return e in t
+        } catch (n) {
+            return !1
+        }
+    }
+    function Ln(e) {
+        return !!e && "object" == typeof e
+    }
+    function Bn(e) {
+        return Ln(e) ? Dn({}, e) : e
+    }
+    function Dn(e, t) {
+        var n, r = {}, i = Object.keys(e);
+        for (n = 0; n < i.length; n++)
+            r[i[n]] = Bn(e[i[n]]);
+        var o, a, s = Object.keys(t);
+        for (n = 0; n < s.length; n++) {
+            var c = s[n];
+            if (!(!Zn(o = c, a = e) || Object.hasOwnProperty.call(a, o) && Object.propertyIsEnumerable.call(a, o)))
+                return;
+            Zn(c, e) && Ln(e[c]) ? r[c] = Dn(e[c], t[c]) : r[c] = Bn(t[c])
+        }
+        return r
+    }
+    var In = {
+        transparent: "transparent",
+        white: "#ffffff",
+        black: "#000000",
+        grey: "#707070"
+    }
+      , Qn = {
+        100: "#fafafa",
+        200: "#f5f5f5",
+        300: "#E0E0E0",
+        400: "#D7D7D7",
+        500: "#BFBFBF",
+        600: "#919191",
+        700: "#555555",
+        800: "#333333",
+        900: "#222222",
+        1e3: "#14191F"
+    }
+      , Jn = "#4DE1D2"
+      , Xn = "#00838F"
+      , Gn = {
+        mode: "light",
+        grey: Qn,
+        primary: {
+            main: Xn
+        },
+        secondary: {
+            main: Jn
+        },
+        warn: {
+            light: "#BF1722",
+            main: "#BF1722",
+            dark: "#9D1B1B"
+        },
+        text: {
+            heading: Qn[800],
+            body: Qn[800]
+        }
+    }
+      , Kn = {
+        mode: "dark",
+        grey: Qn,
+        primary: {
+            main: Xn
+        },
+        secondary: {
+            main: Jn
+        },
+        text: {
+            heading: Qn[200],
+            body: Qn[200]
+        }
+    };
+    function Yn(e, t) {
+        return "dark" === t && e in Kn ? Kn[e] : Gn[e]
+    }
+    function $n() {
+        this._themes = Object.create(null),
+        this._active = "light",
+        this.add("light", {}),
+        this.add("dark", {
+            palette: {
+                mode: "dark"
+            }
+        })
+    }
+    $n.prototype.get = function(e) {
+        if (!e)
+            return this._themes[this._active];
+        var t = this._themes[e];
+        if (!t)
+            throw new Error("Cannot find theme with name: " + e);
+        return t
+    }
+    ,
+    $n.prototype.use = function(e) {
+        this._themes[e] ? this._active = e : console.error("Cannot find theme with name: " + e)
+    }
+    ,
+    $n.prototype.active = function() {
+        return this._active
+    }
+    ,
+    $n.prototype.add = function(e, t) {
+        t || (t = {}),
+        t.palette = function(e) {
+            e || (e = {});
+            var t = e.mode || "light"
+              , n = e.primary || Yn("primary", t)
+              , r = e.secondary || Yn("secondary", t)
+              , i = e.warn || Yn("warn", t)
+              , o = e.grey || Yn("grey", t)
+              , a = e.text || Yn("text", t);
+            return Dn({
+                common: In,
+                mode: t,
+                primary: n,
+                secondary: r,
+                grey: o,
+                warn: i,
+                text: a
+            }, e)
+        }(t.palette),
+        t.component = t.component || Object.create(null),
+        this._themes[e] = t
+    }
+    ,
+    $n.prototype.extend = function(e, t) {
+        "string" == typeof t && (t = JSON.parse(t));
+        var n = JSON.parse(JSON.stringify(this.get(e)));
+        return zn(n, t),
+        n
+    }
+    ,
+    $n.merge = function(e, t) {
+        return Dn(e, t || {})
+    }
+    ;
+    var qn = ["light", "dark", "contrast", "grey-red"]
+      , er = new $n;
+    er.add("contrast", {}),
+    er.add("grey-red", {
+        component: {
+            challenge: {
+                main: {
+                    border: "#6a6a6a"
+                }
+            }
+        }
+    });
+    function tr(e, t) {
+        var n = this;
+        this.challengeCreationSent = !1,
+        this.id = e,
+        this.width = null,
+        this.height = null,
+        this.mobile = !1,
+        this.ready = !1,
+        this.listeners = [],
+        this.config = t,
+        this._visible = !1,
+        this._selected = !1,
+        this.$iframe = new kt("iframe"),
+        this._host = ye.host || window.location.hostname;
+        var r = ye.assetUrl;
+        ve.assethost && (r = ve.assethost + ye.assetUrl.replace(ye.assetDomain, ""));
+        var i = r.match(/^.+\:\/\/[^\/]+/)
+          , o = i ? i[0] : null
+          , a = r + "/hcaptcha.html#frame=challenge&id=" + this.id + "&host=" + this._host + (t ? "&" + Ke(this.config) : "")
+          , s = ve.isSecure && ee.Browser.supportsPST();
+        this.setupParentContainer(t),
+        this.chat = Cn.createChat(this.$iframe.dom, e, o),
+        this.chat.setReady(!1),
+        this._timeoutFailedToInitialize = setTimeout((function() {
+            n.$iframe && n.$iframe.isConnected() ? Pe("Failed to initialize. Iframe attached", "error", "frame:challenge", {
+                contentWindow: !!n.$iframe.dom.contentWindow,
+                iframeSrc: a,
+                supportsPST: s,
+                customContainer: n._hasCustomContainer
+            }) : Pe("Failed to initialize. Iframe detached", "error", "frame:challenge")
+        }
+        ), 6e4),
+        this.$iframe.dom.src = a,
+        this.$iframe.dom.frameBorder = 0,
+        this.$iframe.dom.scrolling = "no",
+        s && (this.$iframe.dom.allow = "private-state-token-redemption"),
+        this.translate(),
+        this._hasCustomContainer ? (this._hideIframe(),
+        this._parent.appendChild(this.$iframe.dom)) : (this.$container = new kt("div"),
+        this.$wrapper = this.$container.createElement("div"),
+        this.$overlay = this.$container.createElement("div"),
+        this.$arrow = this.$container.createElement("div"),
+        this.$arrow.fg = this.$arrow.createElement("div"),
+        this.$arrow.bg = this.$arrow.createElement("div"),
+        this.style.call(this),
+        this.$wrapper.appendElement(this.$iframe),
+        this._parent.appendChild(this.$container.dom),
+        this.$container.setAttribute("aria-hidden", !0)),
+        this.style()
+    }
+    tr.prototype.setupParentContainer = function(e) {
+        var t, n = e["challenge-container"];
+        n && (t = "string" == typeof n ? document.getElementById(n) : n),
+        t ? (this._hasCustomContainer = !0,
+        this._parent = t) : (this._hasCustomContainer = !1,
+        this._parent = document.body)
+    }
+    ,
+    tr.prototype._hideIframe = function() {
+        var e = {};
+        "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (e.opacity = 0,
+        e.visibility = "hidden") : e.display = "none",
+        this.$iframe.setAttribute("aria-hidden", !0),
+        this.$iframe.css(e)
+    }
+    ,
+    tr.prototype._showIframe = function() {
+        var e = {};
+        "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (e.opacity = 1,
+        e.visibility = "visible") : e.display = "block",
+        this.$iframe.removeAttribute("aria-hidden"),
+        this.$iframe.css(e)
+    }
+    ,
+    tr.prototype.style = function() {
+        var e = function(e) {
+            var t = e.palette
+              , n = e.component;
+            return $n.merge({
+                main: {
+                    fill: t.common.white,
+                    border: t.grey[400]
+                }
+            }, n.challenge)
+        }(er.get());
+        if (this._hasCustomContainer)
+            this.$iframe.css({
+                border: 0,
+                position: "relative",
+                backgroundColor: e.main.fill
+            });
+        else {
+            var t = {
+                backgroundColor: e.main.fill,
+                border: "1px solid " + e.main.border,
+                boxShadow: "rgba(0, 0, 0, 0.1) 0px 0px 4px",
+                borderRadius: 4,
+                left: "auto",
+                top: -1e4,
+                zIndex: -9999999999999,
+                position: "absolute",
+                pointerEvents: "auto"
+            };
+            "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (t.transition = "opacity 0.15s ease-out",
+            t.opacity = 0,
+            t.visibility = "hidden") : t.display = "none",
+            this.$container.css(t),
+            this.$wrapper.css({
+                position: "relative",
+                zIndex: 1
+            }),
+            this.$overlay.css({
+                width: "100%",
+                height: "100%",
+                position: "fixed",
+                pointerEvents: "none",
+                top: 0,
+                left: 0,
+                zIndex: 0,
+                backgroundColor: e.main.fill,
+                opacity: .05
+            }),
+            this.$arrow.css({
+                borderWidth: 11,
+                borderStyle: "none",
+                position: "absolute",
+                pointerEvents: "none",
+                marginTop: -11,
+                zIndex: 1,
+                right: "100%"
+            }),
+            this.$arrow.fg.css({
+                borderWidth: 10,
+                borderStyle: "solid",
+                borderColor: "transparent rgb(255, 255, 255) transparent transparent",
+                position: "relative",
+                top: 10,
+                zIndex: 1
+            }),
+            this.$arrow.bg.css({
+                borderWidth: 11,
+                borderStyle: "solid",
+                borderColor: "transparent " + e.main.border + " transparent transparent",
+                position: "relative",
+                top: -11,
+                zIndex: 0
+            }),
+            this.$iframe.css({
+                border: 0,
+                zIndex: 2e9,
+                position: "relative"
+            })
+        }
+    }
+    ,
+    tr.prototype.setup = function(e) {
+        this.chat.send("create-challenge", e),
+        this.challengeCreationSent = !0
+    }
+    ,
+    tr.prototype.sendTranslation = function(e) {
+        var t = {
+            locale: e,
+            table: Nt.getTable(e) || {}
+        };
+        this.chat && this.chat.send("challenge-translate", t),
+        this.translate()
+    }
+    ,
+    tr.prototype.translate = function() {
+        this.$iframe.dom.title = Nt.translate("Main content of the hCaptcha challenge")
+    }
+    ,
+    tr.prototype.isVisible = function() {
+        return this._visible
+    }
+    ,
+    tr.prototype.getDimensions = function(e, t) {
+        return this._visible ? this.chat.contact("resize-challenge", {
+            width: e,
+            height: t
+        }) : Promise.resolve(null)
+    }
+    ,
+    tr.prototype.show = function() {
+        if (!0 !== this._visible)
+            if (this._visible = !0,
+            this._hasCustomContainer)
+                this._showIframe();
+            else {
+                var e = {
+                    zIndex: 9999999999999,
+                    display: "block"
+                };
+                ("ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version) && (e.opacity = 1,
+                e.visibility = "visible"),
+                this.$container.css(e),
+                this.$container.removeAttribute("aria-hidden"),
+                this.$overlay.css({
+                    pointerEvents: "auto",
+                    cursor: "pointer"
+                })
+            }
+    }
+    ,
+    tr.prototype.focus = function() {
+        this.$iframe.dom.focus()
+    }
+    ,
+    tr.prototype.close = function(e) {
+        if (!1 !== this._visible) {
+            if (this._visible = !1,
+            this._hasCustomContainer)
+                return this._hideIframe(),
+                void this.chat.send("close-challenge", {
+                    event: e
+                });
+            var t = {
+                left: "auto",
+                top: -1e4,
+                zIndex: -9999999999999
+            };
+            "ie" !== ee.Browser.type || "ie" === ee.Browser.type && 8 !== ee.Browser.version ? (t.opacity = 0,
+            t.visibility = "hidden") : t.display = "none",
+            this.$container.css(t),
+            this._hasCustomContainer || this.$overlay.css({
+                pointerEvents: "none",
+                cursor: "default"
+            }),
+            this.chat.send("close-challenge", {
+                event: e
+            }),
+            this.$container.setAttribute("aria-hidden", !0)
+        }
+    }
+    ,
+    tr.prototype.size = function(e, t, n) {
+        this.width = e,
+        this.height = t,
+        this.mobile = n,
+        this.$iframe.css({
+            width: e,
+            height: t
+        }),
+        this._hasCustomContainer || (this.$wrapper.css({
+            width: e,
+            height: t
+        }),
+        n ? this.$overlay.css({
+            opacity: .5
+        }) : this.$overlay.css({
+            opacity: .05
+        }))
+    }
+    ,
+    tr.prototype.position = function(e) {
+        if (!this._hasCustomContainer && e) {
+            var t = 10
+              , n = window.document.documentElement
+              , r = ee.Browser.scrollY()
+              , i = ee.Browser.width()
+              , o = ee.Browser.height()
+              , a = this.mobile || "invisible" === this.config.size || e.offset.left + e.tick.x <= e.tick.width / 2
+              , s = Math.round(e.bounding.top) + r !== e.offset.top
+              , c = a ? (i - this.width) / 2 : e.bounding.left + e.tick.right + 10;
+            (c + this.width + t > i || c < 0) && (c = (i - this.width) / 2,
+            a = !0);
+            var l = (n.scrollHeight < n.clientHeight ? n.clientHeight : n.scrollHeight) - this.height - t
+              , u = a ? (o - this.height) / 2 + r : e.bounding.top + e.tick.y + r - this.height / 2;
+            s && u < r && (u = r + t),
+            s && u + this.height >= r + o && (u = r + o - (this.height + t)),
+            u = Math.max(Math.min(u, l), 10);
+            var h = e.bounding.top + e.tick.y + r - u - 10
+              , p = this.height - 10 - 30;
+            h = Math.max(Math.min(h, p), t),
+            this.$container.css({
+                left: c,
+                top: u
+            }),
+            this.$arrow.fg.css({
+                display: a ? "none" : "block"
+            }),
+            this.$arrow.bg.css({
+                display: a ? "none" : "block"
+            }),
+            this.$arrow.css({
+                top: h
+            }),
+            this.top = u,
+            this.$container.dom.getBoundingClientRect()
+        }
+    }
+    ,
+    tr.prototype.destroy = function() {
+        this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize),
+        this._timeoutFailedToInitialize = null),
+        this._visible && this.close.call(this),
+        Cn.removeChat(this.chat),
+        this.chat = this.chat.destroy(),
+        this._hasCustomContainer ? this._parent.removeChild(this.$iframe.dom) : (this._parent.removeChild(this.$container.dom),
+        this.$container = this.$container.__destroy()),
+        this.$iframe = this.$iframe.__destroy()
+    }
+    ,
+    tr.prototype.setReady = function() {
+        var e;
+        this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize),
+        this._timeoutFailedToInitialize = null),
+        this.chat && this.chat.setReady(!0),
+        this.ready = !0;
+        for (var t = this.listeners.length; --t > -1; )
+            e = this.listeners[t],
+            this.listeners.splice(t, 1),
+            e()
+    }
+    ,
+    tr.prototype.onReady = function(e) {
+        var t = Array.prototype.slice.call(arguments, 1)
+          , n = function() {
+            e.apply(null, t)
+        };
+        this.ready ? n() : this.listeners.push(n)
+    }
+    ,
+    tr.prototype.onOverlayClick = function(e) {
+        this._hasCustomContainer || this.$overlay.addEventListener("click", e)
+    }
+    ,
+    tr.prototype.setData = function(e) {
+        this.chat && this.chat.send("challenge-data", e)
+    }
+    ,
+    tr.prototype.resetData = function() {
+        this.chat && this.chat.send("reset-challenge-data")
+    }
+    ;
+    function nr(e, t, n) {
+        var r = this;
+        this.id = t,
+        this.response = null,
+        this.location = {
+            tick: null,
+            offset: null,
+            bounding: null
+        },
+        this.config = n,
+        this._ticked = !0,
+        this.$container = e instanceof kt ? e : new kt(e),
+        this._host = ye.host || window.location.hostname,
+        this.$iframe = new kt("iframe");
+        var i = ye.assetUrl;
+        ve.assethost && (i = ve.assethost + ye.assetUrl.replace(ye.assetDomain, ""));
+        var o = i.match(/^.+\:\/\/[^\/]+/)
+          , a = o ? o[0] : null
+          , s = i + "/hcaptcha.html#frame=checkbox&id=" + this.id + "&host=" + this._host + (n ? "&" + Ke(this.config) : "");
+        this.chat = Cn.createChat(this.$iframe.dom, t, a),
+        this.chat.setReady(!1),
+        this._timeoutFailedToInitialize = setTimeout((function() {
+            r.$iframe && r.$iframe.isConnected() ? Pe("Failed to initialize. Iframe attached", "error", "frame:checkbox", {
+                contentWindow: !!r.$iframe.dom.contentWindow,
+                iframeSrc: s
+            }) : Pe("Failed to initialize. Iframe detached", "error", "frame:checkbox")
+        }
+        ), 6e4),
+        this.$iframe.dom.src = s,
+        this.$iframe.dom.tabIndex = this.config.tabindex || 0,
+        this.$iframe.dom.frameBorder = "0",
+        this.$iframe.dom.scrolling = "no",
+        ve.isSecure && ee.Browser.supportsPST() && (this.$iframe.dom.allow = "private-state-token-redemption"),
+        this.translate(),
+        this.config.size && "invisible" === this.config.size && this.$iframe.setAttribute("aria-hidden", "true"),
+        this.$iframe.setAttribute("data-hcaptcha-widget-id", t),
+        this.$iframe.setAttribute("data-hcaptcha-response", ""),
+        this.$container.appendElement(this.$iframe),
+        "off" !== ve.recaptchacompat && (this.$textArea0 = this.$container.createElement("textarea", "#g-recaptcha-response-" + t),
+        this.$textArea0.dom.name = "g-recaptcha-response",
+        this.$textArea0.css({
+            display: "none"
+        })),
+        this.$textArea1 = this.$container.createElement("textarea", "#h-captcha-response-" + t),
+        this.$textArea1.dom.name = "h-captcha-response",
+        this.$textArea1.css({
+            display: "none"
+        }),
+        this.ready = new Promise((function(e) {
+            r.chat.listen("checkbox-ready", e)
+        }
+        )).then((function() {
+            r._timeoutFailedToInitialize && (clearTimeout(r._timeoutFailedToInitialize),
+            r._timeoutFailedToInitialize = null),
+            r.chat && r.chat.setReady(!0)
+        }
+        )),
+        this.clearLoading = this.clearLoading.bind(this),
+        this.style()
+    }
+    function rr(e, t, n) {
+        this.id = t,
+        this.response = null,
+        this.location = {
+            tick: null,
+            offset: null,
+            bounding: null
+        },
+        this.config = n,
+        this.$container = e instanceof kt ? e : new kt(e),
+        this.$iframe = new kt("iframe"),
+        this.$iframe.setAttribute("aria-hidden", "true"),
+        this.$iframe.css({
+            display: "none"
+        }),
+        this.$iframe.setAttribute("data-hcaptcha-widget-id", t),
+        this.$iframe.setAttribute("data-hcaptcha-response", "");
+        var r = ye.assetUrl;
+        ve.assethost && (r = ve.assethost + ye.assetUrl.replace(ye.assetDomain, "")),
+        this.$iframe.dom.src = r + "/hcaptcha.html#frame=checkbox-invisible",
+        this.$container.appendElement(this.$iframe),
+        "off" !== ve.recaptchacompat && (this.$textArea0 = this.$container.createElement("textarea", "#g-recaptcha-response-" + t),
+        this.$textArea0.dom.name = "g-recaptcha-response",
+        this.$textArea0.css({
+            display: "none"
+        })),
+        this.$textArea1 = this.$container.createElement("textarea", "#h-captcha-response-" + t),
+        this.$textArea1.dom.name = "h-captcha-response",
+        this.$textArea1.css({
+            display: "none"
+        })
+    }
+    function ir(e, t, n) {
+        if (!n.sitekey)
+            throw new Un;
+        this.id = t,
+        this.visible = !1,
+        this.overflow = {
+            override: !1,
+            cssUsed: !0,
+            value: null,
+            scroll: 0
+        },
+        this.onError = null,
+        this.onPass = null,
+        this.onExpire = null,
+        this.onChalExpire = null,
+        this.onOpen = null,
+        this.onClose = null,
+        this._ready = !1,
+        this._active = !1,
+        this._listeners = [],
+        this.config = n,
+        qn.indexOf(n.theme) >= 0 && er.use(n.theme),
+        this._state = {
+            escaped: !1,
+            passed: !1,
+            expiredChallenge: !1,
+            expiredResponse: !1
+        },
+        this._origData = null,
+        this._langSet = !1,
+        this._promise = null,
+        this._responseTimer = null,
+        this.initChallenge = this.initChallenge.bind(this),
+        this.closeChallenge = this.closeChallenge.bind(this),
+        this.displayChallenge = this.displayChallenge.bind(this),
+        this.getGetCaptchaManifest = this.getGetCaptchaManifest.bind(this),
+        this.challenge = new tr(t,n),
+        "invisible" === this.config.size ? (ze("Invisible mode is set", "hCaptcha", "info"),
+        this.checkbox = new rr(e,t,n)) : this.checkbox = new nr(e,t,n)
+    }
+    function or(e) {
+        if ("en" === e)
+            return Promise.resolve();
+        var t = e + ".json";
+        return new Promise((function(n, r) {
+            $t(t).then((function(n) {
+                return n || Yt(t, {
+                    prefix: "https://newassets.hcaptcha.com/captcha/v1/2e2f9feae51e15dd4676ba8e3d761ec72f41b826/static/i18n"
+                }).then((function(t) {
+                    return Nt.addTable(e, t.data),
+                    t
+                }
+                ))
+            }
+            )).then((function(e) {
+                n(e.data)
+            }
+            ))["catch"]((function(e) {
+                r(e)
+            }
+            ))
+        }
+        ))
+    }
+    nr.prototype.setResponse = function(e) {
+        this.response = e,
+        this.$iframe.dom.setAttribute("data-hcaptcha-response", e),
+        "off" !== ve.recaptchacompat && (this.$textArea0.dom.value = e),
+        this.$textArea1.dom.value = e
+    }
+    ,
+    nr.prototype.style = function() {
+        var e = this.config.size;
+        switch (this.$iframe.css({
+            pointerEvents: "auto",
+            backgroundColor: "rgba(255,255,255,0)",
+            borderRadius: 4
+        }),
+        e) {
+        case "compact":
+            this.$iframe.css({
+                width: 158,
+                height: 138
+            });
+            break;
+        case "invisible":
+            this.$iframe.css({
+                display: "none"
+            });
+            break;
+        default:
+            this.$iframe.css({
+                width: 302,
+                height: 76,
+                overflow: "hidden"
+            })
+        }
+    }
+    ,
+    nr.prototype.reset = function() {
+        this._ticked = !1,
+        this.$iframe && this.$iframe.dom.contentWindow && this.chat && this.chat.send("checkbox-reset")
+    }
+    ,
+    nr.prototype.clearLoading = function() {
+        this.chat && this.chat.send("checkbox-clear")
+    }
+    ,
+    nr.prototype.sendTranslation = function(e) {
+        var t = {
+            locale: e,
+            table: Nt.getTable(e) || {}
+        };
+        this.chat && this.chat.send("checkbox-translate", t),
+        this.translate()
+    }
+    ,
+    nr.prototype.translate = function() {
+        this.$iframe.dom.title = Nt.translate("Widget containing checkbox for hCaptcha security challenge")
+    }
+    ,
+    nr.prototype.status = function(e, t) {
+        this.$iframe && this.$iframe.dom.contentWindow && this.chat && this.chat.send("checkbox-status", {
+            text: e || null,
+            a11yOnly: t || !1
+        })
+    }
+    ,
+    nr.prototype.tick = function() {
+        this._ticked = !0,
+        this.chat && this.chat.send("checkbox-tick")
+    }
+    ,
+    nr.prototype.getTickLocation = function() {
+        return this.chat.contact("checkbox-location")
+    }
+    ,
+    nr.prototype.getOffset = function() {
+        var e = this.$iframe.dom;
+        e.offsetParent || (e = e.parentElement);
+        for (var t = 0, n = 0; e; )
+            t += e.offsetLeft,
+            n += e.offsetTop,
+            e = e.offsetParent;
+        return {
+            top: n,
+            left: t
+        }
+    }
+    ,
+    nr.prototype.getBounding = function() {
+        return this.$iframe.dom.getBoundingClientRect()
+    }
+    ,
+    nr.prototype.destroy = function() {
+        this._timeoutFailedToInitialize && (clearTimeout(this._timeoutFailedToInitialize),
+        this._timeoutFailedToInitialize = null),
+        this._ticked && this.reset(),
+        Cn.removeChat(this.chat),
+        this.chat = this.chat.destroy(),
+        this.$container.removeElement(this.$iframe),
+        this.$container.removeElement(this.$textArea1),
+        "off" !== ve.recaptchacompat && (this.$container.removeElement(this.$textArea0),
+        this.$textArea0 = this.$textArea0.__destroy()),
+        this.$textArea1 = this.$textArea1.__destroy(),
+        this.$container = this.$container.__destroy(),
+        this.$iframe = this.$iframe.__destroy()
+    }
+    ,
+    rr.prototype.setResponse = function(e) {
+        this.response = e,
+        this.$iframe.dom.setAttribute("data-hcaptcha-response", e),
+        "off" !== ve.recaptchacompat && (this.$textArea0.dom.value = e),
+        this.$textArea1.dom.value = e
+    }
+    ,
+    rr.prototype.reset = function() {}
+    ,
+    rr.prototype.clearLoading = function() {}
+    ,
+    rr.prototype.sendTranslation = function(e) {}
+    ,
+    rr.prototype.status = function(e, t) {}
+    ,
+    rr.prototype.tick = function() {}
+    ,
+    rr.prototype.getTickLocation = function() {
+        return Promise.resolve({
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            width: 0,
+            height: 0,
+            x: 0,
+            y: 0
+        })
+    }
+    ,
+    rr.prototype.getOffset = function() {
+        var e = this.$iframe.dom;
+        e.offsetParent || (e = e.parentElement);
+        for (var t = 0, n = 0; e; )
+            t += e.offsetLeft,
+            n += e.offsetTop,
+            e = e.offsetParent;
+        return {
+            top: n,
+            left: t
+        }
+    }
+    ,
+    rr.prototype.getBounding = function() {
+        return this.$iframe.dom.getBoundingClientRect()
+    }
+    ,
+    rr.prototype.destroy = function() {
+        this._ticked && this.reset(),
+        this.$container.removeElement(this.$iframe),
+        this.$container.removeElement(this.$textArea1),
+        "off" !== ve.recaptchacompat && (this.$container.removeElement(this.$textArea0),
+        this.$textArea0 = this.$textArea0.__destroy()),
+        this.$textArea1 = this.$textArea1.__destroy(),
+        this.$container = this.$container.__destroy(),
+        this.$iframe = this.$iframe.__destroy()
+    }
+    ,
+    ir.prototype._resetTimer = function() {
+        null !== this._responseTimer && (clearTimeout(this._responseTimer),
+        this._responseTimer = null)
+    }
+    ,
+    ir.prototype.initChallenge = function(e) {
+        var t = this;
+        e || (e = {}),
+        ze("Initiate challenge", "hCaptcha", "info"),
+        t._origData = e;
+        var n = this.getGetCaptchaManifest()
+          , r = e.charity || null
+          , i = e.a11yChallenge || !1
+          , o = e.link || null
+          , a = e.action || ""
+          , s = e.rqdata || null
+          , c = e.errors || []
+          , l = e.mfa_phone || null
+          , u = e.mfa_phoneprefix || null
+          , h = ee.Browser.width()
+          , p = ee.Browser.height();
+        this._active = !0,
+        this._resetTimer(),
+        this._resetState(),
+        this.checkbox.setResponse("");
+        var d = {
+            a11yChallenge: i,
+            manifest: n,
+            width: h,
+            height: p,
+            charity: r,
+            link: o,
+            action: a,
+            rqdata: s,
+            mfa_phone: l,
+            mfa_phoneprefix: u,
+            wdata: Pn(),
+            errors: c.concat(jn.collect())
+        };
+        try {
+            var f = this.visible || "invisible" !== this.config.size
+              , m = Vn(t.id, f, !0, this.config.sitekey);
+            if (null == m)
+                return void t.challenge.setup(d);
+            it(m, 100).then((function(e) {
+                d.vmdata = e
+            }
+            ))["catch"]((function(e) {
+                je("submitvm", e)
+            }
+            ))["finally"]((function() {
+                t.challenge.setup(d)
+            }
+            ))
+        } catch (hr) {
+            t.challenge.setup(d),
+            Pe("SubmitVM Failed", "error", "execute", hr)
+        }
+    }
+    ,
+    ir.prototype.getGetCaptchaManifest = function() {
+        var e = (this._origData || {}).manifest || null;
+        e || ((e = Object.create(null)).st = Date.now()),
+        e.v = 1,
+        e.session = An.getSession(),
+        e.widgetList = An.getCaptchaIdList(),
+        e.widgetId = this.id;
+        try {
+            e.topLevel = En.getData()
+        } catch (hr) {
+            Pe("challenge:get-manifest-error", "error", "challenge", {
+                error: hr
+            })
+        }
+        return e.href = window.location.href,
+        e.prev = JSON.parse(JSON.stringify(this._state)),
+        e
+    }
+    ,
+    ir.prototype.displayChallenge = function(e) {
+        if (this._active) {
+            var t = this;
+            this.visible = !0;
+            var n = this.checkbox
+              , r = this.challenge
+              , i = ee.Browser.height();
+            if (!("ie" === ee.Browser.type && 8 === ee.Browser.version)) {
+                var o = window.getComputedStyle(document.body).getPropertyValue("overflow-y");
+                this.overflow.override = "hidden" === o,
+                this.overflow.override && (this.overflow.cssUsed = "" === document.body.style.overflow && "" === document.body.style.overflowY,
+                this.overflow.cssUsed || (this.overflow.value = "" === o ? "auto" : o),
+                this.overflow.scroll = ee.Browser.scrollY(),
+                document.body.style.overflowY = "auto")
+            }
+            return new Promise((function(o) {
+                n.status(),
+                n.getTickLocation().then((function(a) {
+                    if (t._active) {
+                        if (r.size(e.width, e.height, e.mobile),
+                        r.show(),
+                        n.clearLoading(),
+                        n.location.bounding = n.getBounding(),
+                        n.location.tick = a,
+                        n.location.offset = n.getOffset(),
+                        r.position(n.location),
+                        r.focus(),
+                        r.height > window.document.documentElement.clientHeight)
+                            (window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = Math.abs(r.height - i) + r.top;
+                        o()
+                    }
+                }
+                ))
+            }
+            )).then((function() {
+                ze("Challenge is displayed", "hCaptcha", "info"),
+                t.onOpen && ut(t.onOpen)
+            }
+            ))
+        }
+    }
+    ,
+    ir.prototype.resize = function(e, t, n) {
+        var r = this
+          , i = this.checkbox
+          , o = this.challenge;
+        o.getDimensions(e, t).then((function(e) {
+            e && o.size(e.width, e.height, e.mobile),
+            i.location.bounding = i.getBounding(),
+            i.location.offset = i.getOffset(),
+            ee.System.mobile && !n || o.position(i.location)
+        }
+        ))["catch"]((function(e) {
+            r.closeChallenge.call(r, {
+                event: le,
+                message: "Captcha resize caused error.",
+                error: e
+            })
+        }
+        ))
+    }
+    ,
+    ir.prototype.position = function() {
+        var e = this.checkbox
+          , t = this.challenge;
+        ee.System.mobile || (e.location.bounding = e.getBounding(),
+        t.position(e.location))
+    }
+    ,
+    ir.prototype.reset = function() {
+        ze("Captcha Reset", "hCaptcha", "info");
+        try {
+            this.checkbox.reset(),
+            this.checkbox.setResponse(""),
+            this.challenge.resetData(),
+            this._resetTimer(),
+            this._resetState()
+        } catch (fr) {
+            je("hCaptcha", fr)
+        }
+    }
+    ,
+    ir.prototype._resetState = function() {
+        for (var e in this._state)
+            this._state[e] = !1
+    }
+    ,
+    ir.prototype.closeChallenge = function(e) {
+        this.visible = !1,
+        this._active = !1;
+        var t = this
+          , n = this.checkbox
+          , r = this.challenge;
+        this.overflow.override && ((window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = this.overflow.scroll,
+        this.overflow.override = !1,
+        this.overflow.scroll = 0,
+        document.body.style.overflowY = this.overflow.cssUsed ? null : this.overflow.value);
+        var i = e.response || "";
+        n.setResponse(i);
+        var o = e.event;
+        switch ("string" == typeof i && "" !== i || o !== te || (o = ne,
+        Pe("Passed without response", "error", "api", e)),
+        r.close(o),
+        n.$iframe.dom.focus(),
+        ze("Challenge has closed", "hCaptcha", "info", {
+            event: o,
+            response: e.response,
+            message: e.message
+        }),
+        o) {
+        case ne:
+            this._state.escaped = !0,
+            n.reset(),
+            t.onClose && ut(t.onClose),
+            t._promise && t._promise.reject(re);
+            break;
+        case ie:
+            this._state.expiredChallenge = !0,
+            n.reset(),
+            n.status("hCaptcha window closed due to timeout.", !0),
+            t.onChalExpire && ut(t.onChalExpire),
+            t._promise && t._promise.reject(ie);
+            break;
+        case le:
+        case ae:
+        case ce:
+            var a = o;
+            n.reset(),
+            o === ce ? (n.status(e.message),
+            429 === e.status ? a = se : "invalid-data" === e.message ? a = oe : "client-fail" === e.message && (a = le)) : o === ae ? a = le : o === le && "Answers are incomplete" === e.message && (a = ue),
+            Pe("api:challenge-failed-" + a, "error", "hCaptcha", {
+                error: a,
+                event: o,
+                message: e.message
+            }),
+            this.onError && ut(this.onError, a),
+            t._promise && t._promise.reject(a);
+            break;
+        case te:
+            this._state.passed = !0,
+            n.tick(),
+            this.onPass && ut(this.onPass, i),
+            t._promise && t._promise.resolve({
+                response: i,
+                key: Hn(this.id)
+            }),
+            "number" == typeof e.expiration && (t._resetTimer(),
+            t._responseTimer = setTimeout((function() {
+                try {
+                    n.$iframe && (n.$iframe.dom.contentWindow ? (n.reset(),
+                    n.setResponse(""),
+                    n.status("hCaptcha security token has expired. Please complete the challenge again.", !0)) : Fn(t.id))
+                } catch (hr) {
+                    je("global", hr)
+                }
+                t.onExpire && ut(t.onExpire),
+                t._responseTimer = null,
+                t._state.expiredResponse = !0
+            }
+            ), 1e3 * e.expiration))
+        }
+        t._promise = null
+    }
+    ,
+    ir.prototype.updateTranslation = function(e) {
+        this.config.hl = e,
+        this._langSet = !0,
+        this.checkbox && this.checkbox.sendTranslation(e),
+        this.challenge && this.challenge.sendTranslation(e)
+    }
+    ,
+    ir.prototype.isLangSet = function() {
+        return this._langSet
+    }
+    ,
+    ir.prototype.isReady = function() {
+        return this._ready
+    }
+    ,
+    ir.prototype.isActive = function() {
+        return this._active
+    }
+    ,
+    ir.prototype.setReady = function(e) {
+        if (this._ready = e,
+        this._ready) {
+            var t;
+            ze("Instance is ready", "hCaptcha", "info");
+            for (var n = this._listeners.length; --n > -1; )
+                t = this._listeners[n],
+                this._listeners.splice(n, 1),
+                t()
+        }
+    }
+    ,
+    ir.prototype.setPromise = function(e) {
+        this._promise = e
+    }
+    ,
+    ir.prototype.onReady = function(e) {
+        var t = Array.prototype.slice.call(arguments, 1)
+          , n = function() {
+            e.apply(null, t)
+        };
+        this._ready ? n() : this._listeners.push(n)
+    }
+    ,
+    ir.prototype.destroy = function() {
+        (ze("Captcha Destroy", "hCaptcha", "info"),
+        this._resetTimer(),
+        this.overflow.override) && ((window.document.scrollingElement || document.getElementsByTagName("html")[0]).scrollTop = this.overflow.scroll,
+        this.overflow.override = !1,
+        this.overflow.scroll = 0,
+        document.body.style.overflowY = this.overflow.cssUsed ? null : this.overflow.value);
+        this.challenge.destroy(),
+        this.checkbox.destroy(),
+        this.challenge = null,
+        this.checkbox = null
+    }
+    ,
+    ir.prototype.setSiteConfig = function(e) {
+        var t = this;
+        if ("ok"in e) {
+            var n = e.ok.features || {};
+            if (this.config.themeConfig && n.custom_theme) {
+                var r = "custom-" + this.id;
+                er.add(r, er.extend(er.active(), this.config.themeConfig)),
+                er.use(r),
+                this.challenge.style()
+            }
+        }
+        return "invisible" === this.config.size ? ("err"in e && console.error("[hCaptcha] " + e.err.message),
+        Promise.resolve()) : this.checkbox.ready.then((function() {
+            return t.checkbox.chat.send("site-setup", e),
+            new Promise((function(e) {
+                t.checkbox.chat.listen("checkbox-loaded", (function() {
+                    e()
+                }
+                ))
+            }
+            ))
+        }
+        ))
+    }
+    ;
+    var ar = 0
+      , sr = ["hl", "custom", "andint", "tplinks", "sitekey", "theme", "size", "tabindex", "challenge-container", "confirm-nav", "orientation", "mode"];
+    function cr(e, t) {
+        if (e)
+            try {
+                e.updateTranslation(t)
+            } catch (hr) {
+                je("translation", hr)
+            }
+    }
+    var lr, ur = {
+        render: (lr = function(e, t) {
+            if ("string" == typeof e && (e = document.getElementById(e)),
+            e && "object" == typeof e && 1 === e.nodeType && "string" == typeof e.tagName)
+                if (function(e) {
+                    if (!e || !("challenge-container"in e))
+                        return !0;
+                    var t = e["challenge-container"];
+                    return "string" == typeof t && (t = document.getElementById(t)),
+                    !!t && 1 === t.nodeType
+                }(t)) {
+                    if (!1 !== Cn.isSupported()) {
+                        for (var n, r, i = e.getElementsByTagName("iframe"), o = -1; ++o < i.length && !n; )
+                            (r = i[o].getAttribute("data-hcaptcha-widget-id")) && (n = !0);
+                        if (n)
+                            return console.error("Only one captcha is permitted per parent container."),
+                            r;
+                        ze("Render instance", "hCaptcha", "info");
+                        var a = ht(e, t)
+                          , s = ar++ + Math.random().toString(36).substr(2)
+                          , c = Object.create(null);
+                        c.sentry = ve.sentry,
+                        c.reportapi = ve.reportapi,
+                        c.recaptchacompat = ve.recaptchacompat,
+                        c.custom = ve.custom,
+                        null !== ve.language && (c.hl = Nt.getLocale()),
+                        ve.assethost && (c.assethost = ve.assethost),
+                        ve.imghost && (c.imghost = ve.imghost),
+                        ve.tplinks && (c.tplinks = ve.tplinks),
+                        ve.andint && (c.andint = ve.andint),
+                        ve.se && (c.se = ve.se),
+                        "off" === ve.pat && (c.pat = ve.pat),
+                        c.pstissuer = ve.pstIssuer,
+                        "landscape" === ve.orientation && (c.orientation = ve.orientation);
+                        for (var l = 0; l < sr.length; l++) {
+                            var u = sr[l];
+                            u in a && (c[u] = a[u])
+                        }
+                        var h = ve.endpoint
+                          , p = c.sitekey;
+                        "78c843a4-f80d-4a14-b3e5-74b492762487" === p && (h = me);
+                        try {
+                            if (kn(p))
+                                try {
+                                    bn.stop(),
+                                    wn.stop()
+                                } catch (hr) {
+                                    je("bivm", hr)
+                                }
+                        } catch (hr) {
+                            je("vm", hr)
+                        }
+                        h === fe && -1 === ["pt-BR", "es-BR"].indexOf(navigator.language) && Math.random() < .001 && p && -1 === p.indexOf("-0000-0000-0000-") && (h = me),
+                        h !== fe && (c.endpoint = h),
+                        c.theme = ve.theme;
+                        var d = window.location
+                          , f = d.origin || d.protocol + "//" + d.hostname + (d.port ? ":" + d.port : "");
+                        if ("null" !== f && (c.origin = f),
+                        a.theme)
+                            try {
+                                var m = a.theme;
+                                "string" == typeof m && (m = JSON.parse(m)),
+                                c.themeConfig = m,
+                                c.custom = !0
+                            } catch (pr) {
+                                c.theme = m
+                            }
+                        if (e instanceof HTMLButtonElement || e instanceof HTMLInputElement) {
+                            var g = new kt("div",".h-captcha");
+                            g.css({
+                                display: "none"
+                            });
+                            for (var y = null, v = 0; v < e.attributes.length; v++)
+                                (y = e.attributes[v]).name.startsWith("data-") && g.setAttribute(y.name, y.value);
+                            var w = e.tagName.toLowerCase() + "[data-hcaptcha-widget-id='" + s + "']";
+                            e.setAttribute("data-hcaptcha-widget-id", s),
+                            g.setAttribute("data-hcaptcha-source-id", w),
+                            e.parentNode.insertBefore(g.dom, e),
+                            e.onclick = function(e) {
+                                return e.preventDefault(),
+                                ze("User initiated", "hCaptcha", "info", e),
+                                Nn(s)
+                            }
+                            ,
+                            e = g,
+                            c.size = "invisible"
+                        }
+                        c.mode === ge && "invisible" === c.size && (console.warn("[hCaptcha] mode='auto' cannot be used in combination with size='invisible'."),
+                        delete c.mode);
+                        try {
+                            var b = new ir(e,s,c)
+                        } catch (hr) {
+                            je("api", hr);
+                            var V = "Your browser plugins or privacy policies are blocking the hCaptcha service. Please disable them for hCaptcha.com";
+                            return hr instanceof Un && (V = "hCaptcha has failed to initialize. Please see the developer tools console for more information.",
+                            console.error(hr.message)),
+                            void _e(e, V)
+                        }
+                        a.callback && (b.onPass = a.callback),
+                        a["expired-callback"] && (b.onExpire = a["expired-callback"]),
+                        a["chalexpired-callback"] && (b.onChalExpire = a["chalexpired-callback"]),
+                        a["open-callback"] && (b.onOpen = a["open-callback"]),
+                        a["close-callback"] && (b.onClose = a["close-callback"]),
+                        a["error-callback"] && (b.onError = a["error-callback"]);
+                        try {
+                            En.setData("inv", "invisible" === c.size),
+                            En.setData("size", c.size),
+                            En.setData("theme", ft(c.themeConfig || c.theme)),
+                            En.setData("pel", (e.outerHTML || "").replace(e.innerHTML, "")),
+                            kn(b.config.sitekey) || (wn.setData("inv", "invisible" === c.size),
+                            wn.setData("size", c.size),
+                            wn.setData("theme", ft(c.themeConfig || c.theme)),
+                            wn.setData("pel", (e.outerHTML || "").replace(e.innerHTML, "")))
+                        } catch (fr) {
+                            je("api", fr)
+                        }
+                        return function(e, t) {
+                            "invisible" !== t.size && (e.checkbox.chat.listen("checkbox-selected", (function(t) {
+                                ze("User initiated", "hCaptcha", "info");
+                                try {
+                                    var n = "enter" === t.action ? "kb" : "m";
+                                    try {
+                                        En.setData("exec", n),
+                                        kn(e.config.sitekey) || wn.setData("exec", n)
+                                    } catch (hr) {
+                                        je("msetdata", hr)
+                                    }
+                                    try {
+                                        e.onReady(e.initChallenge, t)
+                                    } catch (hr) {
+                                        je("onready", hr)
+                                    }
+                                } catch (hr) {
+                                    Pe("Checkbox Select Failed", "error", "render", hr)
+                                }
+                            }
+                            )),
+                            e.checkbox.chat.listen("checkbox-loaded", (function(n) {
+                                ze("Loaded", "frame:checkbox", "info"),
+                                e.checkbox.location.bounding = e.checkbox.getBounding(),
+                                e.checkbox.location.tick = n,
+                                e.checkbox.location.offset = e.checkbox.getOffset(),
+                                e.checkbox.sendTranslation(t.hl)
+                            }
+                            )),
+                            t.mode === ge && e.onReady((function() {
+                                Nn(e.id)
+                            }
+                            ), t))
+                        }(b, c),
+                        function(e, t) {
+                            function n(t, n) {
+                                if (t.locale) {
+                                    var r = Nt.resolveLocale(t.locale);
+                                    or(r).then((function() {
+                                        n ? cr(e, r) : (Nt.setLocale(r),
+                                        An.each((function(e) {
+                                            cr(e, r)
+                                        }
+                                        )))
+                                    }
+                                    ))["catch"]((function(e) {
+                                        Pe("lang:loading-error", "error", "api", {
+                                            locale: r,
+                                            error: e
+                                        })
+                                    }
+                                    ))
+                                }
+                            }
+                            e.challenge.chat.listen("site-setup", (function(t) {
+                                var n = e.setSiteConfig(t);
+                                e.challenge.onReady((function() {
+                                    n.then((function() {
+                                        e.setReady(!0)
+                                    }
+                                    ))
+                                }
+                                ))
+                            }
+                            )),
+                            e.challenge.chat.listen("challenge-loaded", (function() {
+                                ze("Loaded", "frame:challenge", "info"),
+                                e.challenge.setReady(),
+                                e.challenge.sendTranslation(t.hl)
+                            }
+                            )),
+                            e.challenge.chat.answer("challenge-ready", (function(t, n) {
+                                if (e && e.isActive())
+                                    try {
+                                        e.displayChallenge(t).then(n.resolve)["catch"]((function(e) {
+                                            je("display-challenge", e),
+                                            n.reject(e)
+                                        }
+                                        ))
+                                    } catch (hr) {
+                                        je("challenge-ready", hr),
+                                        n.reject(hr)
+                                    }
+                                else
+                                    e.isActive() ? ze("hCaptcha instance no longer exists.", "frame:challenge", "info") : ze("hCaptcha instance was stopped during execution flow.", "frame:challenge", "info")
+                            }
+                            )),
+                            e.challenge.chat.listen("challenge-resize", (function() {
+                                var t = ee.Browser.width()
+                                  , n = ee.Browser.height();
+                                e.resize(t, n)
+                            }
+                            )),
+                            e.challenge.chat.listen(re, (function(t) {
+                                try {
+                                    En.setData("lpt", Date.now()),
+                                    kn(e.config.sitekey) || wn.setData("lpt", Date.now())
+                                } catch (hr) {
+                                    je("challenge-closed-vm", hr)
+                                }
+                                try {
+                                    e.closeChallenge(t)
+                                } catch (hr) {
+                                    je("challenge-closed", hr)
+                                }
+                            }
+                            )),
+                            e.challenge.chat.answer("get-url", (function(e) {
+                                try {
+                                    e.resolve(window.location.href)
+                                } catch (hr) {
+                                    je("get-url", hr),
+                                    e.reject(hr)
+                                }
+                            }
+                            )),
+                            e.challenge.chat.answer("getcaptcha-manifest", (function(t) {
+                                try {
+                                    var n = e.getGetCaptchaManifest()
+                                      , r = e.visible || "invisible" !== e.config.size;
+                                    try {
+                                        var i = Vn(e.id, r, e.config.sitekey);
+                                        if (null == i)
+                                            return void t.resolve(n);
+                                        it(i, 100).then((function(e) {
+                                            n.vmdata = e
+                                        }
+                                        ))["catch"]((function(e) {
+                                            je("submitvm", e)
+                                        }
+                                        ))["finally"]((function() {
+                                            t.resolve(n)
+                                        }
+                                        ))
+                                    } catch (hr) {
+                                        je("svm", hr),
+                                        t.resolve(n)
+                                    }
+                                } catch (hr) {
+                                    je("getcaptcha-manifest", hr),
+                                    t.reject(hr)
+                                }
+                            }
+                            )),
+                            e.challenge.chat.answer("check-api", (function(t) {
+                                try {
+                                    var n = e.visible || "invisible" !== e.config.size
+                                      , r = {
+                                        motiondata: En.getData()
+                                    };
+                                    try {
+                                        var i = Vn(e.id, n, !n, e.config.sitekey);
+                                        if (null == i)
+                                            return void t.resolve(r);
+                                        it(i, 100).then((function(e) {
+                                            r.vmdata = e
+                                        }
+                                        ))["catch"]((function(e) {
+                                            je("submitvm", e)
+                                        }
+                                        ))["finally"]((function() {
+                                            try {
+                                                t.resolve(r)
+                                            } catch (hr) {
+                                                t.reject(hr)
+                                            }
+                                        }
+                                        ))
+                                    } catch (hr) {
+                                        je("svm", hr),
+                                        t.resolve(r)
+                                    }
+                                } catch (hr) {
+                                    Pe("check api error", "error", "render", hr),
+                                    t.reject(hr)
+                                }
+                            }
+                            )),
+                            e.challenge.chat.listen("challenge-key", (function(t) {
+                                An.pushSession(t.key, e.id)
+                            }
+                            )),
+                            e.challenge.onOverlayClick((function() {
+                                e.closeChallenge({
+                                    event: ne
+                                })
+                            }
+                            )),
+                            e.challenge.chat.listen("challenge-language", n),
+                            n({
+                                locale: t.hl
+                            }, !0),
+                            e.challenge.chat.answer("get-ac", (function(e) {
+                                try {
+                                    var t = Be.hasCookie("hc_accessibility");
+                                    e.resolve(t)
+                                } catch (hr) {
+                                    je("get-ac", hr),
+                                    e.reject(hr)
+                                }
+                            }
+                            ))
+                        }(b, c),
+                        An.add(b),
+                        s
+                    }
+                    _e(e, "Your browser is missing or has disabled Cross-Window Messaging. Please <a style='color:inherit;text-decoration:underline; font: inherit' target='_blank' href='https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto'>upgrade your browser</a> or enable it for hCaptcha.com")
+                } else
+                    console.log("[hCaptcha] render: invalid challenge container '" + t["challenge-container"] + "'.");
+            else {
+                console.log("[hCaptcha] render: invalid container '" + e + "'.");
+                var _ = e && "object" == typeof e;
+                Pe("invalid-container", "error", "render", {
+                    container: e,
+                    containerTypeof: typeof e,
+                    containerNodeType: _ ? e.nodeType : "-",
+                    containerTagNameTypeof: _ ? typeof e.tagName : "-"
+                })
+            }
+        }
+        ,
+        function() {
+            try {
+                return lr.apply(this, arguments)
+            } catch (hr) {
+                je("global", hr)
+            }
+        }
+        ),
+        reset: function(e) {
+            var t;
+            if (e) {
+                if (!(t = An.getById(e)))
+                    throw new xn(e);
+                t.reset()
+            } else {
+                if (!(t = An.getByIndex(0)))
+                    throw new Sn;
+                t.reset()
+            }
+        },
+        remove: Fn,
+        execute: Nn,
+        getResponse: function(e) {
+            var t, n;
+            if ((n = e ? An.getById(e) : An.getByIndex(0)) && (t = n.checkbox.response || ""),
+            void 0 !== t)
+                return t;
+            throw e ? new xn(e) : new Sn
+        },
+        getRespKey: Hn,
+        close: function(e) {
+            var t = !1;
+            if (!(t = e ? An.getById(e) : An.getByIndex(0)))
+                throw e ? new xn(e) : new Sn;
+            t.closeChallenge({
+                event: ne
+            })
+        },
+        setData: function(e, t) {
+            if ("object" != typeof e || t || (t = e,
+            e = null),
+            !t || "object" != typeof t)
+                throw Error("[hCaptcha] invalid data supplied");
+            var n = !1;
+            if (!(n = e ? An.getById(e) : An.getByIndex(0)))
+                throw e ? new xn(e) : new Sn;
+            ze("Set data", "hCaptcha", "info");
+            var r = n.challenge.setData.bind(n.challenge);
+            n.onReady(r, t)
+        },
+        nodes: An
+    };
+    !function(e) {
+        try {
+            _n(0)
+        } catch (hr) {
+            je("vm", hr)
+        }
+        ye.file = "hcaptcha";
+        var t = document.currentScript
+          , n = !1
+          , r = !1
+          , i = "on"
+          , o = ee.Browser.width() / ee.Browser.height()
+          , a = !(!window.hcaptcha || !window.hcaptcha.render)
+          , s = !1;
+        function c() {
+            var e = ee.Browser.width()
+              , t = ee.Browser.height()
+              , n = ee.System.mobile && o !== e / t;
+            o = e / t,
+            h(),
+            ur.nodes.each((function(r) {
+                r.visible && r.resize(e, t, n)
+            }
+            ))
+        }
+        function l(e) {
+            u(),
+            ur.nodes.each((function(e) {
+                e.visible && e.position()
+            }
+            ))
+        }
+        function u() {
+            try {
+                var e = [ee.Browser.scrollX(), ee.Browser.scrollY(), document.documentElement.clientWidth / ee.Browser.width(), Date.now()];
+                En.circBuffPush("xy", e),
+                wn.circBuffPush("xy", e)
+            } catch (hr) {
+                je("motion", hr)
+            }
+        }
+        function h() {
+            try {
+                var e = [ee.Browser.width(), ee.Browser.height(), ee.System.dpr(), Date.now()];
+                En.circBuffPush("wn", e)
+            } catch (hr) {
+                je("motion", hr)
+            }
+        }
+        window.hcaptcha = {
+            render: function() {
+                return a || console.warn("[hCaptcha] should not render before js api is fully loaded. `render=explicit` should be used in combination with `onload`."),
+                ur.render.apply(this, arguments)
+            },
+            remove: ur.remove,
+            execute: ur.execute,
+            reset: ur.reset,
+            close: ur.close,
+            setData: ur.setData,
+            getResponse: ur.getResponse,
+            getRespKey: ur.getRespKey
+        },
+        jn.run({
+            topLevel: !0
+        }),
+        function(e) {
+            var t = Array.prototype.slice.call(arguments, 1);
+            !0 !== tn && "interactive" !== document.readyState && "loaded" !== document.readyState && "complete" !== document.readyState ? (qt.push({
+                fn: e,
+                args: t
+            }),
+            !1 === en && nn()) : setTimeout((function() {
+                e(t)
+            }
+            ), 1)
+        }((function() {
+            !function() {
+                var o;
+                o = t ? [t] : document.getElementsByTagName("script");
+                var a = -1
+                  , c = !1
+                  , l = null
+                  , u = null;
+                for (; ++a < o.length && !1 === c; )
+                    o[a] && o[a].src && (u = (l = o[a].src.split("?"))[0],
+                    /\/(hcaptcha|1\/api)\.js$/.test(u) && (c = o[a],
+                    u && -1 !== u.toLowerCase().indexOf("www.") && console.warn("[hCaptcha] JS API is being loaded from www.hcaptcha.com. Please use https://js.hcaptcha.com/1/api.js")));
+                if (!1 === c)
+                    return;
+                e = e || Ge(l[1]),
+                n = e.onload || !1,
+                r = e.render || !1,
+                s = Boolean(e.uj) || !1,
+                "off" === e.tplinks && (i = "off");
+                ve.tplinks = i,
+                ve.language = e.hl || null,
+                e.endpoint && (ve.endpoint = e.endpoint);
+                ve.reportapi = e.reportapi || ve.reportapi,
+                ve.imghost = e.imghost || null,
+                ve.custom = e.custom || ve.custom,
+                ve.se = e.se || null,
+                ve.pat = e.pat || ve.pat,
+                ve.pstIssuer = e.pstissuer || ve.pstIssuer,
+                ve.andint = e.andint || ve.andint,
+                ve.orientation = e.orientation || null,
+                e.assethost && (dt.URL(e.assethost) ? ve.assethost = e.assethost : console.error("Invalid assethost uri."));
+                ve.isSecure = "https:" === window.location.protocol,
+                ve.recaptchacompat = e.recaptchacompat || ve.recaptchacompat,
+                ye.host = e.host || window.location.hostname,
+                ve.sentry = !1 !== e.sentry,
+                Fe(!0, !1),
+                ve.language = ve.language || window.navigator.userLanguage || window.navigator.language,
+                Nt.setLocale(ve.language),
+                "off" === ve.recaptchacompat ? console.log("recaptchacompat disabled") : window.grecaptcha = window.hcaptcha
+            }(),
+            n && setTimeout((function() {
+                ut(n)
+            }
+            ), 1),
+            a || (a = !0,
+            function() {
+                var e = Nt.getLocale();
+                if ("en" === e)
+                    return;
+                or(e).then((function() {
+                    ur.nodes.each((function(t) {
+                        if (t)
+                            try {
+                                t.isLangSet() || t.updateTranslation(e)
+                            } catch (hr) {
+                                je("translation", hr)
+                            }
+                    }
+                    ))
+                }
+                ))["catch"]((function(t) {
+                    Pe("lang:loading-error", "error", "api", {
+                        locale: e,
+                        error: t
+                    })
+                }
+                ))
+            }(),
+            !1 === r || "onload" === r ? ke(ur.render) : "explicit" !== r && console.log("hcaptcha: invalid render parameter '" + r + "', using 'explicit' instead."),
+            function() {
+                try {
+                    En.record(),
+                    En.setData("sc", ee.Browser.getScreenDimensions()),
+                    En.setData("or", ee.Browser.getOrientation()),
+                    En.setData("wi", ee.Browser.getWindowDimensions()),
+                    En.setData("nv", ee.Browser.interrogateNavigator()),
+                    En.setData("dr", document.referrer),
+                    h(),
+                    u(),
+                    wn.record({
+                        1: !0,
+                        2: !0,
+                        3: !0,
+                        4: !1
+                    }),
+                    wn.setData("sc", ee.Browser.getScreenDimensions()),
+                    wn.setData("wi", ee.Browser.getWindowDimensions()),
+                    wn.setData("or", ee.Browser.getOrientation()),
+                    wn.setData("dr", document.referrer)
+                } catch (hr) {
+                    je("motion", hr)
+                }
+            }(),
+            function() {
+                try {
+                    bn.record({
+                        1: !1,
+                        2: !0,
+                        3: !0,
+                        4: !0,
+                        5: !0,
+                        6: !0,
+                        7: s,
+                        8: s
+                    })
+                } catch (hr) {
+                    je("bi-vm", hr)
+                }
+            }(),
+            an.addEventListener("resize", c),
+            an.addEventListener("scroll", l))
+        }
+        ))
+    }()
 }();

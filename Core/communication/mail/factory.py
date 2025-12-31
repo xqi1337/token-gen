@@ -1,5 +1,6 @@
 from Core.communication.mail.providers.katmail import KatMailApi
 from Core.communication.mail.providers.cybertemp import CybertempApi
+from Core.communication.mail.providers.go6mail import Go6MailApi
 
 class MailApiFactory:
     def __init__(self, config: dict):
@@ -18,6 +19,8 @@ class MailApiFactory:
 
         if self.provider == "cybertemp":
             return CybertempApi(self.api_key)
-        
 
+        if self.provider == "go6mail":
+            return Go6MailApi(self.api_key)
+        
         raise ValueError(f"Unknown mail provider: {self.provider}")

@@ -65,14 +65,15 @@ class DiscordRegisterService:
             self.session.headers.update({"authorization": token})
             token_status = DiscordUtils.check_discord_token(session=self.session).get("status", "Invalid")
             if token_status == "Valid":
+                self.stats.mark_locked()
                 self.logger.log_token(f"Succsefully Created Account -> {NexusColor.GREEN} ", token)
                 return
             
-            if token_status == "Invalid":
-                self.stats.invalid_tokens += 1
+            if token_status == "invalid":
+                self.stats.mark_invalid()
                 
-            if token_status == "Locked":
-                self.stats.locked_tokens += 1
+            if token_status == "locked":
+                self.stats.mark_locked()
             
                 
             TokenStorage().save(ctx=ctx, file=f"{token_status}.txt")

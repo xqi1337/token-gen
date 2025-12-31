@@ -68,6 +68,10 @@ def main():
     threads_count = int(config.get("threads", 1))
 
     while True:
+        if stats.should_stop():
+            stats.stop_event.set()
+            raise RuntimeError("Generation stopped: flagged / unhealthy state")
+        
         threads = []
 
         for i in range(threads_count):

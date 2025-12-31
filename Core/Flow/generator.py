@@ -36,8 +36,6 @@ class TokenGenerator:
             self.register.finish(ctx)
 
             self.storage.save(ctx, "tokens.txt")
-            self.stats.mark_token()
-
             
             ctx.upn = self.mail_api.wait_for_verification(email=ctx.email, password=ctx.password)
             self.email_verifier.verify_token(ctx)
@@ -53,5 +51,7 @@ class TokenGenerator:
                     self.storage.save(ctx, "humanized.txt")
                 
         except Exception as e:
+            if isinstance(self.mail_api, CybertempApi):
+                self.mail_api.delete_mailbox(email=ctx.email)
             self.logger.log(f"Account generation failed -> {NexusColor.RED}{e} ")
         
