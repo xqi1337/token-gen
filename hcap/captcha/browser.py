@@ -9,7 +9,6 @@ class BrowserFactory:
         cfg = {
             "headless": True,
             "humanize": False,
-            "block_webrtc": True,
             "geoip": True,
             "os": "windows",
         }
