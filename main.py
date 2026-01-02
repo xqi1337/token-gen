@@ -91,6 +91,7 @@ def main():
             
             for _ in range(threads_count * 2): 
                 queue.put("generate")
+                time.sleep(5)
 
             time.sleep(5)  
     except KeyboardInterrupt:
